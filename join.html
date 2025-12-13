@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Join PixelHide.net</title>
+  <link rel="icon" type="image/png" href="favicon.png">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #a78bfa;
+      --primary-glow: #c4b5fd;
+      --secondary: #050507;
+      --text: #e5e7eb;
+      --muted: #9ca3af;
+      --card: #0b0b12;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      background: radial-gradient(circle at top, #1a0f2e 0%, #050507 60%);
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(600px at 20% 10%, rgba(167,139,250,0.25), transparent 60%),
+        radial-gradient(500px at 80% 40%, rgba(167,139,250,0.15), transparent 60%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    header {
+      position: relative;
+      z-index: 1;
+      padding: 60px 20px;
+      text-align: center;
+    }
+
+    header img {
+      max-width: 60%;
+      height: auto;
+    }
+
+    main {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      gap: 40px;
+      padding: 60px 20px;
+    }
+
+    video {
+      width: 100%;
+      max-width: 900px;
+      border-radius: 20px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.7);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 24px;
+      width: 100%;
+      max-width: 1200px;
+    }
+
+    .card {
+      background: linear-gradient(180deg, rgba(167,139,250,0.08), transparent 40%), var(--card);
+      border-radius: 22px;
+      padding: 26px;
+      border: 1px solid rgba(167,139,250,0.15);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+      transition: all .3s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 20px 60px rgba(167,139,250,0.25);
+      border-color: rgba(167,139,250,0.4);
+    }
+
+    .card h3 {
+      font-family: 'Orbitron', sans-serif;
+      margin-top: 0;
+      color: #ddd6fe;
+    }
+
+    footer {
+      text-align: center;
+      padding: 40px 20px 60px;
+      color: var(--muted);
+      border-top: 1px solid rgba(167,139,250,0.15);
+    }
+
+    footer span {
+      color: var(--primary);
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <img src="pixelhidenet.png" alt="PixelHide.net Logo">
+  </header>
+  <main>
+    <video src="pixelhide_join.mp4" autoplay loop muted playsinline></video>
+    <div class="grid">
+      <div class="card">
+        <h3>⚔️ Survival+</h3>
+        <p>Vanilla-Feeling, aber besser. Economy, Custom Items und PvP-Zonen – perfekt ausbalanciert.</p>
+      </div>
+      <div class="card">
+        <h3>🧱 Creative Plots</h3>
+        <p>Große Plots, WorldEdit, Partikel & Showcase-System für deine Builds.</p>
+      </div>
+      <div class="card">
+        <h3>🔥 Events</h3>
+        <p>Regelmäßige Events, Crates, Seasons & exklusive Rewards.</p>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    © 2025 <span>PixelHide.net</span> · Not affiliated with Mojang AB
+  </footer>
+</body>
+</html>
