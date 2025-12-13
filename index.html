@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PixelHide.net | Minecraft Server</title>
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --primary: #8b5cf6; /* Lila */
+      --primary-glow: #a78bfa;
+      --secondary: #050507; /* Schwarz */
+      --card: #0b0b12;
+      --text: #e5e7eb;
+      --muted: #9ca3af;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      background: radial-gradient(circle at top, #1a0f2e 0%, #050507 60%);
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
+    /* Glow background */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(600px at 20% 10%, rgba(139,92,246,0.25), transparent 60%),
+        radial-gradient(500px at 80% 40%, rgba(139,92,246,0.15), transparent 60%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    header {
+      position: relative;
+      z-index: 1;
+      padding: 120px 20px 80px;
+      text-align: center;
+    }
+
+    header h1 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: clamp(2.8rem, 6vw, 4.5rem);
+      margin: 0;
+      background: linear-gradient(90deg, #c4b5fd, var(--primary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0 0 40px rgba(139,92,246,0.35);
+    }
+
+    header p {
+      max-width: 720px;
+      margin: 20px auto 40px;
+      color: var(--muted);
+      font-size: 1.1rem;
+    }
+
+    .cta {
+      display: inline-flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .btn {
+      padding: 14px 26px;
+      border-radius: 14px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all .25s ease;
+      position: relative;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary), var(--primary-glow));
+      color: #050507;
+      box-shadow: 0 10px 30px rgba(139,92,246,0.45);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px) scale(1.03);
+      box-shadow: 0 18px 50px rgba(139,92,246,0.6);
+    }
+
+    .btn-outline {
+      border: 1px solid rgba(139,92,246,0.4);
+      color: var(--text);
+      backdrop-filter: blur(6px);
+    }
+
+    .btn-outline:hover {
+      background: rgba(139,92,246,0.15);
+    }
+
+    section {
+      position: relative;
+      z-index: 1;
+      padding: 80px 20px;
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 24px;
+    }
+
+    .card {
+      background: linear-gradient(180deg, rgba(139,92,246,0.08), transparent 40%), var(--card);
+      border-radius: 22px;
+      padding: 26px;
+      border: 1px solid rgba(139,92,246,0.15);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+      transition: all .3s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 20px 60px rgba(139,92,246,0.25);
+      border-color: rgba(139,92,246,0.4);
+    }
+
+    .card h3 {
+      font-family: 'Orbitron', sans-serif;
+      margin-top: 0;
+      color: #ddd6fe;
+    }
+
+    .status {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 20px;
+      padding: 16px 20px;
+      background: rgba(0,0,0,0.4);
+      border-radius: 18px;
+      border: 1px solid rgba(139,92,246,0.25);
+    }
+
+    .online {
+      color: #22c55e;
+      font-weight: 700;
+      text-shadow: 0 0 10px rgba(34,197,94,0.6);
+    }
+
+    footer {
+      text-align: center;
+      padding: 40px 20px 60px;
+      color: var(--muted);
+      border-top: 1px solid rgba(139,92,246,0.15);
+    }
+
+    footer span {
+      color: var(--primary);
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>PixelHide.net</h1>
+    <p>Ein moderner <strong>Minecraft Server</strong> mit einzigartigen Spielmodi, Performance ohne Limit und einer Community, die nicht schläft.</p>
+    <div class="cta">
+      <a href="#" class="btn btn-primary">Jetzt beitreten</a>
+      <a href="#" class="btn btn-outline">Discord</a>
+    </div>
+  </header>
+
+  <section>
+    <div class="grid">
+      <div class="card">
+        <h3>⚔️ Survival+</h3>
+        <p>Vanilla-Feeling, aber besser. Economy, Custom Items und PvP-Zonen – perfekt ausbalanciert.</p>
+      </div>
+      <div class="card">
+        <h3>🧱 Creative Plots</h3>
+        <p>Große Plots, WorldEdit, Partikel & Showcase-System für deine Builds.</p>
+      </div>
+      <div class="card">
+        <h3>🔥 Events</h3>
+        <p>Regelmäßige Events, Crates, Seasons & exklusive Rewards.</p>
+      </div>
+    </div>
+
+    <div class="status">
+      <div>
+        <strong>Server-IP</strong><br>
+        PixelHide.net
+      </div>
+      <div class="online">● Online</div>
+    </div>
+  </section>
+
+  <footer>
+    © 2025 <span>PixelHide.net</span> · Not affiliated with Mojang AB
+  </footer>
+
+</body>
+</html>
