@@ -10,8 +10,8 @@
 
   <style>
     :root {
-      --primary: #8b5cf6; /* Lila */
-      --primary-glow: #a78bfa;
+      --primary: #a78bfa; /* Helleres Lila */
+      --primary-glow: #c4b5fd;
       --secondary: #050507; /* Schwarz */
       --card: #0b0b12;
       --text: #e5e7eb;
@@ -28,14 +28,13 @@
       overflow-x: hidden;
     }
 
-    /* Glow background */
     body::before {
       content: "";
       position: fixed;
       inset: 0;
       background:
-        radial-gradient(600px at 20% 10%, rgba(139,92,246,0.25), transparent 60%),
-        radial-gradient(500px at 80% 40%, rgba(139,92,246,0.15), transparent 60%);
+        radial-gradient(600px at 20% 10%, rgba(167,139,250,0.25), transparent 60%),
+        radial-gradient(500px at 80% 40%, rgba(167,139,250,0.15), transparent 60%);
       pointer-events: none;
       z-index: 0;
     }
@@ -56,8 +55,8 @@
       -webkit-text-fill-color: transparent;
       text-shadow:
         0 0 0 rgba(0,0,0,0),
-        0 0 25px rgba(139,92,246,0.45),
-        4px 4px 0 #2a143f;
+        0 0 25px rgba(167,139,250,0.45),
+        2px 2px 0 #2a143f;
       letter-spacing: 2px;
     }
 
@@ -87,22 +86,22 @@
     .btn-primary {
       background: linear-gradient(135deg, var(--primary), var(--primary-glow));
       color: #050507;
-      box-shadow: 0 10px 30px rgba(139,92,246,0.45);
+      box-shadow: 0 10px 30px rgba(167,139,250,0.45);
     }
 
     .btn-primary:hover {
       transform: translateY(-2px) scale(1.03);
-      box-shadow: 0 18px 50px rgba(139,92,246,0.6);
+      box-shadow: 0 18px 50px rgba(167,139,250,0.6);
     }
 
     .btn-outline {
-      border: 1px solid rgba(139,92,246,0.4);
+      border: 1px solid rgba(167,139,250,0.4);
       color: var(--text);
       backdrop-filter: blur(6px);
     }
 
     .btn-outline:hover {
-      background: rgba(139,92,246,0.15);
+      background: rgba(167,139,250,0.15);
     }
 
     section {
@@ -120,18 +119,18 @@
     }
 
     .card {
-      background: linear-gradient(180deg, rgba(139,92,246,0.08), transparent 40%), var(--card);
+      background: linear-gradient(180deg, rgba(167,139,250,0.08), transparent 40%), var(--card);
       border-radius: 22px;
       padding: 26px;
-      border: 1px solid rgba(139,92,246,0.15);
+      border: 1px solid rgba(167,139,250,0.15);
       box-shadow: 0 10px 30px rgba(0,0,0,0.6);
       transition: all .3s ease;
     }
 
     .card:hover {
       transform: translateY(-6px);
-      box-shadow: 0 20px 60px rgba(139,92,246,0.25);
-      border-color: rgba(139,92,246,0.4);
+      box-shadow: 0 20px 60px rgba(167,139,250,0.25);
+      border-color: rgba(167,139,250,0.4);
     }
 
     .card h3 {
@@ -148,7 +147,7 @@
       padding: 16px 20px;
       background: rgba(0,0,0,0.4);
       border-radius: 18px;
-      border: 1px solid rgba(139,92,246,0.25);
+      border: 1px solid rgba(167,139,250,0.25);
     }
 
     .online {
@@ -161,7 +160,7 @@
       text-align: center;
       padding: 40px 20px 60px;
       color: var(--muted);
-      border-top: 1px solid rgba(139,92,246,0.15);
+      border-top: 1px solid rgba(167,139,250,0.15);
     }
 
     footer span {
@@ -173,7 +172,7 @@
 <body>
 
   <header>
-    <h1>PixelHide.net</h1>
+    <h1>PixelHide</h1>
     <p>Ein moderner <strong>Minecraft Server</strong> mit einzigartigen Spielmodi, Performance ohne Limit und einer Community, die nicht schläft.</p>
     <div class="cta">
       <a href="#" class="btn btn-primary">Jetzt beitreten</a>
