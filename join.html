@@ -40,13 +40,19 @@
     header {
       position: relative;
       z-index: 1;
-      padding: 60px 20px;
+      padding: 60px 20px 20px;
       text-align: center;
     }
 
     header img {
       max-width: 60%;
       height: auto;
+    }
+
+    header .help {
+      margin-top: 10px;
+      color: var(--muted);
+      font-size: 1rem;
     }
 
     main {
@@ -96,6 +102,23 @@
       color: #ddd6fe;
     }
 
+    .back-button {
+      padding: 12px 24px;
+      margin-bottom: 20px;
+      border-radius: 12px;
+      background: var(--primary);
+      color: #050507;
+      text-decoration: none;
+      font-weight: 600;
+      box-shadow: 0 5px 15px rgba(167,139,250,0.45);
+      transition: all .25s ease;
+    }
+
+    .back-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(167,139,250,0.6);
+    }
+
     footer {
       text-align: center;
       padding: 40px 20px 60px;
@@ -112,13 +135,16 @@
 <body>
   <header>
     <img src="pixelhidenet.png" alt="PixelHide.net Logo">
+    <div class="help">Wenn das Video nicht automatisch startet, lade die Seite neu oder überprüfe deinen Browser.</div>
   </header>
+
   <main>
+    <a href="/" class="back-button">Zurück zur Startseite</a>
     <video src="pixelhide_join.mp4" autoplay loop muted playsinline></video>
   </main>
 
   <footer>
-    © 2025 <span>PixelHide.net</span> · Nicht in verbindung mit Mojang AB.
+    © 2025 <span>PixelHide.net</span> · Nicht in Verbindung mit Mojang AB.
   </footer>
 </body>
 </html>
