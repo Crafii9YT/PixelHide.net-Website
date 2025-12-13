@@ -6,7 +6,7 @@
   <title>PixelHide.net | Minecraft Server</title>
 
   <!-- Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&family=Inter:wght@300;400;600&family=Press+Start+2P&display=swap" rel="stylesheet">
 
   <style>
     :root {
@@ -48,13 +48,17 @@
     }
 
     header h1 {
-      font-family: 'Orbitron', sans-serif;
-      font-size: clamp(2.8rem, 6vw, 4.5rem);
+      font-family: 'Press Start 2P', monospace;
+      font-size: clamp(2.2rem, 5vw, 3.5rem);
       margin: 0;
       background: linear-gradient(90deg, #c4b5fd, var(--primary));
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      text-shadow: 0 0 40px rgba(139,92,246,0.35);
+      text-shadow:
+        0 0 0 rgba(0,0,0,0),
+        0 0 25px rgba(139,92,246,0.45),
+        4px 4px 0 #2a143f;
+      letter-spacing: 2px;
     }
 
     header p {
