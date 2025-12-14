@@ -15,10 +15,9 @@
   <style>
     :root {
       --primary: #a78bfa;
-      --secondary: #050507;
+      --bg: #050507;
       --text: #e5e7eb;
       --muted: #9ca3af;
-      --card: #0b0b12;
     }
 
     * { box-sizing: border-box; }
@@ -39,33 +38,27 @@
         radial-gradient(600px at 20% 10%, rgba(167,139,250,0.25), transparent 60%),
         radial-gradient(500px at 80% 40%, rgba(167,139,250,0.15), transparent 60%);
       pointer-events: none;
-      z-index: 0;
     }
 
     header {
-      position: relative;
-      z-index: 1;
       padding: 60px 20px 20px;
       text-align: center;
     }
 
     header img {
       max-width: 60%;
-      height: auto;
     }
 
-    header .help {
+    .help {
       margin-top: 14px;
       color: var(--muted);
-      font-size: 0.95rem;
       max-width: 900px;
       margin-left: auto;
       margin-right: auto;
+      font-size: 0.95rem;
     }
 
     main {
-      position: relative;
-      z-index: 1;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -82,6 +75,8 @@
     }
 
     .add {
+      position: relative;
+      overflow: hidden;
       padding: 16px 30px;
       border-radius: 14px;
       background: var(--primary);
@@ -90,7 +85,7 @@
       font-weight: 700;
       font-size: 1.05rem;
       box-shadow: 0 10px 30px rgba(167,139,250,0.45);
-      transition: all .25s ease;
+      transition: transform .25s ease, box-shadow .25s ease;
     }
 
     .add:hover {
@@ -98,8 +93,25 @@
       box-shadow: 0 18px 45px rgba(167,139,250,0.65);
     }
 
+    /* RIPPLE */
+    .ripple {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.6);
+      transform: scale(0);
+      animation: ripple 0.6s ease-out;
+      pointer-events: none;
+    }
+
+    @keyframes ripple {
+      to {
+        transform: scale(12);
+        opacity: 0;
+      }
+    }
+
+    /* VIDEO */
     .video-container {
-      position: relative;
       width: 100%;
       max-width: 900px;
     }
@@ -130,21 +142,19 @@
 <header>
   <img src="pixelhidenet.png" alt="PixelHide.net Logo">
   <div class="help">
-    1. Klicke auf <b>Mehrspieler</b><br>
-    2. Klicke auf <b>Server hinzufügen</b><br>
-    3. Server-Adresse: <b>PixelHide.net</b><br>
-    → Fertig! Viel Spaß ❤️
+    1. Mehrspieler → 2. Server hinzufügen → 3. Adresse: <b>PixelHide.net</b><br>
+    Fertig. Viel Spaß ❤️
   </div>
 </header>
 
 <main>
 
   <div class="buttons">
-    <a href="minecraft://?addExternalServer=PixelHide|pixelhide.net:19132" class="add">
+    <a class="add" href="minecraft://?addExternalServer=PixelHide|pixelhide.net:19132">
       ➕ Server hinzufügen
     </a>
 
-    <a href="minecraft://?server=pixelhide.net&port=19132" class="add">
+    <a class="add" href="minecraft://?server=pixelhide.net&port=19132">
       ▶️ Direkt verbinden
     </a>
   </div>
@@ -161,11 +171,29 @@
 </footer>
 
 <script>
+/* RIPPLE */
+document.querySelectorAll(".add").forEach(btn => {
+  btn.addEventListener("click", e => {
+    const rect = btn.getBoundingClientRect();
+    const ripple = document.createElement("span");
+    ripple.className = "ripple";
+
+    const size = Math.max(rect.width, rect.height);
+    ripple.style.width = ripple.style.height = size + "px";
+    ripple.style.left = (e.clientX - rect.left - size / 2) + "px";
+    ripple.style.top  = (e.clientY - rect.top  - size / 2) + "px";
+
+    btn.appendChild(ripple);
+    setTimeout(() => ripple.remove(), 600);
+  });
+});
+
+/* VIDEO 180p FEELING @ 5 FPS */
 const video = document.getElementById("video");
 const canvas = document.getElementById("videoCanvas");
 const ctx = canvas.getContext("2d");
 
-const FPS = 240; // Ultra Low
+const FPS = 5;
 let last = 0;
 
 function resize() {
@@ -177,6 +205,7 @@ window.addEventListener("resize", resize);
 
 function loop(time) {
   if (video.readyState >= 2 && time - last >= 1000 / FPS) {
+    ctx.imageSmoothingEnabled = false;
     ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
     last = time;
   }
