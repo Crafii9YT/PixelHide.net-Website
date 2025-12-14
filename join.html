@@ -53,8 +53,7 @@
       margin-top: 14px;
       color: var(--muted);
       max-width: 900px;
-      margin-left: auto;
-      margin-right: auto;
+      margin-inline: auto;
       font-size: 0.95rem;
     }
 
@@ -105,7 +104,7 @@
 
     @keyframes ripple {
       to {
-        transform: scale(12);
+        transform: scale(14);
         opacity: 0;
       }
     }
@@ -113,7 +112,7 @@
     /* VIDEO */
     .video-container {
       width: 100%;
-      max-width: 900px;
+      max-width: 1100px;
     }
 
     canvas {
@@ -153,7 +152,6 @@
     <a class="add" href="minecraft://?addExternalServer=PixelHide|pixelhide.net:19132">
       ➕ Server hinzufügen
     </a>
-
     <a class="add" href="minecraft://?server=pixelhide.net&port=19132">
       ▶️ Direkt verbinden
     </a>
@@ -171,7 +169,7 @@
 </footer>
 
 <script>
-/* RIPPLE */
+/* RIPPLE EFFECT */
 document.querySelectorAll(".add").forEach(btn => {
   btn.addEventListener("click", e => {
     const rect = btn.getBoundingClientRect();
@@ -188,24 +186,25 @@ document.querySelectorAll(".add").forEach(btn => {
   });
 });
 
-/* VIDEO 180p FEELING @ 5 FPS */
+/* VIDEO – 1080p FEELING @ 240 FPS */
 const video = document.getElementById("video");
 const canvas = document.getElementById("videoCanvas");
 const ctx = canvas.getContext("2d");
 
-const FPS = 5;
+const FPS = 240; // Maximal
 let last = 0;
 
 function resize() {
-  canvas.width = canvas.parentElement.clientWidth;
+  canvas.width = canvas.parentElement.clientWidth * devicePixelRatio;
   canvas.height = canvas.width * 9 / 16;
+  ctx.setTransform(devicePixelRatio, 0, 0, devicePixelRatio, 0, 0);
 }
 resize();
 window.addEventListener("resize", resize);
 
 function loop(time) {
   if (video.readyState >= 2 && time - last >= 1000 / FPS) {
-    ctx.imageSmoothingEnabled = false;
+    ctx.imageSmoothingEnabled = true;
     ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
     last = time;
   }
