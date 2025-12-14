@@ -4,12 +4,17 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Wie joine ich auf PixelHide.net?</title>
+
+  <meta property="og:title" content="PixelHide.net">
+  <meta property="og:description" content="So trittst du PixelHide.net bei">
+  <meta property="og:image" content="https://pixelhide.net/favicon.png">
+
   <link rel="icon" type="image/png" href="favicon.png">
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+
   <style>
     :root {
       --primary: #a78bfa;
-      --primary-glow: #c4b5fd;
       --secondary: #050507;
       --text: #e5e7eb;
       --muted: #9ca3af;
@@ -50,18 +55,16 @@
     }
 
     header .help {
-      margin-top: 10px;
+      margin-top: 12px;
       color: var(--muted);
-      font-size: 1rem;
     }
 
     main {
       position: relative;
       z-index: 1;
       display: flex;
-      justify-content: center;
-      align-items: center;
       flex-direction: column;
+      align-items: center;
       gap: 40px;
       padding: 60px 20px;
     }
@@ -72,33 +75,42 @@
       max-width: 900px;
     }
 
-    #videoCanvas {
+    canvas {
       width: 100%;
       border-radius: 20px;
       box-shadow: 0 10px 40px rgba(0,0,0,0.7);
-      display: block;
+      background: #000;
     }
 
     .quality-dropdown {
       position: absolute;
-      top: 10px;
-      right: 10px;
-      background: rgba(0,0,0,0.6);
+      top: 12px;
+      right: 12px;
+      background: rgba(0,0,0,0.65);
       color: #fff;
       border: 1px solid rgba(167,139,250,0.4);
       border-radius: 8px;
       padding: 6px 10px;
       font-size: 0.9rem;
-      backdrop-filter: blur(4px);
-      z-index: 2;
+      backdrop-filter: blur(6px);
+    }
+
+    .back {
+      padding: 12px 24px;
+      border-radius: 12px;
+      background: var(--primary);
+      color: #050507;
+      text-decoration: none;
+      font-weight: 600;
+      box-shadow: 0 6px 18px rgba(167,139,250,0.45);
     }
 
     .grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
       gap: 24px;
-      width: 100%;
       max-width: 1200px;
+      width: 100%;
     }
 
     .card {
@@ -107,36 +119,6 @@
       padding: 26px;
       border: 1px solid rgba(167,139,250,0.15);
       box-shadow: 0 10px 30px rgba(0,0,0,0.6);
-      transition: all .3s ease;
-    }
-
-    .card:hover {
-      transform: translateY(-6px);
-      box-shadow: 0 20px 60px rgba(167,139,250,0.25);
-      border-color: rgba(167,139,250,0.4);
-    }
-
-    .card h3 {
-      font-family: 'Orbitron', sans-serif;
-      margin-top: 0;
-      color: #ddd6fe;
-    }
-
-    .back-button {
-      padding: 12px 24px;
-      margin-bottom: 20px;
-      border-radius: 12px;
-      background: var(--primary);
-      color: #050507;
-      text-decoration: none;
-      font-weight: 600;
-      box-shadow: 0 5px 15px rgba(167,139,250,0.45);
-      transition: all .25s ease;
-    }
-
-    .back-button:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 25px rgba(167,139,250,0.6);
     }
 
     footer {
@@ -152,72 +134,72 @@
     }
   </style>
 </head>
+
 <body>
-  <header>
-    <img src="pixelhidenet.png" alt="PixelHide.net Logo">
-    <div class="help">1. Klicke auf "Mehrspieler", 2. Klicke auf "Server hinzufügen", 3. Tippe bei der Server-Adresse "PixelHide.net" ein! Super, jetzt kannst du spielen! Viel spaß <3</div>
-  </header>
 
-  <main>
-    <a href="/" class="back-button">Zurück zur Startseite</a>
+<header>
+  <img src="pixelhidenet.png" alt="PixelHide.net Logo">
+  <div class="help">Videoqualität & FPS kannst du oben rechts ändern</div>
+</header>
 
-    <div class="video-container">
-      <canvas id="videoCanvas"></canvas>
-      <video id="joinVideo" src="pixelhide_join.mp4" autoplay loop muted playsinline style="display:none;"></video>
+<main>
 
-      <select id="qualitySelect" class="quality-dropdown">
-        <option value="180p15">180p & 15FPS (Standard)</option>
-        <option value="360p30">360p & 30FPS</option>
-        <option value="480p30">480p & 30FPS</option>
-        <option value="720p60">720p & 60FPS</option>
-      </select>
-    </div>
-  </main>
+  <a href="/" class="back">Zurück zur Startseite</a>
 
-  <footer>
-    © 2025 <span>PixelHide.net</span> · Nicht in Verbindung mit Mojang AB.
-  </footer>
+  <div class="video-container">
+    <canvas id="videoCanvas"></canvas>
+    <video id="video" src="pixelhide_join.mp4" muted autoplay loop playsinline style="display:none;"></video>
 
-  <script>
-    const video = document.getElementById('joinVideo');
-    const canvas = document.getElementById('videoCanvas');
-    const ctx = canvas.getContext('2d');
-    const select = document.getElementById('qualitySelect');
+    <select id="quality" class="quality-dropdown">
+      <option value="180p15">180p · 15 FPS (Standard)</option>
+      <option value="360p30">360p · 30 FPS</option>
+      <option value="480p30">480p · 30 FPS</option>
+      <option value="720p60">720p · 60 FPS</option>
+    </select>
+  </div>
 
-    let targetWidth = 320, targetHeight = 180; // Quelle
-    let targetFPS = 15;
-    let lastTime = 0;
+</main>
 
-    // Canvas-Größe anpassen
-    function resizeCanvas() {
-      canvas.width = canvas.parentElement.clientWidth;
-      canvas.height = canvas.width * targetHeight / targetWidth;
-    }
-    resizeCanvas();
-    window.addEventListener('resize', resizeCanvas);
+<footer>
+  © 2025 <span>PixelHide.net</span> · Nicht in Verbindung mit Mojang AB.
+</footer>
 
-    function drawFrame(time) {
-      const interval = 1000 / targetFPS;
-      if (time - lastTime >= interval) {
-        ctx.drawImage(video, 0, 0, targetWidth, targetHeight, 0, 0, canvas.width, canvas.height);
-        lastTime = time;
-      }
-      requestAnimationFrame(drawFrame);
-    }
+<script>
+const video = document.getElementById("video");
+const canvas = document.getElementById("videoCanvas");
+const ctx = canvas.getContext("2d");
+const select = document.getElementById("quality");
 
-    video.addEventListener('play', () => {
-      drawFrame(0);
-    });
+let fps = 15;
+let last = 0;
 
-    select.addEventListener('change', () => {
-      switch(select.value){
-        case '180p15': targetWidth=320; targetHeight=180; targetFPS=15; break;
-        case '360p30': targetWidth=640; targetHeight=360; targetFPS=30; break;
-        case '480p30': targetWidth=854; targetHeight=480; targetFPS=30; break;
-        case '720p60': targetWidth=1280; targetHeight=720; targetFPS=60; break;
-      }
-      resizeCanvas();
-    });
-  </script>
+function resize() {
+  canvas.width = canvas.parentElement.clientWidth;
+  canvas.height = canvas.width * 9 / 16;
+}
+resize();
+window.addEventListener("resize", resize);
+
+function loop(t) {
+  if (video.readyState >= 2 && t - last > 1000 / fps) {
+    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+    last = t;
+  }
+  requestAnimationFrame(loop);
+}
+
+video.addEventListener("canplay", () => {
+  video.play();
+  requestAnimationFrame(loop);
+});
+
+select.addEventListener("change", () => {
+  if (select.value === "180p15") fps = 15;
+  if (select.value === "360p30") fps = 30;
+  if (select.value === "480p30") fps = 30;
+  if (select.value === "720p60") fps = 60;
+});
+</script>
+
 </body>
 </html>
