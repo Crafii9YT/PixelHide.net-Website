@@ -57,6 +57,7 @@
     header .help {
       margin-top: 12px;
       color: var(--muted);
+      font-size: 0.95rem;
     }
 
     main {
@@ -78,21 +79,8 @@
     canvas {
       width: 100%;
       border-radius: 20px;
-      box-shadow: 0 10px 40px rgba(0,0,0,0.7);
       background: #000;
-    }
-
-    .quality-dropdown {
-      position: absolute;
-      top: 12px;
-      right: 12px;
-      background: rgba(0,0,0,0.65);
-      color: #fff;
-      border: 1px solid rgba(167,139,250,0.4);
-      border-radius: 8px;
-      padding: 6px 10px;
-      font-size: 0.9rem;
-      backdrop-filter: blur(6px);
+      box-shadow: 0 10px 40px rgba(0,0,0,0.7);
     }
 
     .back {
@@ -149,13 +137,6 @@
   <div class="video-container">
     <canvas id="videoCanvas"></canvas>
     <video id="video" src="pixelhide_join.mp4" muted autoplay loop playsinline style="display:none;"></video>
-
-    <select id="quality" class="quality-dropdown">
-      <option value="180p15">180p · 15 FPS (Standard)</option>
-      <option value="360p30">360p · 30 FPS</option>
-      <option value="480p30">480p · 30 FPS</option>
-      <option value="720p60">720p · 60 FPS</option>
-    </select>
   </div>
 
 </main>
@@ -168,9 +149,8 @@
 const video = document.getElementById("video");
 const canvas = document.getElementById("videoCanvas");
 const ctx = canvas.getContext("2d");
-const select = document.getElementById("quality");
 
-let fps = 15;
+const FPS = 5;          // FEST: 5 FPS
 let last = 0;
 
 function resize() {
@@ -180,10 +160,10 @@ function resize() {
 resize();
 window.addEventListener("resize", resize);
 
-function loop(t) {
-  if (video.readyState >= 2 && t - last > 1000 / fps) {
+function loop(time) {
+  if (video.readyState >= 2 && time - last >= 1000 / FPS) {
     ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-    last = t;
+    last = time;
   }
   requestAnimationFrame(loop);
 }
@@ -191,13 +171,6 @@ function loop(t) {
 video.addEventListener("canplay", () => {
   video.play();
   requestAnimationFrame(loop);
-});
-
-select.addEventListener("change", () => {
-  if (select.value === "180p15") fps = 15;
-  if (select.value === "360p30") fps = 30;
-  if (select.value === "480p30") fps = 30;
-  if (select.value === "720p60") fps = 60;
 });
 </script>
 
