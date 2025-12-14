@@ -155,14 +155,14 @@
 <body>
   <header>
     <img src="pixelhidenet.png" alt="PixelHide.net Logo">
-    <div class="help">1. Klicke auf "Mehrspieler", 2. Klicke auf "Server hinzufügen", 3. Tippe bei der Server-Adresse "PixelHide.net" ein! Super, jetzt kannst du spielen! Viel spaß <3</div>
+    <div class="help">Wenn das Video nicht automatisch startet, lade die Seite neu oder überprüfe deinen Browser.</div>
   </header>
 
   <main>
     <a href="/" class="back-button">Zurück zur Startseite</a>
 
     <div class="video-container">
-      <canvas id="videoCanvas" width="320" height="180"></canvas>
+      <canvas id="videoCanvas"></canvas>
       <video id="joinVideo" src="pixelhide_join.mp4" autoplay loop muted playsinline style="display:none;"></video>
 
       <select id="qualitySelect" class="quality-dropdown">
@@ -184,9 +184,17 @@
     const ctx = canvas.getContext('2d');
     const select = document.getElementById('qualitySelect');
 
-    let targetWidth = 320, targetHeight = 180; // Standard 180p
+    let targetWidth = 320, targetHeight = 180; // Quelle
     let targetFPS = 15;
     let lastTime = 0;
+
+    // Canvas-Größe anpassen
+    function resizeCanvas() {
+      canvas.width = canvas.parentElement.clientWidth;
+      canvas.height = canvas.width * targetHeight / targetWidth;
+    }
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
 
     function drawFrame(time) {
       const interval = 1000 / targetFPS;
@@ -208,6 +216,7 @@
         case '480p30': targetWidth=854; targetHeight=480; targetFPS=30; break;
         case '720p60': targetWidth=1280; targetHeight=720; targetFPS=60; break;
       }
+      resizeCanvas();
     });
   </script>
 </body>
