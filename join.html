@@ -66,11 +66,31 @@
       padding: 60px 20px;
     }
 
-    video {
+    .video-container {
+      position: relative;
       width: 100%;
       max-width: 900px;
+    }
+
+    #videoCanvas {
+      width: 100%;
       border-radius: 20px;
       box-shadow: 0 10px 40px rgba(0,0,0,0.7);
+      display: block;
+    }
+
+    .quality-dropdown {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: rgba(0,0,0,0.6);
+      color: #fff;
+      border: 1px solid rgba(167,139,250,0.4);
+      border-radius: 8px;
+      padding: 6px 10px;
+      font-size: 0.9rem;
+      backdrop-filter: blur(4px);
+      z-index: 2;
     }
 
     .grid {
@@ -140,11 +160,55 @@
 
   <main>
     <a href="/" class="back-button">Zurück zur Startseite</a>
-    <video src="pixelhide_join.mp4" autoplay loop muted playsinline></video>
+
+    <div class="video-container">
+      <canvas id="videoCanvas" width="320" height="180"></canvas>
+      <video id="joinVideo" src="pixelhide_join.mp4" autoplay loop muted playsinline style="display:none;"></video>
+
+      <select id="qualitySelect" class="quality-dropdown">
+        <option value="180p15">180p & 15FPS (Standard)</option>
+        <option value="360p30">360p & 30FPS</option>
+        <option value="480p30">480p & 30FPS</option>
+        <option value="720p60">720p & 60FPS</option>
+      </select>
+    </div>
   </main>
 
   <footer>
     © 2025 <span>PixelHide.net</span> · Nicht in Verbindung mit Mojang AB.
   </footer>
+
+  <script>
+    const video = document.getElementById('joinVideo');
+    const canvas = document.getElementById('videoCanvas');
+    const ctx = canvas.getContext('2d');
+    const select = document.getElementById('qualitySelect');
+
+    let targetWidth = 320, targetHeight = 180; // Standard 180p
+    let targetFPS = 15;
+    let lastTime = 0;
+
+    function drawFrame(time) {
+      const interval = 1000 / targetFPS;
+      if (time - lastTime >= interval) {
+        ctx.drawImage(video, 0, 0, targetWidth, targetHeight, 0, 0, canvas.width, canvas.height);
+        lastTime = time;
+      }
+      requestAnimationFrame(drawFrame);
+    }
+
+    video.addEventListener('play', () => {
+      drawFrame(0);
+    });
+
+    select.addEventListener('change', () => {
+      switch(select.value){
+        case '180p15': targetWidth=320; targetHeight=180; targetFPS=15; break;
+        case '360p30': targetWidth=640; targetHeight=360; targetFPS=30; break;
+        case '480p30': targetWidth=854; targetHeight=480; targetFPS=30; break;
+        case '720p60': targetWidth=1280; targetHeight=720; targetFPS=60; break;
+      }
+    });
+  </script>
 </body>
 </html>
