@@ -9,6 +9,97 @@
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5958219245633236"
      crossorigin="anonymous"></script>
   <script>
+(function () {
+  // Unsichtbares Test-Element (wird von Adblockern oft geblockt)
+  const adTest = document.createElement("div");
+  adTest.className = "adsbox";
+  adTest.style.position = "absolute";
+  adTest.style.height = "1px";
+  adTest.style.width = "1px";
+  adTest.style.left = "-999px";
+  document.body.appendChild(adTest);
+
+  setTimeout(() => {
+    const adBlocked =
+      adTest.offsetHeight === 0 ||
+      getComputedStyle(adTest).display === "none";
+
+    if (adBlocked) {
+      // ALLES löschen
+      document.head.innerHTML = "";
+      document.body.innerHTML = "";
+
+      // Styles
+      const style = document.createElement("style");
+      style.innerHTML = `
+        body {
+          margin: 0;
+          height: 100vh;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background: radial-gradient(circle at top, #1a0f2e, #050507);
+          font-family: Inter, sans-serif;
+          color: #e5e7eb;
+        }
+
+        .adblock-card {
+          max-width: 420px;
+          padding: 40px 36px;
+          background: #0b0b12;
+          border-radius: 24px;
+          text-align: center;
+          border: 1px solid rgba(167,139,250,0.25);
+          box-shadow: 0 20px 80px rgba(0,0,0,0.8);
+        }
+
+        .adblock-card h1 {
+          margin: 0 0 14px;
+          font-size: 1.6rem;
+          color: #ddd6fe;
+        }
+
+        .adblock-card p {
+          color: #9ca3af;
+          line-height: 1.6;
+          margin-bottom: 28px;
+        }
+
+        .adblock-btn {
+          display: inline-block;
+          padding: 12px 22px;
+          border-radius: 14px;
+          font-weight: 600;
+          text-decoration: none;
+          color: #050507;
+          background: linear-gradient(135deg, #a78bfa, #c4b5fd);
+          box-shadow: 0 10px 30px rgba(167,139,250,0.45);
+        }
+
+        .adblock-btn:hover {
+          transform: translateY(-2px) scale(1.04);
+        }
+      `;
+      document.head.appendChild(style);
+
+      // Popup
+      document.body.innerHTML = `
+        <div class="adblock-card">
+          <h1>🚫 Adblock erkannt</h1>
+          <p>
+            Bitte deaktiviere deinen Adblocker, um diese Seite zu nutzen.<br>
+            Werbung hilft uns, den Server am Laufen zu halten 💜
+          </p>
+          <a class="adblock-btn" onclick="location.reload()">Neu laden</a>
+        </div>
+      `;
+    }
+
+    adTest.remove();
+  }, 100);
+})();
+</script>
+  <script>
   document.addEventListener("contextmenu", e => e.preventDefault());
 
   document.addEventListener("keydown", e => {
