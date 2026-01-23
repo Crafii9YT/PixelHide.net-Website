@@ -8,6 +8,17 @@
   <meta property="og:title" content="PixelHide.net">
   <meta property="og:description" content="So trittst du PixelHide.net bei">
   <meta property="og:image" content="https://pixelhide.net/favicon.png">
+  <script>
+  const maintenance = true; // true = Wartung AN, false = Wartung AUS
+
+  if (maintenance) {
+    // verhindert Redirect-Schleife, falls man schon auf maintenance.html ist
+    if (!window.location.pathname.endsWith("maintenance.html")) {
+      window.location.href = "/maintenance.html";
+    }
+  }
+</script>
+
 
   <link rel="icon" type="image/png" href="favicon.png">
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
