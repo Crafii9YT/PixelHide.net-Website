@@ -8,6 +8,17 @@
   <meta name="google-adsense-account" content="ca-pub-5958219245633236">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5958219245633236"
      crossorigin="anonymous"></script>
+ <script>
+   const maintenance = true; // true = Wartung AN, false = Wartung AUS
+
+   if (maintenance) {
+     // verhindert Redirect-Schleife, falls man schon auf maintenance.html ist
+     if (!window.location.pathname.endsWith("maintenance.html")) {
+       window.location.href = "/maintenance.html";
+     }
+   }
+ </script>
+
 
   <title>PixelHide.net | Minecraft Server</title>
   <link rel="icon" type="image/png" href="favicon.png">
