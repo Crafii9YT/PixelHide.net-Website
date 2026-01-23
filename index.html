@@ -8,6 +8,20 @@
   <meta name="google-adsense-account" content="ca-pub-5958219245633236">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5958219245633236"
      crossorigin="anonymous"></script>
+  <script>
+  document.addEventListener("contextmenu", e => e.preventDefault());
+
+  document.addEventListener("keydown", e => {
+    if (
+      e.key === "F12" ||
+      (e.ctrlKey && e.shiftKey && ["I", "C", "J"].includes(e.key)) ||
+      (e.ctrlKey && e.key === "U")
+    ) {
+      e.preventDefault();
+    }
+  });
+</script>
+
  <script>
    const maintenance = false; // true = Wartung AN, false = Wartung AUS
 
