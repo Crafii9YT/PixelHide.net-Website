@@ -5,11 +5,13 @@
   <title>PixelHide.net | Wartung</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="google-adsense-account" content="ca-pub-5958219245633236">
-  <script>
+<script>
+  // Alle 5 Sekunden versuchen, zurück zur Hauptseite zu gehen
   setInterval(() => {
-    location.reload(true);
-  }, 10000);
- </script>
+    window.location.href = "/";
+  }, 5000);
+</script>
+
 
 
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
@@ -177,7 +179,7 @@
 
     <div class="loader"></div>
 
-    <h1>Wir sind bald zurück</h1>
+    <h1>Wir sind bald zurück!</h1>
     <p>
       Die Website ist aktuell in Wartungsarbeiten!<br>
       Bitte habe einen Moment Geduld 💜
