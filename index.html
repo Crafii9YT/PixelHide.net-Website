@@ -9,6 +9,17 @@
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5958219245633236"
      crossorigin="anonymous"></script>
   <script>
+  const maintenance = false; // true = Wartung AN, false = Wartung AUS
+
+  if (maintenance) {
+    // verhindert Redirect-Schleife, falls man schon auf maintenance.html ist
+    if (!window.location.pathname.endsWith("maintenance.html")) {
+      window.location.href = "/maintenance.html";
+    }
+  }
+</script>
+
+  <script>
 (function() {
   // 3 klassische Adblock-Testobjekte
   const baits = [
