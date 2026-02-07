@@ -1,1 +1,166 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta property="og:title" content="PixelHide.net News">
+  <meta property="og:description" content="Alle Neuigkeiten und Updates vom PixelHide.net Netzwerk!">
+  <meta property="og:image" content="https://pixelhide.net/favicon.png">
+  <meta property="og:url" content="https://pixelhide.net/news">
+  <title>PixelHide.net | News</title>
+  <link rel="icon" type="image/png" href="favicon.png">
 
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --primary: #a78bfa;
+      --primary-glow: #c4b5fd;
+      --secondary: #050507;
+      --card: #0b0b12;
+      --text: #e5e7eb;
+      --muted: #9ca3af;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      background: radial-gradient(circle at top, #1a0f2e 0%, #050507 60%);
+      color: var(--text);
+    }
+
+    header {
+      padding: 100px 20px 60px;
+      text-align: center;
+    }
+
+    header h1 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 3rem;
+      margin: 0;
+      color: #ddd6fe;
+    }
+
+    header p {
+      margin-top: 15px;
+      color: var(--muted);
+    }
+
+    section {
+      max-width: 1000px;
+      margin: auto;
+      padding: 60px 20px;
+    }
+
+    .news-card {
+      background: linear-gradient(180deg, rgba(167,139,250,0.08), transparent 40%), var(--card);
+      border-radius: 22px;
+      padding: 30px;
+      margin-bottom: 30px;
+      border: 1px solid rgba(167,139,250,0.2);
+      box-shadow: 0 15px 40px rgba(0,0,0,0.6);
+      transition: 0.3s ease;
+    }
+
+    .news-card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(167,139,250,0.5);
+      box-shadow: 0 20px 60px rgba(167,139,250,0.3);
+    }
+
+    .news-date {
+      font-size: 0.85rem;
+      color: var(--primary);
+      margin-bottom: 10px;
+      font-weight: 600;
+    }
+
+    .news-card h2 {
+      margin: 0 0 15px;
+      font-family: 'Orbitron', sans-serif;
+      color: #ddd6fe;
+    }
+
+    .news-card p {
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .back-btn {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 12px 22px;
+      border-radius: 14px;
+      text-decoration: none;
+      font-weight: 600;
+      background: linear-gradient(135deg, var(--primary), var(--primary-glow));
+      color: #050507;
+      box-shadow: 0 10px 30px rgba(167,139,250,0.4);
+      transition: .25s ease;
+    }
+
+    .back-btn:hover {
+      transform: scale(1.05);
+    }
+
+    footer {
+      text-align: center;
+      padding: 40px 20px 60px;
+      color: var(--muted);
+      border-top: 1px solid rgba(167,139,250,0.15);
+      margin-top: 60px;
+    }
+
+    footer span {
+      color: var(--primary);
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>PixelHide News</h1>
+    <p>Alle Updates, Events und Ankündigungen rund um unser Netzwerk.</p>
+  </header>
+
+  <section>
+
+    <div class="news-card">
+      <div class="news-date">06. Februar 2026</div>
+      <h2>🔥 Großes Winter-Event gestartet!</h2>
+      <p>
+        Unser Winter-Event ist live! Neue Maps, exklusive Belohnungen und tägliche Challenges warten auf euch.
+        Das Event läuft bis Ende Februar – verpasst es nicht!
+      </p>
+    </div>
+
+    <div class="news-card">
+      <div class="news-date">28. Januar 2026</div>
+      <h2>⚔️ Neue Bedwars Map</h2>
+      <p>
+        Eine brandneue Bedwars-Map wurde hinzugefügt! Mehr Action, neue Strategien und bessere Performance.
+        Probiert sie jetzt aus!
+      </p>
+    </div>
+
+    <div class="news-card">
+      <div class="news-date">15. Januar 2026</div>
+      <h2>🧱 CityBuild Update 2.1</h2>
+      <p>
+        Neue Grundstücksgrößen, verbesserte Wirtschaft und Bugfixes.
+        Danke für euer Feedback – wir arbeiten ständig an Verbesserungen!
+      </p>
+    </div>
+
+    <a href="/" class="back-btn">Zurück zur Startseite</a>
+
+  </section>
+
+  <footer>
+    © 2026 <span>PixelHide.net</span> · Nicht in Verbindung mit Mojang AB.
+  </footer>
+
+</body>
+</html>
