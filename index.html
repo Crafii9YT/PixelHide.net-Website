@@ -12,7 +12,6 @@
   // const maintenance = false; // true = Wartung AN, false = Wartung AUS
 
   if (maintenance) {
-    // verhindert Redirect-Schleife, falls man schon auf maintenance.html ist
     if (!window.location.pathname.endsWith("maintenance.html")) {
       window.location.href = "/maintenance.html";
     }
@@ -21,7 +20,6 @@
 
   <script>
 (function() {
-  // 3 klassische Adblock-Testobjekte
   const baits = [
     {class: "adsbox"},
     {class: "ad-banner"},
@@ -36,7 +34,7 @@
     div.style.width = "1px";
     div.style.height = "1px";
     div.style.position = "absolute";
-    div.style.top = "-100px";   // außerhalb des sichtbaren Bereichs
+    div.style.top = "-100px";
     div.style.left = "-100px";
     div.style.pointerEvents = "none";
     div.innerHTML = "&nbsp;";
@@ -44,7 +42,6 @@
     elements.push(div);
   });
 
-  // kleine Verzögerung, damit Filter greifen
   setTimeout(() => {
     let blocked = false;
 
@@ -61,7 +58,6 @@
     });
 
     if (blocked) {
-      // Alles löschen und Popup anzeigen
       document.head.innerHTML = "";
       document.body.innerHTML = "";
 
@@ -129,6 +125,7 @@
   }, 200);
 })();
 </script>
+
   <script>
   document.addEventListener("contextmenu", e => e.preventDefault());
 
@@ -144,16 +141,14 @@
 </script>
 
  <script>
-   const maintenance = false; // true = Wartung AN, false = Wartung AUS
+   const maintenance = false;
 
    if (maintenance) {
-     // verhindert Redirect-Schleife, falls man schon auf maintenance.html ist
      if (!window.location.pathname.endsWith("maintenance.html")) {
        window.location.href = "/maintenance.html";
      }
    }
  </script>
-
 
   <title>PixelHide.net | Minecraft Server</title>
   <link rel="icon" type="image/png" href="favicon.png">
@@ -162,55 +157,15 @@
 
   <style>
     :root {
-      --primary: #a78bfa; /* Helleres Lila */
+      --primary: #a78bfa;
       --primary-glow: #c4b5fd;
-      --secondary: #050507; /* Schwarz */
+      --secondary: #050507;
       --card: #0b0b12;
       --text: #e5e7eb;
       --muted: #9ca3af;
     }
 
     * { box-sizing: border-box; }
-
-   .hero {
-  position: relative;
-  padding: 0;
-  text-align: center;
-  overflow: hidden;
-}
-
-.hero-banner {
-  width: 100%;
-  max-height: 500px;
-  object-fit: cover;
-  display: block;
-  filter: brightness(0.85);
-}
-
-.hero-overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(to bottom, rgba(5,5,7,0.2), rgba(5,5,7,0.9));
-  z-index: 1;
-}
-
-.hero-content {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 20px;
-  z-index: 2;
-}
-
-.hero-content p {
-  max-width: 720px;
-  margin: 20px auto 40px;
-  font-size: 1.2rem;
-  color: var(--text);
-}
 
     body {
       margin: 0;
@@ -234,20 +189,21 @@
     header {
       position: relative;
       z-index: 1;
-      padding: 120px 20px 80px;
       text-align: center;
     }
 
     header img {
-      max-width: 80%;
+      width: 100%;
       height: auto;
+      display: block;
     }
 
     header p {
       max-width: 720px;
-      margin: 20px auto 40px;
+      margin: 40px auto 40px;
       color: var(--muted);
       font-size: 1.1rem;
+      padding: 0 20px;
     }
 
     .cta {
@@ -255,6 +211,7 @@
       gap: 16px;
       flex-wrap: wrap;
       justify-content: center;
+      margin-bottom: 60px;
     }
 
     .btn {
@@ -354,17 +311,13 @@
 </head>
 <body>
 
-  <header class="hero">
-  <div class="hero-overlay"></div>
-  <img src="Banner.png" alt="PixelHide.net Banner" class="hero-banner">
-
-  <div class="hero-content">
+  <header>
+    <img src="Banner.png" alt="PixelHide.net Banner">
     <p>Der perfekte <strong>Minecraft Server</strong> um mit Freunden und Familie zu spielen. Tolle & aktive Community, viele und regelmäßige Events, einzigartiges Spielerlebnis und vieles mehr!</p>
     <div class="cta">
       <a href="/join.html" class="btn btn-primary">Jetzt beitreten</a>
       <a href="https://discord.pixelhide.net" class="btn btn-outline">Discord</a>
     </div>
-  </div>
   </header>
 
   <section>
