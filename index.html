@@ -124,7 +124,7 @@ body{
 /* ===== HERO BANNER ===== */
 .hero {
   position:relative;
-  height:700px; /* sehr groß */
+  height:700px;
   background:url("Banner.png") center/cover no-repeat;
   display:flex;
   flex-direction:column;
@@ -144,40 +144,60 @@ body{
 }
 
 .hero img{
-  width:600px; /* riesiges Logo */
+  width:600px;
   max-width:90%;
   z-index:2;
   filter:drop-shadow(0 0 70px rgba(167,139,250,0.9));
   margin-bottom:20px;
 }
 
-/* kleiner Text auf Banner mit Stroke */
+/* kleiner Text auf Banner mit sauberem Stroke */
 .hero .banner-text{
   max-width:720px;
   color:var(--text);
   font-size:1.2rem;
   margin-bottom:30px;
-  text-shadow:
-     -2px -2px 0 #000,
-      2px -2px 0 #000,
-     -2px  2px 0 #000,
-      2px  2px 0 #000;
+  -webkit-text-stroke: 1.5px black; /* sauberer Stroke */
+  text-shadow: 2px 2px 2px rgba(0,0,0,0.7); /* fallback für Browser ohne -webkit-text-stroke */
 }
 
-/* nur ein Button */
+/* zwei Buttons */
 .hero .cta{
   display:inline-flex;
+  gap:16px;
   justify-content:center;
   z-index:2;
 }
 
-.hero .cta .btn-outline{
-  display:none; /* nur ein Button sichtbar */
-}
-
-.hero .cta .btn-primary{
+.hero .btn{
   padding:18px 32px;
   font-size:1.2rem;
+  border-radius:14px;
+  font-weight:600;
+  text-decoration:none;
+  transition:all .25s ease;
+  position:relative;
+}
+
+.hero .btn-primary{
+  background:linear-gradient(135deg,var(--primary),var(--primary-glow));
+  color:#050507;
+  box-shadow:0 10px 30px rgba(167,139,250,0.45);
+}
+
+.hero .btn-primary:hover{
+  transform:translateY(-2px) scale(1.03);
+  box-shadow:0 18px 50px rgba(167,139,250,0.6);
+}
+
+.hero .btn-outline{
+  border:1px solid rgba(167,139,250,0.4);
+  color:var(--text);
+  backdrop-filter:blur(6px);
+}
+
+.hero .btn-outline:hover{
+  background:rgba(167,139,250,0.15);
 }
 
 /* ===== CONTENT ===== */
@@ -250,6 +270,7 @@ footer span{
   </div>
   <div class="cta">
     <a href="/join.html" class="btn btn-primary">Jetzt beitreten</a>
+    <a href="https://discord.pixelhide.net" class="btn btn-outline">Discord</a>
   </div>
 </div>
 
