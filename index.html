@@ -8,7 +8,54 @@
   <meta name="google-adsense-account" content="ca-pub-5958219245633236">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5958219245633236"
      crossorigin="anonymous"></script>
+  <script>
+function copyIP(button){
+  // IP kopieren
+  navigator.clipboard.writeText("pixelhide.net");
+  let original = button.innerText;
+  button.innerText = "Kopiert";
+  setTimeout(()=>button.innerText = original,5000);
 
+  // Toast anzeigen
+  const toast = document.getElementById("copy-toast");
+  
+  // Reset progress animation
+  toast.querySelector('.progress::after')?.remove();
+  const progress = document.createElement('div');
+  progress.className = 'progress';
+  toast.appendChild(progress);
+
+  // Fortschrittsbalken Animation
+  progress.innerHTML = '';
+  progress.style.width = '100%';
+  progress.innerHTML = '<div></div>';
+  const innerDiv = progress.querySelector('div');
+  innerDiv.style.height = '100%';
+  innerDiv.style.background = '#050507';
+  innerDiv.style.transform = 'scaleX(0)';
+  innerDiv.style.transformOrigin = 'left';
+  innerDiv.style.animation = 'fillProgress 10s linear forwards';
+
+  toast.classList.add('show');
+
+  // Auto-hide nach 10s
+  const hideTimeout = setTimeout(()=>closeToast(), 10000);
+
+  // Close Button
+  const closeBtn = document.getElementById('close-toast');
+  closeBtn.onclick = ()=>{
+    clearTimeout(hideTimeout);
+    closeToast();
+  }
+
+  function closeToast(){
+    toast.classList.remove('show');
+    setTimeout(()=>{
+      progress.remove();
+    },500); // warten bis runter animiert
+  }
+}
+</script>
 <script>
 if (maintenance) {
   if (!window.location.pathname.endsWith("maintenance.html")) {
@@ -167,6 +214,69 @@ body{
   z-index:2;
 }
 
+/* Toast-Meldung unten links */
+#copy-toast {
+  position: fixed;
+  left: 20px;
+  bottom: -100px; /* start hidden */
+  background: linear-gradient(135deg, #a78bfa, #c4b5fd);
+  color: #050507;
+  padding: 16px 24px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.5);
+  font-weight: 600;
+  font-family: 'Inter', sans-serif;
+  z-index: 9999;
+  opacity: 0;
+  transform: translateY(50px);
+  transition: all 0.5s cubic-bezier(.68,-0.55,.27,1.55);
+}
+
+#copy-toast.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Close Button */
+#close-toast {
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  color: #050507;
+}
+
+/* Fortschrittsbalken */
+#copy-toast .progress {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 4px;
+  background: rgba(5,5,7,0.6);
+  width: 0%;
+  border-radius: 0 0 12px 12px;
+  overflow: hidden;
+}
+
+#copy-toast .progress::after {
+  content: '';
+  display: block;
+  height: 100%;
+  background: #050507;
+  width: 100%;
+  transform: scaleX(0);
+  transform-origin: left;
+  animation: fillProgress 10s linear forwards;
+}
+
+@keyframes fillProgress {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+
 .hero .btn{
   padding:18px 32px;
   font-size:1.2rem;
@@ -315,13 +425,18 @@ footer span{
 
   <!-- Rechts: Badge + Kopier-Button -->
   <div style="display:flex; align-items:center; gap:8px;">
-    <!-- Better Stack Badge -->
     <iframe src="https://status.pixelhide.net/badge?theme=dark" width="250" height="30" frameborder="0" scrolling="no" style="color-scheme: normal;"></iframe>
-
-    <!-- Kopier-Button -->
     <button class="copy-btn" onclick="copyIP(this)">Kopieren</button>
   </div>
 </div>
+
+<!-- Toast-Meldung -->
+<div id="copy-toast">
+  <span>Server-Adresse wurde kopiert!</span>
+  <button id="close-toast">×</button>
+  <div class="progress"></div>
+</div>
+
 
 
 </section>
