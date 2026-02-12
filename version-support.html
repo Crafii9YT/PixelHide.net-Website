@@ -154,12 +154,10 @@ for(let major=21; major>=0; major--){
   }
 }
 
-<script>
 // Version prüfen
 function checkVersion(){
   const val = dropdown.value;
   const status = document.getElementById("versionStatus");
-
   if(!val){
     status.textContent = "Wir können dir nicht sagen ob deine Version unterstützt ist oder nicht, wenn du keine wählst!";
     status.className = "version-text gray";
@@ -167,11 +165,9 @@ function checkVersion(){
   }
 
   const supportedVersions = [];
-
-  // Unterstützt: 1.13.0 bis 1.21.11
   for(let major=13; major<=21; major++){
     let minorMax = (major===21) ? 11 : 9;
-    for(let minor=0; minor<=minorMax; minor++){
+    for(let minor=(major===8?0:0); minor<=minorMax; minor++){
       supportedVersions.push(`1.${major}.${minor}`);
     }
   }
@@ -185,7 +181,6 @@ function checkVersion(){
   }
 }
 </script>
-
 
 </body>
 </html>
