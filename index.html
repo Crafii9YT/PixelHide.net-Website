@@ -124,9 +124,10 @@ body{
 /* ===== HERO BANNER ===== */
 .hero {
   position:relative;
-  height:300px; /* kleiner als vorher */
+  height:450px; /* etwas größer */
   background:url("Banner.png") center/cover no-repeat;
   display:flex;
+  flex-direction:column;
   align-items:center;
   justify-content:center;
   text-align:center;
@@ -138,15 +139,32 @@ body{
   bottom:0;
   left:0;
   width:100%;
-  height:100px; /* sanfter Übergang */
+  height:150px;
   background:linear-gradient(to bottom,rgba(5,5,7,0) 0%,#050507 100%);
 }
 
 .hero img{
-  width:300px; /* größeres Logo */
+  width:360px; /* größeres Logo */
   max-width:80%;
   z-index:2;
-  filter:drop-shadow(0 0 40px rgba(167,139,250,0.8));
+  filter:drop-shadow(0 0 50px rgba(167,139,250,0.8));
+  margin-bottom:20px;
+}
+
+/* Text + Buttons direkt auf Banner */
+.hero .banner-text{
+  max-width:720px;
+  color:var(--text);
+  margin-bottom:20px;
+  font-size:1.1rem;
+}
+
+.hero .cta{
+  display:inline-flex;
+  gap:16px;
+  flex-wrap:wrap;
+  justify-content:center;
+  z-index:2;
 }
 
 /* ===== CONTENT ===== */
@@ -155,53 +173,6 @@ section{
   padding:80px 20px;
   max-width:1200px;
   margin:auto;
-}
-
-.header-text{
-  text-align:center;
-  margin-top:-60px;
-  margin-bottom:60px;
-}
-
-.header-text p{
-  max-width:720px;
-  margin:20px auto 40px;
-  color:var(--muted);
-  font-size:1.1rem;
-}
-
-.cta{
-  display:inline-flex;
-  gap:16px;
-  flex-wrap:wrap;
-  justify-content:center;
-}
-
-.btn{
-  padding:14px 26px;
-  border-radius:14px;
-  font-weight:600;
-  text-decoration:none;
-  transition:all .25s ease;
-}
-
-.btn-primary{
-  background:linear-gradient(135deg,var(--primary),var(--primary-glow));
-  color:#050507;
-  box-shadow:0 10px 30px rgba(167,139,250,0.45);
-}
-
-.btn-primary:hover{
-  transform:translateY(-2px) scale(1.05);
-}
-
-.btn-outline{
-  border:1px solid rgba(167,139,250,0.4);
-  color:var(--text);
-}
-
-.btn-outline:hover{
-  background:rgba(167,139,250,0.15);
 }
 
 .grid{
@@ -261,17 +232,16 @@ footer span{
 
 <div class="hero">
   <img src="pixelhidenet.png" alt="PixelHide.net Logo">
+  <div class="banner-text">
+    Der perfekte <strong>Minecraft Server</strong> um mit Freunden und Familie zu spielen. Tolle & aktive Community, viele und regelmäßige Events, einzigartiges Spielerlebnis und vieles mehr!
+  </div>
+  <div class="cta">
+    <a href="/join.html" class="btn btn-primary">Jetzt beitreten</a>
+    <a href="https://discord.pixelhide.net" class="btn btn-outline">Discord</a>
+  </div>
 </div>
 
 <section>
-
-  <div class="header-text">
-    <p>Der perfekte <strong>Minecraft Server</strong> um mit Freunden und Familie zu spielen. Tolle & aktive Community, viele und regelmäßige Events, einzigartiges Spielerlebnis und vieles mehr!</p>
-    <div class="cta">
-      <a href="/join.html" class="btn btn-primary">Jetzt beitreten</a>
-      <a href="https://discord.pixelhide.net" class="btn btn-outline">Discord</a>
-    </div>
-  </div>
 
   <div class="grid">
     <div class="card">
