@@ -124,7 +124,7 @@ body{
 /* ===== HERO BANNER ===== */
 .hero {
   position:relative;
-  height:450px; /* etwas größer */
+  height:700px; /* sehr groß */
   background:url("Banner.png") center/cover no-repeat;
   display:flex;
   flex-direction:column;
@@ -144,27 +144,40 @@ body{
 }
 
 .hero img{
-  width:360px; /* größeres Logo */
-  max-width:80%;
+  width:600px; /* riesiges Logo */
+  max-width:90%;
   z-index:2;
-  filter:drop-shadow(0 0 50px rgba(167,139,250,0.8));
+  filter:drop-shadow(0 0 70px rgba(167,139,250,0.9));
   margin-bottom:20px;
 }
 
-/* Text + Buttons direkt auf Banner */
+/* kleiner Text auf Banner mit Stroke */
 .hero .banner-text{
   max-width:720px;
   color:var(--text);
-  margin-bottom:20px;
-  font-size:1.1rem;
+  font-size:1.2rem;
+  margin-bottom:30px;
+  text-shadow:
+     -2px -2px 0 #000,
+      2px -2px 0 #000,
+     -2px  2px 0 #000,
+      2px  2px 0 #000;
 }
 
+/* nur ein Button */
 .hero .cta{
   display:inline-flex;
-  gap:16px;
-  flex-wrap:wrap;
   justify-content:center;
   z-index:2;
+}
+
+.hero .cta .btn-outline{
+  display:none; /* nur ein Button sichtbar */
+}
+
+.hero .cta .btn-primary{
+  padding:18px 32px;
+  font-size:1.2rem;
 }
 
 /* ===== CONTENT ===== */
@@ -237,7 +250,6 @@ footer span{
   </div>
   <div class="cta">
     <a href="/join.html" class="btn btn-primary">Jetzt beitreten</a>
-    <a href="https://discord.pixelhide.net" class="btn btn-outline">Discord</a>
   </div>
 </div>
 
