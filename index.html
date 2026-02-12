@@ -122,10 +122,9 @@ body{
 }
 
 /* ===== HERO BANNER ===== */
-
 .hero {
   position:relative;
-  height:600px;
+  height:300px; /* kleiner als vorher */
   background:url("Banner.png") center/cover no-repeat;
   display:flex;
   align-items:center;
@@ -139,19 +138,18 @@ body{
   bottom:0;
   left:0;
   width:100%;
-  height:200px;
+  height:100px; /* sanfter Übergang */
   background:linear-gradient(to bottom,rgba(5,5,7,0) 0%,#050507 100%);
 }
 
 .hero img{
-  width:420px;
+  width:300px; /* größeres Logo */
   max-width:80%;
   z-index:2;
-  filter:drop-shadow(0 0 35px rgba(167,139,250,0.6));
+  filter:drop-shadow(0 0 40px rgba(167,139,250,0.8));
 }
 
 /* ===== CONTENT ===== */
-
 section{
   position:relative;
   padding:80px 20px;
