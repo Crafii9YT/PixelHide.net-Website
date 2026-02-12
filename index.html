@@ -423,10 +423,20 @@ footer span{
     PixelHide.net
   </div>
 
-  <!-- Rechts: Badge + Kopier-Button -->
-  <div style="display:flex; align-items:center; gap:8px;">
-    <iframe src="https://status.pixelhide.net/badge?theme=dark" width="250" height="30" frameborder="0" scrolling="no" style="color-scheme: normal;"></iframe>
-    <button class="copy-btn" onclick="copyIP(this)">Kopieren</button>
+  <!-- Rechts: Badge + Kopier-Button + Link -->
+  <div style="display:flex; flex-direction:column; align-items:center; gap:6px;">
+    <div style="display:flex; align-items:center; gap:8px;">
+      <!-- Better Stack Badge -->
+      <iframe src="https://status.pixelhide.net/badge?theme=dark" width="250" height="30" frameborder="0" scrolling="no" style="color-scheme: normal;"></iframe>
+
+      <!-- Kopier-Button -->
+      <button class="copy-btn" onclick="copyIP(this)">Kopieren</button>
+    </div>
+
+    <!-- Unterstützte Versionen Link -->
+    <a href="/version-support.html" style="font-size:0.85rem; color:var(--primary); text-decoration:none; text-align:center;">
+      Unterstützte Versionen
+    </a>
   </div>
 </div>
 
