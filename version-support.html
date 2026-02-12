@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<title>PixelHide.net | Minecraft Server</title>
+<link rel="icon" type="image/png" href="favicon.png">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --primary:#a78bfa;
+  --primary-glow:#c4b5fd;
+  --secondary:#050507;
+  --card:#0b0b12;
+  --text:#e5e7eb;
+  --muted:#9ca3af;
+}
+*{box-sizing:border-box;}
+body{
+  margin:0;
+  font-family:'Inter',sans-serif;
+  background:#050507;
+  color:var(--text);
+  overflow-x:hidden;
+}
+
+/* ===== HERO BANNER ===== */
+.hero {
+  position:relative;
+  height:400px;
+  background:url("Banner.png") center/cover no-repeat;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+}
+
+.hero img{
+  width:400px;
+  max-width:90%;
+  z-index:2;
+  filter:drop-shadow(0 0 70px rgba(167,139,250,0.9));
+  margin-bottom:20px;
+}
+
+/* Server-IP Bereich */
+.status{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  margin-top:40px;
+  padding:16px 20px;
+  background:rgba(0,0,0,0.4);
+  border-radius:18px;
+  border:1px solid rgba(167,139,250,0.25);
+  gap:12px;
+}
+
+.copy-btn{
+  padding:6px 14px;
+  font-size:0.9rem;
+  border-radius:10px;
+  border:none;
+  cursor:pointer;
+  background:linear-gradient(135deg,var(--primary),var(--primary-glow));
+  color:#050507;
+  transition:all .25s ease;
+}
+.copy-btn:hover{
+  transform:translateY(-1px) scale(1.02);
+  box-shadow:0 10px 30px rgba(167,139,250,0.4);
+}
+
+/* Dropdown */
+.version-select{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  margin-top:60px;
+  gap:16px;
+}
+
+.version-select select{
+  padding:12px 20px;
+  font-size:1.1rem;
+  border-radius:12px;
+  border:1px solid rgba(167,139,250,0.4);
+  background:var(--card);
+  color:var(--text);
+  cursor:pointer;
+  width:220px;
+  text-align:center;
+}
+
+/* Version Text */
+.version-text{
+  font-size:1.2rem;
+  font-weight:600;
+}
+.version-text.gray { color: var(--muted); }
+.version-text.green { color: #22c55e; }
+.version-text.red { color: #ef4444; }
+
+footer{
+  text-align:center;
+  padding:40px 20px 60px;
+  color:var(--text);
+  border-top:1px solid rgba(167,139,250,0.15);
+}
+footer span{
+  color:var(--primary);
+  font-weight:600;
+}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <img src="pixelhidenet.png" alt="PixelHide.net Logo">
+</div>
+
+<div class="status">
+  <strong>Server-IP:</strong> PixelHide.net
+  <button class="copy-btn" onclick="copyIP(this)">Kopieren</button>
+</div>
+
+<div class="version-select">
+  <select id="versionDropdown" onchange="checkVersion()">
+    <option value="">Wähle eine Version...</option>
+  </select>
+  <div id="versionStatus" class="version-text gray">Wähle eine Version...</div>
+</div>
+
+<footer>
+  © 2026 <span>PixelHide.net</span> · Nicht in Verbindung mit Mojang AB.
+</footer>
+
+<script>
+// Kopierfunktion
+function copyIP(button){
+  navigator.clipboard.writeText("pixelhide.net");
+  let original = button.innerText;
+  button.innerText = "Kopiert";
+  setTimeout(()=>button.innerText = original,5000);
+}
+
+// Dropdown füllen
+const dropdown = document.getElementById("versionDropdown");
+for(let major=21; major>=1; major--){
+  let minorMax = (major===21) ? 11 : 9;
+  for(let minor=minorMax; minor>=0; minor--){
+    let version = major + "." + minor;
+    let option = document.createElement("option");
+    option.value = version;
+    option.textContent = version;
+    dropdown.appendChild(option);
+  }
+}
+
+// Version prüfen
+function checkVersion(){
+  const val = dropdown.value;
+  const status = document.getElementById("versionStatus");
+  if(!val){
+    status.textContent = "Wähle eine Version...";
+    status.className = "version-text gray";
+    return;
+  }
+  const supportedVersions = [];
+  for(let major=1; major<=21; major++){
+    let minorMax = (major===21) ? 11 : 9;
+    for(let minor=8; minor<=minorMax; minor++){
+      supportedVersions.push(major+"."+minor);
+    }
+  }
+  if(supportedVersions.includes(val)){
+    status.textContent = "Unterstützt!";
+    status.className = "version-text green";
+  } else {
+    status.textContent = "Nicht unterstützt!";
+    status.className = "version-text red";
+  }
+}
+</script>
+
+</body>
+</html>
