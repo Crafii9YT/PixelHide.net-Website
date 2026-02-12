@@ -24,7 +24,6 @@ body{
   overflow-x:hidden;
 }
 
-/* ===== HERO BANNER ===== */
 .hero {
   position:relative;
   height:400px;
@@ -44,7 +43,6 @@ body{
   margin-bottom:20px;
 }
 
-/* Server-IP Bereich */
 .status{
   display:flex;
   justify-content:center;
@@ -72,7 +70,6 @@ body{
   box-shadow:0 10px 30px rgba(167,139,250,0.4);
 }
 
-/* Dropdown */
 .version-select{
   display:flex;
   flex-direction:column;
@@ -93,7 +90,6 @@ body{
   text-align:center;
 }
 
-/* Version Text */
 .version-text{
   font-size:1.2rem;
   font-weight:600;
@@ -145,15 +141,15 @@ function copyIP(button){
   setTimeout(()=>button.innerText = original,5000);
 }
 
-// Dropdown füllen
+// Dropdown füllen (1.21.11 bis 1.0.0)
 const dropdown = document.getElementById("versionDropdown");
-for(let major=21; major>=1; major--){
+
+for(let major=21; major>=0; major--){
   let minorMax = (major===21) ? 11 : 9;
   for(let minor=minorMax; minor>=0; minor--){
-    let version = major + "." + minor;
     let option = document.createElement("option");
-    option.value = version;
-    option.textContent = version;
+    option.value = `1.${major}.${minor}`;
+    option.textContent = `1.${major}.${minor}`;
     dropdown.appendChild(option);
   }
 }
@@ -167,13 +163,15 @@ function checkVersion(){
     status.className = "version-text gray";
     return;
   }
+
   const supportedVersions = [];
-  for(let major=1; major<=21; major++){
+  for(let major=8; major<=21; major++){
     let minorMax = (major===21) ? 11 : 9;
-    for(let minor=8; minor<=minorMax; minor++){
-      supportedVersions.push(major+"."+minor);
+    for(let minor=(major===8?0:0); minor<=minorMax; minor++){
+      supportedVersions.push(`1.${major}.${minor}`);
     }
   }
+
   if(supportedVersions.includes(val)){
     status.textContent = "Unterstützt!";
     status.className = "version-text green";
