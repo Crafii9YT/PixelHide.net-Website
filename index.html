@@ -8,26 +8,23 @@
   <meta name="google-adsense-account" content="ca-pub-5958219245633236">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5958219245633236"
      crossorigin="anonymous"></script>
-  <script>
-  // const maintenance = false; // true = Wartung AN, false = Wartung AUS
 
-  if (maintenance) {
-    if (!window.location.pathname.endsWith("maintenance.html")) {
-      window.location.href = "/maintenance.html";
-    }
+<script>
+if (maintenance) {
+  if (!window.location.pathname.endsWith("maintenance.html")) {
+    window.location.href = "/maintenance.html";
   }
+}
 </script>
 
-  <script>
+<script>
 (function() {
   const baits = [
     {class: "adsbox"},
     {class: "ad-banner"},
     {class: "doubleclick-ad"}
   ];
-
   const elements = [];
-
   baits.forEach(b => {
     const div = document.createElement("div");
     div.className = b.class;
@@ -41,10 +38,8 @@
     document.body.appendChild(div);
     elements.push(div);
   });
-
   setTimeout(() => {
     let blocked = false;
-
     elements.forEach(el => {
       const style = getComputedStyle(el);
       if (
@@ -52,302 +47,262 @@
         style.visibility === "hidden" ||
         el.offsetHeight === 0 ||
         el.offsetWidth === 0
-      ) {
-        blocked = true;
-      }
+      ) blocked = true;
     });
-
     if (blocked) {
       document.head.innerHTML = "";
-      document.body.innerHTML = "";
-
-      const style = document.createElement("style");
-      style.innerHTML = `
+      document.body.innerHTML = `
+      <style>
         body {
-          margin: 0;
-          height: 100vh;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          background: radial-gradient(circle at top, #1a0f2e, #050507);
-          font-family: Inter, sans-serif;
-          color: #e5e7eb;
+          margin:0;height:100vh;display:flex;
+          align-items:center;justify-content:center;
+          background:radial-gradient(circle at top,#1a0f2e,#050507);
+          font-family:Inter,sans-serif;color:#e5e7eb;
         }
         .adblock-card {
-          max-width: 440px;
-          padding: 42px 38px;
-          background: #0b0b12;
-          border-radius: 26px;
-          text-align: center;
-          border: 1px solid rgba(167,139,250,0.3);
-          box-shadow: 0 20px 90px rgba(0,0,0,0.85);
+          max-width:440px;padding:42px 38px;
+          background:#0b0b12;border-radius:26px;
+          text-align:center;
+          border:1px solid rgba(167,139,250,0.3);
+          box-shadow:0 20px 90px rgba(0,0,0,0.85);
         }
-        .adblock-card h1 {
-          margin: 0 0 14px;
-          font-size: 1.7rem;
-          color: #ddd6fe;
-        }
-        .adblock-card p {
-          color: #9ca3af;
-          line-height: 1.6;
-          margin-bottom: 30px;
-        }
-        .adblock-btn {
-          display: inline-block;
-          padding: 13px 24px;
-          border-radius: 14px;
-          font-weight: 600;
-          cursor: pointer;
-          color: #050507;
-          background: linear-gradient(135deg, #a78bfa, #c4b5fd);
-          box-shadow: 0 10px 30px rgba(167,139,250,0.5);
-          transition: all .25s ease;
-        }
-        .adblock-btn:hover {
-          transform: translateY(-2px) scale(1.05);
-        }
-      `;
-      document.head.appendChild(style);
-
-      document.body.innerHTML = `
-        <div class="adblock-card">
-          <h1>🚫 Adblock erkannt</h1>
-          <p>
-            Bitte deaktiviere deinen Adblocker, um diese Seite zu nutzen.<br>
-            Werbung unterstützt den Betrieb von PixelHide.net 💜
-          </p>
-          <div class="adblock-btn" onclick="location.reload()">Neu laden</div>
-        </div>
-      `;
+      </style>
+      <div class="adblock-card">
+        <h1>🚫 Adblock erkannt</h1>
+        <p>Bitte deaktiviere deinen Adblocker um diese Seite zu nutzen.</p>
+        <div onclick="location.reload()">Neu laden</div>
+      </div>`;
     }
-
     elements.forEach(el => el.remove());
-  }, 200);
+  },200);
 })();
 </script>
 
-  <script>
-  document.addEventListener("contextmenu", e => e.preventDefault());
-
-  document.addEventListener("keydown", e => {
-    if (
-      e.key === "F12" ||
-      (e.ctrlKey && e.shiftKey && ["I", "C", "J"].includes(e.key)) ||
-      (e.ctrlKey && e.key === "U")
-    ) {
-      e.preventDefault();
-    }
-  });
+<script>
+document.addEventListener("contextmenu", e => e.preventDefault());
+document.addEventListener("keydown", e => {
+  if (
+    e.key === "F12" ||
+    (e.ctrlKey && e.shiftKey && ["I","C","J"].includes(e.key)) ||
+    (e.ctrlKey && e.key === "U")
+  ) e.preventDefault();
+});
 </script>
 
- <script>
-   const maintenance = false;
+<script>
+const maintenance = false;
+if (maintenance) {
+  if (!window.location.pathname.endsWith("maintenance.html")) {
+    window.location.href = "/maintenance.html";
+  }
+}
+</script>
 
-   if (maintenance) {
-     if (!window.location.pathname.endsWith("maintenance.html")) {
-       window.location.href = "/maintenance.html";
-     }
-   }
- </script>
+<title>PixelHide.net | Minecraft Server</title>
+<link rel="icon" type="image/png" href="favicon.png">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 
-  <title>PixelHide.net | Minecraft Server</title>
-  <link rel="icon" type="image/png" href="favicon.png">
+<style>
+:root {
+  --primary:#a78bfa;
+  --primary-glow:#c4b5fd;
+  --secondary:#050507;
+  --card:#0b0b12;
+  --text:#e5e7eb;
+  --muted:#9ca3af;
+}
+*{box-sizing:border-box;}
 
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+body{
+  margin:0;
+  font-family:'Inter',sans-serif;
+  background:#050507;
+  color:var(--text);
+  overflow-x:hidden;
+}
 
-  <style>
-    :root {
-      --primary: #a78bfa;
-      --primary-glow: #c4b5fd;
-      --secondary: #050507;
-      --card: #0b0b12;
-      --text: #e5e7eb;
-      --muted: #9ca3af;
-    }
+/* ===== HERO BANNER ===== */
 
-    * { box-sizing: border-box; }
+.hero {
+  position:relative;
+  height:600px;
+  background:url("Banner.png") center/cover no-repeat;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+}
 
-    body {
-      margin: 0;
-      font-family: 'Inter', sans-serif;
-      background: radial-gradient(circle at top, #1a0f2e 0%, #050507 60%);
-      color: var(--text);
-      overflow-x: hidden;
-    }
+.hero::after{
+  content:"";
+  position:absolute;
+  bottom:0;
+  left:0;
+  width:100%;
+  height:200px;
+  background:linear-gradient(to bottom,rgba(5,5,7,0) 0%,#050507 100%);
+}
 
-    body::before {
-      content: "";
-      position: fixed;
-      inset: 0;
-      background:
-        radial-gradient(600px at 20% 10%, rgba(167,139,250,0.25), transparent 60%),
-        radial-gradient(500px at 80% 40%, rgba(167,139,250,0.15), transparent 60%);
-      pointer-events: none;
-      z-index: 0;
-    }
+.hero img{
+  width:420px;
+  max-width:80%;
+  z-index:2;
+  filter:drop-shadow(0 0 35px rgba(167,139,250,0.6));
+}
 
-    header {
-      position: relative;
-      z-index: 1;
-      text-align: center;
-    }
+/* ===== CONTENT ===== */
 
-    header img {
-      width: 100%;
-      height: auto;
-      display: block;
-    }
+section{
+  position:relative;
+  padding:80px 20px;
+  max-width:1200px;
+  margin:auto;
+}
 
-    header p {
-      max-width: 720px;
-      margin: 40px auto 40px;
-      color: var(--muted);
-      font-size: 1.1rem;
-      padding: 0 20px;
-    }
+.header-text{
+  text-align:center;
+  margin-top:-60px;
+  margin-bottom:60px;
+}
 
-    .cta {
-      display: inline-flex;
-      gap: 16px;
-      flex-wrap: wrap;
-      justify-content: center;
-      margin-bottom: 60px;
-    }
+.header-text p{
+  max-width:720px;
+  margin:20px auto 40px;
+  color:var(--muted);
+  font-size:1.1rem;
+}
 
-    .btn {
-      padding: 14px 26px;
-      border-radius: 14px;
-      font-weight: 600;
-      text-decoration: none;
-      transition: all .25s ease;
-      position: relative;
-    }
+.cta{
+  display:inline-flex;
+  gap:16px;
+  flex-wrap:wrap;
+  justify-content:center;
+}
 
-    .btn-primary {
-      background: linear-gradient(135deg, var(--primary), var(--primary-glow));
-      color: #050507;
-      box-shadow: 0 10px 30px rgba(167,139,250,0.45);
-    }
+.btn{
+  padding:14px 26px;
+  border-radius:14px;
+  font-weight:600;
+  text-decoration:none;
+  transition:all .25s ease;
+}
 
-    .btn-primary:hover {
-      transform: translateY(-2px) scale(1.03);
-      box-shadow: 0 18px 50px rgba(167,139,250,0.6);
-    }
+.btn-primary{
+  background:linear-gradient(135deg,var(--primary),var(--primary-glow));
+  color:#050507;
+  box-shadow:0 10px 30px rgba(167,139,250,0.45);
+}
 
-    .btn-outline {
-      border: 1px solid rgba(167,139,250,0.4);
-      color: var(--text);
-      backdrop-filter: blur(6px);
-    }
+.btn-primary:hover{
+  transform:translateY(-2px) scale(1.05);
+}
 
-    .btn-outline:hover {
-      background: rgba(167,139,250,0.15);
-    }
+.btn-outline{
+  border:1px solid rgba(167,139,250,0.4);
+  color:var(--text);
+}
 
-    section {
-      position: relative;
-      z-index: 1;
-      padding: 80px 20px;
-      max-width: 1200px;
-      margin: auto;
-    }
+.btn-outline:hover{
+  background:rgba(167,139,250,0.15);
+}
 
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 24px;
-    }
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:24px;
+}
 
-    .card {
-      background: linear-gradient(180deg, rgba(167,139,250,0.08), transparent 40%), var(--card);
-      border-radius: 22px;
-      padding: 26px;
-      border: 1px solid rgba(167,139,250,0.15);
-      box-shadow: 0 10px 30px rgba(0,0,0,0.6);
-      transition: all .3s ease;
-    }
+.card{
+  background:var(--card);
+  border-radius:22px;
+  padding:26px;
+  border:1px solid rgba(167,139,250,0.15);
+  transition:.3s;
+}
 
-    .card:hover {
-      transform: translateY(-6px);
-      box-shadow: 0 20px 60px rgba(167,139,250,0.25);
-      border-color: rgba(167,139,250,0.4);
-    }
+.card:hover{
+  transform:translateY(-6px);
+  box-shadow:0 20px 60px rgba(167,139,250,0.25);
+}
 
-    .card h3 {
-      font-family: 'Orbitron', sans-serif;
-      margin-top: 0;
-      color: #ddd6fe;
-    }
+.card h3{
+  font-family:'Orbitron',sans-serif;
+  color:#ddd6fe;
+}
 
-    .status {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-top: 20px;
-      padding: 16px 20px;
-      background: rgba(0,0,0,0.4);
-      border-radius: 18px;
-      border: 1px solid rgba(167,139,250,0.25);
-    }
+.status{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-top:40px;
+  padding:16px 20px;
+  background:rgba(0,0,0,0.4);
+  border-radius:18px;
+  border:1px solid rgba(167,139,250,0.25);
+}
 
-    .online {
-      color: #22c55e;
-      font-weight: 700;
-      text-shadow: 0 0 10px rgba(34,197,94,0.6);
-    }
+.online{
+  color:#22c55e;
+  font-weight:700;
+}
 
-    footer {
-      text-align: center;
-      padding: 40px 20px 60px;
-      color: var(--muted);
-      border-top: 1px solid rgba(167,139,250,0.15);
-    }
-
-    footer span {
-      color: var(--primary);
-      font-weight: 600;
-    }
-  </style>
+footer{
+  text-align:center;
+  padding:40px 20px 60px;
+  color:var(--muted);
+  border-top:1px solid rgba(167,139,250,0.15);
+}
+footer span{
+  color:var(--primary);
+  font-weight:600;
+}
+</style>
 </head>
+
 <body>
 
-  <header>
-    <img src="Banner.png" alt="PixelHide.net Banner">
+<div class="hero">
+  <img src="pixelhidenet.png" alt="PixelHide.net Logo">
+</div>
+
+<section>
+
+  <div class="header-text">
     <p>Der perfekte <strong>Minecraft Server</strong> um mit Freunden und Familie zu spielen. Tolle & aktive Community, viele und regelmäßige Events, einzigartiges Spielerlebnis und vieles mehr!</p>
     <div class="cta">
       <a href="/join.html" class="btn btn-primary">Jetzt beitreten</a>
       <a href="https://discord.pixelhide.net" class="btn btn-outline">Discord</a>
     </div>
-  </header>
+  </div>
 
-  <section>
-    <div class="grid">
-      <div class="card">
-        <h3>⚔️ Minigames</h3>
-        <p>Spiele klassiker wie Bedwars, Skywars, Build Battle und viele mehr.</p>
-      </div>
-      <div class="card">
-        <h3>🧱 CityBuild</h3>
-        <p>Perfekter Server um dein Imperium aufzubauen, reich zu werden und mit Freunden und Familie CityBuild zu spielen!</p>
-      </div>
-      <div class="card">
-        <h3>🔥 Events</h3>
-        <p>Regelmäßige Events und Giveaways!</p>
-      </div>
+  <div class="grid">
+    <div class="card">
+      <h3>⚔️ Minigames</h3>
+      <p>Spiele Klassiker wie Bedwars, Skywars, Build Battle und viele mehr.</p>
     </div>
-
-    <div class="status">
-      <div>
-        <strong>Server-IP</strong><br>
-        PixelHide.net
-      </div>
-      <div class="online">● Online</div>
+    <div class="card">
+      <h3>🧱 CityBuild</h3>
+      <p>Perfekter Server um dein Imperium aufzubauen, reich zu werden und mit Freunden und Familie CityBuild zu spielen!</p>
     </div>
-  </section>
+    <div class="card">
+      <h3>🔥 Events</h3>
+      <p>Regelmäßige Events und Giveaways!</p>
+    </div>
+  </div>
 
-  <footer>
-    © 2026 <span>PixelHide.net</span> · Nicht in Verbindung mit Mojang AB.
-  </footer>
+  <div class="status">
+    <div>
+      <strong>Server-IP</strong><br>
+      PixelHide.net
+    </div>
+    <div class="online">● Online</div>
+  </div>
+
+</section>
+
+<footer>
+  © 2026 <span>PixelHide.net</span> · Nicht in Verbindung mit Mojang AB.
+</footer>
 
 </body>
 </html>
