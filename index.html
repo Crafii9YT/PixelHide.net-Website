@@ -214,6 +214,20 @@ body{
   z-index:2;
 }
 
+/* Alles nicht auswählbar machen */
+* {
+  user-select: none !important;
+  -webkit-user-select: none !important;
+  -ms-user-select: none !important;
+}
+
+/* Bilder nicht ziehbar machen */
+img {
+  pointer-events: none !important;
+  user-drag: none !important;
+  -webkit-user-drag: none !important;
+}
+
 /* Toast-Meldung unten links */
 #copy-toast {
   position: fixed;
