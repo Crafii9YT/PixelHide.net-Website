@@ -1,0 +1,18 @@
+{
+  "allowed": [
+    "/", "/index.html", "/join.html", "/version-support.html",
+    "/docs/ticketsystem.html", "/docs/regelwerk.html",
+    "/faq/", "/faq/index.html", "/faq/opgames-merge.php",
+    "/app/", "/app/index.html"
+  ],
+  "news": [
+    "/news/file1.html",
+    "/news/file2.html"
+    // alle weiteren News-Dateien außer favicon.png & pixelhidenet.png
+  ],
+  "tutorial": [
+    "/tutorial/file1.html",
+    "/tutorial/file2.html"
+    // alle weiteren Tutorial-Dateien außer favicon.png
+  ]
+}
