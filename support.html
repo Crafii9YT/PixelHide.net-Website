@@ -1,32 +1,13 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-<meta charset="UTF-8">
-<title>PixelHide.net Support</title>
+<meta property="og:title" content="PixelHide.net">
+<meta property="og:description" content="PixelHide.net Netzwerk: Das ultimative Minecraft-Erlebnis!">
+<meta property="og:image" content="https://pixelhide.net/favicon.png">
+<meta property="og:url" content="https://pixelhide.net">
+<title>PixelHide.net</title>
 <link rel="icon" type="image/png" href="favicon.png">
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
-<script>
-async function sendTicket() {
-  const name = document.getElementById("ticket-name").value;
-  const message = document.getElementById("ticket-message").value;
-
-  const res = await fetch("https://ticket-worker.YOUR_SUBDOMAIN.workers.dev/ticket", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ name, message })
-  });
-
-  const data = await res.json();
-  if (data.success) {
-    alert("Ticket erstellt! ID: " + data.ticketID);
-    document.getElementById("ticket-name").value = "";
-    document.getElementById("ticket-message").value = "";
-  } else {
-    alert(data.error || "Fehler beim Erstellen des Tickets");
-  }
-}
-</script>
-
 
 <style>
 :root {
@@ -35,6 +16,7 @@ async function sendTicket() {
   --secondary:#050507;
   --card:#0b0b12;
   --text:#e5e7eb;
+  --muted:#9ca3af;
 }
 *{box-sizing:border-box;}
 body{
@@ -42,10 +24,11 @@ body{
   font-family:'Inter',sans-serif;
   background:#050507;
   color:var(--text);
+  overflow-x:hidden;
 }
 
-/* HERO */
-.hero{
+/* ===== HERO BANNER ===== */
+.hero {
   position:relative;
   height:700px;
   background:url("Banner.png") center/cover no-repeat;
@@ -59,6 +42,7 @@ body{
   content:"";
   position:absolute;
   bottom:0;
+  left:0;
   width:100%;
   height:150px;
   background:linear-gradient(to bottom,rgba(5,5,7,0) 0%,#050507 100%);
@@ -66,6 +50,7 @@ body{
 .hero img{
   width:600px;
   max-width:90%;
+  z-index:2;
   filter:drop-shadow(0 0 70px rgba(167,139,250,0.9));
   margin-bottom:20px;
 }
@@ -73,231 +58,157 @@ body{
   max-width:720px;
   color:black;
   font-size:1.2rem;
+  margin-bottom:30px;
 }
+.hero .cta{
+  display:inline-flex;
+  gap:16px;
+  justify-content:center;
+  z-index:2;
+}
+* { user-select: none !important; -webkit-user-select: none !important; -ms-user-select: none !important; }
+img { pointer-events: none !important; user-drag: none !important; -webkit-user-drag: none !important; }
 
-/* FORM */
+/* ===== CONTENT ===== */
 section{
+  position:relative;
   padding:80px 20px;
-  max-width:900px;
+  max-width:1200px;
   margin:auto;
+}
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:24px;
 }
 .card{
   background:var(--card);
   border-radius:22px;
-  padding:30px;
-  border:1px solid rgba(167,139,250,0.2);
+  padding:26px;
+  border:1px solid rgba(167,139,250,0.15);
+  transition:.3s;
 }
-input, select, textarea{
-  width:100%;
-  padding:12px;
-  margin-top:8px;
-  margin-bottom:20px;
-  border-radius:12px;
-  border:1px solid rgba(167,139,250,0.3);
-  background:#0f0f18;
-  color:white;
+.card:hover{
+  transform:translateY(-6px);
+  box-shadow:0 20px 60px rgba(167,139,250,0.25);
 }
-textarea{resize:vertical;height:140px;}
-button{
-  padding:14px 28px;
-  border-radius:14px;
+.card h3{
+  font-family:'Orbitron',sans-serif;
+  color:#ddd6fe;
+}
+.copy-btn{
+  padding:6px 14px;
+  font-size:0.9rem;
+  border-radius:10px;
   border:none;
   cursor:pointer;
   background:linear-gradient(135deg,var(--primary),var(--primary-glow));
   color:#050507;
-  font-weight:600;
-  transition:.3s;
+  transition:all .25s ease;
 }
-button:hover{
-  transform:scale(1.05);
-  box-shadow:0 10px 30px rgba(167,139,250,0.5);
-}
-.success{
-  margin-top:20px;
-  color:#22c55e;
-  font-weight:600;
+.copy-btn:hover{
+  transform:translateY(-1px) scale(1.02);
+  box-shadow:0 10px 30px rgba(167,139,250,0.4);
 }
 footer{
   text-align:center;
-  padding:40px;
+  padding:40px 20px 60px;
+  color:var(--text);
   border-top:1px solid rgba(167,139,250,0.15);
 }
-footer span{color:var(--primary);}
+footer span{
+  color:var(--primary);
+  font-weight:600;
+}
+
+/* Ticket-Form */
+.ticket-form input, .ticket-form textarea{
+  width:100%;
+  padding:10px;
+  margin-top:6px;
+  border-radius:10px;
+  border:none;
+  background:#1a1a1f;
+  color:#e5e7eb;
+}
+.ticket-form button{
+  margin-top:8px;
+}
 </style>
 </head>
-
 <body>
 
 <div class="hero">
-  <img src="pixelhidenet.png">
+  <img src="pixelhidenet.png" alt="PixelHide.net Logo">
   <div class="banner-text">
-    Professioneller Support für dein Anliegen.
+    Der perfekte <strong>Minecraft Server</strong> um mit Freunden und Familie zu spielen. Tolle & aktive Community, viele und regelmäßige Events, einzigartiges Spielerlebnis und vieles mehr!
+  </div>
+  <div class="cta">
+    <a href="/join.html" class="btn btn-primary">Jetzt beitreten</a>
+    <a href="https://discord.pixelhide.net" class="btn btn-outline">Discord</a>
   </div>
 </div>
 
 <section>
-<div class="card">
-
-<form id="supportForm">
-
-<input type="text" name="website" style="display:none"> <!-- Honeypot -->
-
-<label>Minecraft/Ingame-Name (optional)</label>
-<input type="text" id="ign">
-
-<label>Email-Adresse *</label>
-<input type="email" id="email" required>
-
-<label>Voller Name (optional)</label>
-<input type="text" id="fullname">
-
-<label>Gerät/Minecraft-Version *</label>
-<select id="device" required>
-<option value="">Bitte wählen</option>
-<option>PC (Minecraft Java-Edition)</option>
-<option>PC (Minecraft Bedrock-Edition)</option>
-<option>PC (Minecraft Bedrock + Java-Edition)</option>
-<option>Handy (Minecraft Bedrock-Edition)</option>
-<option>Tablet (Minecraft Bedrock Edition)</option>
-</select>
-
-<label>Kategorie *</label>
-<select id="category" required></select>
-
-<label>Unterkategorie *</label>
-<select id="subcategory" required></select>
-
-<label>Datei-Upload (optional)</label>
-<input type="file" id="file" accept=".mp3,.mp4,.pdf,.doc,.docx,.png,.jpg,.jpeg">
-
-<label>Beschreibung *</label>
-<textarea id="description" required></textarea>
-
-<button type="submit">Ticket erstellen</button>
-<div class="success" id="successMsg"></div>
-
-</form>
+<div class="grid">
+  <div class="card">
+    <h3>⚔️ Minigames</h3>
+    <p>Spiele Klassiker wie Bedwars, Skywars, Build Battle und viele mehr.</p>
+  </div>
+  <div class="card">
+    <h3>🧱 CityBuild</h3>
+    <p>Perfekter Server um dein Imperium aufzubauen, reich zu werden und mit Freunden und Familie CityBuild zu spielen!</p>
+  </div>
+  <div class="card">
+    <h3>🔥 Events</h3>
+    <p>Regelmäßige Events und Giveaways!</p>
+  </div>
+  <div class="card ticket-form">
+    <h3>🎫 Support Ticket</h3>
+    <p>Erstelle ein Ticket und unser Team antwortet dir so schnell wie möglich.</p>
+    <input type="text" id="ticket-name" placeholder="Dein Name">
+    <textarea id="ticket-message" placeholder="Deine Nachricht"></textarea>
+    <button class="copy-btn" onclick="sendTicket()">Ticket erstellen</button>
+  </div>
 </div>
 </section>
 
 <footer>
-© 2026 <span>PixelHide.net</span> · Support System
+  © 2026 <span>PixelHide.net</span> · Nicht in Verbindung mit Mojang AB.
 </footer>
 
 <script>
-const webhook="https://discord.com/api/webhooks/1472308963755425943/1KUvbgy5AB09kk2gUe7LUbfoWeGzgBikHVsTWFPMj_VurieUio5p_7UOZd6tIxSP3c9V";
-let lastSubmit=0;
+// Spam-Schutz: 30s Delay
+let lastTicketTime = 0;
 
-function generateTicketID(){
-  return "PH-"+Math.floor(100000+Math.random()*900000);
-}
+async function sendTicket() {
+  const name = document.getElementById("ticket-name").value.trim();
+  const message = document.getElementById("ticket-message").value.trim();
+  if (!name || !message) return alert("Bitte Name und Nachricht ausfüllen.");
 
-const categories={
-"Account":[
-"Account gehackt",
-"Ich kann nicht mit meinem Account joinen!",
-"Zugriff auf Account verloren (Übertragung von Daten beantragen)"
-],
-"Fehlermeldung":["Fehlermeldung"],
-"Spielermeldung":[
-"Unerlaubte Clientmodifikationen/Hackclient",
-"Unangemessener Skin/Name",
-"Bugusing",
-"Unangemessenes Chat-Verhalten",
-"Werbung",
-"Anderes"
-],
-"Hilfe/Tutorial":["Hilfe"],
-"Verstoß melden":[
-"Einen Spieler melden",
-"Inhalt melden",
-"Bauwerk melden"
-],
-"Entbannungsantrag":[
-"Ich wurde gebannt, für ein Verhalten von meinem oder einem Zweitaccount.",
-"Ich wurde gebannt, für ein Bauwerk was ich gebaut habe.",
-"Ich wurde gebannt, da ich einen Bann umgangen habe.",
-"Ich wurde gebannt, für einen Inhalt den ich erstellt habe auf einer Custom Welt oder wo anders auf PixelHide.",
-"Ich wurde zu unrecht gebannt."
-],
-"Käufe mit Ingame-Währung":[
-"Ich habe mein Produkt nicht erhalten.",
-"Ich beantrage eine Rückerstattung"
-],
-"Technische Hilfe":["Technische Hilfe"]
-};
+  const now = Date.now();
+  if (now - lastTicketTime < 30000) return alert("Bitte warte 30 Sekunden bevor du ein neues Ticket erstellst.");
+  lastTicketTime = now;
 
-const catSelect=document.getElementById("category");
-const subSelect=document.getElementById("subcategory");
-
-for(let cat in categories){
-  let opt=document.createElement("option");
-  opt.textContent=cat;
-  catSelect.appendChild(opt);
-}
-
-catSelect.onchange=function(){
-  subSelect.innerHTML="";
-  categories[this.value].forEach(sub=>{
-    let opt=document.createElement("option");
-    opt.textContent=sub;
-    subSelect.appendChild(opt);
-  });
-};
-
-document.getElementById("supportForm").onsubmit=async function(e){
-e.preventDefault();
-
-if(Date.now()-lastSubmit<5000){
-  alert("Bitte warte kurz bevor du erneut ein Ticket erstellst.");
-  return;
-}
-lastSubmit=Date.now();
-
-if(document.querySelector("[name=website]").value!==""){
-  return;
-}
-
-const ticketID=generateTicketID();
-
-const fileInput=document.getElementById("file");
-let fileInfo="Keine Datei";
-
-if(fileInput.files.length>0){
-  const file=fileInput.files[0];
-  if(file.size>8*1024*1024){
-    alert("Datei zu groß (Max 8MB)");
-    return;
+  const ticketID = Math.random().toString(36).substring(2, 10).toUpperCase(); // Ticket-ID
+  try {
+    const res = await fetch("https://pixelhide-support.crafiii60.workers.dev/", {
+      method: "POST",
+      headers: {"Content-Type":"application/json"},
+      body: JSON.stringify({ name, message, ticketID })
+    });
+    const data = await res.json();
+    if (data.success) {
+      alert("Ticket erstellt! ID: " + ticketID);
+      document.getElementById("ticket-name").value = "";
+      document.getElementById("ticket-message").value = "";
+    } else {
+      alert(data.error || "Fehler beim Erstellen des Tickets");
+    }
+  } catch(e) {
+    alert("Fehler: " + e.message);
   }
-  fileInfo=file.name+" ("+(file.size/1024).toFixed(1)+" KB)";
 }
-
-const embed={
-title:"🎫 Neues Support Ticket",
-color:0xa78bfa,
-fields:[
-{name:"Ticket-ID",value:ticketID},
-{name:"Email",value:email.value},
-{name:"IGN",value:ign.value||"Nicht angegeben"},
-{name:"Name",value:fullname.value||"Nicht angegeben"},
-{name:"Gerät",value:device.value},
-{name:"Kategorie",value:category.value},
-{name:"Unterkategorie",value:subcategory.value},
-{name:"Datei",value:fileInfo},
-{name:"Beschreibung",value:description.value}
-],
-timestamp:new Date()
-};
-
-await fetch(webhook,{
-method:"POST",
-headers:{"Content-Type":"application/json"},
-body:JSON.stringify({embeds:[embed]})
-});
-
-document.getElementById("successMsg").innerText="Ticket erfolgreich erstellt! ID: "+ticketID;
-this.reset();
-};
 </script>
 
 </body>
