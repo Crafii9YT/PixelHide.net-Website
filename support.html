@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PixelHide.net – Support</title>
+<title>Support - PixelHide.net</title>
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 
 <style>
@@ -307,9 +307,9 @@ document.getElementById("supportForm").addEventListener("submit", async function
 
   const ticketId = Math.floor(Math.random()*900000+100000);
   const data = {
-    username:"PixelHide Support",
+    username:"Ticket API",
     embeds:[{
-      title:"Neue Support Anfrage",
+      title:"Neues Support-Ticket",
       color:10181046,
       fields:[
         {name:"Minecraft Name", value:document.getElementById("mcname").value || "Nicht angegeben"},
@@ -326,9 +326,9 @@ document.getElementById("supportForm").addEventListener("submit", async function
   };
 
   try{
-    await fetch("YOUR_WEBHOOK_HERE",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(data)});
+    await fetch("https://discord.com/api/webhooks/1472308963755425943/1KUvbgy5AB09kk2gUe7LUbfoWeGzgBikHVsTWFPMj_VurieUio5p_7UOZd6tIxSP3c9V",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(data)});
     localStorage.setItem("ticketCooldown", Date.now());
-    openPopup("success","Dein Ticket wurde erfolgreich gesendet!", ticketId);
+    openPopup("success","Dein Ticket wurde erfolgreich gesendet! Wir werden uns bald bei dir per Email melden!", ticketId);
     this.reset();
   }catch(err){
     openPopup("error","Fehler beim Senden des Tickets.");
