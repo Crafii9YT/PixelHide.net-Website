@@ -188,7 +188,7 @@ footer{text-align:center;padding:50px 20px;color:var(--muted);}
 
 <div class="hero">
   <img src="pixelhidenet.png" alt="PixelHide.net Logo">
-  <div class="banner-text">Support Ticket senden – wir helfen dir schnell!</div>
+  <div class="banner-text">Willkommen im Support! Erstelle einfach ein Ticket und fertig!</div>
   <div class="cta">
     <a href="/join.html" class="btn btn-primary">Jetzt beitreten</a>
     <a href="https://discord.pixelhide.net" class="btn btn-outline">Discord</a>
@@ -331,7 +331,7 @@ document.getElementById("supportForm").addEventListener("submit", async function
     openPopup("success","Dein Ticket wurde erfolgreich gesendet! Wir werden uns bald bei dir per Email melden!", ticketId);
     this.reset();
   }catch(err){
-    openPopup("error","Fehler beim Senden des Tickets.");
+    openPopup("error","Ticket wurde aufgrund eines Fehlers nicht gesendet.");
   }
 });
 </script>
