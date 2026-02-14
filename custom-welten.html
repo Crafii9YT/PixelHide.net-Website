@@ -2,7 +2,7 @@
 <html lang="de">
 <head>
 <meta charset="UTF-8">
-<title>PixelHide.net | Minecraft Server</title>
+<title>Custom Welten | PixelHide.net</title>
 <link rel="icon" type="image/png" href="favicon.png">
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 
@@ -167,7 +167,8 @@ section{
 }
 
 .error-icon{
-  font-size:40px;
+  width:50px;
+  height:50px;
   margin-bottom:10px;
   animation:pulse 1.2s infinite;
 }
@@ -246,7 +247,7 @@ section{
 <!-- ENV ERROR -->
 <div id="envError" class="popup">
   <div class="popup-card">
-    <div class="error-icon">⚠️</div>
+    <img src="error.png" class="error-icon">
     <h2>Fehler</h2>
     <p>Das Enviroment der Welt existiert nicht. Versuche es erneut mit "normal", "nether" oder "end".</p>
     <div class="popup-actions">
@@ -258,7 +259,7 @@ section{
 <!-- LIMIT ERROR -->
 <div id="limitError" class="popup">
   <div class="popup-card">
-    <div class="error-icon">⛔</div>
+    <img src="error.png" class="error-icon">
     <h2>Fehler</h2>
     <p>Der zugewiesene Spieler hat das Limit von 0 Welten erreicht.</p>
     <div class="popup-actions">
