@@ -328,7 +328,7 @@ document.getElementById("supportForm").addEventListener("submit", async function
   try{
     await fetch("https://discord.com/api/webhooks/1472308963755425943/1KUvbgy5AB09kk2gUe7LUbfoWeGzgBikHVsTWFPMj_VurieUio5p_7UOZd6tIxSP3c9V",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(data)});
     localStorage.setItem("ticketCooldown", Date.now());
-    openPopup("success","Dein Ticket wurde erfolgreich gesendet! Wir werden uns bald bei dir per Email melden!", ticketId);
+    openPopup("success","Dein Ticket wurde erfolgreich gesendet! Wir werden uns bald bei dir per Email melden!", ticketId, "Bewahre deine Ticket-ID gut auf, da der Support danach fragen könnte!");
     this.reset();
   }catch(err){
     openPopup("error","Ticket wurde aufgrund eines Fehlers nicht gesendet.");
