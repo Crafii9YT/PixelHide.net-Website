@@ -4,28 +4,33 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>PixelHide.net – Support</title>
-<link rel="icon" type="image/png" href="favicon.png">
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 
 <style>
-:root {
+:root{
   --primary:#a78bfa;
   --primary-glow:#c4b5fd;
-  --card:#0b0b12;
   --bg:#050507;
+  --card:#0b0b12;
   --text:#e5e7eb;
   --muted:#9ca3af;
-  --success:#22c55e;
   --error:#ef4444;
+  --success:#22c55e;
 }
+
 *{box-sizing:border-box;}
-body{margin:0;font-family:'Inter',sans-serif;background:#050507;color:var(--text);overflow-x:hidden;}
+body{
+  margin:0;
+  background:radial-gradient(circle at top,#1a0f2e,#050507);
+  font-family:'Inter',sans-serif;
+  color:var(--text);
+}
 
 /* ===== HERO BANNER ===== */
 .hero {
   position:relative;
-  height:350px;
-  background:radial-gradient(circle at top,#1a0f2e,#050507);
+  height:500px;
+  background:url("Banner.png") center/cover no-repeat;
   display:flex;
   flex-direction:column;
   align-items:center;
@@ -33,7 +38,7 @@ body{margin:0;font-family:'Inter',sans-serif;background:#050507;color:var(--text
   text-align:center;
 }
 .hero img{
-  width:200px;
+  width:600px;
   max-width:90%;
   z-index:2;
   filter:drop-shadow(0 0 70px rgba(167,139,250,0.9));
@@ -45,9 +50,20 @@ body{margin:0;font-family:'Inter',sans-serif;background:#050507;color:var(--text
   font-size:1.2rem;
   margin-bottom:30px;
 }
-.hero .cta{display:inline-flex;gap:16px;justify-content:center;z-index:2;}
+.hero .cta{
+  display:inline-flex;
+  gap:16px;
+  justify-content:center;
+  z-index:2;
+}
 .hero .btn{
-  padding:14px 28px;font-size:1rem;border-radius:14px;font-weight:600;text-decoration:none;transition:all .25s ease;position:relative;
+  padding:18px 32px;
+  font-size:1.2rem;
+  border-radius:14px;
+  font-weight:600;
+  text-decoration:none;
+  transition:all .25s ease;
+  position:relative;
 }
 .hero .btn-primary{
   background:linear-gradient(135deg,var(--primary),var(--primary-glow));
@@ -63,10 +79,12 @@ body{margin:0;font-family:'Inter',sans-serif;background:#050507;color:var(--text
   color:#050507;
   backdrop-filter:blur(6px);
 }
-.hero .btn-outline:hover{background:rgba(167,139,250,0.15);}
+.hero .btn-outline:hover{
+  background:rgba(167,139,250,0.15);
+}
 
 /* ===== FORM ===== */
-section{position:relative;padding:60px 20px;max-width:900px;margin:auto;}
+section{max-width:900px;margin:40px auto; padding:0 20px;}
 .card{
   background:var(--card);
   border-radius:22px;
@@ -74,11 +92,11 @@ section{position:relative;padding:60px 20px;max-width:900px;margin:auto;}
   border:1px solid rgba(167,139,250,0.15);
   box-shadow:0 25px 70px rgba(0,0,0,0.7);
 }
-.form-group{margin-bottom:20px;}
+.form-group{margin-bottom:22px;}
 label{display:block;margin-bottom:8px;font-weight:600;}
 input, select, textarea{
   width:100%;
-  padding:12px;
+  padding:14px;
   border-radius:12px;
   border:1px solid rgba(167,139,250,0.25);
   background:#0f0f18;
@@ -91,8 +109,8 @@ input:focus, select:focus, textarea:focus{
   border-color:var(--primary);
   box-shadow:0 0 0 2px rgba(167,139,250,0.25);
 }
-textarea{resize:vertical;min-height:120px;}
-button[type="submit"]{
+textarea{resize:vertical; min-height:120px;}
+button{
   width:100%;
   padding:16px;
   border:none;
@@ -104,11 +122,10 @@ button[type="submit"]{
   color:#050507;
   transition:0.25s;
 }
-button[type="submit"]:hover{
+button:hover{
   transform:translateY(-2px);
   box-shadow:0 15px 40px rgba(167,139,250,0.4);
 }
-.status-message{text-align:center;margin-top:16px;font-weight:600;}
 
 /* ===== POPUP ===== */
 .popup {
@@ -163,10 +180,10 @@ button[type="submit"]:hover{
 }
 
 /* ===== FOOTER ===== */
-footer{text-align:center;padding:40px 20px 60px;color:var(--text);border-top:1px solid rgba(167,139,250,0.15);}
-footer span{color:var(--primary); font-weight:600;}
+footer{text-align:center;padding:50px 20px;color:var(--muted);}
 </style>
 </head>
+
 <body>
 
 <div class="hero">
@@ -190,11 +207,16 @@ footer span{color:var(--primary); font-weight:600;}
       <input type="email" id="email" required>
     </div>
     <div class="form-group">
+      <label>Voller Name (optional)</label>
+      <input type="text" id="fullname">
+    </div>
+    <div class="form-group">
       <label>Gerät / Minecraft-Version *</label>
       <select id="device" required>
         <option value="">Bitte auswählen</option>
         <option>PC (Minecraft Java-Edition)</option>
         <option>PC (Minecraft Bedrock-Edition)</option>
+        <option>PC (Minecraft Bedrock + Java-Edition)</option>
         <option>Handy (Minecraft Bedrock-Edition)</option>
         <option>Tablet (Minecraft Bedrock Edition)</option>
       </select>
@@ -212,7 +234,6 @@ footer span{color:var(--primary); font-weight:600;}
       <textarea id="description" required></textarea>
     </div>
     <button type="submit">Support Anfrage senden</button>
-    <div id="status" class="status-message"></div>
   </form>
 </div>
 </section>
@@ -229,15 +250,19 @@ footer span{color:var(--primary); font-weight:600;}
   </div>
 </div>
 
-<footer>© 2026 <span>PixelHide.net</span> · Nicht in Verbindung mit Mojang AB.</footer>
+<footer>© 2026 PixelHide.net · Support System</footer>
 
 <script>
 const categories = {
-  "Account":["Account gehackt","Ich kann nicht mit meinem Account joinen!","Zugriff auf Account verloren"],
+  "Account":["Account gehackt","Ich kann nicht mit meinem Account joinen!","Zugriff auf Account verloren (Übertragung von Daten beantragen)"],
   "Fehlermeldung":["Fehlermeldung"],
-  "Spielermeldung":["Unerlaubte Clientmodifikationen/Hackclient","Unangemessener Skin/Name","Bugusing","Anderes"]
+  "Spielermeldung":["Unerlaubte Clientmodifikationen/Hackclient","Unangemessener Skin/Name","Bugusing","Unangemessenes Chat-Verhalten","Werbung","Anderes"],
+  "Hilfe/Tutorial":["Hilfe"],
+  "Verstoß melden":["Einen Spieler melden","Inhalt melden","Bauwerk melden"],
+  "Entbannungsantrag":["Ich wurde gebannt, für ein Verhalten von meinem oder einem Zweitaccount.","Ich wurde gebannt, für ein Bauwerk was ich gebaut habe.","Ich wurde gebannt, da ich einen Bann umgangen habe.","Ich wurde gebannt, für einen Inhalt den ich erstellt habe auf einer Custom Welt oder wo anders auf PixelHide.","Ich wurde zu unrecht gebannt."],
+  "Käufe mit Ingame-Währung":["Ich habe mein Produkt nicht erhalten.","Ich beantrage eine Rückerstattung"],
+  "Technische Hilfe":["Technische Hilfe"]
 };
-
 const categorySelect = document.getElementById("category");
 const subcategorySelect = document.getElementById("subcategory");
 function loadCategories(){
@@ -248,10 +273,9 @@ function loadCategories(){
 }
 function loadSubcategories(cat){
   subcategorySelect.innerHTML = '<option value="">Bitte auswählen</option>';
-  categories[cat]?.forEach(sub=>subCategoryOption(sub));
-}
-function subCategoryOption(sub){
-  subcategorySelect.innerHTML += `<option value="${sub}">${sub}</option>`;
+  categories[cat]?.forEach(sub=>{
+    subcategorySelect.innerHTML += `<option value="${sub}">${sub}</option>`;
+  });
 }
 categorySelect.addEventListener("change", e=>loadSubcategories(e.target.value));
 loadCategories();
@@ -263,21 +287,15 @@ function openPopup(type, message, ticketId=null){
   const title = popup.querySelector(".popup-title");
   const msg = popup.querySelector(".popup-message");
 
-  if(type==="success"){
-    icon.src="success.png"; 
-    title.textContent="Erfolgreich!";
-  } else {
-    icon.src="error.png"; 
-    title.textContent="Fehler!";
-  }
-
+  if(type==="success"){icon.src="success.png"; title.textContent="Erfolgreich!";}
+  else{icon.src="error.png"; title.textContent="Fehler!";}
   msg.innerHTML = message + (ticketId? `<br><strong>Ticket-ID: ${ticketId}</strong>`:"");
   popup.classList.add("show");
 }
 function closePopup(id){document.getElementById(id)?.classList.remove("show");}
 
-// Ticket-ID & Cooldown
-const COOLDOWN = 5*60*1000; // 5 Minuten
+// Ticket senden & Cooldown
+const COOLDOWN = 5*60*1000;
 document.getElementById("supportForm").addEventListener("submit", async function(e){
   e.preventDefault();
   const lastSent = localStorage.getItem("ticketCooldown");
@@ -287,7 +305,7 @@ document.getElementById("supportForm").addEventListener("submit", async function
     return;
   }
 
-  const ticketId = Math.floor(Math.random()*900000+100000); // zufällige 6-stellige ID
+  const ticketId = Math.floor(Math.random()*900000+100000);
   const data = {
     username:"PixelHide Support",
     embeds:[{
@@ -296,6 +314,7 @@ document.getElementById("supportForm").addEventListener("submit", async function
       fields:[
         {name:"Minecraft Name", value:document.getElementById("mcname").value || "Nicht angegeben"},
         {name:"Email", value:document.getElementById("email").value},
+        {name:"Voller Name", value:document.getElementById("fullname").value || "Nicht angegeben"},
         {name:"Gerät", value:document.getElementById("device").value},
         {name:"Kategorie", value:document.getElementById("category").value},
         {name:"Unterkategorie", value:document.getElementById("subcategory").value},
@@ -307,11 +326,7 @@ document.getElementById("supportForm").addEventListener("submit", async function
   };
 
   try{
-    await fetch("https://discord.com/api/webhooks/YOUR_WEBHOOK_HERE",{
-      method:"POST",
-      headers:{"Content-Type":"application/json"},
-      body:JSON.stringify(data)
-    });
+    await fetch("YOUR_WEBHOOK_HERE",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(data)});
     localStorage.setItem("ticketCooldown", Date.now());
     openPopup("success","Dein Ticket wurde erfolgreich gesendet!", ticketId);
     this.reset();
@@ -320,5 +335,6 @@ document.getElementById("supportForm").addEventListener("submit", async function
   }
 });
 </script>
+
 </body>
 </html>
