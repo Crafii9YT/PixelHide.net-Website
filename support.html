@@ -5,6 +5,28 @@
 <title>PixelHide.net Support</title>
 <link rel="icon" type="image/png" href="favicon.png">
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+<script>
+async function sendTicket() {
+  const name = document.getElementById("ticket-name").value;
+  const message = document.getElementById("ticket-message").value;
+
+  const res = await fetch("https://ticket-worker.YOUR_SUBDOMAIN.workers.dev/ticket", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ name, message })
+  });
+
+  const data = await res.json();
+  if (data.success) {
+    alert("Ticket erstellt! ID: " + data.ticketID);
+    document.getElementById("ticket-name").value = "";
+    document.getElementById("ticket-message").value = "";
+  } else {
+    alert(data.error || "Fehler beim Erstellen des Tickets");
+  }
+}
+</script>
+
 
 <style>
 :root {
