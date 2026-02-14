@@ -1,215 +1,134 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-<meta property="og:title" content="PixelHide.net">
-<meta property="og:description" content="PixelHide.net Netzwerk: Das ultimative Minecraft-Erlebnis!">
-<meta property="og:image" content="https://pixelhide.net/favicon.png">
-<meta property="og:url" content="https://pixelhide.net">
-<title>PixelHide.net</title>
+<meta charset="UTF-8">
+<title>PixelHide Support</title>
 <link rel="icon" type="image/png" href="favicon.png">
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
-
 <style>
 :root {
   --primary:#a78bfa;
   --primary-glow:#c4b5fd;
-  --secondary:#050507;
   --card:#0b0b12;
   --text:#e5e7eb;
-  --muted:#9ca3af;
 }
-*{box-sizing:border-box;}
-body{
-  margin:0;
-  font-family:'Inter',sans-serif;
-  background:#050507;
-  color:var(--text);
-  overflow-x:hidden;
-}
-
-/* ===== HERO BANNER ===== */
-.hero {
-  position:relative;
-  height:700px;
-  background:url("Banner.png") center/cover no-repeat;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  text-align:center;
-}
-.hero::after{
-  content:"";
-  position:absolute;
-  bottom:0;
-  left:0;
-  width:100%;
-  height:150px;
-  background:linear-gradient(to bottom,rgba(5,5,7,0) 0%,#050507 100%);
-}
-.hero img{
-  width:600px;
-  max-width:90%;
-  z-index:2;
-  filter:drop-shadow(0 0 70px rgba(167,139,250,0.9));
-  margin-bottom:20px;
-}
-.hero .banner-text{
-  max-width:720px;
-  color:black;
-  font-size:1.2rem;
-  margin-bottom:30px;
-}
-.hero .cta{
-  display:inline-flex;
-  gap:16px;
-  justify-content:center;
-  z-index:2;
-}
-* { user-select: none !important; -webkit-user-select: none !important; -ms-user-select: none !important; }
-img { pointer-events: none !important; user-drag: none !important; -webkit-user-drag: none !important; }
-
-/* ===== CONTENT ===== */
-section{
-  position:relative;
-  padding:80px 20px;
-  max-width:1200px;
-  margin:auto;
-}
-.grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-  gap:24px;
-}
-.card{
-  background:var(--card);
-  border-radius:22px;
-  padding:26px;
-  border:1px solid rgba(167,139,250,0.15);
-  transition:.3s;
-}
-.card:hover{
-  transform:translateY(-6px);
-  box-shadow:0 20px 60px rgba(167,139,250,0.25);
-}
-.card h3{
-  font-family:'Orbitron',sans-serif;
-  color:#ddd6fe;
-}
-.copy-btn{
-  padding:6px 14px;
-  font-size:0.9rem;
-  border-radius:10px;
-  border:none;
-  cursor:pointer;
-  background:linear-gradient(135deg,var(--primary),var(--primary-glow));
-  color:#050507;
-  transition:all .25s ease;
-}
-.copy-btn:hover{
-  transform:translateY(-1px) scale(1.02);
-  box-shadow:0 10px 30px rgba(167,139,250,0.4);
-}
-footer{
-  text-align:center;
-  padding:40px 20px 60px;
-  color:var(--text);
-  border-top:1px solid rgba(167,139,250,0.15);
-}
-footer span{
-  color:var(--primary);
-  font-weight:600;
-}
-
-/* Ticket-Form */
-.ticket-form input, .ticket-form textarea{
-  width:100%;
-  padding:10px;
-  margin-top:6px;
-  border-radius:10px;
-  border:none;
-  background:#1a1a1f;
-  color:#e5e7eb;
-}
-.ticket-form button{
-  margin-top:8px;
-}
+body{margin:0;font-family:'Inter',sans-serif;background:#050507;color:var(--text);}
+.hero{position:relative;height:400px;background:url('Banner.png') center/cover no-repeat;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;}
+.hero img{width:400px;max-width:90%;margin-bottom:20px;filter:drop-shadow(0 0 70px rgba(167,139,250,0.9));}
+.hero .banner-text{color:black;font-size:1.2rem;margin-bottom:30px;}
+form{max-width:700px;margin:30px auto;padding:20px;background:var(--card);border-radius:22px;display:flex;flex-direction:column;gap:15px;}
+input,textarea,select{padding:12px;border-radius:10px;border:none;background:#1a1a1f;color:#e5e7eb;font-size:1rem;}
+button{padding:14px;border-radius:14px;border:none;background:linear-gradient(135deg,var(--primary),var(--primary-glow));color:#050507;font-weight:600;font-size:1rem;cursor:pointer;transition:.2s;}
+button:hover{transform:scale(1.02);}
 </style>
 </head>
 <body>
-
 <div class="hero">
   <img src="pixelhidenet.png" alt="PixelHide.net Logo">
-  <div class="banner-text">
-    Der perfekte <strong>Minecraft Server</strong> um mit Freunden und Familie zu spielen. Tolle & aktive Community, viele und regelmäßige Events, einzigartiges Spielerlebnis und vieles mehr!
-  </div>
-  <div class="cta">
-    <a href="/join.html" class="btn btn-primary">Jetzt beitreten</a>
-    <a href="https://discord.pixelhide.net" class="btn btn-outline">Discord</a>
-  </div>
+  <div class="banner-text">Support-Ticket öffnen</div>
 </div>
 
-<section>
-<div class="grid">
-  <div class="card">
-    <h3>⚔️ Minigames</h3>
-    <p>Spiele Klassiker wie Bedwars, Skywars, Build Battle und viele mehr.</p>
-  </div>
-  <div class="card">
-    <h3>🧱 CityBuild</h3>
-    <p>Perfekter Server um dein Imperium aufzubauen, reich zu werden und mit Freunden und Familie CityBuild zu spielen!</p>
-  </div>
-  <div class="card">
-    <h3>🔥 Events</h3>
-    <p>Regelmäßige Events und Giveaways!</p>
-  </div>
-  <div class="card ticket-form">
-    <h3>🎫 Support Ticket</h3>
-    <p>Erstelle ein Ticket und unser Team antwortet dir so schnell wie möglich.</p>
-    <input type="text" id="ticket-name" placeholder="Dein Name">
-    <textarea id="ticket-message" placeholder="Deine Nachricht"></textarea>
-    <button class="copy-btn" onclick="sendTicket()">Ticket erstellen</button>
-  </div>
-</div>
-</section>
-
-<footer>
-  © 2026 <span>PixelHide.net</span> · Nicht in Verbindung mit Mojang AB.
-</footer>
+<form id="supportForm">
+  <input type="text" name="ign" placeholder="Minecraft/Ingame-Name (optional)">
+  <input type="email" name="email" placeholder="Email-Adresse" required>
+  <input type="text" name="name" placeholder="Voller Name (optional)">
+  <select name="device" required>
+    <option value="">Gerät/Minecraft-Version</option>
+    <option>PC (Minecraft Java-Edition)</option>
+    <option>PC (Minecraft Bedrock-Edition)</option>
+    <option>PC (Minecraft Bedrock + Java-Edition)</option>
+    <option>Handy (Minecraft Bedrock-Edition)</option>
+    <option>Tablet (Minecraft Bedrock Edition)</option>
+  </select>
+  <select name="category" id="category" required>
+    <option value="">Kategorie</option>
+    <option>Account</option>
+    <option>Fehlermeldung</option>
+    <option>Spielermeldung</option>
+    <option>Hilfe/Tutorial</option>
+    <option>Verstoß melden</option>
+    <option>Entbannungsantrag</option>
+    <option>Käufe mit Ingame-Währung</option>
+    <option>Technische Hilfe</option>
+  </select>
+  <select name="subcategory" id="subcategory" required>
+    <option value="">Unterkategorie</option>
+  </select>
+  <textarea name="description" placeholder="Beschreibung" rows="5" required></textarea>
+  <input type="file" name="attachment" id="attachment">
+  <button type="submit">Ticket erstellen</button>
+</form>
 
 <script>
-// Spam-Schutz: 30s Delay
-let lastTicketTime = 0;
+const DISCORD_WEBHOOK = "https://discord.com/api/webhooks/DEIN_WEBHOOK_HIER";
+const subcats = {
+  "Account":["Account gehackt","Ich kann nicht mit meinem Account joinen!","Zugriff auf Account verloren (Übertragung von Daten beantragen)"],
+  "Fehlermeldung":["Fehlermeldung"],
+  "Spielermeldung":["Unerlaubte Clientmodifikationen/Hackclient","Unangemessener Skin/Name","Bugusing","Unangemessenes Chat-Verhalten","Werbung","Anderes"],
+  "Hilfe/Tutorial":["Hilfe"],
+  "Verstoß melden":["Einen Spieler melden","Inhalt melden","Bauwerk melden"],
+  "Entbannungsantrag":["Ich wurde gebannt, für ein Verhalten von meinem oder einem Zweitaccount.","Ich wurde gebannt, für ein Bauwerk was ich gebaut habe.","Ich wurde gebannt, da ich einen Bann umgangen habe.","Ich wurde gebannt, für einen Inhalt den ich erstellt habe auf einer Custom Welt oder wo anders auf PixelHide.","Ich wurde zu unrecht gebannt."],
+  "Käufe mit Ingame-Währung":["Ich habe mein Produkt nicht erhalten.","Ich beantrage eine Rückerstattung"],
+  "Technische Hilfe":["Technische Hilfe"]
+};
+document.getElementById("category").addEventListener("change", e=>{
+  const val = e.target.value;
+  const sub = document.getElementById("subcategory");
+  sub.innerHTML = "<option value=''>Unterkategorie</option>";
+  if(subcats[val]) subcats[val].forEach(s=>{
+    const opt = document.createElement("option");
+    opt.value = s;
+    opt.textContent = s;
+    sub.appendChild(opt);
+  })
+})
 
-async function sendTicket() {
-  const name = document.getElementById("ticket-name").value.trim();
-  const message = document.getElementById("ticket-message").value.trim();
-  if (!name || !message) return alert("Bitte Name und Nachricht ausfüllen.");
+const spamLimit = 30000; // 30s pro IP
+let lastSubmit = 0;
 
-  const now = Date.now();
-  if (now - lastTicketTime < 30000) return alert("Bitte warte 30 Sekunden bevor du ein neues Ticket erstellst.");
-  lastTicketTime = now;
-
-  const ticketID = Math.random().toString(36).substring(2, 10).toUpperCase(); // Ticket-ID
-  try {
-    const res = await fetch("https://pixelhide-support.crafiii60.workers.dev/", {
-      method: "POST",
-      headers: {"Content-Type":"application/json"},
-      body: JSON.stringify({ name, message, ticketID })
-    });
-    const data = await res.json();
-    if (data.success) {
-      alert("Ticket erstellt! ID: " + ticketID);
-      document.getElementById("ticket-name").value = "";
-      document.getElementById("ticket-message").value = "";
-    } else {
-      alert(data.error || "Fehler beim Erstellen des Tickets");
-    }
-  } catch(e) {
-    alert("Fehler: " + e.message);
+document.getElementById("supportForm").addEventListener("submit", async e=>{
+  e.preventDefault();
+  if(Date.now() - lastSubmit < spamLimit){
+    alert("Bitte warte vor der nächsten Einreichung.");
+    return;
   }
-}
-</script>
+  lastSubmit = Date.now();
 
+  const fd = new FormData(e.target);
+  const ticketId = "TCK-" + Math.floor(Math.random()*900000+100000);
+  fd.append("ticketId", ticketId);
+
+  const payload = {
+    content: `🎫 Neuer Support-Ticket (${ticketId})`,
+    embeds:[{
+      title:`Ticket ${ticketId}`,
+      color:0xa78bfa,
+      fields:[
+        {name:"Voller Name", value:fd.get("name")||"Nicht angegeben", inline:true},
+        {name:"IGN", value:fd.get("ign")||"Nicht angegeben", inline:true},
+        {name:"Email", value:fd.get("email")||"Nicht angegeben", inline:true},
+        {name:"Gerät", value:fd.get("device")||"Nicht angegeben", inline:true},
+        {name:"Kategorie", value:fd.get("category")||"Nicht angegeben", inline:true},
+        {name:"Unterkategorie", value:fd.get("subcategory")||"Nicht angegeben", inline:true},
+        {name:"Beschreibung", value:fd.get("description")||"Nicht angegeben", inline:false}
+      ],
+      timestamp:new Date().toISOString()
+    }]
+  };
+
+  fetch(DISCORD_WEBHOOK,{
+    method:"POST",
+    headers:{"Content-Type":"application/json"},
+    body: JSON.stringify(payload)
+  }).then(res=>{
+    if(res.ok) alert("Ticket erstellt! ID: "+ticketId);
+    else alert("Fehler beim Erstellen des Tickets.");
+    e.target.reset();
+  }).catch(err=>{
+    alert("Fehler beim Erstellen des Tickets.");
+    console.error(err);
+  });
+});
+</script>
 </body>
 </html>
