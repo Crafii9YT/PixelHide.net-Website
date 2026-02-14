@@ -2,295 +2,280 @@
 <html lang="de">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PixelHide.net – Support</title>
+<title>PixelHide.net Support</title>
+<link rel="icon" type="image/png" href="favicon.png">
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 
 <style>
-:root{
+:root {
   --primary:#a78bfa;
   --primary-glow:#c4b5fd;
-  --bg:#050507;
+  --secondary:#050507;
   --card:#0b0b12;
   --text:#e5e7eb;
-  --muted:#9ca3af;
-  --error:#ef4444;
-  --success:#22c55e;
 }
-
 *{box-sizing:border-box;}
-
 body{
   margin:0;
-  background:radial-gradient(circle at top,#1a0f2e,#050507);
   font-family:'Inter',sans-serif;
+  background:#050507;
   color:var(--text);
 }
 
-header{
+/* HERO */
+.hero{
+  position:relative;
+  height:700px;
+  background:url("Banner.png") center/cover no-repeat;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
   text-align:center;
-  padding:60px 20px 30px;
+}
+.hero::after{
+  content:"";
+  position:absolute;
+  bottom:0;
+  width:100%;
+  height:150px;
+  background:linear-gradient(to bottom,rgba(5,5,7,0) 0%,#050507 100%);
+}
+.hero img{
+  width:600px;
+  max-width:90%;
+  filter:drop-shadow(0 0 70px rgba(167,139,250,0.9));
+  margin-bottom:20px;
+}
+.hero .banner-text{
+  max-width:720px;
+  color:black;
+  font-size:1.2rem;
 }
 
-header h1{
-  font-family:'Orbitron',sans-serif;
-  font-size:2.5rem;
-  color:var(--primary-glow);
-  margin-bottom:10px;
-}
-
-header p{
-  color:var(--muted);
-}
-
-.container{
+/* FORM */
+section{
+  padding:80px 20px;
   max-width:900px;
   margin:auto;
-  padding:20px;
 }
-
 .card{
   background:var(--card);
-  border-radius:24px;
-  padding:40px;
-  border:1px solid rgba(167,139,250,0.25);
-  box-shadow:0 25px 70px rgba(0,0,0,0.7);
+  border-radius:22px;
+  padding:30px;
+  border:1px solid rgba(167,139,250,0.2);
 }
-
-.form-group{
-  margin-bottom:22px;
-}
-
-label{
-  display:block;
-  margin-bottom:8px;
-  font-weight:600;
-}
-
 input, select, textarea{
   width:100%;
-  padding:14px;
+  padding:12px;
+  margin-top:8px;
+  margin-bottom:20px;
   border-radius:12px;
-  border:1px solid rgba(167,139,250,0.25);
+  border:1px solid rgba(167,139,250,0.3);
   background:#0f0f18;
-  color:var(--text);
-  font-size:0.95rem;
-  outline:none;
-  transition:0.2s;
+  color:white;
 }
-
-input:focus, select:focus, textarea:focus{
-  border-color:var(--primary);
-  box-shadow:0 0 0 2px rgba(167,139,250,0.25);
-}
-
-textarea{
-  resize:vertical;
-  min-height:120px;
-}
-
+textarea{resize:vertical;height:140px;}
 button{
-  width:100%;
-  padding:16px;
-  border:none;
+  padding:14px 28px;
   border-radius:14px;
-  font-size:1.1rem;
-  font-weight:600;
+  border:none;
   cursor:pointer;
   background:linear-gradient(135deg,var(--primary),var(--primary-glow));
   color:#050507;
-  transition:0.25s;
+  font-weight:600;
+  transition:.3s;
 }
-
 button:hover{
-  transform:translateY(-2px);
-  box-shadow:0 15px 40px rgba(167,139,250,0.4);
+  transform:scale(1.05);
+  box-shadow:0 10px 30px rgba(167,139,250,0.5);
 }
-
-.status-message{
+.success{
   margin-top:20px;
-  text-align:center;
+  color:#22c55e;
   font-weight:600;
 }
-
-.success{ color:var(--success); }
-.error{ color:var(--error); }
-
 footer{
   text-align:center;
-  padding:50px 20px;
-  color:var(--muted);
+  padding:40px;
+  border-top:1px solid rgba(167,139,250,0.15);
 }
+footer span{color:var(--primary);}
 </style>
 </head>
 
 <body>
 
-<header>
-  <h1>Support Formular</h1>
-  <p>Wir helfen dir schnellstmöglich weiter.</p>
-</header>
-
-<div class="container">
-  <div class="card">
-    <form id="supportForm">
-
-      <div class="form-group">
-        <label>Minecraft / Ingame-Name (optional)</label>
-        <input type="text" id="mcname">
-      </div>
-
-      <div class="form-group">
-        <label>Email-Adresse *</label>
-        <input type="email" id="email" required>
-      </div>
-
-      <div class="form-group">
-        <label>Voller Name (optional)</label>
-        <input type="text" id="fullname">
-      </div>
-
-      <div class="form-group">
-        <label>Gerät / Minecraft-Version *</label>
-        <select id="device" required>
-          <option value="">Bitte auswählen</option>
-          <option>PC (Minecraft Java-Edition)</option>
-          <option>PC (Minecraft Bedrock-Edition)</option>
-          <option>PC (Minecraft Bedrock + Java-Edition)</option>
-          <option>Handy (Minecraft Bedrock-Edition)</option>
-          <option>Tablet (Minecraft Bedrock Edition)</option>
-        </select>
-      </div>
-
-      <div class="form-group">
-        <label>Kategorie *</label>
-        <select id="category" required></select>
-      </div>
-
-      <div class="form-group">
-        <label>Unterkategorie *</label>
-        <select id="subcategory" required></select>
-      </div>
-
-      <div class="form-group">
-        <label>Beschreibung *</label>
-        <textarea id="description" required></textarea>
-      </div>
-
-      <button type="submit">Support Anfrage senden</button>
-      <div id="status" class="status-message"></div>
-    </form>
+<div class="hero">
+  <img src="pixelhidenet.png">
+  <div class="banner-text">
+    Professioneller Support für dein Anliegen.
   </div>
 </div>
 
+<section>
+<div class="card">
+
+<form id="supportForm">
+
+<input type="text" name="website" style="display:none"> <!-- Honeypot -->
+
+<label>Minecraft/Ingame-Name (optional)</label>
+<input type="text" id="ign">
+
+<label>Email-Adresse *</label>
+<input type="email" id="email" required>
+
+<label>Voller Name (optional)</label>
+<input type="text" id="fullname">
+
+<label>Gerät/Minecraft-Version *</label>
+<select id="device" required>
+<option value="">Bitte wählen</option>
+<option>PC (Minecraft Java-Edition)</option>
+<option>PC (Minecraft Bedrock-Edition)</option>
+<option>PC (Minecraft Bedrock + Java-Edition)</option>
+<option>Handy (Minecraft Bedrock-Edition)</option>
+<option>Tablet (Minecraft Bedrock Edition)</option>
+</select>
+
+<label>Kategorie *</label>
+<select id="category" required></select>
+
+<label>Unterkategorie *</label>
+<select id="subcategory" required></select>
+
+<label>Datei-Upload (optional)</label>
+<input type="file" id="file" accept=".mp3,.mp4,.pdf,.doc,.docx,.png,.jpg,.jpeg">
+
+<label>Beschreibung *</label>
+<textarea id="description" required></textarea>
+
+<button type="submit">Ticket erstellen</button>
+<div class="success" id="successMsg"></div>
+
+</form>
+</div>
+</section>
+
 <footer>
-  © 2026 PixelHide.net · Support System
+© 2026 <span>PixelHide.net</span> · Support System
 </footer>
 
 <script>
-const categories = {
-  "Account": [
-    "Account gehackt",
-    "Ich kann nicht mit meinem Account joinen!",
-    "Zugriff auf Account verloren (Übertragung von Daten beantragen)"
-  ],
-  "Fehlermeldung": ["Fehlermeldung"],
-  "Spielermeldung": [
-    "Unerlaubte Clientmodifikationen/Hackclient",
-    "Unangemessener Skin/Name",
-    "Bugusing",
-    "Unangemessenes Chat-Verhalten",
-    "Werbung",
-    "Anderes"
-  ],
-  "Hilfe/Tutorial": ["Hilfe"],
-  "Verstoß melden": [
-    "Einen Spieler melden",
-    "Inhalt melden",
-    "Bauwerk melden"
-  ],
-  "Entbannungsantrag": [
-    "Ich wurde gebannt, für ein Verhalten von meinem oder einem Zweitaccount.",
-    "Ich wurde gebannt, für ein Bauwerk was ich gebaut habe.",
-    "Ich wurde gebannt, da ich einen Bann umgangen habe.",
-    "Ich wurde gebannt, für einen Inhalt den ich erstellt habe auf einer Custom Welt oder wo anders auf PixelHide.",
-    "Ich wurde zu unrecht gebannt."
-  ],
-  "Käufe mit Ingame-Währung": [
-    "Ich habe mein Produkt nicht erhalten.",
-    "Ich beantrage eine Rückerstattung"
-  ],
-  "Technische Hilfe": ["Technische Hilfe"]
+const webhook="DEIN_WEBHOOK_HIER";
+let lastSubmit=0;
+
+function generateTicketID(){
+  return "PH-"+Math.floor(100000+Math.random()*900000);
+}
+
+const categories={
+"Account":[
+"Account gehackt",
+"Ich kann nicht mit meinem Account joinen!",
+"Zugriff auf Account verloren (Übertragung von Daten beantragen)"
+],
+"Fehlermeldung":["Fehlermeldung"],
+"Spielermeldung":[
+"Unerlaubte Clientmodifikationen/Hackclient",
+"Unangemessener Skin/Name",
+"Bugusing",
+"Unangemessenes Chat-Verhalten",
+"Werbung",
+"Anderes"
+],
+"Hilfe/Tutorial":["Hilfe"],
+"Verstoß melden":[
+"Einen Spieler melden",
+"Inhalt melden",
+"Bauwerk melden"
+],
+"Entbannungsantrag":[
+"Ich wurde gebannt, für ein Verhalten von meinem oder einem Zweitaccount.",
+"Ich wurde gebannt, für ein Bauwerk was ich gebaut habe.",
+"Ich wurde gebannt, da ich einen Bann umgangen habe.",
+"Ich wurde gebannt, für einen Inhalt den ich erstellt habe auf einer Custom Welt oder wo anders auf PixelHide.",
+"Ich wurde zu unrecht gebannt."
+],
+"Käufe mit Ingame-Währung":[
+"Ich habe mein Produkt nicht erhalten.",
+"Ich beantrage eine Rückerstattung"
+],
+"Technische Hilfe":["Technische Hilfe"]
 };
 
-const categorySelect = document.getElementById("category");
-const subcategorySelect = document.getElementById("subcategory");
+const catSelect=document.getElementById("category");
+const subSelect=document.getElementById("subcategory");
 
-function loadCategories(){
-  categorySelect.innerHTML = '<option value="">Bitte auswählen</option>';
-  for(let cat in categories){
-    categorySelect.innerHTML += `<option value="${cat}">${cat}</option>`;
-  }
+for(let cat in categories){
+  let opt=document.createElement("option");
+  opt.textContent=cat;
+  catSelect.appendChild(opt);
 }
 
-function loadSubcategories(category){
-  subcategorySelect.innerHTML = '<option value="">Bitte auswählen</option>';
-  categories[category].forEach(sub=>{
-    subcategorySelect.innerHTML += `<option value="${sub}">${sub}</option>`;
+catSelect.onchange=function(){
+  subSelect.innerHTML="";
+  categories[this.value].forEach(sub=>{
+    let opt=document.createElement("option");
+    opt.textContent=sub;
+    subSelect.appendChild(opt);
   });
+};
+
+document.getElementById("supportForm").onsubmit=async function(e){
+e.preventDefault();
+
+if(Date.now()-lastSubmit<5000){
+  alert("Bitte warte kurz bevor du erneut ein Ticket erstellst.");
+  return;
+}
+lastSubmit=Date.now();
+
+if(document.querySelector("[name=website]").value!==""){
+  return;
 }
 
-categorySelect.addEventListener("change", e=>{
-  loadSubcategories(e.target.value);
-});
+const ticketID=generateTicketID();
 
-subcategorySelect.addEventListener("change", e=>{
-  if(e.target.value === "Einen Spieler melden"){
-    categorySelect.value = "Spielermeldung";
-    loadSubcategories("Spielermeldung");
+const fileInput=document.getElementById("file");
+let fileInfo="Keine Datei";
+
+if(fileInput.files.length>0){
+  const file=fileInput.files[0];
+  if(file.size>8*1024*1024){
+    alert("Datei zu groß (Max 8MB)");
+    return;
   }
+  fileInfo=file.name+" ("+(file.size/1024).toFixed(1)+" KB)";
+}
+
+const embed={
+title:"🎫 Neues Support Ticket",
+color:0xa78bfa,
+fields:[
+{name:"Ticket-ID",value:ticketID},
+{name:"Email",value:email.value},
+{name:"IGN",value:ign.value||"Nicht angegeben"},
+{name:"Name",value:fullname.value||"Nicht angegeben"},
+{name:"Gerät",value:device.value},
+{name:"Kategorie",value:category.value},
+{name:"Unterkategorie",value:subcategory.value},
+{name:"Datei",value:fileInfo},
+{name:"Beschreibung",value:description.value}
+],
+timestamp:new Date()
+};
+
+await fetch(webhook,{
+method:"POST",
+headers:{"Content-Type":"application/json"},
+body:JSON.stringify({embeds:[embed]})
 });
 
-loadCategories();
-
-document.getElementById("supportForm").addEventListener("submit", async function(e){
-  e.preventDefault();
-
-  const data = {
-    username: "PixelHide Support",
-    embeds: [{
-      title: "Neue Support Anfrage",
-      color: 10181046,
-      fields: [
-        { name: "Minecraft Name", value: document.getElementById("mcname").value || "Nicht angegeben" },
-        { name: "Email", value: document.getElementById("email").value },
-        { name: "Voller Name", value: document.getElementById("fullname").value || "Nicht angegeben" },
-        { name: "Gerät", value: document.getElementById("device").value },
-        { name: "Kategorie", value: document.getElementById("category").value },
-        { name: "Unterkategorie", value: document.getElementById("subcategory").value },
-        { name: "Beschreibung", value: document.getElementById("description").value }
-      ],
-      timestamp: new Date()
-    }]
-  };
-
-  const status = document.getElementById("status");
-
-  try{
-    await fetch("https://discord.com/api/webhooks/1472308963755425943/1KUvbgy5AB09kk2gUe7LUbfoWeGzgBikHVsTWFPMj_VurieUio5p_7UOZd6tIxSP3c9V",{
-      method:"POST",
-      headers:{ "Content-Type":"application/json" },
-      body:JSON.stringify(data)
-    });
-
-    status.textContent = "Anfrage erfolgreich gesendet!";
-    status.className = "status-message success";
-    this.reset();
-  }catch(err){
-    status.textContent = "Fehler beim Senden. Bitte erneut versuchen.";
-    status.className = "status-message error";
-  }
-});
+document.getElementById("successMsg").innerText="Ticket erfolgreich erstellt! ID: "+ticketID;
+this.reset();
+};
 </script>
 
 </body>
