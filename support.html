@@ -2,131 +2,97 @@
 <html lang="de">
 <head>
 <meta charset="UTF-8">
-<meta property="og:title" content="PixelHide.net – Support">
-<meta property="og:description" content="PixelHide.net Supportformular – Minecraft Hilfe & Tickets">
-<meta property="og:image" content="https://pixelhide.net/favicon.png">
-<meta property="og:url" content="https://pixelhide.net/support.html">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PixelHide.net – Support</title>
 <link rel="icon" type="image/png" href="favicon.png">
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 
-<title>PixelHide.net – Support</title>
-
 <style>
-:root{
+:root {
   --primary:#a78bfa;
   --primary-glow:#c4b5fd;
   --card:#0b0b12;
+  --bg:#050507;
   --text:#e5e7eb;
   --muted:#9ca3af;
   --success:#22c55e;
   --error:#ef4444;
 }
 *{box-sizing:border-box;}
+body{margin:0;font-family:'Inter',sans-serif;background:#050507;color:var(--text);overflow-x:hidden;}
 
-body{
-  margin:0;
-  font-family:'Inter',sans-serif;
-  background:#050507;
-  color:var(--text);
-  overflow-x:hidden;
-  user-select:none !important;
-}
-
-.hero{
+/* ===== HERO BANNER ===== */
+.hero {
   position:relative;
-  height:500px;
-  background:url("Banner.png") center/cover no-repeat;
+  height:350px;
+  background:radial-gradient(circle at top,#1a0f2e,#050507);
   display:flex;
   flex-direction:column;
   align-items:center;
   justify-content:center;
   text-align:center;
 }
-
-.hero::after{
-  content:"";
-  position:absolute;
-  bottom:0;
-  left:0;
-  width:100%;
-  height:120px;
-  background:linear-gradient(to bottom,rgba(5,5,7,0) 0%,#050507 100%);
-}
-
 .hero img{
-  width:400px;
-  max-width:80%;
+  width:200px;
+  max-width:90%;
   z-index:2;
   filter:drop-shadow(0 0 70px rgba(167,139,250,0.9));
   margin-bottom:20px;
 }
-
 .hero .banner-text{
-  max-width:700px;
+  max-width:720px;
   color:black;
   font-size:1.2rem;
   margin-bottom:30px;
 }
-
-.hero .cta{
-  display:inline-flex;
-  gap:16px;
-  justify-content:center;
-  z-index:2;
+.hero .cta{display:inline-flex;gap:16px;justify-content:center;z-index:2;}
+.hero .btn{
+  padding:14px 28px;font-size:1rem;border-radius:14px;font-weight:600;text-decoration:none;transition:all .25s ease;position:relative;
 }
-
-section{
-  position:relative;
-  padding:60px 20px;
-  max-width:900px;
-  margin:auto;
+.hero .btn-primary{
+  background:linear-gradient(135deg,var(--primary),var(--primary-glow));
+  color:#050507;
+  box-shadow:0 10px 30px rgba(167,139,250,0.45);
 }
+.hero .btn-primary:hover{
+  transform:translateY(-2px) scale(1.03);
+  box-shadow:0 18px 50px rgba(167,139,250,0.6);
+}
+.hero .btn-outline{
+  border:1px solid rgba(167,139,250,0.4);
+  color:#050507;
+  backdrop-filter:blur(6px);
+}
+.hero .btn-outline:hover{background:rgba(167,139,250,0.15);}
 
+/* ===== FORM ===== */
+section{position:relative;padding:60px 20px;max-width:900px;margin:auto;}
 .card{
   background:var(--card);
   border-radius:22px;
-  padding:30px;
+  padding:32px;
   border:1px solid rgba(167,139,250,0.15);
-  transition:.3s;
+  box-shadow:0 25px 70px rgba(0,0,0,0.7);
 }
-
-.card:hover{
-  transform:translateY(-6px);
-  box-shadow:0 20px 60px rgba(167,139,250,0.25);
-}
-
-.card h3{
-  font-family:'Orbitron',sans-serif;
-  color:#ddd6fe;
-}
-
-input, select, textarea, button{
-  font-family:'Inter',sans-serif;
-}
-
+.form-group{margin-bottom:20px;}
+label{display:block;margin-bottom:8px;font-weight:600;}
 input, select, textarea{
   width:100%;
-  padding:14px;
+  padding:12px;
   border-radius:12px;
   border:1px solid rgba(167,139,250,0.25);
   background:#0f0f18;
   color:var(--text);
   font-size:0.95rem;
   outline:none;
-  transition:.2s;
+  transition:0.2s;
 }
-
 input:focus, select:focus, textarea:focus{
   border-color:var(--primary);
   box-shadow:0 0 0 2px rgba(167,139,250,0.25);
 }
-
-textarea{
-  resize:vertical;
-  min-height:120px;
-}
-
-button{
+textarea{resize:vertical;min-height:120px;}
+button[type="submit"]{
   width:100%;
   padding:16px;
   border:none;
@@ -138,225 +104,221 @@ button{
   color:#050507;
   transition:0.25s;
 }
-
-button:hover{
+button[type="submit"]:hover{
   transform:translateY(-2px);
   box-shadow:0 15px 40px rgba(167,139,250,0.4);
 }
+.status-message{text-align:center;margin-top:16px;font-weight:600;}
 
-.status-message{
-  margin-top:20px;
-  text-align:center;
-  font-weight:600;
-}
-
-.success{ color:var(--success); }
-.error{ color:var(--error); }
-
-footer{
-  text-align:center;
-  padding:40px 20px 60px;
-  color:var(--text);
-  border-top:1px solid rgba(167,139,250,0.15);
-}
-footer span{
-  color:var(--primary);
-  font-weight:600;
-}
-
-/* Toast Popup */
-#popup-toast {
+/* ===== POPUP ===== */
+.popup {
   position: fixed;
-  left:50%;
-  top:30%;
-  transform:translate(-50%, -50%) scale(0.8);
-  background: linear-gradient(135deg,var(--primary),var(--primary-glow));
-  color:#050507;
-  padding:24px 36px;
-  border-radius:16px;
-  font-weight:600;
-  font-family:'Inter',sans-serif;
-  z-index:9999;
+  top:0; left:0;
+  width:100%; height:100%;
+  background: rgba(5,5,7,0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index:10000;
   opacity:0;
-  transition:all 0.3s ease;
+  pointer-events:none;
+  transition: opacity 0.3s ease;
 }
-#popup-toast.show{
-  opacity:1;
-  transform:translate(-50%,-50%) scale(1);
+.popup.show{opacity:1; pointer-events:auto;}
+.popup-card {
+  background:var(--card);
+  border-radius:26px;
+  padding:32px;
+  max-width:450px;
+  width:90%;
+  text-align:center;
+  border:1px solid rgba(167,139,250,0.3);
+  box-shadow:0 20px 90px rgba(0,0,0,0.85);
+  animation: popupFade 0.4s ease forwards;
 }
+.popup-card .popup-icon{
+  width:80px;
+  margin-bottom:20px;
+}
+.popup-card h2{
+  font-family:'Orbitron',sans-serif;
+  font-weight:800;
+  color:#ddd6fe;
+  margin-bottom:12px;
+}
+.popup-card p{
+  color:var(--text);
+  font-size:1rem;
+  margin-bottom:24px;
+  line-height:1.4;
+}
+.popup-card .popup-actions .btn{
+  width:100%;
+  max-width:180px;
+  margin:auto;
+}
+@keyframes popupFade{
+  from{transform:scale(0.8);opacity:0;}
+  to{transform:scale(1);opacity:1;}
+}
+
+/* ===== FOOTER ===== */
+footer{text-align:center;padding:40px 20px 60px;color:var(--text);border-top:1px solid rgba(167,139,250,0.15);}
+footer span{color:var(--primary); font-weight:600;}
 </style>
 </head>
-
 <body>
 
 <div class="hero">
   <img src="pixelhidenet.png" alt="PixelHide.net Logo">
-  <div class="banner-text">
-    Supportformular für <strong>PixelHide.net</strong>. Erhalte Hilfe zu Minecraft Accounts, Bugs & Serverproblemen.
+  <div class="banner-text">Support Ticket senden – wir helfen dir schnell!</div>
+  <div class="cta">
+    <a href="/join.html" class="btn btn-primary">Jetzt beitreten</a>
+    <a href="https://discord.pixelhide.net" class="btn btn-outline">Discord</a>
   </div>
 </div>
 
 <section>
-  <div class="card">
-    <form id="supportForm">
-      <div class="form-group">
-        <label>Minecraft / Ingame-Name (optional)</label>
-        <input type="text" id="mcname">
-      </div>
-
-      <div class="form-group">
-        <label>Email-Adresse *</label>
-        <input type="email" id="email" required>
-      </div>
-
-      <div class="form-group">
-        <label>Voller Name (optional)</label>
-        <input type="text" id="fullname">
-      </div>
-
-      <div class="form-group">
-        <label>Gerät / Minecraft-Version *</label>
-        <select id="device" required>
-          <option value="">Bitte auswählen</option>
-          <option>PC (Minecraft Java-Edition)</option>
-          <option>PC (Minecraft Bedrock-Edition)</option>
-          <option>PC (Minecraft Bedrock + Java-Edition)</option>
-          <option>Handy (Minecraft Bedrock-Edition)</option>
-          <option>Tablet (Minecraft Bedrock Edition)</option>
-        </select>
-      </div>
-
-      <div class="form-group">
-        <label>Kategorie *</label>
-        <select id="category" required></select>
-      </div>
-
-      <div class="form-group">
-        <label>Unterkategorie *</label>
-        <select id="subcategory" required></select>
-      </div>
-
-      <div class="form-group">
-        <label>Beschreibung *</label>
-        <textarea id="description" required></textarea>
-      </div>
-
-      <button type="submit">Support Anfrage senden</button>
-      <div id="status" class="status-message"></div>
-    </form>
-  </div>
+<div class="card">
+  <form id="supportForm">
+    <div class="form-group">
+      <label>Minecraft / Ingame-Name (optional)</label>
+      <input type="text" id="mcname">
+    </div>
+    <div class="form-group">
+      <label>Email-Adresse *</label>
+      <input type="email" id="email" required>
+    </div>
+    <div class="form-group">
+      <label>Gerät / Minecraft-Version *</label>
+      <select id="device" required>
+        <option value="">Bitte auswählen</option>
+        <option>PC (Minecraft Java-Edition)</option>
+        <option>PC (Minecraft Bedrock-Edition)</option>
+        <option>Handy (Minecraft Bedrock-Edition)</option>
+        <option>Tablet (Minecraft Bedrock Edition)</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>Kategorie *</label>
+      <select id="category" required></select>
+    </div>
+    <div class="form-group">
+      <label>Unterkategorie *</label>
+      <select id="subcategory" required></select>
+    </div>
+    <div class="form-group">
+      <label>Beschreibung *</label>
+      <textarea id="description" required></textarea>
+    </div>
+    <button type="submit">Support Anfrage senden</button>
+    <div id="status" class="status-message"></div>
+  </form>
+</div>
 </section>
 
-<!-- Popup für Ticket -->
-<div id="popup-toast">Ticket erfolgreich gesendet! ID: <span id="ticket-id"></span></div>
+<!-- Popup -->
+<div id="ticketPopup" class="popup">
+  <div class="popup-card">
+    <img src="" class="popup-icon" alt="">
+    <h2 class="popup-title"></h2>
+    <p class="popup-message"></p>
+    <div class="popup-actions">
+      <button class="btn btn-primary" onclick="closePopup('ticketPopup')">Schließen</button>
+    </div>
+  </div>
+</div>
 
-<footer>
-  © 2026 <span>PixelHide.net</span> · Nicht in Verbindung mit Mojang AB.
-</footer>
+<footer>© 2026 <span>PixelHide.net</span> · Nicht in Verbindung mit Mojang AB.</footer>
 
 <script>
 const categories = {
-  "Account":["Account gehackt","Ich kann nicht mit meinem Account joinen!","Zugriff auf Account verloren (Datenübertragung)"],
+  "Account":["Account gehackt","Ich kann nicht mit meinem Account joinen!","Zugriff auf Account verloren"],
   "Fehlermeldung":["Fehlermeldung"],
-  "Spielermeldung":["Unerlaubte Clientmodifikationen/Hackclient","Unangemessener Skin/Name","Bugusing","Unangemessenes Chat-Verhalten","Werbung","Anderes"],
-  "Hilfe/Tutorial":["Hilfe"],
-  "Verstoß melden":["Einen Spieler melden","Inhalt melden","Bauwerk melden"],
-  "Entbannungsantrag":["Ich wurde gebannt, für ein Verhalten meines/zweit Account.","Ich wurde gebannt, für ein Bauwerk.","Ich wurde gebannt, da ich einen Bann umgangen habe.","Ich wurde gebannt, für einen Inhalt den ich erstellt habe.","Ich wurde zu unrecht gebannt."],
-  "Käufe mit Ingame-Währung":["Ich habe mein Produkt nicht erhalten.","Ich beantrage eine Rückerstattung"],
-  "Technische Hilfe":["Technische Hilfe"]
+  "Spielermeldung":["Unerlaubte Clientmodifikationen/Hackclient","Unangemessener Skin/Name","Bugusing","Anderes"]
 };
 
 const categorySelect = document.getElementById("category");
 const subcategorySelect = document.getElementById("subcategory");
-
 function loadCategories(){
-  categorySelect.innerHTML='<option value="">Bitte auswählen</option>';
+  categorySelect.innerHTML = '<option value="">Bitte auswählen</option>';
   for(let cat in categories){
-    categorySelect.innerHTML+=`<option value="${cat}">${cat}</option>`;
+    categorySelect.innerHTML += `<option value="${cat}">${cat}</option>`;
   }
 }
-function loadSubcategories(category){
-  subcategorySelect.innerHTML='<option value="">Bitte auswählen</option>';
-  categories[category].forEach(sub=>{
-    subcategorySelect.innerHTML+=`<option value="${sub}">${sub}</option>`;
-  });
+function loadSubcategories(cat){
+  subcategorySelect.innerHTML = '<option value="">Bitte auswählen</option>';
+  categories[cat]?.forEach(sub=>subCategoryOption(sub));
+}
+function subCategoryOption(sub){
+  subcategorySelect.innerHTML += `<option value="${sub}">${sub}</option>`;
 }
 categorySelect.addEventListener("change", e=>loadSubcategories(e.target.value));
-subcategorySelect.addEventListener("change", e=>{
-  if(e.target.value==="Einen Spieler melden"){
-    categorySelect.value="Spielermeldung";
-    loadSubcategories("Spielermeldung");
-  }
-});
 loadCategories();
 
-// Cooldown aus localStorage
-let cooldown = localStorage.getItem('supportCooldown');
-if(cooldown && Date.now() < parseInt(cooldown)){
-  const remaining = Math.ceil((parseInt(cooldown)-Date.now())/60000);
-  document.getElementById("status").textContent=`Bitte warte ${remaining} Minuten vor dem nächsten Ticket.`;
-  document.getElementById("status").className="status-message error";
-}
+// Popup Funktionen
+function openPopup(type, message, ticketId=null){
+  const popup = document.getElementById("ticketPopup");
+  const icon = popup.querySelector(".popup-icon");
+  const title = popup.querySelector(".popup-title");
+  const msg = popup.querySelector(".popup-message");
 
+  if(type==="success"){
+    icon.src="success.png"; 
+    title.textContent="Erfolgreich!";
+  } else {
+    icon.src="error.png"; 
+    title.textContent="Fehler!";
+  }
+
+  msg.innerHTML = message + (ticketId? `<br><strong>Ticket-ID: ${ticketId}</strong>`:"");
+  popup.classList.add("show");
+}
+function closePopup(id){document.getElementById(id)?.classList.remove("show");}
+
+// Ticket-ID & Cooldown
+const COOLDOWN = 5*60*1000; // 5 Minuten
 document.getElementById("supportForm").addEventListener("submit", async function(e){
   e.preventDefault();
-  const status = document.getElementById("status");
-
-  if(cooldown && Date.now() < parseInt(cooldown)){
-    const remaining = Math.ceil((parseInt(cooldown)-Date.now())/60000);
-    status.textContent=`Bitte warte ${remaining} Minuten vor dem nächsten Ticket.`;
-    status.className="status-message error";
+  const lastSent = localStorage.getItem("ticketCooldown");
+  const now = Date.now();
+  if(lastSent && now - lastSent < COOLDOWN){
+    openPopup("error","Bitte warte 5 Minuten bevor du erneut ein Ticket sendest.");
     return;
   }
 
-  // Ticket-ID generieren
-  const ticketID = Math.random().toString(36).substr(2,8).toUpperCase();
-  document.getElementById("ticket-id").textContent = ticketID;
-
+  const ticketId = Math.floor(Math.random()*900000+100000); // zufällige 6-stellige ID
   const data = {
     username:"PixelHide Support",
     embeds:[{
-      title:`Neue Support Anfrage (#${ticketID})`,
+      title:"Neue Support Anfrage",
       color:10181046,
       fields:[
-        {name:"Minecraft Name",value:document.getElementById("mcname").value || "Nicht angegeben"},
-        {name:"Email",value:document.getElementById("email").value},
-        {name:"Voller Name",value:document.getElementById("fullname").value || "Nicht angegeben"},
-        {name:"Gerät",value:document.getElementById("device").value},
-        {name:"Kategorie",value:document.getElementById("category").value},
-        {name:"Unterkategorie",value:document.getElementById("subcategory").value},
-        {name:"Beschreibung",value:document.getElementById("description").value}
+        {name:"Minecraft Name", value:document.getElementById("mcname").value || "Nicht angegeben"},
+        {name:"Email", value:document.getElementById("email").value},
+        {name:"Gerät", value:document.getElementById("device").value},
+        {name:"Kategorie", value:document.getElementById("category").value},
+        {name:"Unterkategorie", value:document.getElementById("subcategory").value},
+        {name:"Beschreibung", value:document.getElementById("description").value},
+        {name:"Ticket-ID", value:ticketId.toString()}
       ],
       timestamp:new Date()
     }]
   };
 
   try{
-    await fetch("https://discord.com/api/webhooks/1472308963755425943/1KUvbgy5AB09kk2gUe7LUbfoWeGzgBikHVsTWFPMj_VurieUio5p_7UOZd6tIxSP3c9V",{
+    await fetch("https://discord.com/api/webhooks/YOUR_WEBHOOK_HERE",{
       method:"POST",
       headers:{"Content-Type":"application/json"},
       body:JSON.stringify(data)
     });
-
-    status.textContent="Anfrage erfolgreich gesendet!";
-    status.className="status-message success";
+    localStorage.setItem("ticketCooldown", Date.now());
+    openPopup("success","Dein Ticket wurde erfolgreich gesendet!", ticketId);
     this.reset();
-
-    // Cooldown 5 Minuten speichern
-    const expire = Date.now()+5*60*1000;
-    localStorage.setItem('supportCooldown',expire);
-
-    // Popup anzeigen
-    const popup = document.getElementById("popup-toast");
-    popup.classList.add("show");
-    setTimeout(()=>popup.classList.remove("show"),4000);
-
   }catch(err){
-    status.textContent="Fehler beim Senden. Bitte erneut versuchen.";
-    status.className="status-message error";
+    openPopup("error","Fehler beim Senden des Tickets.");
   }
 });
 </script>
-
 </body>
 </html>
