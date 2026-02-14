@@ -295,13 +295,13 @@ function openPopup(type, message, ticketId=null){
 function closePopup(id){document.getElementById(id)?.classList.remove("show");}
 
 // Ticket senden & Cooldown
-const COOLDOWN = 5*60*1000;
+const COOLDOWN = 30 * 1000;
 document.getElementById("supportForm").addEventListener("submit", async function(e){
   e.preventDefault();
   const lastSent = localStorage.getItem("ticketCooldown");
   const now = Date.now();
   if(lastSent && now - lastSent < COOLDOWN){
-    openPopup("error","Bitte warte 5 Minuten bevor du erneut ein Ticket sendest.");
+    openPopup("error","Bitte warte einen Moment, bis du die nächste Support-Anfrage senden kannst.");
     return;
   }
 
