@@ -13,6 +13,30 @@
 crossorigin="anonymous"></script>
 
 <script>
+document.addEventListener("DOMContentLoaded", function () {
+    // Textauswahl deaktivieren
+    document.body.style.userSelect = "none";
+    document.body.style.webkitUserSelect = "none";
+    document.body.style.msUserSelect = "none";
+
+    // Markieren per Maus verhindern
+    document.addEventListener("selectstart", function (e) {
+        e.preventDefault();
+    });
+
+    // Rechtsklick optional blockieren
+    document.addEventListener("contextmenu", function (e) {
+        e.preventDefault();
+    });
+
+    // Draggen von Bildern verhindern
+    document.addEventListener("dragstart", function (e) {
+        e.preventDefault();
+    });
+});
+</script>
+
+<script>
 document.addEventListener("contextmenu", e => e.preventDefault());
 document.addEventListener("keydown", e => {
   if (
