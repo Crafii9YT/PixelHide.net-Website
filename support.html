@@ -180,6 +180,34 @@ button:hover{
   to{transform:scale(1);opacity:1;}
 }
 
+  /* ===== SUCCESS POPUP VERSION ===== */
+.popup-card.success{
+  max-width:950px;
+  display:flex;
+  align-items:center;
+  gap:50px;
+  text-align:left;
+  padding:50px;
+}
+
+.popup-card.success .popup-icon{
+  width:240px;
+  margin:0;
+}
+
+.popup-card.success .popup-content{
+  flex:1;
+}
+
+.popup-card.success h2{
+  font-size:2rem;
+}
+
+.popup-card.success p{
+  font-size:1.1rem;
+}
+
+
 /* ===== FOOTER ===== */
 footer{text-align:center;padding:50px 20px;color:var(--muted);}
 </style>
@@ -242,7 +270,8 @@ footer{text-align:center;padding:50px 20px;color:var(--muted);}
 <!-- Popup -->
 <div id="ticketPopup" class="popup">
   <div class="popup-card">
-    <img src="" class="popup-icon" alt="">
+  <img src="" class="popup-icon" alt="">
+  <div class="popup-content">
     <h2 class="popup-title"></h2>
     <p class="popup-message"></p>
     <div class="popup-actions">
@@ -284,12 +313,22 @@ loadCategories();
 // Popup Funktionen
 function openPopup(type, message, ticketId=null){
   const popup = document.getElementById("ticketPopup");
+  const card = popup.querySelector(".popup-card");
   const icon = popup.querySelector(".popup-icon");
   const title = popup.querySelector(".popup-title");
   const msg = popup.querySelector(".popup-message");
 
-  if(type==="success"){icon.src="success.png"; title.textContent="Erfolgreich!";}
-  else{icon.src="error.png"; title.textContent="Fehler!";}
+  card.classList.remove("success");
+
+  if(type==="success"){
+    icon.src="love.png";
+    title.textContent="Vielen Dank!";
+    card.classList.add("success");
+  } else {
+    icon.src="error.png";
+    title.textContent="Fehler!";
+  }
+
   msg.innerHTML = message + (ticketId? `<br><strong>Ticket-ID: ${ticketId}</strong>`:"");
   popup.classList.add("show");
 }
