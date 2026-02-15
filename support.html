@@ -283,6 +283,29 @@ footer{text-align:center;padding:50px 20px;color:var(--muted);}
 </div>
 
 <script>
+document.addEventListener("DOMContentLoaded", function () {
+    // Textauswahl deaktivieren
+    document.body.style.userSelect = "none";
+    document.body.style.webkitUserSelect = "none";
+    document.body.style.msUserSelect = "none";
+
+    // Markieren per Maus verhindern
+    document.addEventListener("selectstart", function (e) {
+        e.preventDefault();
+    });
+
+    // Rechtsklick optional blockieren
+    document.addEventListener("contextmenu", function (e) {
+        e.preventDefault();
+    });
+
+    // Draggen von Bildern verhindern
+    document.addEventListener("dragstart", function (e) {
+        e.preventDefault();
+    });
+});
+</script>
+<script>
 const categories = {
   "Account":["Account gehackt","Ich kann nicht mit meinem Account joinen!","Zugriff auf Account verloren (Übertragung von Daten beantragen)"],
   "Fehlermeldung":["Fehlermeldung"],
