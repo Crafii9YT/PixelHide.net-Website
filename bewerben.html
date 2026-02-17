@@ -236,8 +236,8 @@ footer{text-align:center;padding:50px 20px;color:var(--muted);}
       <input type="email" id="email" required>
     </div>
     <div class="form-group">
-      <label>Voller Name (optional)</label>
-      <input type="text" id="fullname">
+      <label>Voller Name *</label>
+      <input type="text" id="fullname" required>
     </div>
     <div class="form-group">
       <label>Gerät / Minecraft-Version / Browser / Discord *</label>
@@ -294,15 +294,15 @@ footer{text-align:center;padding:50px 20px;color:var(--muted);}
       </select>
     </div>
     <div class="form-group">
-      <label>Kategorie *</label>
+      <label>Rang *</label>
       <select id="category" required></select>
     </div>
     <div class="form-group">
-      <label>Unterkategorie *</label>
+      <label>Typ *</label>
       <select id="subcategory" required></select>
     </div>
     <div class="form-group">
-      <label>Beschreibung *</label>
+      <label>Über dich! (Warum bei uns? Was kannst du? Was kannst du nicht?) *</label>
       <textarea id="description" required></textarea>
     </div>
     <button type="submit">Anfrage senden</button>
@@ -351,14 +351,9 @@ document.addEventListener("DOMContentLoaded", function () {
 <script src="https://uptime.betterstack.com/widgets/announcement.js" data-id="208286" async="async" type="text/javascript"></script>
 <script>
 const categories = {
-  "Account":["Account gehackt","Ich kann nicht mit meinem Account joinen!","Zugriff auf Account verloren (Übertragung von Daten beantragen)"],
-  "Fehlermeldung":["Ingame-Fehler","Website-Fehler","Discord-Fehler","App-Fehler","Sonstiges"],
-  "Spielermeldung":["Unerlaubte Clientmodifikationen/Hackclient","Unangemessener Skin/Name","Bugusing","Beleidigungen","Werbung","Echtgeldhandel","Drogenhandel","Sexuelle Inhalte","Unangemessenes Bauwerk","Drohungen","Umgehung des Chat-Filters","Glücksspiel","Spam","Betteln","Sonstiges"],
-  "Hilfe/Tutorial":["Hilfe"],
-  "Verstoß melden":["Einen Spieler melden","Inhalt melden","Bauwerk melden"],
-  "Entbannungsantrag":["Ich wurde gebannt, für ein Verhalten von meinem oder einem Zweitaccount.","Ich wurde gebannt, für ein Bauwerk was ich gebaut habe.","Ich wurde gebannt, da ich einen Bann umgangen habe.","Ich wurde gebannt, für einen Inhalt den ich erstellt habe auf einer Custom Welt oder wo anders auf PixelHide.","Ich wurde zu unrecht gebannt."],
-  "Käufe mit Ingame-Währung":["Ich habe mein Produkt nicht erhalten.","Ich beantrage eine Rückerstattung"],
-  "Technische Hilfe":["Technische Hilfe"]
+  "Supporter":["Supporter"],
+  "Builder":["Builder"],
+  "Developer":["Minecraft/Server-Entwickler","Web-Entwickler"]
 };
 const categorySelect = document.getElementById("category");
 const subcategorySelect = document.getElementById("subcategory");
@@ -414,26 +409,26 @@ document.getElementById("supportForm").addEventListener("submit", async function
 
   const ticketId = Math.floor(Math.random()*900000+100000);
   const data = {
-    username:"Ticket API",
+    username:"Applications API",
     embeds:[{
-      title:"Support-Ticket",
+      title:"Bewerbung",
       color:10181046,
       fields:[
         {name:"Minecraft Name", value:document.getElementById("mcname").value || "Nicht angegeben"},
         {name:"Email", value:document.getElementById("email").value},
         {name:"Voller Name", value:document.getElementById("fullname").value || "Nicht angegeben"},
         {name:"Gerät", value:document.getElementById("device").value},
-        {name:"Kategorie", value:document.getElementById("category").value},
-        {name:"Unterkategorie", value:document.getElementById("subcategory").value},
+        {name:"Team Rang", value:document.getElementById("category").value},
+        {name:"Typ", value:document.getElementById("subcategory").value},
         {name:"Beschreibung", value:document.getElementById("description").value},
-        {name:"Ticket-ID", value:ticketId.toString()}
+        {name:"Bewerbung-ID", value:ticketId.toString()}
       ],
       timestamp:new Date()
     }]
   };
 
   try{
-    await fetch("https://discord.com/api/webhooks/1472308963755425943/1KUvbgy5AB09kk2gUe7LUbfoWeGzgBikHVsTWFPMj_VurieUio5p_7UOZd6tIxSP3c9V",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(data)});
+    await fetch("https://discord.com/api/webhooks/1473274178936373319/LElhh1tvrNGzMVbls5l9gr-uIrbq_j2UrbHDKz9ihtrq51CAx4zV6ccnBTyHO-hDel9w",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(data)});
     localStorage.setItem("ticketCooldown", Date.now());
     openPopup("success","Dein Ticket wurde erfolgreich gesendet! Wir werden uns bald bei dir per Email melden!", ticketId, "Bewahre deine Ticket-ID gut auf, da der Support danach fragen könnte!");
     this.reset();
