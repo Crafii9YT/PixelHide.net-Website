@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta property="og:title" content="PixelCraft">
+  <meta property="og:description" content="PixelCraft: Der ultimative Minecraft Client!">
+  <meta property="og:image" content="https://pixelhide.net/favicon.png">
+  <meta property="og:url" content="https://pixelhide.net/pixelcraft.html">
+  <meta name="google-adsense-account" content="ca-pub-5958219245633236">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5958219245633236"
+     crossorigin="anonymous"></script>
+  <script>
+function copyIP(button){
+  // IP kopieren
+  navigator.clipboard.writeText("pixelhide.net");
+  let original = button.innerText;
+  button.innerText = "Kopiert";
+  setTimeout(()=>button.innerText = original,5000);
+
+  // Toast anzeigen
+  const toast = document.getElementById("copy-toast");
+  
+  // Reset progress animation
+  toast.querySelector('.progress::after')?.remove();
+  const progress = document.createElement('div');
+  progress.className = 'progress';
+  toast.appendChild(progress);
+
+  // Fortschrittsbalken Animation
+  progress.innerHTML = '';
+  progress.style.width = '100%';
+  progress.innerHTML = '<div></div>';
+  const innerDiv = progress.querySelector('div');
+  innerDiv.style.height = '100%';
+  innerDiv.style.background = '#050507';
+  innerDiv.style.transform = 'scaleX(0)';
+  innerDiv.style.transformOrigin = 'left';
+  innerDiv.style.animation = 'fillProgress 10s linear forwards';
+
+  toast.classList.add('show');
+
+  // Auto-hide nach 10s
+  const hideTimeout = setTimeout(()=>closeToast(), 10000);
+
+  // Close Button
+  const closeBtn = document.getElementById('close-toast');
+  closeBtn.onclick = ()=>{
+    clearTimeout(hideTimeout);
+    closeToast();
+  }
+
+  function closeToast(){
+    toast.classList.remove('show');
+    setTimeout(()=>{
+      progress.remove();
+    },500); // warten bis runter animiert
+  }
+}
+</script>
+<script>
+if (maintenance) {
+  if (!window.location.pathname.endsWith("maintenance.html")) {
+    window.location.href = "/maintenance.html";
+  }
+}
+</script>
+
+<script>
+(function() {
+  const baits = [
+    {class: "adsbox"},
+    {class: "ad-banner"},
+    {class: "doubleclick-ad"}
+  ];
+  const elements = [];
+  baits.forEach(b => {
+    const div = document.createElement("div");
+    div.className = b.class;
+    div.style.width = "1px";
+    div.style.height = "1px";
+    div.style.position = "absolute";
+    div.style.top = "-100px";
+    div.style.left = "-100px";
+    div.style.pointerEvents = "none";
+    div.innerHTML = "&nbsp;";
+    document.body.appendChild(div);
+    elements.push(div);
+  });
+  setTimeout(() => {
+    let blocked = false;
+    elements.forEach(el => {
+      const style = getComputedStyle(el);
+      if (
+        style.display === "none" ||
+        style.visibility === "hidden" ||
+        el.offsetHeight === 0 ||
+        el.offsetWidth === 0
+      ) blocked = true;
+    });
+    if (blocked) {
+      document.head.innerHTML = "";
+      document.body.innerHTML = `
+      <style>
+        body {
+          margin:0;height:100vh;display:flex;
+          align-items:center;justify-content:center;
+          background:radial-gradient(circle at top,#1a0f2e,#050507);
+          font-family:Inter,sans-serif;color:#e5e7eb;
+        }
+        .adblock-card {
+          max-width:440px;padding:42px 38px;
+          background:#0b0b12;border-radius:26px;
+          text-align:center;
+          border:1px solid rgba(167,139,250,0.3);
+          box-shadow:0 20px 90px rgba(0,0,0,0.85);
+        }
+      </style>
+      <div class="adblock-card">
+        <h1>🚫 Adblock erkannt</h1>
+        <p>Bitte deaktiviere deinen Adblocker um diese Seite zu nutzen.</p>
+        <div onclick="location.reload()">Neu laden</div>
+      </div>`;
+    }
+    elements.forEach(el => el.remove());
+  },200);
+})();
+</script>
+
+<script>
+document.addEventListener("contextmenu", e => e.preventDefault());
+document.addEventListener("keydown", e => {
+  if (
+    e.key === "F12" ||
+    (e.ctrlKey && e.shiftKey && ["I","C","J"].includes(e.key)) ||
+    (e.ctrlKey && e.key === "U")
+  ) e.preventDefault();
+});
+</script>
+
+<script>
+const maintenance = false;
+if (maintenance) {
+  if (!window.location.pathname.endsWith("maintenance.html")) {
+    window.location.href = "/maintenance.html";
+  }
+}
+</script>
+
+<title>PixelClient - Der ultimative Minecraft Client!</title>
+<link rel="icon" type="image/png" href="favicon.png">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+<link rel="manifest" href="/manifest.json">
+
+<style>
+:root {
+  --primary:#a78bfa;
+  --primary-glow:#c4b5fd;
+  --secondary:#050507;
+  --card:#0b0b12;
+  --text:#e5e7eb;
+  --muted:#9ca3af;
+}
+*{box-sizing:border-box;}
+
+body{
+  margin:0;
+  font-family:'Inter',sans-serif;
+  background:#050507;
+  color:var(--text);
+  overflow-x:hidden;
+}
+
+/* ===== HERO BANNER ===== */
+.hero {
+  position:relative;
+  height:700px;
+  background:url("Banner.png") center/cover no-repeat;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+}
+
+.hero::after{
+  content:"";
+  position:absolute;
+  bottom:0;
+  left:0;
+  width:100%;
+  height:150px;
+  background:linear-gradient(to bottom,rgba(5,5,7,0) 0%,#050507 100%);
+}
+
+.hero img{
+  width:600px;
+  max-width:90%;
+  z-index:2;
+  filter:drop-shadow(0 0 70px rgba(167,139,250,0.9));
+  margin-bottom:20px;
+}
+
+/* Bannertext schwarz */
+.hero .banner-text{
+  max-width:720px;
+  color:black;
+  font-size:1.2rem;
+  margin-bottom:30px;
+}
+
+/* zwei Buttons */
+.hero .cta{
+  display:inline-flex;
+  gap:16px;
+  justify-content:center;
+  z-index:2;
+}
+
+/* Alles nicht auswählbar machen */
+* {
+  user-select: none !important;
+  -webkit-user-select: none !important;
+  -ms-user-select: none !important;
+}
+
+/* Bilder nicht ziehbar machen */
+img {
+  pointer-events: none !important;
+  user-drag: none !important;
+  -webkit-user-drag: none !important;
+}
+
+/* Toast-Meldung unten links */
+#copy-toast {
+  position: fixed;
+  left: 20px;
+  bottom: -100px; /* start hidden */
+  background: linear-gradient(135deg, #a78bfa, #c4b5fd);
+  color: #050507;
+  padding: 16px 24px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.5);
+  font-weight: 600;
+  font-family: 'Inter', sans-serif;
+  z-index: 9999;
+  opacity: 0;
+  transform: translateY(50px);
+  transition: all 0.5s cubic-bezier(.68,-0.55,.27,1.55);
+}
+
+#copy-toast.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Close Button */
+#close-toast {
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  color: #050507;
+}
+
+/* Fortschrittsbalken */
+#copy-toast .progress {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 4px;
+  background: rgba(5,5,7,0.6);
+  width: 0%;
+  border-radius: 0 0 12px 12px;
+  overflow: hidden;
+}
+
+#copy-toast .progress::after {
+  content: '';
+  display: block;
+  height: 100%;
+  background: #050507;
+  width: 100%;
+  transform: scaleX(0);
+  transform-origin: left;
+  animation: fillProgress 10s linear forwards;
+}
+
+@keyframes fillProgress {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+
+.hero .btn{
+  padding:18px 32px;
+  font-size:1.2rem;
+  border-radius:14px;
+  font-weight:600;
+  text-decoration:none;
+  transition:all .25s ease;
+  position:relative;
+}
+
+.hero .btn-primary{
+  background:linear-gradient(135deg,var(--primary),var(--primary-glow));
+  color:#050507;
+  box-shadow:0 10px 30px rgba(167,139,250,0.45);
+}
+
+.hero .btn-primary:hover{
+  transform:translateY(-2px) scale(1.03);
+  box-shadow:0 18px 50px rgba(167,139,250,0.6);
+}
+
+.hero .btn-outline{
+  border:1px solid rgba(167,139,250,0.4);
+  color:#050507; /* Discord Button Text schwarz */
+  backdrop-filter:blur(6px);
+}
+
+.hero .btn-outline:hover{
+  background:rgba(167,139,250,0.15);
+}
+
+/* ===== CONTENT ===== */
+section{
+  position:relative;
+  padding:80px 20px;
+  max-width:1200px;
+  margin:auto;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:24px;
+}
+
+.card{
+  background:var(--card);
+  border-radius:22px;
+  padding:26px;
+  border:1px solid rgba(167,139,250,0.15);
+  transition:.3s;
+}
+
+.card:hover{
+  transform:translateY(-6px);
+  box-shadow:0 20px 60px rgba(167,139,250,0.25);
+}
+
+.card h3{
+  font-family:'Orbitron',sans-serif;
+  color:#ddd6fe;
+}
+
+.status{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-top:40px;
+  padding:16px 20px;
+  background:rgba(0,0,0,0.4);
+  border-radius:18px;
+  border:1px solid rgba(167,139,250,0.25);
+}
+
+.online{
+  color:#22c55e;
+  font-weight:700;
+  margin-right:10px;
+}
+
+.copy-btn{
+  padding:6px 14px;
+  font-size:0.9rem;
+  border-radius:10px;
+  border:none;
+  cursor:pointer;
+  background:linear-gradient(135deg,var(--primary),var(--primary-glow));
+  color:#050507;
+  transition:all .25s ease;
+}
+
+.copy-btn:hover{
+  transform:translateY(-1px) scale(1.02);
+  box-shadow:0 10px 30px rgba(167,139,250,0.4);
+}
+
+footer{
+  text-align:center;
+  padding:40px 20px 60px;
+  color:var(--text);
+  border-top:1px solid rgba(167,139,250,0.15);
+}
+footer span{
+  color:var(--primary);
+  font-weight:600;
+}
+</style>
+</head>
+
+<body>
+
+<div class="hero">
+  <img src="pixelhidenet.png" alt="PixelHide.net Logo">
+  <div class="banner-text">
+    Der ultimative <strong>Minecraft Client</strong> um mit Freunden und Familie zu spielen. Kompatibel mit exklusiven PixelHide Features und vieles mehr!!
+  </div>
+  <div class="cta">
+    <a href="/join.html" class="btn btn-primary">Download</a>
+  </div>
+</div>
+
+</div> <!-- Ende .hero -->
+<section>
+
+<div class="grid">
+  <div class="card">
+    <h3>⚔️ Gemacht für Action</h3>
+    <p>Bessere Erfahrung im PvP, und vieles mehr!</p>
+  </div>
+
+  <div class="card">
+    <h3>⚡High Performance</h3>
+    <p>Gemacht für die beste Performance und 30% höhere FPS als der durchschnitt der Minecraft-Clients!</p>
+  </div>
+
+  <div class="card">
+    <h3>💜 Spielen mit Freunden</h3>
+    <p>Mit unserem Freunde-System, kannst du ganz einfach neue Freunde finden, uns mit ihnen spielen!</p>
+  </div>
+
+<!-- Download -->
+<div class="card" style="text-align:center; margin-top:30px;">
+  <h3>Bereit für die beste Minecraft Erfahrung ever?</h3>
+  <p>Lade jetzt den PixelCraft Client herunter!</p>
+  <a href="/support.html" class="copy-btn" style="margin-top:15px;">Zum Download</a>
+</div>
+<!-- Download -->
+<div class="card" style="text-align:center; margin-top:30px;">
+  <h3>Du benötigst Hilfe?</h3>
+  <p>Kontaktiere unseren Support!</p>
+  <a href="/support.html" class="copy-btn" style="margin-top:15px;">Support kontaktieren</a>
+</div>
+
+</section>
+
+<footer>
+  © 2026 <span>PixelHide.net</span> · Nicht in Verbindung mit Mojang AB.
+</footer>
+
+</body>
+</html>
