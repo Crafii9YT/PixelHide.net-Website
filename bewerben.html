@@ -310,6 +310,8 @@ document.addEventListener("DOMContentLoaded", function () {
 <script src="https://uptime.betterstack.com/widgets/announcement.js" data-id="208286" async="async" type="text/javascript"></script>
 <script>
 const categories = {
+  "Creator":["YouTube Creator","Twitch Streamer","Anderes"]
+  "Trailer-Teilnehmer":["Teilnehmer"],
   "Supporter":["Supporter"],
   "Builder":["Builder"],
   "Developer":["Minecraft/Server-Entwickler","Web-Entwickler"]
@@ -350,19 +352,19 @@ function openPopup(type, message, ticketId=null){
     title.textContent="Fehler!";
   }
 
-  msg.innerHTML = message + (ticketId? `<br><strong>Ticket-ID: ${ticketId}</strong>`:"");
+  msg.innerHTML = message + (ticketId? `<br><strong>Application-ID: ${ticketId}</strong>`:"");
   popup.classList.add("show");
 }
 function closePopup(id){document.getElementById(id)?.classList.remove("show");}
 
 // Ticket senden & Cooldown
-const COOLDOWN = 30 * 1000;
+const COOLDOWN = 10 * 60 * 1000; // 10 Minuten
 document.getElementById("supportForm").addEventListener("submit", async function(e){
   e.preventDefault();
   const lastSent = localStorage.getItem("ticketCooldown");
   const now = Date.now();
   if(lastSent && now - lastSent < COOLDOWN){
-    openPopup("error","Bitte warte einen Moment, bis du die nächste Support-Anfrage senden kannst.");
+    openPopup("error","Bitte warte einen Moment, bis du die nächste Bewerbung senden kannst.");
     return;
   }
 
@@ -380,7 +382,7 @@ document.getElementById("supportForm").addEventListener("submit", async function
         {name:"Team Rang", value:document.getElementById("category").value},
         {name:"Typ", value:document.getElementById("subcategory").value},
         {name:"Beschreibung", value:document.getElementById("description").value},
-        {name:"Bewerbung-ID", value:ticketId.toString()}
+        {name:"Application-ID", value:ticketId.toString()}
       ],
       timestamp:new Date()
     }]
@@ -389,10 +391,10 @@ document.getElementById("supportForm").addEventListener("submit", async function
   try{
     await fetch("https://discord.com/api/webhooks/1473274178936373319/LElhh1tvrNGzMVbls5l9gr-uIrbq_j2UrbHDKz9ihtrq51CAx4zV6ccnBTyHO-hDel9w",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(data)});
     localStorage.setItem("ticketCooldown", Date.now());
-    openPopup("success","Dein Ticket wurde erfolgreich gesendet! Wir werden uns bald bei dir per Email melden!", ticketId, "Bewahre deine Ticket-ID gut auf, da der Support danach fragen könnte!");
+    openPopup("success","Bewerbung gesendet! Wir werden uns bald melden auf Discord oder per Email!", ticketId);
     this.reset();
   }catch(err){
-    openPopup("error","Ticket wurde aufgrund eines Fehlers nicht gesendet.");
+    openPopup("error","Bewerbung konnte nicht gesendet werden.");
   }
 });
 </script>
