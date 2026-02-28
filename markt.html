@@ -272,6 +272,56 @@ footer{
 </footer>
 
 <script>
+// Alte Funktion ersetzen:
+async function loadItems() {
+  try {
+    const res = await fetch("http://peach.fps.ms:10492/pixelhidemarket/market-api.php");
+    const data = await res.json();
+
+    // Preise auf Items anwenden
+    for (const key in data.market) {
+      const item = items.find(i => i.id === key);
+      if (item) item.current_price = data.market[key];
+    }
+
+    // Graph-Daten laden
+    graphData = data.history || {};
+
+    renderItems();
+    renderGraph(); // Graph anzeigen
+  } catch(err) {
+    console.error("Fehler beim Laden:", err);
+  }
+}
+
+// Speichern-Funktion für Graph und Preise
+async function saveMarketData() {
+  try {
+    const market = {};
+    for (const item of items) market[item.id] = item.current_price;
+
+    await fetch("http://peach.fps.ms:10492/pixelhidemarket/market-api.php", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        market: market,
+        history: graphData, // <-- Graph mitsenden
+        fixed: {}           // fixed falls nötig
+      })
+    });
+  } catch(err) {
+    console.error("Fehler beim Speichern:", err);
+  }
+}
+
+// Beispiel: Graph aktualisieren und speichern
+function updateGraph(itemId, value) {
+  if (!graphData[itemId]) graphData[itemId] = [];
+  graphData[itemId].push(value);
+  renderGraph();
+  saveMarketData(); // gleich speichern
+}
+
 const API="http://peach.fps.ms:10492/pixelhidemarket/market-api.php";
 
 let selectedItem=null;
@@ -354,8 +404,6 @@ let items = [
 { id: "bamboo", name_de: "Bambus", base_price: 10 },
 { id: "sugar_cane", name_de: "Zuckerrohr", base_price: 14 },
 { id: "kelp", name_de: "Seetang", base_price: 5 },
-{ id: "seagrass", name_de: "Seegras", base_price: 4 },
-{ id: "tall_seagrass", name_de: "Hohes Seegras", base_price: 5 },
 { id: "cactus", name_de: "Kaktus", base_price: 10 },
 { id: "vine", name_de: "Ranken", base_price: 8 },
 { id: "glow_lichen", name_de: "Leuchtflechte", base_price: 12 },
@@ -440,7 +488,6 @@ let items = [
 { id: "red_sandstone", name_de: "Roter Sandstein", base_price: 12 },
 { id: "smooth_red_sandstone", name_de: "Glatter roter Sandstein", base_price: 14 },
 { id: "cut_red_sandstone", name_de: "Geschnittener roter Sandstein", base_price: 14 },
-{ id: "brick_block", name_de: "Ziegelblock", base_price: 20 },
 { id: "chiseled_quartz_block", name_de: "Gemeißelter Quarzblock", base_price: 35 },
 { id: "smooth_quartz", name_de: "Glatter Quarz", base_price: 30 },
 
@@ -527,8 +574,6 @@ let items = [
 { id: "green_terracotta", name_de: "Grüne Terrakotta", base_price: 20 },
 { id: "yellow_terracotta", name_de: "Gelbe Terrakotta", base_price: 20 },
 { id: "purple_terracotta", name_de: "Lila Terrakotta", base_price: 20 },
-{ id: "glazed_terracotta", name_de: "Glasierte Terrakotta", base_price: 25 },
-{ id: "white_glazed_terracotta", name_de: "Weiße glasierte Terrakotta", base_price: 25 },
 
 /* ---------------------------------------------------
    NAHRUNG (25 Items)
@@ -554,7 +599,6 @@ let items = [
 { id: "glow_berries", name_de: "Leuchtbeeren", base_price: 12 },
 { id: "chorus_fruit", name_de: "Chorusfrucht", base_price: 20 },
 { id: "dried_kelp", name_de: "Getrockneter Seetang", base_price: 8 },
-{ id: "steak", name_de: "Steak", base_price: 22 },
 { id: "cooked_porkchop", name_de: "Gebratenes Schweinefleisch", base_price: 22 },
 { id: "cooked_mutton", name_de: "Gebratenes Hammelfleisch", base_price: 20 },
 { id: "cooked_chicken", name_de: "Gebratenes Hühnchen", base_price: 18 },
@@ -562,13 +606,6 @@ let items = [
 /* ---------------------------------------------------
    ROHES FLEISCH (15 Items)
 --------------------------------------------------- */
-{ id: "raw_beef", name_de: "Rohes Rindfleisch", base_price: 14 },
-{ id: "raw_porkchop", name_de: "Rohes Schweinefleisch", base_price: 14 },
-{ id: "raw_mutton", name_de: "Rohes Hammelfleisch", base_price: 12 },
-{ id: "raw_chicken", name_de: "Rohes Hühnchen", base_price: 12 },
-{ id: "raw_rabbit", name_de: "Rohes Kaninchen", base_price: 12 },
-{ id: "raw_cod", name_de: "Roher Kabeljau", base_price: 10 },
-{ id: "raw_salmon", name_de: "Roher Lachs", base_price: 12 },
 { id: "pufferfish", name_de: "Kugelfisch", base_price: 18 },
 { id: "tropical_fish", name_de: "Tropenfisch", base_price: 16 },
 { id: "rotten_flesh", name_de: "Verrottetes Fleisch", base_price: 5 },
@@ -597,7 +634,6 @@ let items = [
 { id: "shulker_shell", name_de: "Shulker-Schale", base_price: 250 },
 { id: "nautilus_shell", name_de: "Nautilusschale", base_price: 80 },
 { id: "heart_of_the_sea", name_de: "Herz des Meeres", base_price: 900 },
-{ id: "scute", name_de: "Schildkrötenpanzer", base_price: 40 },
 { id: "turtle_egg", name_de: "Schildkrötenei", base_price: 60 },
 { id: "goat_horn", name_de: "Ziegenhorn", base_price: 120 },
 { id: "echo_shard", name_de: "Echoscherbe", base_price: 200 },
@@ -626,8 +662,6 @@ let items = [
 { id: "seagrass", name_de: "Seegras", base_price: 4 },
 { id: "tropical_fish", name_de: "Tropenfisch", base_price: 16 },
 { id: "pufferfish", name_de: "Kugelfisch", base_price: 18 },
-{ id: "raw_cod", name_de: "Roher Kabeljau", base_price: 10 },
-{ id: "raw_salmon", name_de: "Roher Lachs", base_price: 12 },
 { id: "ink_sac", name_de: "Tintenbeutel", base_price: 16 },
 { id: "glow_ink_sac", name_de: "Leuchttintenbeutel", base_price: 20 },
 
@@ -638,13 +672,7 @@ let items = [
 { id: "redstone_torch", name_de: "Redstone-Fackel", base_price: 20 },
 { id: "redstone_block", name_de: "Redstoneblock", base_price: 90 },
 { id: "lever", name_de: "Hebel", base_price: 8 },
-{ id: "button", name_de: "Knopf", base_price: 4 },
-{ id: "stone_button", name_de: "Steinknopf", base_price: 4 },
-{ id: "wooden_button", name_de: "Holzknopf", base_price: 4 },
-{ id: "pressure_plate", name_de: "Druckplatte", base_price: 10 },
-{ id: "stone_pressure_plate", name_de: "Steindruckplatte", base_price: 10 },
-{ id: "light_weighted_pressure_plate", name_de: "Leichte Druckplatte", base_price: 14 },
-{ id: "heavy_weighted_pressure_plate", name_de: "Schwere Druckplatte", base_price: 16 },
+{ id: "stone_pressure_plate", name_de: "Steindruckplatte", base_price: 10 },,
 { id: "tripwire_hook", name_de: "Haken", base_price: 12 },
 { id: "string", name_de: "Faden", base_price: 10 },
 { id: "target", name_de: "Zielblock", base_price: 25 },
@@ -691,7 +719,6 @@ let items = [
 { id: "furnace_minecart", name_de: "Ofenlore", base_price: 90 },
 { id: "hopper_minecart", name_de: "Trichterlore", base_price: 110 },
 { id: "tnt_minecart", name_de: "TNT-Lore", base_price: 120 },
-{ id: "command_block_minecart", name_de: "Befehlsblock-Lore", base_price: 500 },
 { id: "oak_boat", name_de: "Eichenboot", base_price: 30 },
 { id: "spruce_boat", name_de: "Fichtenboot", base_price: 30 },
 { id: "birch_boat", name_de: "Birkenboot", base_price: 30 },
@@ -701,7 +728,6 @@ let items = [
 { id: "mangrove_boat", name_de: "Mangrovenboot", base_price: 30 },
 { id: "cherry_boat", name_de: "Kirschboot", base_price: 30 },
 { id: "bamboo_raft", name_de: "Bambusfloß", base_price: 30 },
-{ id: "bamboo_raft_with_chest", name_de: "Bambusfloß mit Kiste", base_price: 60 },
 
 /* ---------------------------------------------------
    MASCHINEN & INTERAKTIVE BLÖCKE (20 Items)
@@ -826,8 +852,6 @@ let items = [
 { id: "brush", name_de: "Pinsel", base_price: 20 },
 { id: "lead", name_de: "Leine", base_price: 25 },
 { id: "name_tag", name_de: "Namensschild", base_price: 80 },
-{ id: "map", name_de: "Karte", base_price: 30 },
-{ id: "empty_map", name_de: "Leere Karte", base_price: 25 },
 { id: "bundle", name_de: "Beutel", base_price: 50 },
 
 /* ---------------------------------------------------
@@ -866,7 +890,6 @@ let items = [
 { id: "spore_blossom", name_de: "Sporenblüte", base_price: 20 },
 { id: "big_dripleaf", name_de: "Großes Tropfblatt", base_price: 15 },
 { id: "small_dripleaf", name_de: "Kleines Tropfblatt", base_price: 10 },
-{ id: "cave_vines", name_de: "Höhlenranken", base_price: 12 },
 { id: "weeping_vines", name_de: "Trauerranken", base_price: 12 },
 { id: "twisting_vines", name_de: "Zwirbelranken", base_price: 12 },
 { id: "crimson_roots", name_de: "Karmesinwurzeln", base_price: 10 },
@@ -921,7 +944,6 @@ let items = [
 { id: "gray_banner", name_de: "Graues Banner", base_price: 40 },
 { id: "light_gray_banner", name_de: "Hellgraues Banner", base_price: 40 },
 { id: "magenta_banner", name_de: "Magenta Banner", base_price: 40 },
-{ id: "banner_pattern", name_de: "Banner-Muster", base_price: 25 },
 { id: "creeper_banner_pattern", name_de: "Creeper-Muster", base_price: 80 },
 { id: "skull_banner_pattern", name_de: "Totenkopf-Muster", base_price: 80 },
 { id: "flower_banner_pattern", name_de: "Blumen-Muster", base_price: 80 },
@@ -970,7 +992,6 @@ let items = [
 { id: "end_stone", name_de: "Endstein", base_price: 20 },
 { id: "end_stone_bricks", name_de: "Endsteinziegel", base_price: 25 },
 { id: "purpur_block", name_de: "Purpurblock", base_price: 40 },
-{ id: "purpur_pillar", name_de: "Purpurpfeiler", base_price: 45 },
 { id: "purpur_slab", name_de: "Purpurstufe", base_price: 20 },
 { id: "purpur_stairs", name_de: "Purpurtreppe", base_price: 25 },
 { id: "chorus_flower", name_de: "Chorusblüte", base_price: 25 },
@@ -994,7 +1015,6 @@ let items = [
 { id: "trident", name_de: "Dreizack", base_price: 1200 },
 { id: "goat_horn", name_de: "Ziegenhorn", base_price: 120 },
 { id: "dragon_breath", name_de: "Drachenatem", base_price: 150 },
-{ id: "scute", name_de: "Schildkrötenpanzer", base_price: 40 },
 { id: "turtle_egg", name_de: "Schildkrötenei", base_price: 60 },
 
 /* ---------------------------------------------------
@@ -1161,7 +1181,7 @@ setInterval(()=>{
 
   if(selectedItem) renderDetail();
 
-},3000);
+},14700);
 
 </script>
 
