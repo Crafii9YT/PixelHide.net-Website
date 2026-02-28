@@ -1,157 +1,25 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta property="og:title" content="PixelHide.net">
-  <meta property="og:description" content="PixelHide.net Netzwerk: Das ultimative Minecraft-Erlebnis!">
-  <meta property="og:image" content="https://pixelhide.net/favicon.png">
-  <meta property="og:url" content="https://pixelhide.net">
-  <meta name="google-adsense-account" content="ca-pub-5958219245633236">
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5958219245633236"
-     crossorigin="anonymous"></script>
-  <script>
-function copyIP(button){
-  // IP kopieren
-  navigator.clipboard.writeText("pixelhide.net");
-  let original = button.innerText;
-  button.innerText = "Kopiert";
-  setTimeout(()=>button.innerText = original,5000);
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  // Toast anzeigen
-  const toast = document.getElementById("copy-toast");
-  
-  // Reset progress animation
-  toast.querySelector('.progress::after')?.remove();
-  const progress = document.createElement('div');
-  progress.className = 'progress';
-  toast.appendChild(progress);
+<meta property="og:title" content="PixelHide.net">
+<meta property="og:description" content="PixelHide.net Netzwerk: Das ultimative Minecraft-Erlebnis!">
+<meta property="og:image" content="https://pixelhide.net/favicon.png">
+<meta property="og:url" content="https://pixelhide.net">
+<meta name="google-adsense-account" content="ca-pub-5958219245633236">
 
-  // Fortschrittsbalken Animation
-  progress.innerHTML = '';
-  progress.style.width = '100%';
-  progress.innerHTML = '<div></div>';
-  const innerDiv = progress.querySelector('div');
-  innerDiv.style.height = '100%';
-  innerDiv.style.background = '#050507';
-  innerDiv.style.transform = 'scaleX(0)';
-  innerDiv.style.transformOrigin = 'left';
-  innerDiv.style.animation = 'fillProgress 10s linear forwards';
-
-  toast.classList.add('show');
-
-  // Auto-hide nach 10s
-  const hideTimeout = setTimeout(()=>closeToast(), 10000);
-
-  // Close Button
-  const closeBtn = document.getElementById('close-toast');
-  closeBtn.onclick = ()=>{
-    clearTimeout(hideTimeout);
-    closeToast();
-  }
-
-  function closeToast(){
-    toast.classList.remove('show');
-    setTimeout(()=>{
-      progress.remove();
-    },500); // warten bis runter animiert
-  }
-}
-</script>
-<script>
-if (maintenance) {
-  if (!window.location.pathname.endsWith("maintenance.html")) {
-    window.location.href = "/maintenance.html";
-  }
-}
-</script>
-
-<script>
-(function() {
-  const baits = [
-    {class: "adsbox"},
-    {class: "ad-banner"},
-    {class: "doubleclick-ad"}
-  ];
-  const elements = [];
-  baits.forEach(b => {
-    const div = document.createElement("div");
-    div.className = b.class;
-    div.style.width = "1px";
-    div.style.height = "1px";
-    div.style.position = "absolute";
-    div.style.top = "-100px";
-    div.style.left = "-100px";
-    div.style.pointerEvents = "none";
-    div.innerHTML = "&nbsp;";
-    document.body.appendChild(div);
-    elements.push(div);
-  });
-  setTimeout(() => {
-    let blocked = false;
-    elements.forEach(el => {
-      const style = getComputedStyle(el);
-      if (
-        style.display === "none" ||
-        style.visibility === "hidden" ||
-        el.offsetHeight === 0 ||
-        el.offsetWidth === 0
-      ) blocked = true;
-    });
-    if (blocked) {
-      document.head.innerHTML = "";
-      document.body.innerHTML = `
-      <style>
-        body {
-          margin:0;height:100vh;display:flex;
-          align-items:center;justify-content:center;
-          background:radial-gradient(circle at top,#1a0f2e,#050507);
-          font-family:Inter,sans-serif;color:#e5e7eb;
-        }
-        .adblock-card {
-          max-width:440px;padding:42px 38px;
-          background:#0b0b12;border-radius:26px;
-          text-align:center;
-          border:1px solid rgba(167,139,250,0.3);
-          box-shadow:0 20px 90px rgba(0,0,0,0.85);
-        }
-      </style>
-      <div class="adblock-card">
-        <h1>🚫 Adblock erkannt</h1>
-        <p>Bitte deaktiviere deinen Adblocker um diese Seite zu nutzen.</p>
-        <div onclick="location.reload()">Neu laden</div>
-      </div>`;
-    }
-    elements.forEach(el => el.remove());
-  },200);
-})();
-</script>
-
-<script>
-document.addEventListener("contextmenu", e => e.preventDefault());
-document.addEventListener("keydown", e => {
-  if (
-    e.key === "F12" ||
-    (e.ctrlKey && e.shiftKey && ["I","C","J"].includes(e.key)) ||
-    (e.ctrlKey && e.key === "U")
-  ) e.preventDefault();
-});
-</script>
-
-<script>
-const maintenance = false;
-if (maintenance) {
-  if (!window.location.pathname.endsWith("maintenance.html")) {
-    window.location.href = "/maintenance.html";
-  }
-}
-</script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5958219245633236"
+crossorigin="anonymous"></script>
 
 <title>PixelHide.net</title>
+
 <link rel="icon" type="image/png" href="favicon.png">
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 <link rel="manifest" href="/manifest.json">
 
 <style>
-:root {
+:root{
   --primary:#a78bfa;
   --primary-glow:#c4b5fd;
   --secondary:#050507;
@@ -159,7 +27,11 @@ if (maintenance) {
   --text:#e5e7eb;
   --muted:#9ca3af;
 }
-*{box-sizing:border-box;}
+
+*{
+  box-sizing:border-box;
+  user-select:none !important;
+}
 
 body{
   margin:0;
@@ -169,8 +41,8 @@ body{
   overflow-x:hidden;
 }
 
-/* ===== HERO BANNER ===== */
-.hero {
+/* HERO */
+.hero{
   position:relative;
   height:700px;
   background:url("Banner.png") center/cover no-repeat;
@@ -179,6 +51,7 @@ body{
   align-items:center;
   justify-content:center;
   text-align:center;
+  padding:20px;
 }
 
 .hero::after{
@@ -199,7 +72,6 @@ body{
   margin-bottom:20px;
 }
 
-/* Bannertext schwarz */
 .hero .banner-text{
   max-width:720px;
   color:black;
@@ -207,125 +79,37 @@ body{
   margin-bottom:30px;
 }
 
-/* zwei Buttons */
 .hero .cta{
-  display:inline-flex;
+  display:flex;
   gap:16px;
   justify-content:center;
   z-index:2;
+  flex-wrap:wrap;
 }
 
-/* Alles nicht auswählbar machen */
-* {
-  user-select: none !important;
-  -webkit-user-select: none !important;
-  -ms-user-select: none !important;
-}
-
-/* Bilder nicht ziehbar machen */
-img {
-  pointer-events: none !important;
-  user-drag: none !important;
-  -webkit-user-drag: none !important;
-}
-
-/* Toast-Meldung unten links */
-#copy-toast {
-  position: fixed;
-  left: 20px;
-  bottom: -100px; /* start hidden */
-  background: linear-gradient(135deg, #a78bfa, #c4b5fd);
-  color: #050507;
-  padding: 16px 24px;
-  border-radius: 12px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  box-shadow: 0 8px 30px rgba(0,0,0,0.5);
-  font-weight: 600;
-  font-family: 'Inter', sans-serif;
-  z-index: 9999;
-  opacity: 0;
-  transform: translateY(50px);
-  transition: all 0.5s cubic-bezier(.68,-0.55,.27,1.55);
-}
-
-#copy-toast.show {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-/* Close Button */
-#close-toast {
-  background: none;
-  border: none;
-  font-size: 1.2rem;
-  cursor: pointer;
-  color: #050507;
-}
-
-/* Fortschrittsbalken */
-#copy-toast .progress {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  height: 4px;
-  background: rgba(5,5,7,0.6);
-  width: 0%;
-  border-radius: 0 0 12px 12px;
-  overflow: hidden;
-}
-
-#copy-toast .progress::after {
-  content: '';
-  display: block;
-  height: 100%;
-  background: #050507;
-  width: 100%;
-  transform: scaleX(0);
-  transform-origin: left;
-  animation: fillProgress 10s linear forwards;
-}
-
-@keyframes fillProgress {
-  from { transform: scaleX(0); }
-  to { transform: scaleX(1); }
-}
-
+/* BUTTONS */
 .hero .btn{
   padding:18px 32px;
-  font-size:1.2rem;
+  font-size:1.1rem;
   border-radius:14px;
   font-weight:600;
   text-decoration:none;
-  transition:all .25s ease;
-  position:relative;
+  transition:.25s;
+  display:inline-block;
 }
 
 .hero .btn-primary{
   background:linear-gradient(135deg,var(--primary),var(--primary-glow));
   color:#050507;
-  box-shadow:0 10px 30px rgba(167,139,250,0.45);
-}
-
-.hero .btn-primary:hover{
-  transform:translateY(-2px) scale(1.03);
-  box-shadow:0 18px 50px rgba(167,139,250,0.6);
 }
 
 .hero .btn-outline{
   border:1px solid rgba(167,139,250,0.4);
-  color:#050507; /* Discord Button Text schwarz */
-  backdrop-filter:blur(6px);
+  color:#050507;
 }
 
-.hero .btn-outline:hover{
-  background:rgba(167,139,250,0.15);
-}
-
-/* ===== CONTENT ===== */
+/* CONTENT */
 section{
-  position:relative;
   padding:80px 20px;
   max-width:1200px;
   margin:auto;
@@ -347,7 +131,6 @@ section{
 
 .card:hover{
   transform:translateY(-6px);
-  box-shadow:0 20px 60px rgba(167,139,250,0.25);
 }
 
 .card h3{
@@ -369,154 +152,255 @@ section{
 .online{
   color:#22c55e;
   font-weight:700;
-  margin-right:10px;
 }
 
+/* COPY BUTTON */
 .copy-btn{
-  padding:6px 14px;
+  padding:8px 18px;
   font-size:0.9rem;
   border-radius:10px;
   border:none;
   cursor:pointer;
   background:linear-gradient(135deg,var(--primary),var(--primary-glow));
   color:#050507;
-  transition:all .25s ease;
 }
 
-.copy-btn:hover{
-  transform:translateY(-1px) scale(1.02);
-  box-shadow:0 10px 30px rgba(167,139,250,0.4);
+/* TOAST */
+#copy-toast{
+  position:fixed;
+  left:20px;
+  bottom:-100px;
+  background:linear-gradient(135deg,#a78bfa,#c4b5fd);
+  color:#050507;
+  padding:16px 24px;
+  border-radius:12px;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  box-shadow:0 8px 30px rgba(0,0,0,0.5);
+  opacity:0;
+  transform:translateY(50px);
+  transition:.5s;
+}
+
+#copy-toast.show{
+  opacity:1;
+  transform:translateY(0);
+}
+
+#close-toast{
+  background:none;
+  border:none;
+  font-size:1.2rem;
+  cursor:pointer;
+}
+
+/* ===== MOBILE RESPONSIVE ===== */
+
+@media (max-width:1024px){
+  .hero{
+    height:500px;
+  }
+
+  .hero img{
+    width:400px;
+  }
+
+  iframe{
+    width:100%;
+    height:400px;
+  }
+
+  section{
+    padding:50px 15px;
+  }
+
+  .grid{
+    grid-template-columns:1fr;
+  }
+
+  .status{
+    flex-direction:column;
+    gap:20px;
+    text-align:center;
+  }
+}
+
+@media (max-width:768px){
+  .hero{
+    height:420px;
+  }
+
+  .hero img{
+    width:280px;
+  }
+
+  .hero .cta{
+    flex-direction:column;
+    width:90%;
+  }
+
+  .hero .btn{
+    width:100%;
+    text-align:center;
+  }
+
+  .card{
+    padding:22px;
+  }
+
+  .copy-btn{
+    width:100%;
+    padding:12px;
+  }
+
+  iframe{
+    height:300px;
+  }
+}
+
+@media (max-width:480px){
+  .hero{
+    height:380px;
+  }
+
+  .hero img{
+    width:220px;
+  }
+
+  .hero .banner-text{
+    font-size:0.9rem;
+  }
 }
 
 footer{
   text-align:center;
-  padding:40px 20px 60px;
-  color:var(--text);
+  padding:40px;
   border-top:1px solid rgba(167,139,250,0.15);
 }
-footer span{
-  color:var(--primary);
-  font-weight:600;
-}
 </style>
+
+<script>
+function copyIP(button){
+  navigator.clipboard.writeText("pixelhide.net");
+
+  let original = button.innerText;
+  button.innerText = "Kopiert";
+  setTimeout(()=>button.innerText = original,5000);
+
+  const toast = document.getElementById("copy-toast");
+  toast.classList.add("show");
+
+  const hideTimeout = setTimeout(()=>closeToast(),10000);
+
+  document.getElementById("close-toast").onclick=()=>{
+    clearTimeout(hideTimeout);
+    closeToast();
+  }
+
+  function closeToast(){
+    toast.classList.remove("show");
+  }
+}
+</script>
+
 </head>
 
 <body>
 
 <div class="hero">
-  <img src="pixelhidenet.png" alt="PixelHide.net Logo">
+  <img src="pixelhidenet.png">
   <div class="banner-text">
-    Der perfekte <strong>Minecraft Server</strong> um mit Freunden und Familie zu spielen. Tolle & aktive Community, viele und regelmäßige Events, einzigartiges Spielerlebnis und vieles mehr!
+    Der perfekte <strong>Minecraft Server</strong> um mit Freunden und Familie zu spielen. Tolle Community, Events und einzigartiges Spielerlebnis.
   </div>
+
   <div class="cta">
     <a href="/join.html" class="btn btn-primary">Jetzt beitreten</a>
     <a href="https://discord.pixelhide.net" class="btn btn-outline">Discord</a>
   </div>
 </div>
 
-</div> <!-- Ende .hero -->
-
-<!-- Better Stack Announcement Widget -->
-<script 
-  src="https://uptime.betterstack.com/widgets/announcement.js" 
-  data-id="208286" 
-  async="async" 
-  type="text/javascript">
-</script>
-
 <section>
-<iframe src="https://www.youtube-nocookie.com/embed/ssHralUdniI?autoplay=1&hl=de-de&color=white" width="1000" height="700" title="🔴 Der offizielle PixelHide Release!!!🔴" frameborder="0" allowfullscreen></iframe>
+<iframe 
+src="https://www.youtube-nocookie.com/embed/ssHralUdniI?autoplay=1"
+width="1000" height="700" allowfullscreen>
+</iframe>
 </section>
+
 <section>
 
 <div class="grid">
-  <div class="card">
-    <h3>⚔️ Minigames</h3>
-    <p>Spiele Klassiker wie Bedwars, Skywars, Build Battle und viele mehr.</p>
-  </div>
-
-  <div class="card">
-    <h3>🧱 CityBuild</h3>
-    <p>Perfekter Server um dein Imperium aufzubauen, reich zu werden und mit Freunden und Familie CityBuild zu spielen!</p>
-  </div>
-
-  <div class="card">
-    <h3>🔥 Events</h3>
-    <p>Regelmäßige Events und Giveaways!</p>
-  </div>
-
-  <div class="card">
-    <h3>🌍 Custom Welten</h3>
-    <p>Erstelle und bebaue deine ganz eigenen Welten. Verwalte sie über die Website, oder baue deinen eigenen kleinen Spielmodus!</p>
-    <a href="/custom-welten.html" class="copy-btn" style="display:inline-block; margin-top:15px;">
-      Welt erstellen
-    </a>
-  </div>
+<div class="card">
+<h3>⚔️ Minigames</h3>
+<p>Spiele Klassiker wie Bedwars, Skywars, Build Battle.</p>
 </div>
 
-
-<div class="status" style="justify-content:space-between; flex-wrap:wrap; align-items:center;">
-  <!-- Links: Server-IP -->
-  <div>
-    <strong>Server-IP</strong><br>
-    PixelHide.net
-  </div>
-
-  <!-- Rechts: Badge + Kopier-Button + Link -->
-  <div style="display:flex; flex-direction:column; align-items:center; gap:6px;">
-    <div style="display:flex; align-items:center; gap:8px;">
-      <!-- Better Stack Badge -->
-      <iframe src="https://status.pixelhide.net/badge?theme=dark" width="250" height="30" frameborder="0" scrolling="no" style="color-scheme: normal;"></iframe>
-
-      <!-- Kopier-Button -->
-      <button class="copy-btn" onclick="copyIP(this)">Kopieren</button>
-    </div>
-
-    <!-- Unterstützte Versionen Link -->
-    <a href="/version-support.html" style="font-size:0.85rem; color:var(--primary); text-decoration:none; text-align:center;">
-      Unterstützte Versionen
-    </a>
-  </div>
+<div class="card">
+<h3>🧱 CityBuild</h3>
+<p>Perfekter Server um dein Imperium aufzubauen.</p>
 </div>
 
-<!-- Bewerben-Karte -->
-<div class="card" style="text-align:center; margin-top:30px;">
-  <h3>Gehöre mit zum Team!</h3>
-  <p>Bewerbe dich im Team, um am Server mitzuwirken, anderen zu helfen und mehr!</p>
-  <a href="/bewerben.html" class="copy-btn" style="margin-top:15px;">Bewerben</a>
-</div>
-  
-<!-- Hilfe-Karte -->
-<div class="card" style="text-align:center; margin-top:30px;">
-  <h3>Du benötigst Hilfe?</h3>
-  <p>Kontaktiere unseren Support!</p>
-  <a href="/support.html" class="copy-btn" style="margin-top:15px;">Support kontaktieren</a>
+<div class="card">
+<h3>🔥 Events</h3>
+<p>Regelmäßige Events und Giveaways!</p>
 </div>
 
-
-<!-- Toast-Meldung -->
-<div id="copy-toast">
-  <span>Server-Adresse wurde kopiert!</span>
-  <button id="close-toast">×</button>
-  <div class="progress"></div>
+<div class="card">
+<h3>🌍 Custom Welten</h3>
+<p>Erstelle deine eigenen Welten.</p>
+<a href="/custom-welten.html" class="copy-btn" style="margin-top:15px;display:inline-block;">
+Welt erstellen
+</a>
+</div>
 </div>
 
+<div class="status">
+<div>
+<strong>Server-IP</strong><br>
+PixelHide.net
+</div>
 
+<div style="display:flex;flex-direction:column;align-items:center;gap:6px;">
+<div style="display:flex;gap:8px;align-items:center;">
+<iframe src="https://status.pixelhide.net/badge?theme=dark"
+width="250" height="30" frameborder="0"></iframe>
+
+<button class="copy-btn" onclick="copyIP(this)">Kopieren</button>
+</div>
+
+<a href="/version-support.html"
+style="font-size:0.85rem;color:var(--primary);text-decoration:none;">
+Unterstützte Versionen
+</a>
+</div>
+</div>
+
+<div class="card" style="text-align:center;margin-top:30px;">
+<h3>Gehöre mit zum Team!</h3>
+<p>Bewerbe dich im Team.</p>
+<a href="/bewerben.html" class="copy-btn" style="margin-top:15px;display:inline-block;">
+Bewerben
+</a>
+</div>
+
+<div class="card" style="text-align:center;margin-top:30px;">
+<h3>Du benötigst Hilfe?</h3>
+<p>Kontaktiere unseren Support!</p>
+<a href="/support.html" class="copy-btn" style="margin-top:15px;display:inline-block;">
+Support kontaktieren
+</a>
+</div>
 
 </section>
 
-<footer>
-  © 2026 <span>PixelHide.net</span> · Nicht in Verbindung mit Mojang AB.
-</footer>
+<div id="copy-toast">
+<span>Server-Adresse wurde kopiert!</span>
+<button id="close-toast">×</button>
+</div>
 
-<script>
-function copyIP(button){
-  navigator.clipboard.writeText("pixelhide.net");
-  let original = button.innerText;
-  button.innerText = "Kopiert";
-  setTimeout(()=>button.innerText = original,5000);
-}
-</script>
+<footer>
+© 2026 <span style="color:var(--primary)">PixelHide.net</span>
+</footer>
 
 </body>
 </html>
