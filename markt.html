@@ -3,13 +3,15 @@
 <head>
 
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>PixelWert | PixelHide.net</title>
 <link rel="icon" type="image/png" href="https://pixelhide.net/favicon.png">
 
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 
 <style>
-:root {
+:root{
   --primary:#a78bfa;
   --primary-glow:#c4b5fd;
   --secondary:#050507;
@@ -30,243 +32,208 @@ body{
   color:var(--text);
 }
 
-/* ===== HERO ===== */
-
-.hero {
+/* HERO */
+.hero{
   position:relative;
-  height:450px;
+  height:350px;
   background:url("Banner.png") center/cover no-repeat;
   display:flex;
   flex-direction:column;
   align-items:center;
   justify-content:center;
   text-align:center;
+  padding:20px;
 }
 
 .hero::after{
   content:"";
   position:absolute;
   bottom:0;
-  left:0;
   width:100%;
-  height:150px;
+  height:120px;
   background:linear-gradient(to bottom,rgba(5,5,7,0) 0%,#050507 100%);
 }
 
 .hero img{
-  width:450px;
+  width:320px;
   max-width:90%;
-  z-index:2;
   filter:drop-shadow(0 0 70px rgba(167,139,250,0.9));
-  margin-bottom:20px;
 }
 
 .hero .banner-text{
-  max-width:700px;
   color:black;
-  font-size:1.2rem;
+  font-size:1rem;
   z-index:2;
 }
 
-/* ===== SECTION ===== */
-
+/* SECTION */
 section{
-  position:relative;
-  padding:80px 20px;
+  padding:50px 15px;
   max-width:1200px;
   margin:auto;
 }
 
-/* ===== SEARCH ===== */
-
+/* SEARCH */
 .search-box{
-max-width:800px;
-margin:0 auto 40px;
+  max-width:800px;
+  margin:0 auto 30px;
 }
 
 .search-box input{
-width:100%;
-padding:18px;
-border-radius:16px;
-border:1px solid rgba(167,139,250,0.4);
-background:#0b0b12;
-color:white;
-font-size:1.1rem;
-outline:none;
+  width:100%;
+  padding:16px;
+  border-radius:14px;
+  border:1px solid rgba(167,139,250,0.4);
+  background:#0b0b12;
+  color:white;
+  font-size:1rem;
 }
 
-/* ===== CATEGORY ===== */
-
-.category{
-margin-bottom:25px;
-background:var(--card);
-border-radius:22px;
-border:1px solid rgba(167,139,250,0.2);
-overflow:hidden;
-}
-
-.category-header{
-padding:18px 22px;
-font-family:'Orbitron',sans-serif;
-cursor:pointer;
-display:flex;
-justify-content:space-between;
-color:#ddd6fe;
-}
-
-.category-header:hover{
-background:rgba(167,139,250,0.08);
-}
-
-.category-content{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-gap:24px;
-padding:20px;
-}
-
-.category.collapsed .category-content{
-display:none;
-}
-
-/* ===== ITEM GRID ===== */
-
+/* ITEM GRID */
 #item-counter{
-text-align:center;
-font-size:1.4rem;
-font-weight:700;
-color:var(--primary);
-margin-bottom:50px;
+  text-align:center;
+  font-size:1.2rem;
+  font-weight:700;
+  color:var(--primary);
+  margin-bottom:30px;
 }
 
 #item-view{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-gap:24px;
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:20px;
 }
 
 .card{
-background:var(--card);
-border-radius:22px;
-padding:26px;
-border:1px solid rgba(167,139,250,0.15);
-transition:.3s;
-cursor:pointer;
-text-align:center;
+  background:var(--card);
+  border-radius:20px;
+  padding:22px;
+  border:1px solid rgba(167,139,250,0.15);
+  transition:.3s;
+  cursor:pointer;
+  text-align:center;
 }
 
 .card:hover{
-transform:translateY(-6px);
-box-shadow:0 20px 60px rgba(167,139,250,0.25);
+  transform:translateY(-4px);
 }
 
 .card img{
-width:70px;
-height:70px;
-image-rendering:pixelated;
-margin-bottom:15px;
+  width:60px;
+  height:60px;
+  image-rendering:pixelated;
+  margin-bottom:12px;
 }
 
 .card h3{
-font-family:'Orbitron',sans-serif;
-color:#ddd6fe;
+  font-family:'Orbitron',sans-serif;
+  color:#ddd6fe;
 }
 
-/* DETAIL */
-
+/* DETAIL VIEW */
 #detail-view{
-display:none;
+  display:none;
 }
 
 .detail-card{
-background:var(--card);
-border-radius:26px;
-padding:40px;
-border:1px solid rgba(167,139,250,0.2);
+  background:var(--card);
+  border-radius:24px;
+  padding:30px;
+  border:1px solid rgba(167,139,250,0.2);
 }
 
 .back-btn{
-display:inline-block;
-margin-bottom:25px;
-padding:10px 18px;
-border-radius:10px;
-border:1px solid rgba(167,139,250,0.4);
-cursor:pointer;
-color:var(--primary-glow);
+  display:inline-block;
+  margin-bottom:20px;
+  padding:10px 16px;
+  border-radius:10px;
+  border:1px solid rgba(167,139,250,0.4);
+  cursor:pointer;
+  color:var(--primary-glow);
 }
 
-.back-btn:hover{
-background:rgba(167,139,250,0.15);
-}
-
+/* DASHBOARD */
 .dash-prices{
-display:flex;
-gap:24px;
-justify-content:center;
-margin-bottom:40px;
-flex-wrap:wrap;
+  display:flex;
+  gap:20px;
+  justify-content:center;
+  flex-wrap:wrap;
+  margin-bottom:30px;
 }
 
 .dash-box{
-padding:18px 22px;
-border-radius:18px;
-background:rgba(0,0,0,0.4);
-border:1px solid rgba(167,139,250,0.25);
-text-align:center;
+  padding:16px 20px;
+  border-radius:16px;
+  background:rgba(0,0,0,0.4);
+  border:1px solid rgba(167,139,250,0.25);
+  text-align:center;
 }
 
 .dash-label{
-font-size:0.9rem;
-color:var(--muted);
+  font-size:.85rem;
+  color:var(--muted);
 }
 
 .dash-value{
-font-size:1.5rem;
-font-weight:800;
-margin-top:5px;
+  font-size:1.4rem;
+  font-weight:800;
 }
 
 /* GRAPH */
-
 svg{
-width:100%;
-max-width:600px;
-height:220px;
-display:block;
-margin:0 auto;
+  width:100%;
+  max-width:500px;
+  height:200px;
+  display:block;
+  margin:auto;
 }
 
 .graph-line{
-fill:none;
-stroke:var(--primary);
-stroke-width:2.5;
+  fill:none;
+  stroke:var(--primary);
+  stroke-width:2.5;
 }
 
 #tooltip{
-position:absolute;
-padding:10px 14px;
-background:#0b0b12;
-border:1px solid rgba(167,139,250,0.4);
-border-radius:12px;
-font-size:0.85rem;
-display:none;
-pointer-events:none;
-color:var(--text);
-box-shadow:0 10px 40px rgba(0,0,0,0.6);
+  position:absolute;
+  padding:8px 12px;
+  background:#0b0b12;
+  border:1px solid rgba(167,139,250,0.4);
+  border-radius:10px;
+  font-size:.8rem;
+  display:none;
+  color:var(--text);
 }
 
 /* FOOTER */
-
 footer{
-text-align:center;
-padding:40px 20px 60px;
-color:var(--text);
-border-top:1px solid rgba(167,139,250,0.15);
+  text-align:center;
+  padding:40px 20px;
+  border-top:1px solid rgba(167,139,250,0.15);
 }
 
-footer span{
-color:var(--primary);
-font-weight:600;
+/* MOBILE RESPONSIVE */
+@media(max-width:768px){
+
+  .hero{
+    height:250px;
+  }
+
+  .hero img{
+    width:220px;
+  }
+
+  #item-view{
+    grid-template-columns:1fr;
+  }
+
+  .detail-card{
+    padding:20px;
+  }
+
+  svg{
+    max-width:100%;
+  }
 }
 
 </style>
@@ -284,21 +251,16 @@ font-weight:600;
 <section>
 
 <div class="search-box">
-<input id="searchInput"
-placeholder="🔎 Item suchen..."
-oninput="filterItems()">
+<input id="searchInput" placeholder="🔎 Item suchen..." oninput="filterItems()">
 </div>
 
-<div id="category-container"></div>
-
 <div id="item-counter">0 Items</div>
-
 <div id="item-view"></div>
 
 <div id="detail-view">
   <div class="detail-card">
     <div class="back-btn" onclick="goBack()">← Zurück</div>
-    <h2 id="detail-title" style="font-family:'Orbitron'; color:#ddd6fe; text-align:center;"></h2>
+    <h2 id="detail-title" style="font-family:'Orbitron';color:#ddd6fe;text-align:center;"></h2>
     <div id="detail-content"></div>
   </div>
 </div>
@@ -306,456 +268,111 @@ oninput="filterItems()">
 </section>
 
 <footer>
-© 2026 <span>PixelHide.net</span>
+© 2026 <span style="color:var(--primary)">PixelHide.net</span>
 </footer>
 
 <script>
-const API = "http://peach.fps.ms:10492/pixelhidemarket/market-api.php";
+const API="http://peach.fps.ms:10492/pixelhidemarket/market-api.php";
 
-let items = [
+let selectedItem=null;
 
-/* ---------------------------------------------------
-   HOLZ & NATUR (35 Items)
---------------------------------------------------- */
-{ id: "oak_log", name_de: "Eichenholzstamm", base_price: 17 },
-{ id: "spruce_log", name_de: "Fichtenholzstamm", base_price: 17 },
-{ id: "birch_log", name_de: "Birkenholzstamm", base_price: 17 },
-{ id: "jungle_log", name_de: "Tropenholzstamm", base_price: 17 },
-{ id: "acacia_log", name_de: "Akazienholzstamm", base_price: 18 },
-{ id: "dark_oak_log", name_de: "Schwarzeichenholzstamm", base_price: 18 },
-{ id: "mangrove_log", name_de: "Mangrovenholzstamm", base_price: 18 },
-{ id: "cherry_log", name_de: "Kirschholzstamm", base_price: 18 },
+/* -----------------------------
+   ITEM LIST (Short Demo Data)
+----------------------------- */
 
-{ id: "oak_planks", name_de: "Eichenholzbretter", base_price: 8 },
-{ id: "spruce_planks", name_de: "Fichtenholzbretter", base_price: 8 },
-{ id: "birch_planks", name_de: "Birkenholzbretter", base_price: 8 },
-{ id: "jungle_planks", name_de: "Tropenholzbretter", base_price: 8 },
-{ id: "acacia_planks", name_de: "Akazienholzbretter", base_price: 10 },
-{ id: "dark_oak_planks", name_de: "Schwarzeichenholzbretter", base_price: 9 },
-{ id: "mangrove_planks", name_de: "Mangrovenholzbretter", base_price: 9 },
-{ id: "cherry_planks", name_de: "Kirschholzbretter", base_price: 9 },
-
-{ id: "oak_sapling", name_de: "Eichensetzling", base_price: 12 },
-{ id: "spruce_sapling", name_de: "Fichtensetzling", base_price: 12 },
-{ id: "birch_sapling", name_de: "Birkensetzling", base_price: 12 },
-{ id: "jungle_sapling", name_de: "Tropensetzling", base_price: 12 },
-{ id: "acacia_sapling", name_de: "Akaziensetzling", base_price: 12 },
-{ id: "dark_oak_sapling", name_de: "Schwarzeichensetzling", base_price: 12 },
-{ id: "mangrove_propagule", name_de: "Mangrovenkeimling", base_price: 14 },
-{ id: "cherry_sapling", name_de: "Kirschsetzling", base_price: 14 },
-
-{ id: "oak_leaves", name_de: "Eichenblätter", base_price: 6 },
-{ id: "spruce_leaves", name_de: "Fichtenblätter", base_price: 6 },
-{ id: "birch_leaves", name_de: "Birkenblätter", base_price: 6 },
-{ id: "jungle_leaves", name_de: "Tropenblätter", base_price: 6 },
-{ id: "acacia_leaves", name_de: "Akazienblätter", base_price: 6 },
-{ id: "dark_oak_leaves", name_de: "Schwarzeichenblätter", base_price: 6 },
-{ id: "mangrove_leaves", name_de: "Mangrovenblätter", base_price: 7 },
-{ id: "cherry_leaves", name_de: "Kirschblätter", base_price: 7 },
-
-{ id: "bamboo", name_de: "Bambus", base_price: 10 },
-{ id: "sugar_cane", name_de: "Zuckerrohr", base_price: 14 },
-
-/* ---------------------------------------------------
-   ERZE & MINERALIEN (25 Items)
---------------------------------------------------- */
-{ id: "coal", name_de: "Kohle", base_price: 20 },
-{ id: "charcoal", name_de: "Holzkohle", base_price: 18 },
-{ id: "iron_ingot", name_de: "Eisenbarren", base_price: 55 },
-{ id: "gold_ingot", name_de: "Goldbarren", base_price: 140 },
-{ id: "copper_ingot", name_de: "Kupferbarren", base_price: 30 },
-{ id: "diamond", name_de: "Diamant", base_price: 600 },
-{ id: "emerald", name_de: "Smaragd", base_price: 450 },
-{ id: "lapis_lazuli", name_de: "Lapislazuli", base_price: 25 },
-{ id: "redstone", name_de: "Redstone", base_price: 15 },
-{ id: "quartz", name_de: "Netherquarz", base_price: 30 },
-{ id: "amethyst_shard", name_de: "Amethystsplitter", base_price: 35 },
-
-{ id: "raw_iron", name_de: "Rohes Eisen", base_price: 40 },
-{ id: "raw_gold", name_de: "Rohes Gold", base_price: 90 },
-{ id: "raw_copper", name_de: "Rohes Kupfer", base_price: 18 },
-
-{ id: "iron_nugget", name_de: "Eisenklumpen", base_price: 6 },
-{ id: "gold_nugget", name_de: "Goldklumpen", base_price: 12 },
-
-{ id: "netherite_scrap", name_de: "Netherit-Schrott", base_price: 900 },
-{ id: "netherite_ingot", name_de: "Netheritbarren", base_price: 3200 },
-
-{ id: "obsidian", name_de: "Obsidian", base_price: 80 },
-{ id: "crying_obsidian", name_de: "Weinender Obsidian", base_price: 120 },
-
-{ id: "end_stone", name_de: "Endstein", base_price: 20 },
-{ id: "purpur_block", name_de: "Purpurblock", base_price: 40 },
-
-/* ---------------------------------------------------
-   STEINE & BAUMATERIAL (30 Items)
---------------------------------------------------- */
-{ id: "stone", name_de: "Stein", base_price: 5 },
-{ id: "cobblestone", name_de: "Bruchstein", base_price: 4 },
-{ id: "deepslate", name_de: "Tiefenschiefer", base_price: 6 },
-{ id: "granite", name_de: "Granit", base_price: 6 },
-{ id: "diorite", name_de: "Diorit", base_price: 6 },
-{ id: "andesite", name_de: "Andesit", base_price: 6 },
-
-{ id: "sand", name_de: "Sand", base_price: 4 },
-{ id: "red_sand", name_de: "Roter Sand", base_price: 5 },
-{ id: "gravel", name_de: "Kies", base_price: 4 },
-{ id: "clay_ball", name_de: "Tonklumpen", base_price: 8 },
-
-{ id: "glass", name_de: "Glas", base_price: 12 },
-{ id: "white_concrete", name_de: "Weißer Beton", base_price: 14 },
-{ id: "black_concrete", name_de: "Schwarzer Beton", base_price: 14 },
-{ id: "blue_concrete", name_de: "Blauer Beton", base_price: 14 },
-{ id: "red_concrete", name_de: "Roter Beton", base_price: 14 },
-
-{ id: "bricks", name_de: "Ziegelsteine", base_price: 20 },
-{ id: "stone_bricks", name_de: "Steinziegel", base_price: 12 },
-{ id: "mossy_stone_bricks", name_de: "Moosige Steinziegel", base_price: 14 },
-
-{ id: "terracotta", name_de: "Terrakotta", base_price: 18 },
-{ id: "white_terracotta", name_de: "Weiße Terrakotta", base_price: 20 },
-{ id: "blue_terracotta", name_de: "Blaue Terrakotta", base_price: 20 },
-{ id: "red_terracotta", name_de: "Rote Terrakotta", base_price: 20 },
-
-{ id: "prismarine", name_de: "Prismarin", base_price: 40 },
-{ id: "sea_lantern", name_de: "Seelaterne", base_price: 55 },
-
-/* ---------------------------------------------------
-   NAHRUNG & FARMING (25 Items)
---------------------------------------------------- */
-{ id: "wheat", name_de: "Weizen", base_price: 12 },
-{ id: "carrot", name_de: "Karotte", base_price: 10 },
-{ id: "potato", name_de: "Kartoffel", base_price: 10 },
-{ id: "beetroot", name_de: "Rote Bete", base_price: 9 },
-{ id: "melon_slice", name_de: "Melonenscheibe", base_price: 6 },
-{ id: "pumpkin", name_de: "Kürbis", base_price: 18 },
-{ id: "cactus", name_de: "Kaktus", base_price: 10 },
-{ id: "apple", name_de: "Apfel", base_price: 14 },
-{ id: "bread", name_de: "Brot", base_price: 16 },
-{ id: "cookie", name_de: "Keks", base_price: 8 },
-{ id: "honey_bottle", name_de: "Honigflasche", base_price: 25 },
-{ id: "egg", name_de: "Ei", base_price: 6 },
-{ id: "milk_bucket", name_de: "Milcheimer", base_price: 40 },
-{ id: "sweet_berries", name_de: "Süßbeeren", base_price: 10 },
-{ id: "glow_berries", name_de: "Leuchtbeeren", base_price: 12 },
-{ id: "kelp", name_de: "Seetang", base_price: 5 },
-{ id: "dried_kelp", name_de: "Getrockneter Seetang", base_price: 8 },
-{ id: "wheat_seeds", name_de: "Weizensamen", base_price: 4 },
-{ id: "melon_seeds", name_de: "Melonensamen", base_price: 5 },
-{ id: "pumpkin_seeds", name_de: "Kürbissamen", base_price: 5 },
-{ id: "beetroot_seeds", name_de: "Rote-Bete-Samen", base_price: 5 },
-{ id: "cocoa_beans", name_de: "Kakaobohnen", base_price: 10 },
-{ id: "mushroom_stew", name_de: "Pilzsuppe", base_price: 20 },
-{ id: "brown_mushroom", name_de: "Brauner Pilz", base_price: 8 },
-{ id: "red_mushroom", name_de: "Roter Pilz", base_price: 8 },
-
-/* ---------------------------------------------------
-   TIERE & DROPS (20 Items)
---------------------------------------------------- */
-{ id: "white_wool", name_de: "Weiße Wolle", base_price: 15 },
-{ id: "black_wool", name_de: "Schwarze Wolle", base_price: 15 },
-{ id: "red_wool", name_de: "Rote Wolle", base_price: 15 },
-{ id: "blue_wool", name_de: "Blaue Wolle", base_price: 15 },
-{ id: "leather", name_de: "Leder", base_price: 20 },
-{ id: "feather", name_de: "Feder", base_price: 8 },
-{ id: "ink_sac", name_de: "Tintenbeutel", base_price: 16 },
-{ id: "string", name_de: "Faden", base_price: 10 },
-{ id: "bone", name_de: "Knochen", base_price: 12 },
-{ id: "rotten_flesh", name_de: "Verrottetes Fleisch", base_price: 5 },
-{ id: "slime_ball", name_de: "Schleimball", base_price: 25 },
-{ id: "blaze_rod", name_de: "Lohenrute", base_price: 90 },
-{ id: "ghast_tear", name_de: "Ghastträne", base_price: 180 },
-{ id: "ender_pearl", name_de: "Enderperle", base_price: 120 },
-{ id: "phantom_membrane", name_de: "Phantomhaut", base_price: 60 },
-{ id: "gunpowder", name_de: "Schießpulver", base_price: 20 },
-{ id: "spider_eye", name_de: "Spinnenauge", base_price: 15 },
-{ id: "rabbit_hide", name_de: "Kaninchenfell", base_price: 12 },
-{ id: "rabbit_foot", name_de: "Kaninchenpfote", base_price: 40 },
-{ id: "honeycomb", name_de: "Honigwabe", base_price: 18 },
-
-/* ---------------------------------------------------
-   REDSTONE (20 Items)
---------------------------------------------------- */
-{ id: "redstone_torch", name_de: "Redstone-Fackel", base_price: 20 },
-{ id: "repeater", name_de: "Redstone-Verstärker", base_price: 40 },
-{ id: "comparator", name_de: "Redstone-Komparator", base_price: 45 },
-{ id: "piston", name_de: "Kolben", base_price: 35 },
-{ id: "sticky_piston", name_de: "Klebriger Kolben", base_price: 45 },
-{ id: "observer", name_de: "Beobachter", base_price: 50 },
-{ id: "hopper", name_de: "Trichter", base_price: 70 },
-{ id: "dropper", name_de: "Spender", base_price: 25 },
-{ id: "dispenser", name_de: "Werfer", base_price: 30 },
-{ id: "note_block", name_de: "Notenblock", base_price: 35 },
-{ id: "lever", name_de: "Hebel", base_price: 8 },
-{ id: "tripwire_hook", name_de: "Haken", base_price: 12 },
-{ id: "target", name_de: "Zielblock", base_price: 25 },
-{ id: "lightning_rod", name_de: "Blitzableiter", base_price: 30 },
-{ id: "daylight_detector", name_de: "Tageslichtsensor", base_price: 40 },
-{ id: "redstone_lamp", name_de: "Redstone-Lampe", base_price: 45 },
-{ id: "powered_rail", name_de: "Angetriebene Schiene", base_price: 30 },
-{ id: "detector_rail", name_de: "Sensorschiene", base_price: 25 },
-
-/* ---------------------------------------------------
-   WAFFEN, RÜSTUNG, TOOLS (25 Items)
---------------------------------------------------- */
-{ id: "wooden_sword", name_de: "Holzschwert", base_price: 12 },
-{ id: "stone_sword", name_de: "Steinschwert", base_price: 20 },
-{ id: "iron_sword", name_de: "Eisenschwert", base_price: 55 },
-{ id: "diamond_sword", name_de: "Diamantschwert", base_price: 650 },
-{ id: "netherite_sword", name_de: "Netheritschwert", base_price: 3500 },
-
-{ id: "bow", name_de: "Bogen", base_price: 40 },
-{ id: "crossbow", name_de: "Armbrust", base_price: 60 },
-{ id: "shield", name_de: "Schild", base_price: 45 },
-
-{ id: "iron_pickaxe", name_de: "Eisenspitzhacke", base_price: 70 },
-{ id: "diamond_pickaxe", name_de: "Diamantspitzhacke", base_price: 700 },
-{ id: "netherite_pickaxe", name_de: "Netheritspitzhacke", base_price: 3600 },
-
-{ id: "iron_helmet", name_de: "Eisenhelm", base_price: 80 },
-{ id: "iron_chestplate", name_de: "Eisenbrustplatte", base_price: 120 },
-{ id: "iron_leggings", name_de: "Eisenbeinschutz", base_price: 100 },
-{ id: "iron_boots", name_de: "Eisenstiefel", base_price: 70 },
-
-{ id: "diamond_helmet", name_de: "Diamanthelm", base_price: 500 },
-{ id: "diamond_chestplate", name_de: "Diamantbrustplatte", base_price: 800 },
-{ id: "diamond_leggings", name_de: "Diamantbeinschutz", base_price: 700 },
-{ id: "diamond_boots", name_de: "Diamantstiefel", base_price: 450 },
-
-{ id: "fishing_rod", name_de: "Angel", base_price: 25 },
-{ id: "flint_and_steel", name_de: "Feuerzeug", base_price: 20 },
-{ id: "shears", name_de: "Schere", base_price: 30 },
-{ id: "bucket", name_de: "Eimer", base_price: 25 },
-{ id: "compass", name_de: "Kompass", base_price: 40 },
-{ id: "clock", name_de: "Uhr", base_price: 45 },
-
-/* ---------------------------------------------------
-   DEKO, MÖBEL, SONSTIGES (weiter) 
---------------------------------------------------- */
-{ id: "torch", name_de: "Fackel", base_price: 5 },
-{ id: "lantern", name_de: "Laterne", base_price: 30 },
-{ id: "soul_lantern", name_de: "Seelenlaterne", base_price: 35 },
-{ id: "campfire", name_de: "Lagerfeuer", base_price: 40 },
-{ id: "soul_campfire", name_de: "Seelenlagerfeuer", base_price: 45 },
-
-{ id: "item_frame", name_de: "Item Frame", base_price: 45 },
-{ id: "glow_item_frame", name_de: "Leucht Item Frame", base_price: 65 },
-
-{ id: "painting", name_de: "Gemälde", base_price: 50 },
-{ id: "flower_pot", name_de: "Blumentopf", base_price: 12 },
-
-{ id: "white_bed", name_de: "Weißes Bett", base_price: 40 },
-{ id: "red_bed", name_de: "Rotes Bett", base_price: 40 },
-{ id: "blue_bed", name_de: "Blaues Bett", base_price: 40 },
-
-{ id: "barrel", name_de: "Fass", base_price: 30 },
-{ id: "chest", name_de: "Kiste", base_price: 25 },
-{ id: "ender_chest", name_de: "Endertruhe", base_price: 300 },
-
-{ id: "crafting_table", name_de: "Werkbank", base_price: 15 },
-{ id: "furnace", name_de: "Ofen", base_price: 20 },
-{ id: "blast_furnace", name_de: "Schmelzofen", base_price: 80 },
-{ id: "smoker", name_de: "Räucherofen", base_price: 60 },
-{ id: "anvil", name_de: "Amboss", base_price: 200 },
-
-{ id: "enchanting_table", name_de: "Zaubertisch", base_price: 500 },
-{ id: "bookshelf", name_de: "Bücherregal", base_price: 45 },
-
-{ id: "bell", name_de: "Glocke", base_price: 250 },
-{ id: "beacon", name_de: "Leuchtfeuer", base_price: 5000 },
-
-/* ---------------------------------------------------
-   NETHER & END (20 Items)
---------------------------------------------------- */
-{ id: "netherrack", name_de: "Netherrack", base_price: 3 },
-{ id: "nether_bricks", name_de: "Netherziegel", base_price: 12 },
-{ id: "nether_wart", name_de: "Netherwarze", base_price: 20 },
-{ id: "soul_sand", name_de: "Seelensand", base_price: 10 },
-{ id: "soul_soil", name_de: "Seelenerde", base_price: 10 },
-{ id: "basalt", name_de: "Basalt", base_price: 8 },
-{ id: "blackstone", name_de: "Schwarzstein", base_price: 10 },
-{ id: "magma_block", name_de: "Magmablock", base_price: 15 },
-{ id: "glowstone_dust", name_de: "Glowstonestaub", base_price: 18 },
-{ id: "shroomlight", name_de: "Pilzlicht", base_price: 25 },
-
-{ id: "chorus_fruit", name_de: "Chorusfrucht", base_price: 20 },
-{ id: "popped_chorus_fruit", name_de: "Geplatzte Chorusfrucht", base_price: 25 },
-{ id: "end_rod", name_de: "Endstab", base_price: 30 },
-{ id: "purpur_pillar", name_de: "Purpurpfeiler", base_price: 45 },
-{ id: "dragon_breath", name_de: "Drachenatem", base_price: 150 },
-
-{ id: "end_crystal", name_de: "Endkristall", base_price: 800 },
-{ id: "elytra", name_de: "Elytren", base_price: 4500 },
-{ id: "dragon_head", name_de: "Drachenkopf", base_price: 2000 },
-{ id: "dragon_egg", name_de: "Drachenei", base_price: 5000 },
-{ id: "end_stone_bricks", name_de: "Endsteinziegel", base_price: 25 },
-
-/* ---------------------------------------------------
-   SCHALLPLATTEN (10 Items)
---------------------------------------------------- */
-{ id: "music_disc_13", name_de: "Schallplatte 13", base_price: 120 },
-{ id: "music_disc_cat", name_de: "Schallplatte Cat", base_price: 120 },
-{ id: "music_disc_blocks", name_de: "Schallplatte Blocks", base_price: 120 },
-{ id: "music_disc_chirp", name_de: "Schallplatte Chirp", base_price: 120 },
-{ id: "music_disc_far", name_de: "Schallplatte Far", base_price: 120 },
-{ id: "music_disc_mall", name_de: "Schallplatte Mall", base_price: 120 },
-{ id: "music_disc_mellohi", name_de: "Schallplatte Mellohi", base_price: 120 },
-{ id: "music_disc_stal", name_de: "Schallplatte Stal", base_price: 120 },
-{ id: "music_disc_strad", name_de: "Schallplatte Strad", base_price: 120 },
-{ id: "music_disc_ward", name_de: "Schallplatte Ward", base_price: 120 },
-
-/* ---------------------------------------------------
-   MINECARTS & BOOTE (10 Items)
---------------------------------------------------- */
-{ id: "minecart", name_de: "Lore", base_price: 50 },
-{ id: "chest_minecart", name_de: "Kistenlore", base_price: 80 },
-{ id: "furnace_minecart", name_de: "Ofenlore", base_price: 90 },
-{ id: "hopper_minecart", name_de: "Trichterlore", base_price: 110 },
-{ id: "tnt_minecart", name_de: "TNT-Lore", base_price: 120 },
-
-{ id: "oak_boat", name_de: "Eichenboot", base_price: 30 },
-{ id: "spruce_boat", name_de: "Fichtenboot", base_price: 30 },
-{ id: "birch_boat", name_de: "Birkenboot", base_price: 30 },
-{ id: "jungle_boat", name_de: "Tropenboot", base_price: 30 },
-{ id: "acacia_boat", name_de: "Akazienboot", base_price: 30 },
-
-/* ---------------------------------------------------
-   LETZTE 5 ITEMS (um auf exakt 225 zu kommen)
---------------------------------------------------- */
-{ id: "tnt", name_de: "TNT", base_price: 50 },
-{ id: "ladder", name_de: "Leiter", base_price: 8 },
-{ id: "scaffolding", name_de: "Gerüst", base_price: 12 },
-{ id: "lever", name_de: "Hebel", base_price: 5 },
-{ id: "tripwire_hook", name_de: "Haken", base_price: 10 },
-
+let items=[
+{ id:"diamond", name_de:"Diamant", base_price:600 },
+{ id:"iron_ingot", name_de:"Eisenbarren", base_price:55 },
+{ id:"gold_ingot", name_de:"Goldbarren", base_price:140 },
+{ id:"emerald", name_de:"Smaragd", base_price:450 }
 ];
 
-let market = {};
-let history = {};
-let selectedItem = null;
+let market={};
+let history={};
 
-/* AUTOMATISCHER ITEM COUNTER */
-function updateItemCounter() {
-  document.getElementById("item-counter").textContent = items.length + " Items";
-}
+/* INIT */
+function initLocal(){
+  const now=Math.floor(Date.now()/1000);
 
-/* Lokale Init */
-function initLocal() {
-  const now = Math.floor(Date.now() / 1000);
-  items.forEach(item => {
-    market[item.id] = item.base_price;
-    history[item.id] = [{ price: item.base_price, time: now }];
+  items.forEach(i=>{
+    market[i.id]=i.base_price;
+    history[i.id]=[{price:i.base_price,time:now}];
   });
 }
 
-/* API laden + JSON upgraden */
-async function initMarket() {
-  try {
-    const res = await fetch(API + "?t=" + Date.now());
-    if (!res.ok) throw new Error();
-    const data = await res.json();
+/* RENDER ITEMS */
+function renderItems(){
+  const view=document.getElementById("item-view");
+  view.innerHTML="";
 
-    market = data.market || {};
-    history = data.history || {};
+  items.forEach(item=>{
+    const card=document.createElement("div");
+    card.className="card";
 
-    const now = Math.floor(Date.now() / 1000);
+    card.innerHTML=`
+      <img src="https://img.mc-api.io/${item.id}.png">
+      <h3>${item.name_de}</h3>
+    `;
 
-    items.forEach(item => {
-      if (!market[item.id]) {
-        market[item.id] = item.base_price;
-        history[item.id] = [{ price: item.base_price, time: now }];
-      } else {
-        if (typeof history[item.id][0] === "number") {
-          history[item.id] = history[item.id].map((p, i) => ({
-            price: p,
-            time: now - (history[item.id].length - 1 - i) * 2
-          }));
-        }
-      }
-    });
-
-    saveData();
-  } catch {
-    initLocal();
-  }
-}
-
-/* Speichern */
-async function saveData() {
-  await fetch(API, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ market, history })
-  });
-}
-
-/* Marktupdate */
-async function updateMarket() {
-  const now = Math.floor(Date.now() / 1000);
-
-  items.forEach(item => {
-    let price = market[item.id];
-    const r = Math.random();
-
-    if (r < 0.7) {
-    } else if (r < 0.9) {
-      price *= 1 + Math.random() * 0.01;
-    } else {
-      price *= 1 - Math.random() * 0.01;
-    }
-
-    market[item.id] = price;
-    history[item.id].push({ price, time: now });
+    card.onclick=()=>openDetail(item.id);
+    view.appendChild(card);
   });
 
-  saveData();
+  document.getElementById("item-counter").textContent=
+    items.length+" Items";
 }
 
-/* Detailseite */
-function openDetail(id) {
-  selectedItem = id;
-  document.getElementById("item-view").style.display = "none";
-  document.getElementById("detail-view").style.display = "block";
+/* DETAIL */
+function openDetail(id){
+  selectedItem=id;
+
+  document.getElementById("item-view").style.display="none";
+  document.getElementById("detail-view").style.display="block";
+
   renderDetail();
 }
 
-function goBack() {
-  document.getElementById("detail-view").style.display = "none";
-  document.getElementById("item-view").style.display = "grid";
+function goBack(){
+  document.getElementById("detail-view").style.display="none";
+  document.getElementById("item-view").style.display="grid";
 }
 
-/* DETAIL + HOVER‑GRAPH */
-function renderDetail() {
-  const item = items.find(i => i.id === selectedItem);
-  const hist = history[selectedItem];
+/* GRAPH RENDER */
+function renderDetail(){
 
-  const prices = hist.map(h => h.price);
-  let max = Math.max(...prices);
-  let min = Math.min(...prices);
+  const hist=history[selectedItem];
+  if(!hist) return;
 
-  if (max === min) { max += 1; min -= 1; }
+  const prices=hist.map(h=>h.price);
+  let max=Math.max(...prices);
+  let min=Math.min(...prices);
 
-  const points = hist.map((h, i) => {
-    const x = (i / (hist.length - 1)) * 500;
-    const y = 200 - ((h.price - min) / (max - min)) * 200;
+  if(max===min){ max+=1; min-=1; }
+
+  const points=hist.map((h,i)=>{
+    const x=(i/(hist.length-1))*500;
+    const y=200-((h.price-min)/(max-min))*200;
     return `${x},${y}`;
   }).join(" ");
 
-  document.getElementById("detail-title").textContent = item.name_de;
+  const item=items.find(i=>i.id===selectedItem);
 
-  document.getElementById("detail-content").innerHTML = `
+  document.getElementById("detail-title").textContent=item.name_de;
+
+  document.getElementById("detail-content").innerHTML=`
     <div class="dash-prices">
       <div class="dash-box">
-        <div class="dash-label">Aktueller Kaufpreis</div>
-        <div class="dash-value dash-buy">$${market[selectedItem].toFixed(2)}</div>
+        <div class="dash-label">Kaufpreis</div>
+        <div class="dash-value">$${market[selectedItem].toFixed(2)}</div>
       </div>
+
       <div class="dash-box">
-        <div class="dash-label">Aktueller Verkaufspreis</div>
-        <div class="dash-value dash-sell">$${(market[selectedItem] * 0.92).toFixed(2)}</div>
+        <div class="dash-label">Verkaufspreis</div>
+        <div class="dash-value">$${(market[selectedItem]*0.92).toFixed(2)}</div>
       </div>
     </div>
 
-    <div style="position:relative; width:500px; margin:0 auto;">
+    <div style="position:relative">
       <svg id="chart" viewBox="0 0 500 200">
         <polyline class="graph-line" points="${points}" />
       </svg>
@@ -764,74 +381,65 @@ function renderDetail() {
     </div>
   `;
 
-  const svg = document.getElementById("chart");
-  const tooltip = document.getElementById("tooltip");
+  const svg=document.getElementById("chart");
+  const tooltip=document.getElementById("tooltip");
 
-  svg.addEventListener("mousemove", e => {
-    const rect = svg.getBoundingClientRect();
-    const x = e.clientX - rect.left;
+  svg.onmousemove=e=>{
+    const rect=svg.getBoundingClientRect();
+    const x=e.clientX-rect.left;
 
-    const index = Math.round((x / 500) * (hist.length - 1));
-    const entry = hist[index];
-    if (!entry) return;
+    const hist=history[selectedItem];
+    const index=Math.round((x/500)*(hist.length-1));
+    const entry=hist[index];
+    if(!entry) return;
 
-    const date = new Date(entry.time * 1000);
-    const timeStr = date.toLocaleString("de-DE");
+    const date=new Date(entry.time*1000);
 
-    const buy = entry.price;
-    const sell = entry.price * 0.92;
+    tooltip.style.left=(x+10)+"px";
+    tooltip.style.top=(e.clientY-rect.top+10)+"px";
+    tooltip.style.display="block";
 
-    tooltip.style.left = (x + 10) + "px";
-    tooltip.style.top = (e.clientY - rect.top + 10) + "px";
-    tooltip.style.display = "block";
-
-    tooltip.innerHTML = `
-      <b>${timeStr}</b><br>
-      Kaufpreis: $${buy.toFixed(2)}<br>
-      Verkaufspreis: $${sell.toFixed(2)}
+    tooltip.innerHTML=`
+      <b>${date.toLocaleString("de-DE")}</b><br>
+      Kauf: $${entry.price.toFixed(2)}<br>
+      Verkauf: $${(entry.price*0.92).toFixed(2)}
     `;
-  });
+  };
 
-  svg.addEventListener("mouseleave", () => {
-    tooltip.style.display = "none";
+  svg.onmouseleave=()=>tooltip.style.display="none";
+}
+
+/* SEARCH */
+function filterItems(){
+  const val=document.getElementById("searchInput").value.toLowerCase();
+
+  document.querySelectorAll(".card").forEach(card=>{
+    const text=card.innerText.toLowerCase();
+    card.style.display=text.includes(val)?"block":"none";
   });
 }
 
-/* Itemliste */
-function renderItems() {
-  const view = document.getElementById("item-view");
-  view.innerHTML = "";
+/* START */
+initLocal();
+renderItems();
 
-  items.forEach(item => {
-    const card = document.createElement("div");
-    card.className = "card";
+setInterval(()=>{
+  items.forEach(item=>{
+    let price=market[item.id];
+    price*=1+(Math.random()-0.5)*0.02;
+    market[item.id]=price;
 
-    card.innerHTML = `
-      <div class="card-header">
-        <img src="https://img.mc-api.io/${item.id}.png">
-        <div class="item-name">${item.name_de}</div>
-      </div>
-    `;
-
-    card.addEventListener("click", () => openDetail(item.id));
-
-    view.appendChild(card);
+    history[item.id].push({
+      price,
+      time:Math.floor(Date.now()/1000)
+    });
   });
 
-  updateItemCounter();
-}
+  if(selectedItem) renderDetail();
 
-/* Start */
-(async () => {
-  await initMarket();
-  renderItems();
-})();
+},3000);
 
-/* Live Update */
-setInterval(async () => {
-  await updateMarket();
-  if (selectedItem) renderDetail();
-}, 2000);
 </script>
+
 </body>
 </html>
