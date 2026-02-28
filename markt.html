@@ -30,7 +30,8 @@ body{
   color:var(--text);
 }
 
-/* ===== HERO (IDENTISCH ZUR INDEX) ===== */
+/* ===== HERO ===== */
+
 .hero {
   position:relative;
   height:450px;
@@ -68,6 +69,7 @@ body{
 }
 
 /* ===== SECTION ===== */
+
 section{
   position:relative;
   padding:80px 20px;
@@ -75,140 +77,198 @@ section{
   margin:auto;
 }
 
-/* ===== ITEM COUNTER ===== */
-#item-counter{
-  text-align:center;
-  font-size:1.4rem;
-  font-weight:700;
-  color:var(--primary);
-  margin-bottom:50px;
+/* ===== SEARCH ===== */
+
+.search-box{
+max-width:800px;
+margin:0 auto 40px;
 }
 
-/* ===== GRID ===== */
+.search-box input{
+width:100%;
+padding:18px;
+border-radius:16px;
+border:1px solid rgba(167,139,250,0.4);
+background:#0b0b12;
+color:white;
+font-size:1.1rem;
+outline:none;
+}
+
+/* ===== CATEGORY ===== */
+
+.category{
+margin-bottom:25px;
+background:var(--card);
+border-radius:22px;
+border:1px solid rgba(167,139,250,0.2);
+overflow:hidden;
+}
+
+.category-header{
+padding:18px 22px;
+font-family:'Orbitron',sans-serif;
+cursor:pointer;
+display:flex;
+justify-content:space-between;
+color:#ddd6fe;
+}
+
+.category-header:hover{
+background:rgba(167,139,250,0.08);
+}
+
+.category-content{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+gap:24px;
+padding:20px;
+}
+
+.category.collapsed .category-content{
+display:none;
+}
+
+/* ===== ITEM GRID ===== */
+
+#item-counter{
+text-align:center;
+font-size:1.4rem;
+font-weight:700;
+color:var(--primary);
+margin-bottom:50px;
+}
+
 #item-view{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-  gap:24px;
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+gap:24px;
 }
 
 .card{
-  background:var(--card);
-  border-radius:22px;
-  padding:26px;
-  border:1px solid rgba(167,139,250,0.15);
-  transition:.3s;
-  cursor:pointer;
-  text-align:center;
+background:var(--card);
+border-radius:22px;
+padding:26px;
+border:1px solid rgba(167,139,250,0.15);
+transition:.3s;
+cursor:pointer;
+text-align:center;
 }
 
 .card:hover{
-  transform:translateY(-6px);
-  box-shadow:0 20px 60px rgba(167,139,250,0.25);
+transform:translateY(-6px);
+box-shadow:0 20px 60px rgba(167,139,250,0.25);
 }
 
 .card img{
-  width:70px;
-  height:70px;
-  image-rendering:pixelated;
-  margin-bottom:15px;
+width:70px;
+height:70px;
+image-rendering:pixelated;
+margin-bottom:15px;
 }
 
 .card h3{
-  font-family:'Orbitron',sans-serif;
-  color:#ddd6fe;
+font-family:'Orbitron',sans-serif;
+color:#ddd6fe;
 }
 
-/* ===== DETAIL VIEW ===== */
+/* DETAIL */
+
 #detail-view{
-  display:none;
+display:none;
 }
 
 .detail-card{
-  background:var(--card);
-  border-radius:26px;
-  padding:40px;
-  border:1px solid rgba(167,139,250,0.2);
+background:var(--card);
+border-radius:26px;
+padding:40px;
+border:1px solid rgba(167,139,250,0.2);
 }
 
 .back-btn{
-  display:inline-block;
-  margin-bottom:25px;
-  padding:10px 18px;
-  border-radius:10px;
-  border:1px solid rgba(167,139,250,0.4);
-  cursor:pointer;
-  color:var(--primary-glow);
+display:inline-block;
+margin-bottom:25px;
+padding:10px 18px;
+border-radius:10px;
+border:1px solid rgba(167,139,250,0.4);
+cursor:pointer;
+color:var(--primary-glow);
 }
 
 .back-btn:hover{
-  background:rgba(167,139,250,0.15);
+background:rgba(167,139,250,0.15);
 }
 
 .dash-prices{
-  display:flex;
-  gap:24px;
-  justify-content:center;
-  margin-bottom:40px;
-  flex-wrap:wrap;
+display:flex;
+gap:24px;
+justify-content:center;
+margin-bottom:40px;
+flex-wrap:wrap;
 }
 
 .dash-box{
-  padding:18px 22px;
-  border-radius:18px;
-  background:rgba(0,0,0,0.4);
-  border:1px solid rgba(167,139,250,0.25);
-  text-align:center;
+padding:18px 22px;
+border-radius:18px;
+background:rgba(0,0,0,0.4);
+border:1px solid rgba(167,139,250,0.25);
+text-align:center;
 }
 
 .dash-label{
-  font-size:0.9rem;
-  color:var(--muted);
+font-size:0.9rem;
+color:var(--muted);
 }
 
 .dash-value{
-  font-size:1.5rem;
-  font-weight:800;
-  margin-top:5px;
+font-size:1.5rem;
+font-weight:800;
+margin-top:5px;
 }
 
+/* GRAPH */
+
 svg{
-  width:100%;
-  max-width:600px;
-  height:220px;
-  display:block;
-  margin:0 auto;
+width:100%;
+max-width:600px;
+height:220px;
+display:block;
+margin:0 auto;
 }
 
 .graph-line{
-  fill:none;
-  stroke:var(--primary);
-  stroke-width:2.5;
+fill:none;
+stroke:var(--primary);
+stroke-width:2.5;
 }
 
 #tooltip{
-  position:absolute;
-  padding:10px 14px;
-  background:#0b0b12;
-  border:1px solid rgba(167,139,250,0.4);
-  border-radius:12px;
-  font-size:0.85rem;
-  display:none;
-  pointer-events:none;
-  color:var(--text);
-  box-shadow:0 10px 40px rgba(0,0,0,0.6);
+position:absolute;
+padding:10px 14px;
+background:#0b0b12;
+border:1px solid rgba(167,139,250,0.4);
+border-radius:12px;
+font-size:0.85rem;
+display:none;
+pointer-events:none;
+color:var(--text);
+box-shadow:0 10px 40px rgba(0,0,0,0.6);
 }
 
-/* ===== FOOTER IDENTISCH ===== */
+/* FOOTER */
+
 footer{
-  text-align:center;
-  padding:40px 20px 60px;
-  color:var(--text);
-  border-top:1px solid rgba(167,139,250,0.15);
+text-align:center;
+padding:40px 20px 60px;
+color:var(--text);
+border-top:1px solid rgba(167,139,250,0.15);
 }
+
 footer span{
-  color:var(--primary);
-  font-weight:600;
+color:var(--primary);
+font-weight:600;
 }
+
 </style>
 </head>
 
@@ -222,6 +282,14 @@ footer span{
 </div>
 
 <section>
+
+<div class="search-box">
+<input id="searchInput"
+placeholder="🔎 Item suchen..."
+oninput="filterItems()">
+</div>
+
+<div id="category-container"></div>
 
 <div id="item-counter">0 Items</div>
 
@@ -238,7 +306,7 @@ footer span{
 </section>
 
 <footer>
-  © 2026 <span>PixelHide.net</span>
+© 2026 <span>PixelHide.net</span>
 </footer>
 
 <script>
