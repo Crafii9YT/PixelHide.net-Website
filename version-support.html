@@ -2,12 +2,14 @@
 <html lang="de">
 <head>
 <meta charset="UTF-8">
-<title>PixelHide.net | Minecraft Server</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Version Checker | PixelHide.net</title>
 <link rel="icon" type="image/png" href="favicon.png">
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 
 <style>
-:root {
+:root{
   --primary:#a78bfa;
   --primary-glow:#c4b5fd;
   --secondary:#050507;
@@ -15,7 +17,11 @@
   --text:#e5e7eb;
   --muted:#9ca3af;
 }
-*{box-sizing:border-box;}
+
+*{
+  box-sizing:border-box;
+}
+
 body{
   margin:0;
   font-family:'Inter',sans-serif;
@@ -24,7 +30,8 @@ body{
   overflow-x:hidden;
 }
 
-.hero {
+/* HERO */
+.hero{
   position:relative;
   height:400px;
   background:url("Banner.png") center/cover no-repeat;
@@ -33,16 +40,16 @@ body{
   align-items:center;
   justify-content:center;
   text-align:center;
+  padding:20px;
 }
 
 .hero img{
   width:400px;
   max-width:90%;
-  z-index:2;
   filter:drop-shadow(0 0 70px rgba(167,139,250,0.9));
-  margin-bottom:20px;
 }
 
+/* STATUS BAR */
 .status{
   display:flex;
   justify-content:center;
@@ -53,71 +60,117 @@ body{
   border-radius:18px;
   border:1px solid rgba(167,139,250,0.25);
   gap:12px;
+  flex-wrap:wrap;
+  text-align:center;
 }
 
+/* BUTTONS */
 .copy-btn{
-  padding:6px 14px;
+  padding:8px 16px;
   font-size:0.9rem;
   border-radius:10px;
   border:none;
   cursor:pointer;
   background:linear-gradient(135deg,var(--primary),var(--primary-glow));
   color:#050507;
-  transition:all .25s ease;
-}
-.copy-btn:hover{
-  transform:translateY(-1px) scale(1.02);
-  box-shadow:0 10px 30px rgba(167,139,250,0.4);
 }
 
+.copy-btn:hover{
+  transform:translateY(-1px) scale(1.02);
+}
+
+/* VERSION SELECT */
 .version-select{
   display:flex;
   flex-direction:column;
   align-items:center;
   margin-top:60px;
   gap:16px;
+  padding:0 15px;
 }
 
 .version-select select{
   padding:12px 20px;
-  font-size:1.1rem;
+  font-size:1rem;
   border-radius:12px;
   border:1px solid rgba(167,139,250,0.4);
   background:var(--card);
   color:var(--text);
-  cursor:pointer;
-  width:220px;
+  width:100%;
+  max-width:260px;
   text-align:center;
 }
 
+/* VERSION TEXT */
 .version-text{
-  font-size:1.2rem;
+  font-size:1.1rem;
   font-weight:600;
+  text-align:center;
 }
-.version-text.gray { color: var(--muted); }
-.version-text.green { color: #22c55e; }
-.version-text.red { color: #ef4444; }
 
+.version-text.gray{color:var(--muted);}
+.version-text.green{color:#22c55e;}
+.version-text.red{color:#ef4444;}
+
+/* FOOTER */
 footer{
   text-align:center;
   padding:40px 20px 60px;
-  color:var(--text);
   border-top:1px solid rgba(167,139,250,0.15);
 }
+
 footer span{
   color:var(--primary);
   font-weight:600;
 }
+
+/* ===== MOBILE RESPONSIVE ===== */
+
+@media(max-width:768px){
+  .hero{
+    height:300px;
+  }
+
+  .hero img{
+    width:250px;
+  }
+
+  .status{
+    flex-direction:column;
+    gap:15px;
+  }
+
+  .copy-btn{
+    width:100%;
+    padding:12px;
+  }
+}
+
+@media(max-width:480px){
+  .hero{
+    height:260px;
+  }
+
+  .hero img{
+    width:200px;
+  }
+
+  .version-select select{
+    font-size:0.95rem;
+  }
+}
 </style>
 </head>
+
 <body>
 
 <div class="hero">
-  <img src="pixelhidenet.png" alt="PixelHide.net Logo">
+  <img src="pixelhidenet.png" alt="PixelHide Logo">
 </div>
 
 <div class="status">
-  <strong>Server-IP:</strong> PixelHide.net
+  <strong>Server-IP:</strong>
+  <span>PixelHide.net</span>
   <button class="copy-btn" onclick="copyIP(this)">Kopieren</button>
 </div>
 
@@ -125,15 +178,17 @@ footer span{
   <select id="versionDropdown" onchange="checkVersion()">
     <option value="">Wähle eine Version...</option>
   </select>
-  <div id="versionStatus" class="version-text gray">Wähle eine Version...</div>
+  <div id="versionStatus" class="version-text gray">
+    Wähle eine Version...
+  </div>
 </div>
 
 <footer>
   © 2026 <span>PixelHide.net</span> · Nicht in Verbindung mit Mojang AB.
 </footer>
-<script src="https://uptime.betterstack.com/widgets/announcement.js" data-id="208286" async="async" type="text/javascript"></script>
+
 <script>
-// Kopierfunktion
+// Copy IP
 function copyIP(button){
   navigator.clipboard.writeText("pixelhide.net");
   let original = button.innerText;
@@ -141,16 +196,16 @@ function copyIP(button){
   setTimeout(()=>button.innerText = original,5000);
 }
 
-// Dropdown füllen (1.21.11 bis 1.0.0)
+// Version Dropdown füllen
 const dropdown = document.getElementById("versionDropdown");
 
 for(let major=21; major>=0; major--){
   let minorMax = (major===21) ? 11 : 9;
+
   for(let minor=minorMax; minor>=0; minor--){
-    let option = document.createElement("option");
-    option.value = `1.${major}.${minor}`;
-    option.textContent = `1.${major}.${minor}`;
-    dropdown.appendChild(option);
+    dropdown.appendChild(
+      new Option(`1.${major}.${minor}`, `1.${major}.${minor}`)
+    );
   }
 }
 
@@ -158,16 +213,19 @@ for(let major=21; major>=0; major--){
 function checkVersion(){
   const val = dropdown.value;
   const status = document.getElementById("versionStatus");
+
   if(!val){
-    status.textContent = "Wir können dir nicht sagen ob deine Version unterstützt ist oder nicht, wenn du keine wählst!";
+    status.textContent = "Bitte wähle eine Version!";
     status.className = "version-text gray";
     return;
   }
 
   const supportedVersions = [];
+
   for(let major=13; major<=21; major++){
     let minorMax = (major===21) ? 11 : 9;
-    for(let minor=(major===8?0:0); minor<=minorMax; minor++){
+
+    for(let minor=0; minor<=minorMax; minor++){
       supportedVersions.push(`1.${major}.${minor}`);
     }
   }
@@ -175,7 +233,7 @@ function checkVersion(){
   if(supportedVersions.includes(val)){
     status.textContent = "Diese Version ist unterstützt!";
     status.className = "version-text green";
-  } else {
+  }else{
     status.textContent = "Diese Version ist nicht unterstützt!";
     status.className = "version-text red";
   }
