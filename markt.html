@@ -280,11 +280,735 @@ let selectedItem=null;
    ITEM LIST (Short Demo Data)
 ----------------------------- */
 
-let items=[
-{ id:"diamond", name_de:"Diamant", base_price:600 },
-{ id:"iron_ingot", name_de:"Eisenbarren", base_price:55 },
-{ id:"gold_ingot", name_de:"Goldbarren", base_price:140 },
-{ id:"emerald", name_de:"Smaragd", base_price:450 }
+let items = [
+
+/* ---------------------------------------------------
+   HOLZSTÄMME (16 Items)
+--------------------------------------------------- */
+{ id: "oak_log", name_de: "Eichenholzstamm", base_price: 17 },
+{ id: "spruce_log", name_de: "Fichtenholzstamm", base_price: 17 },
+{ id: "birch_log", name_de: "Birkenholzstamm", base_price: 17 },
+{ id: "jungle_log", name_de: "Tropenholzstamm", base_price: 17 },
+{ id: "acacia_log", name_de: "Akazienholzstamm", base_price: 18 },
+{ id: "dark_oak_log", name_de: "Schwarzeichenholzstamm", base_price: 18 },
+{ id: "mangrove_log", name_de: "Mangrovenholzstamm", base_price: 18 },
+{ id: "cherry_log", name_de: "Kirschholzstamm", base_price: 18 },
+{ id: "crimson_stem", name_de: "Karmesinstamm", base_price: 20 },
+{ id: "warped_stem", name_de: "Wirrstamm", base_price: 20 },
+{ id: "stripped_oak_log", name_de: "Entrindeter Eichenstamm", base_price: 18 },
+{ id: "stripped_spruce_log", name_de: "Entrindeter Fichtenstamm", base_price: 18 },
+{ id: "stripped_birch_log", name_de: "Entrindeter Birkenstamm", base_price: 18 },
+{ id: "stripped_jungle_log", name_de: "Entrindeter Tropenstamm", base_price: 18 },
+{ id: "stripped_acacia_log", name_de: "Entrindeter Akazienstamm", base_price: 19 },
+{ id: "stripped_dark_oak_log", name_de: "Entrindeter Schwarzeichenstamm", base_price: 19 },
+
+/* ---------------------------------------------------
+   HOLZBRETTER (16 Items)
+--------------------------------------------------- */
+{ id: "oak_planks", name_de: "Eichenholzbretter", base_price: 8 },
+{ id: "spruce_planks", name_de: "Fichtenholzbretter", base_price: 8 },
+{ id: "birch_planks", name_de: "Birkenholzbretter", base_price: 8 },
+{ id: "jungle_planks", name_de: "Tropenholzbretter", base_price: 8 },
+{ id: "acacia_planks", name_de: "Akazienholzbretter", base_price: 10 },
+{ id: "dark_oak_planks", name_de: "Schwarzeichenholzbretter", base_price: 9 },
+{ id: "mangrove_planks", name_de: "Mangrovenholzbretter", base_price: 9 },
+{ id: "cherry_planks", name_de: "Kirschholzbretter", base_price: 9 },
+{ id: "crimson_planks", name_de: "Karmesinbretter", base_price: 11 },
+{ id: "warped_planks", name_de: "Wirrbretter", base_price: 11 },
+{ id: "bamboo_planks", name_de: "Bambusbretter", base_price: 9 },
+{ id: "stripped_oak_wood", name_de: "Entrindetes Eichenholz", base_price: 10 },
+{ id: "stripped_spruce_wood", name_de: "Entrindetes Fichtenholz", base_price: 10 },
+{ id: "stripped_birch_wood", name_de: "Entrindetes Birkenholz", base_price: 10 },
+{ id: "stripped_jungle_wood", name_de: "Entrindetes Tropenholz", base_price: 10 },
+{ id: "stripped_acacia_wood", name_de: "Entrindetes Akazienholz", base_price: 11 },
+
+/* ---------------------------------------------------
+   BLÄTTER (12 Items)
+--------------------------------------------------- */
+{ id: "oak_leaves", name_de: "Eichenblätter", base_price: 6 },
+{ id: "spruce_leaves", name_de: "Fichtenblätter", base_price: 6 },
+{ id: "birch_leaves", name_de: "Birkenblätter", base_price: 6 },
+{ id: "jungle_leaves", name_de: "Tropenblätter", base_price: 6 },
+{ id: "acacia_leaves", name_de: "Akazienblätter", base_price: 6 },
+{ id: "dark_oak_leaves", name_de: "Schwarzeichenblätter", base_price: 6 },
+{ id: "mangrove_leaves", name_de: "Mangrovenblätter", base_price: 7 },
+{ id: "cherry_leaves", name_de: "Kirschblätter", base_price: 7 },
+{ id: "azalea_leaves", name_de: "Azaleenblätter", base_price: 8 },
+{ id: "flowering_azalea_leaves", name_de: "Blühende Azaleenblätter", base_price: 10 },
+{ id: "crimson_fungus", name_de: "Karmesinpilz", base_price: 12 },
+{ id: "warped_fungus", name_de: "Wirrpilz", base_price: 12 },
+
+/* ---------------------------------------------------
+   SETZLINGE & NATUR (20 Items)
+--------------------------------------------------- */
+{ id: "oak_sapling", name_de: "Eichensetzling", base_price: 12 },
+{ id: "spruce_sapling", name_de: "Fichtensetzling", base_price: 12 },
+{ id: "birch_sapling", name_de: "Birkensetzling", base_price: 12 },
+{ id: "jungle_sapling", name_de: "Tropensetzling", base_price: 12 },
+{ id: "acacia_sapling", name_de: "Akaziensetzling", base_price: 12 },
+{ id: "dark_oak_sapling", name_de: "Schwarzeichensetzling", base_price: 12 },
+{ id: "mangrove_propagule", name_de: "Mangrovenkeimling", base_price: 14 },
+{ id: "cherry_sapling", name_de: "Kirschsetzling", base_price: 14 },
+{ id: "azalea", name_de: "Azalee", base_price: 10 },
+{ id: "flowering_azalea", name_de: "Blühende Azalee", base_price: 12 },
+{ id: "bamboo", name_de: "Bambus", base_price: 10 },
+{ id: "sugar_cane", name_de: "Zuckerrohr", base_price: 14 },
+{ id: "kelp", name_de: "Seetang", base_price: 5 },
+{ id: "seagrass", name_de: "Seegras", base_price: 4 },
+{ id: "tall_seagrass", name_de: "Hohes Seegras", base_price: 5 },
+{ id: "cactus", name_de: "Kaktus", base_price: 10 },
+{ id: "vine", name_de: "Ranken", base_price: 8 },
+{ id: "glow_lichen", name_de: "Leuchtflechte", base_price: 12 },
+{ id: "moss_block", name_de: "Moosblock", base_price: 15 },
+{ id: "moss_carpet", name_de: "Moosteppich", base_price: 8 },
+
+/* ---------------------------------------------------
+   BLUMEN (20 Items)
+--------------------------------------------------- */
+{ id: "dandelion", name_de: "Löwenzahn", base_price: 5 },
+{ id: "poppy", name_de: "Mohnblume", base_price: 5 },
+{ id: "blue_orchid", name_de: "Blaue Orchidee", base_price: 8 },
+{ id: "allium", name_de: "Lauchblume", base_price: 8 },
+{ id: "azure_bluet", name_de: "Porzellansternchen", base_price: 8 },
+{ id: "red_tulip", name_de: "Rote Tulpe", base_price: 8 },
+{ id: "orange_tulip", name_de: "Orange Tulpe", base_price: 8 },
+{ id: "white_tulip", name_de: "Weiße Tulpe", base_price: 8 },
+{ id: "pink_tulip", name_de: "Rosa Tulpe", base_price: 8 },
+{ id: "oxeye_daisy", name_de: "Margerite", base_price: 8 },
+{ id: "cornflower", name_de: "Kornblume", base_price: 8 },
+{ id: "lily_of_the_valley", name_de: "Maiglöckchen", base_price: 10 },
+{ id: "sunflower", name_de: "Sonnenblume", base_price: 12 },
+{ id: "lilac", name_de: "Flieder", base_price: 12 },
+{ id: "rose_bush", name_de: "Rosenstrauch", base_price: 12 },
+{ id: "peony", name_de: "Pfingstrose", base_price: 12 },
+{ id: "wither_rose", name_de: "Witherrose", base_price: 40 },
+{ id: "brown_mushroom", name_de: "Brauner Pilz", base_price: 8 },
+{ id: "red_mushroom", name_de: "Roter Pilz", base_price: 8 },
+{ id: "crimson_roots", name_de: "Karmesinwurzeln", base_price: 10 },
+
+/* ---------------------------------------------------
+   LANDWIRTSCHAFT (20 Items)
+--------------------------------------------------- */
+{ id: "wheat", name_de: "Weizen", base_price: 12 },
+{ id: "wheat_seeds", name_de: "Weizensamen", base_price: 4 },
+{ id: "carrot", name_de: "Karotte", base_price: 10 },
+{ id: "potato", name_de: "Kartoffel", base_price: 10 },
+{ id: "beetroot", name_de: "Rote Bete", base_price: 9 },
+{ id: "beetroot_seeds", name_de: "Rote-Bete-Samen", base_price: 5 },
+{ id: "melon_slice", name_de: "Melonenscheibe", base_price: 6 },
+{ id: "melon_seeds", name_de: "Melonensamen", base_price: 5 },
+{ id: "pumpkin", name_de: "Kürbis", base_price: 18 },
+{ id: "pumpkin_seeds", name_de: "Kürbissamen", base_price: 5 },
+{ id: "cocoa_beans", name_de: "Kakaobohnen", base_price: 10 },
+{ id: "sweet_berries", name_de: "Süßbeeren", base_price: 10 },
+{ id: "glow_berries", name_de: "Leuchtbeeren", base_price: 12 },
+{ id: "apple", name_de: "Apfel", base_price: 14 },
+{ id: "bread", name_de: "Brot", base_price: 16 },
+{ id: "cookie", name_de: "Keks", base_price: 8 },
+{ id: "honey_bottle", name_de: "Honigflasche", base_price: 25 },
+{ id: "honeycomb", name_de: "Honigwabe", base_price: 18 },
+{ id: "egg", name_de: "Ei", base_price: 6 },
+{ id: "milk_bucket", name_de: "Milcheimer", base_price: 40 },
+
+/* ---------------------------------------------------
+   STEINE & GRUNDGEBÄUDE (30 Items)
+--------------------------------------------------- */
+{ id: "stone", name_de: "Stein", base_price: 5 },
+{ id: "cobblestone", name_de: "Bruchstein", base_price: 4 },
+{ id: "mossy_cobblestone", name_de: "Moosiger Bruchstein", base_price: 6 },
+{ id: "stone_bricks", name_de: "Steinziegel", base_price: 12 },
+{ id: "mossy_stone_bricks", name_de: "Moosige Steinziegel", base_price: 14 },
+{ id: "cracked_stone_bricks", name_de: "Rissige Steinziegel", base_price: 10 },
+{ id: "chiseled_stone_bricks", name_de: "Gemeißelte Steinziegel", base_price: 14 },
+{ id: "smooth_stone", name_de: "Glatter Stein", base_price: 8 },
+{ id: "granite", name_de: "Granit", base_price: 6 },
+{ id: "polished_granite", name_de: "Polierter Granit", base_price: 8 },
+{ id: "diorite", name_de: "Diorit", base_price: 6 },
+{ id: "polished_diorite", name_de: "Polierter Diorit", base_price: 8 },
+{ id: "andesite", name_de: "Andesit", base_price: 6 },
+{ id: "polished_andesite", name_de: "Polierter Andesit", base_price: 8 },
+{ id: "tuff", name_de: "Tuff", base_price: 7 },
+{ id: "calcite", name_de: "Kalzit", base_price: 10 },
+{ id: "dripstone_block", name_de: "Tropfsteinblock", base_price: 12 },
+{ id: "pointed_dripstone", name_de: "Spitzer Tropfstein", base_price: 10 },
+{ id: "mud", name_de: "Schlamm", base_price: 4 },
+{ id: "packed_mud", name_de: "Verdichteter Schlamm", base_price: 8 },
+{ id: "mud_bricks", name_de: "Schlammziegel", base_price: 12 },
+{ id: "sandstone", name_de: "Sandstein", base_price: 10 },
+{ id: "smooth_sandstone", name_de: "Glatter Sandstein", base_price: 12 },
+{ id: "cut_sandstone", name_de: "Geschnittener Sandstein", base_price: 12 },
+{ id: "red_sandstone", name_de: "Roter Sandstein", base_price: 12 },
+{ id: "smooth_red_sandstone", name_de: "Glatter roter Sandstein", base_price: 14 },
+{ id: "cut_red_sandstone", name_de: "Geschnittener roter Sandstein", base_price: 14 },
+{ id: "brick_block", name_de: "Ziegelblock", base_price: 20 },
+{ id: "chiseled_quartz_block", name_de: "Gemeißelter Quarzblock", base_price: 35 },
+{ id: "smooth_quartz", name_de: "Glatter Quarz", base_price: 30 },
+
+/* ---------------------------------------------------
+   TIEFENSCHIEFER (20 Items)
+--------------------------------------------------- */
+{ id: "deepslate", name_de: "Tiefenschiefer", base_price: 6 },
+{ id: "cobbled_deepslate", name_de: "Bruchtiefenschiefer", base_price: 6 },
+{ id: "polished_deepslate", name_de: "Polierter Tiefenschiefer", base_price: 8 },
+{ id: "deepslate_bricks", name_de: "Tiefenschieferziegel", base_price: 12 },
+{ id: "cracked_deepslate_bricks", name_de: "Rissige Tiefenschieferziegel", base_price: 10 },
+{ id: "deepslate_tiles", name_de: "Tiefenschieferkacheln", base_price: 12 },
+{ id: "cracked_deepslate_tiles", name_de: "Rissige Tiefenschieferkacheln", base_price: 10 },
+{ id: "chiseled_deepslate", name_de: "Gemeißelter Tiefenschiefer", base_price: 14 },
+{ id: "deepslate_coal_ore", name_de: "Tiefenschiefer-Kohleerz", base_price: 25 },
+{ id: "deepslate_iron_ore", name_de: "Tiefenschiefer-Eisenerz", base_price: 45 },
+{ id: "deepslate_gold_ore", name_de: "Tiefenschiefer-Golderz", base_price: 90 },
+{ id: "deepslate_copper_ore", name_de: "Tiefenschiefer-Kupfererz", base_price: 25 },
+{ id: "deepslate_redstone_ore", name_de: "Tiefenschiefer-Redstoneerz", base_price: 30 },
+{ id: "deepslate_lapis_ore", name_de: "Tiefenschiefer-Lapiserz", base_price: 35 },
+{ id: "deepslate_diamond_ore", name_de: "Tiefenschiefer-Diamanterz", base_price: 900 },
+{ id: "deepslate_emerald_ore", name_de: "Tiefenschiefer-Smaragderz", base_price: 700 },
+{ id: "reinforced_deepslate", name_de: "Verstärkter Tiefenschiefer", base_price: 500 },
+{ id: "basalt", name_de: "Basalt", base_price: 8 },
+{ id: "smooth_basalt", name_de: "Glatter Basalt", base_price: 10 },
+{ id: "blackstone", name_de: "Schwarzstein", base_price: 10 },
+
+/* ---------------------------------------------------
+   ERZE & MINERALIEN (25 Items)
+--------------------------------------------------- */
+{ id: "coal_ore", name_de: "Kohleerz", base_price: 25 },
+{ id: "iron_ore", name_de: "Eisenerz", base_price: 45 },
+{ id: "gold_ore", name_de: "Golderz", base_price: 90 },
+{ id: "copper_ore", name_de: "Kupfererz", base_price: 20 },
+{ id: "lapis_ore", name_de: "Lapiserz", base_price: 30 },
+{ id: "redstone_ore", name_de: "Redstoneerz", base_price: 25 },
+{ id: "diamond_ore", name_de: "Diamanterz", base_price: 850 },
+{ id: "emerald_ore", name_de: "Smaragderz", base_price: 650 },
+{ id: "nether_quartz_ore", name_de: "Netherquarzerz", base_price: 40 },
+{ id: "ancient_debris", name_de: "Antiker Schrott", base_price: 1200 },
+
+{ id: "raw_iron", name_de: "Rohes Eisen", base_price: 40 },
+{ id: "raw_gold", name_de: "Rohes Gold", base_price: 90 },
+{ id: "raw_copper", name_de: "Rohes Kupfer", base_price: 18 },
+
+{ id: "iron_ingot", name_de: "Eisenbarren", base_price: 55 },
+{ id: "gold_ingot", name_de: "Goldbarren", base_price: 140 },
+{ id: "copper_ingot", name_de: "Kupferbarren", base_price: 30 },
+{ id: "diamond", name_de: "Diamant", base_price: 600 },
+{ id: "emerald", name_de: "Smaragd", base_price: 450 },
+{ id: "lapis_lazuli", name_de: "Lapislazuli", base_price: 25 },
+{ id: "redstone", name_de: "Redstone", base_price: 15 },
+{ id: "quartz", name_de: "Netherquarz", base_price: 30 },
+{ id: "amethyst_shard", name_de: "Amethystsplitter", base_price: 35 },
+{ id: "netherite_scrap", name_de: "Netherit-Schrott", base_price: 900 },
+{ id: "netherite_ingot", name_de: "Netheritbarren", base_price: 3200 },
+{ id: "obsidian", name_de: "Obsidian", base_price: 80 },
+
+/* ---------------------------------------------------
+   GLAS, BETON, TERRAKOTTA (25 Items)
+--------------------------------------------------- */
+{ id: "glass", name_de: "Glas", base_price: 12 },
+{ id: "white_stained_glass", name_de: "Weißes Glas", base_price: 14 },
+{ id: "black_stained_glass", name_de: "Schwarzes Glas", base_price: 14 },
+{ id: "blue_stained_glass", name_de: "Blaues Glas", base_price: 14 },
+{ id: "red_stained_glass", name_de: "Rotes Glas", base_price: 14 },
+{ id: "green_stained_glass", name_de: "Grünes Glas", base_price: 14 },
+{ id: "yellow_stained_glass", name_de: "Gelbes Glas", base_price: 14 },
+{ id: "purple_stained_glass", name_de: "Lila Glas", base_price: 14 },
+
+{ id: "white_concrete", name_de: "Weißer Beton", base_price: 14 },
+{ id: "black_concrete", name_de: "Schwarzer Beton", base_price: 14 },
+{ id: "blue_concrete", name_de: "Blauer Beton", base_price: 14 },
+{ id: "red_concrete", name_de: "Roter Beton", base_price: 14 },
+{ id: "green_concrete", name_de: "Grüner Beton", base_price: 14 },
+{ id: "yellow_concrete", name_de: "Gelber Beton", base_price: 14 },
+{ id: "purple_concrete", name_de: "Lila Beton", base_price: 14 },
+
+{ id: "terracotta", name_de: "Terrakotta", base_price: 18 },
+{ id: "white_terracotta", name_de: "Weiße Terrakotta", base_price: 20 },
+{ id: "black_terracotta", name_de: "Schwarze Terrakotta", base_price: 20 },
+{ id: "blue_terracotta", name_de: "Blaue Terrakotta", base_price: 20 },
+{ id: "red_terracotta", name_de: "Rote Terrakotta", base_price: 20 },
+{ id: "green_terracotta", name_de: "Grüne Terrakotta", base_price: 20 },
+{ id: "yellow_terracotta", name_de: "Gelbe Terrakotta", base_price: 20 },
+{ id: "purple_terracotta", name_de: "Lila Terrakotta", base_price: 20 },
+{ id: "glazed_terracotta", name_de: "Glasierte Terrakotta", base_price: 25 },
+{ id: "white_glazed_terracotta", name_de: "Weiße glasierte Terrakotta", base_price: 25 },
+
+/* ---------------------------------------------------
+   NAHRUNG (25 Items)
+--------------------------------------------------- */
+{ id: "apple", name_de: "Apfel", base_price: 14 },
+{ id: "golden_apple", name_de: "Goldener Apfel", base_price: 350 },
+{ id: "enchanted_golden_apple", name_de: "Verzauberter Goldapfel", base_price: 5000 },
+{ id: "bread", name_de: "Brot", base_price: 16 },
+{ id: "cookie", name_de: "Keks", base_price: 8 },
+{ id: "cake", name_de: "Kuchen", base_price: 60 },
+{ id: "pumpkin_pie", name_de: "Kürbiskuchen", base_price: 25 },
+{ id: "honey_bottle", name_de: "Honigflasche", base_price: 25 },
+{ id: "beetroot_soup", name_de: "Rote-Bete-Suppe", base_price: 20 },
+{ id: "mushroom_stew", name_de: "Pilzsuppe", base_price: 20 },
+{ id: "rabbit_stew", name_de: "Kaninchenragout", base_price: 45 },
+{ id: "suspicious_stew", name_de: "Verdächtige Suppe", base_price: 30 },
+{ id: "baked_potato", name_de: "Ofenkartoffel", base_price: 14 },
+{ id: "carrot", name_de: "Karotte", base_price: 10 },
+{ id: "potato", name_de: "Kartoffel", base_price: 10 },
+{ id: "beetroot", name_de: "Rote Bete", base_price: 9 },
+{ id: "melon_slice", name_de: "Melonenscheibe", base_price: 6 },
+{ id: "sweet_berries", name_de: "Süßbeeren", base_price: 10 },
+{ id: "glow_berries", name_de: "Leuchtbeeren", base_price: 12 },
+{ id: "chorus_fruit", name_de: "Chorusfrucht", base_price: 20 },
+{ id: "dried_kelp", name_de: "Getrockneter Seetang", base_price: 8 },
+{ id: "steak", name_de: "Steak", base_price: 22 },
+{ id: "cooked_porkchop", name_de: "Gebratenes Schweinefleisch", base_price: 22 },
+{ id: "cooked_mutton", name_de: "Gebratenes Hammelfleisch", base_price: 20 },
+{ id: "cooked_chicken", name_de: "Gebratenes Hühnchen", base_price: 18 },
+
+/* ---------------------------------------------------
+   ROHES FLEISCH (15 Items)
+--------------------------------------------------- */
+{ id: "raw_beef", name_de: "Rohes Rindfleisch", base_price: 14 },
+{ id: "raw_porkchop", name_de: "Rohes Schweinefleisch", base_price: 14 },
+{ id: "raw_mutton", name_de: "Rohes Hammelfleisch", base_price: 12 },
+{ id: "raw_chicken", name_de: "Rohes Hühnchen", base_price: 12 },
+{ id: "raw_rabbit", name_de: "Rohes Kaninchen", base_price: 12 },
+{ id: "raw_cod", name_de: "Roher Kabeljau", base_price: 10 },
+{ id: "raw_salmon", name_de: "Roher Lachs", base_price: 12 },
+{ id: "pufferfish", name_de: "Kugelfisch", base_price: 18 },
+{ id: "tropical_fish", name_de: "Tropenfisch", base_price: 16 },
+{ id: "rotten_flesh", name_de: "Verrottetes Fleisch", base_price: 5 },
+{ id: "spider_eye", name_de: "Spinnenauge", base_price: 15 },
+{ id: "phantom_membrane", name_de: "Phantomhaut", base_price: 60 },
+{ id: "ink_sac", name_de: "Tintenbeutel", base_price: 16 },
+{ id: "glow_ink_sac", name_de: "Leuchttintenbeutel", base_price: 20 },
+{ id: "slime_ball", name_de: "Schleimball", base_price: 25 },
+
+/* ---------------------------------------------------
+   TIERE & DROPS (25 Items)
+--------------------------------------------------- */
+{ id: "leather", name_de: "Leder", base_price: 20 },
+{ id: "rabbit_hide", name_de: "Kaninchenfell", base_price: 12 },
+{ id: "rabbit_foot", name_de: "Kaninchenpfote", base_price: 40 },
+{ id: "feather", name_de: "Feder", base_price: 8 },
+{ id: "egg", name_de: "Ei", base_price: 6 },
+{ id: "bone", name_de: "Knochen", base_price: 12 },
+{ id: "bone_meal", name_de: "Knochenmehl", base_price: 6 },
+{ id: "gunpowder", name_de: "Schießpulver", base_price: 20 },
+{ id: "string", name_de: "Faden", base_price: 10 },
+{ id: "honeycomb", name_de: "Honigwabe", base_price: 18 },
+{ id: "blaze_rod", name_de: "Lohenrute", base_price: 90 },
+{ id: "ghast_tear", name_de: "Ghastträne", base_price: 180 },
+{ id: "ender_pearl", name_de: "Enderperle", base_price: 120 },
+{ id: "shulker_shell", name_de: "Shulker-Schale", base_price: 250 },
+{ id: "nautilus_shell", name_de: "Nautilusschale", base_price: 80 },
+{ id: "heart_of_the_sea", name_de: "Herz des Meeres", base_price: 900 },
+{ id: "scute", name_de: "Schildkrötenpanzer", base_price: 40 },
+{ id: "turtle_egg", name_de: "Schildkrötenei", base_price: 60 },
+{ id: "goat_horn", name_de: "Ziegenhorn", base_price: 120 },
+{ id: "echo_shard", name_de: "Echoscherbe", base_price: 200 },
+{ id: "wither_rose", name_de: "Witherrose", base_price: 40 },
+{ id: "nether_star", name_de: "Netherstern", base_price: 2500 },
+{ id: "dragon_breath", name_de: "Drachenatem", base_price: 150 },
+{ id: "totem_of_undying", name_de: "Totem der Unsterblichkeit", base_price: 1800 },
+{ id: "elytra", name_de: "Elytren", base_price: 4500 },
+
+/* ---------------------------------------------------
+   FISCHEREI (20 Items)
+--------------------------------------------------- */
+{ id: "fishing_rod", name_de: "Angel", base_price: 25 },
+{ id: "cod", name_de: "Gebratener Kabeljau", base_price: 14 },
+{ id: "salmon", name_de: "Gebratener Lachs", base_price: 16 },
+{ id: "tropical_fish_bucket", name_de: "Tropenfisch-Eimer", base_price: 60 },
+{ id: "pufferfish_bucket", name_de: "Kugelfisch-Eimer", base_price: 70 },
+{ id: "axolotl_bucket", name_de: "Axolotl-Eimer", base_price: 120 },
+{ id: "water_bucket", name_de: "Wassereimer", base_price: 20 },
+{ id: "lava_bucket", name_de: "Lavaeimer", base_price: 40 },
+{ id: "powder_snow_bucket", name_de: "Pulverschnee-Eimer", base_price: 35 },
+{ id: "bucket", name_de: "Eimer", base_price: 25 },
+{ id: "nautilus_shell", name_de: "Nautilusschale", base_price: 80 },
+{ id: "heart_of_the_sea", name_de: "Herz des Meeres", base_price: 900 },
+{ id: "kelp", name_de: "Seetang", base_price: 5 },
+{ id: "seagrass", name_de: "Seegras", base_price: 4 },
+{ id: "tropical_fish", name_de: "Tropenfisch", base_price: 16 },
+{ id: "pufferfish", name_de: "Kugelfisch", base_price: 18 },
+{ id: "raw_cod", name_de: "Roher Kabeljau", base_price: 10 },
+{ id: "raw_salmon", name_de: "Roher Lachs", base_price: 12 },
+{ id: "ink_sac", name_de: "Tintenbeutel", base_price: 16 },
+{ id: "glow_ink_sac", name_de: "Leuchttintenbeutel", base_price: 20 },
+
+/* ---------------------------------------------------
+   REDSTONE – BASISKOMPONENTEN (20 Items)
+--------------------------------------------------- */
+{ id: "redstone", name_de: "Redstone", base_price: 15 },
+{ id: "redstone_torch", name_de: "Redstone-Fackel", base_price: 20 },
+{ id: "redstone_block", name_de: "Redstoneblock", base_price: 90 },
+{ id: "lever", name_de: "Hebel", base_price: 8 },
+{ id: "button", name_de: "Knopf", base_price: 4 },
+{ id: "stone_button", name_de: "Steinknopf", base_price: 4 },
+{ id: "wooden_button", name_de: "Holzknopf", base_price: 4 },
+{ id: "pressure_plate", name_de: "Druckplatte", base_price: 10 },
+{ id: "stone_pressure_plate", name_de: "Steindruckplatte", base_price: 10 },
+{ id: "light_weighted_pressure_plate", name_de: "Leichte Druckplatte", base_price: 14 },
+{ id: "heavy_weighted_pressure_plate", name_de: "Schwere Druckplatte", base_price: 16 },
+{ id: "tripwire_hook", name_de: "Haken", base_price: 12 },
+{ id: "string", name_de: "Faden", base_price: 10 },
+{ id: "target", name_de: "Zielblock", base_price: 25 },
+{ id: "daylight_detector", name_de: "Tageslichtsensor", base_price: 40 },
+{ id: "lightning_rod", name_de: "Blitzableiter", base_price: 30 },
+{ id: "redstone_lamp", name_de: "Redstone-Lampe", base_price: 45 },
+{ id: "observer", name_de: "Beobachter", base_price: 50 },
+{ id: "comparator", name_de: "Redstone-Komparator", base_price: 45 },
+{ id: "repeater", name_de: "Redstone-Verstärker", base_price: 40 },
+
+/* ---------------------------------------------------
+   PISTONS & MECHANIK (20 Items)
+--------------------------------------------------- */
+{ id: "piston", name_de: "Kolben", base_price: 35 },
+{ id: "sticky_piston", name_de: "Klebriger Kolben", base_price: 45 },
+{ id: "slime_block", name_de: "Schleimblock", base_price: 60 },
+{ id: "honey_block", name_de: "Honigblock", base_price: 55 },
+{ id: "dispenser", name_de: "Werfer", base_price: 30 },
+{ id: "dropper", name_de: "Spender", base_price: 25 },
+{ id: "hopper", name_de: "Trichter", base_price: 70 },
+{ id: "hopper_minecart", name_de: "Trichterlore", base_price: 110 },
+{ id: "tnt", name_de: "TNT", base_price: 50 },
+{ id: "tnt_minecart", name_de: "TNT-Lore", base_price: 120 },
+{ id: "note_block", name_de: "Notenblock", base_price: 35 },
+{ id: "jukebox", name_de: "Plattenspieler", base_price: 80 },
+{ id: "bell", name_de: "Glocke", base_price: 250 },
+{ id: "sculk_sensor", name_de: "Sculk-Sensor", base_price: 200 },
+{ id: "calibrated_sculk_sensor", name_de: "Kalibrierter Sculk-Sensor", base_price: 260 },
+{ id: "sculk_shrieker", name_de: "Sculk-Kreischer", base_price: 300 },
+{ id: "sculk_catalyst", name_de: "Sculk-Katalysator", base_price: 350 },
+{ id: "sculk", name_de: "Sculk", base_price: 40 },
+{ id: "sculk_vein", name_de: "Sculk-Ader", base_price: 25 },
+{ id: "tripwire_hook", name_de: "Haken", base_price: 12 },
+
+/* ---------------------------------------------------
+   SCHIENEN & TRANSPORT (20 Items)
+--------------------------------------------------- */
+{ id: "rail", name_de: "Schiene", base_price: 10 },
+{ id: "powered_rail", name_de: "Angetriebene Schiene", base_price: 30 },
+{ id: "detector_rail", name_de: "Sensorschiene", base_price: 25 },
+{ id: "activator_rail", name_de: "Aktivierungsschiene", base_price: 25 },
+{ id: "minecart", name_de: "Lore", base_price: 50 },
+{ id: "chest_minecart", name_de: "Kistenlore", base_price: 80 },
+{ id: "furnace_minecart", name_de: "Ofenlore", base_price: 90 },
+{ id: "hopper_minecart", name_de: "Trichterlore", base_price: 110 },
+{ id: "tnt_minecart", name_de: "TNT-Lore", base_price: 120 },
+{ id: "command_block_minecart", name_de: "Befehlsblock-Lore", base_price: 500 },
+{ id: "oak_boat", name_de: "Eichenboot", base_price: 30 },
+{ id: "spruce_boat", name_de: "Fichtenboot", base_price: 30 },
+{ id: "birch_boat", name_de: "Birkenboot", base_price: 30 },
+{ id: "jungle_boat", name_de: "Tropenboot", base_price: 30 },
+{ id: "acacia_boat", name_de: "Akazienboot", base_price: 30 },
+{ id: "dark_oak_boat", name_de: "Schwarzeichenboot", base_price: 30 },
+{ id: "mangrove_boat", name_de: "Mangrovenboot", base_price: 30 },
+{ id: "cherry_boat", name_de: "Kirschboot", base_price: 30 },
+{ id: "bamboo_raft", name_de: "Bambusfloß", base_price: 30 },
+{ id: "bamboo_raft_with_chest", name_de: "Bambusfloß mit Kiste", base_price: 60 },
+
+/* ---------------------------------------------------
+   MASCHINEN & INTERAKTIVE BLÖCKE (20 Items)
+--------------------------------------------------- */
+{ id: "crafting_table", name_de: "Werkbank", base_price: 15 },
+{ id: "furnace", name_de: "Ofen", base_price: 20 },
+{ id: "blast_furnace", name_de: "Schmelzofen", base_price: 80 },
+{ id: "smoker", name_de: "Räucherofen", base_price: 60 },
+{ id: "anvil", name_de: "Amboss", base_price: 200 },
+{ id: "grindstone", name_de: "Schleifstein", base_price: 40 },
+{ id: "smithing_table", name_de: "Schmiedetisch", base_price: 50 },
+{ id: "cartography_table", name_de: "Kartentisch", base_price: 40 },
+{ id: "fletching_table", name_de: "Bognertisch", base_price: 40 },
+{ id: "loom", name_de: "Webstuhl", base_price: 35 },
+{ id: "stonecutter", name_de: "Steinsäge", base_price: 50 },
+{ id: "enchanting_table", name_de: "Zaubertisch", base_price: 500 },
+{ id: "bookshelf", name_de: "Bücherregal", base_price: 45 },
+{ id: "lectern", name_de: "Lesepult", base_price: 50 },
+{ id: "brewing_stand", name_de: "Braustand", base_price: 60 },
+{ id: "cauldron", name_de: "Kessel", base_price: 40 },
+{ id: "barrel", name_de: "Fass", base_price: 30 },
+{ id: "chest", name_de: "Kiste", base_price: 25 },
+{ id: "ender_chest", name_de: "Endertruhe", base_price: 300 },
+{ id: "shulker_box", name_de: "Shulkerkiste", base_price: 500 },
+
+/* ---------------------------------------------------
+   WERKZEUGE – HOLZ, STEIN, EISEN, GOLD, DIAMANT (25 Items)
+--------------------------------------------------- */
+{ id: "wooden_pickaxe", name_de: "Holzspitzhacke", base_price: 10 },
+{ id: "stone_pickaxe", name_de: "Steinspitzhacke", base_price: 18 },
+{ id: "iron_pickaxe", name_de: "Eisenspitzhacke", base_price: 70 },
+{ id: "golden_pickaxe", name_de: "Goldspitzhacke", base_price: 40 },
+{ id: "diamond_pickaxe", name_de: "Diamantspitzhacke", base_price: 700 },
+{ id: "netherite_pickaxe", name_de: "Netheritspitzhacke", base_price: 3600 },
+
+{ id: "wooden_axe", name_de: "Holzaxt", base_price: 10 },
+{ id: "stone_axe", name_de: "Steinaxt", base_price: 18 },
+{ id: "iron_axe", name_de: "Eisenaxt", base_price: 65 },
+{ id: "golden_axe", name_de: "Goldaxt", base_price: 40 },
+{ id: "diamond_axe", name_de: "Diamantaxt", base_price: 650 },
+{ id: "netherite_axe", name_de: "Netheritaxt", base_price: 3500 },
+
+{ id: "wooden_shovel", name_de: "Holzschaufel", base_price: 8 },
+{ id: "stone_shovel", name_de: "Steinschaufel", base_price: 14 },
+{ id: "iron_shovel", name_de: "Eisenschaufel", base_price: 50 },
+{ id: "golden_shovel", name_de: "Goldschaufel", base_price: 30 },
+{ id: "diamond_shovel", name_de: "Diamantschaufel", base_price: 500 },
+{ id: "netherite_shovel", name_de: "Netherit-Schaufel", base_price: 3000 },
+
+{ id: "wooden_hoe", name_de: "Holzhacke", base_price: 8 },
+{ id: "stone_hoe", name_de: "Steinhacke", base_price: 14 },
+{ id: "iron_hoe", name_de: "Eisenhacke", base_price: 45 },
+{ id: "golden_hoe", name_de: "Goldhacke", base_price: 30 },
+{ id: "diamond_hoe", name_de: "Diamanthacke", base_price: 450 },
+{ id: "netherite_hoe", name_de: "Netherithacke", base_price: 2800 },
+
+/* ---------------------------------------------------
+   WAFFEN (20 Items)
+--------------------------------------------------- */
+{ id: "wooden_sword", name_de: "Holzschwert", base_price: 12 },
+{ id: "stone_sword", name_de: "Steinschwert", base_price: 20 },
+{ id: "iron_sword", name_de: "Eisenschwert", base_price: 55 },
+{ id: "golden_sword", name_de: "Goldschwert", base_price: 35 },
+{ id: "diamond_sword", name_de: "Diamantschwert", base_price: 650 },
+{ id: "netherite_sword", name_de: "Netheritschwert", base_price: 3500 },
+
+{ id: "bow", name_de: "Bogen", base_price: 40 },
+{ id: "crossbow", name_de: "Armbrust", base_price: 60 },
+{ id: "trident", name_de: "Dreizack", base_price: 1200 },
+{ id: "shield", name_de: "Schild", base_price: 45 },
+
+{ id: "arrow", name_de: "Pfeil", base_price: 4 },
+{ id: "spectral_arrow", name_de: "Spektralpfeil", base_price: 10 },
+{ id: "tipped_arrow", name_de: "Getränkter Pfeil", base_price: 14 },
+
+{ id: "fire_charge", name_de: "Feuerkugel", base_price: 20 },
+{ id: "snowball", name_de: "Schneeball", base_price: 2 },
+{ id: "egg", name_de: "Ei", base_price: 6 },
+{ id: "ender_pearl", name_de: "Enderperle", base_price: 120 },
+{ id: "firework_rocket", name_de: "Feuerwerksrakete", base_price: 12 },
+{ id: "firework_star", name_de: "Feuerwerksstern", base_price: 20 },
+{ id: "flint_and_steel", name_de: "Feuerzeug", base_price: 20 },
+
+/* ---------------------------------------------------
+   RÜSTUNGEN – LEDER, EISEN, GOLD, DIAMANT, NETHERIT (25 Items)
+--------------------------------------------------- */
+{ id: "leather_helmet", name_de: "Lederhelm", base_price: 20 },
+{ id: "leather_chestplate", name_de: "Lederbrustplatte", base_price: 30 },
+{ id: "leather_leggings", name_de: "Lederbeinschutz", base_price: 25 },
+{ id: "leather_boots", name_de: "Lederstiefel", base_price: 18 },
+
+{ id: "iron_helmet", name_de: "Eisenhelm", base_price: 80 },
+{ id: "iron_chestplate", name_de: "Eisenbrustplatte", base_price: 120 },
+{ id: "iron_leggings", name_de: "Eisenbeinschutz", base_price: 100 },
+{ id: "iron_boots", name_de: "Eisenstiefel", base_price: 70 },
+
+{ id: "golden_helmet", name_de: "Goldhelm", base_price: 60 },
+{ id: "golden_chestplate", name_de: "Goldbrustplatte", base_price: 90 },
+{ id: "golden_leggings", name_de: "Goldbeinschutz", base_price: 80 },
+{ id: "golden_boots", name_de: "Goldstiefel", base_price: 50 },
+
+{ id: "diamond_helmet", name_de: "Diamanthelm", base_price: 500 },
+{ id: "diamond_chestplate", name_de: "Diamantbrustplatte", base_price: 800 },
+{ id: "diamond_leggings", name_de: "Diamantbeinschutz", base_price: 700 },
+{ id: "diamond_boots", name_de: "Diamantstiefel", base_price: 450 },
+
+{ id: "netherite_helmet", name_de: "Netherithelm", base_price: 3000 },
+{ id: "netherite_chestplate", name_de: "Netheritbrustplatte", base_price: 4500 },
+{ id: "netherite_leggings", name_de: "Netheritbeinschutz", base_price: 4000 },
+{ id: "netherite_boots", name_de: "Netheritstiefel", base_price: 2800 },
+
+{ id: "turtle_helmet", name_de: "Schildkrötenhelm", base_price: 200 },
+{ id: "elytra", name_de: "Elytren", base_price: 4500 },
+
+/* ---------------------------------------------------
+   UTILITY & SPEZIALWERKZEUGE (10 Items)
+--------------------------------------------------- */
+{ id: "shears", name_de: "Schere", base_price: 30 },
+{ id: "compass", name_de: "Kompass", base_price: 40 },
+{ id: "clock", name_de: "Uhr", base_price: 45 },
+{ id: "spyglass", name_de: "Fernrohr", base_price: 60 },
+{ id: "brush", name_de: "Pinsel", base_price: 20 },
+{ id: "lead", name_de: "Leine", base_price: 25 },
+{ id: "name_tag", name_de: "Namensschild", base_price: 80 },
+{ id: "map", name_de: "Karte", base_price: 30 },
+{ id: "empty_map", name_de: "Leere Karte", base_price: 25 },
+{ id: "bundle", name_de: "Beutel", base_price: 50 },
+
+/* ---------------------------------------------------
+   DEKORATION – LICHT & FEUER (20 Items)
+--------------------------------------------------- */
+{ id: "torch", name_de: "Fackel", base_price: 5 },
+{ id: "soul_torch", name_de: "Seelenfackel", base_price: 6 },
+{ id: "lantern", name_de: "Laterne", base_price: 30 },
+{ id: "soul_lantern", name_de: "Seelenlaterne", base_price: 35 },
+{ id: "campfire", name_de: "Lagerfeuer", base_price: 40 },
+{ id: "soul_campfire", name_de: "Seelenlagerfeuer", base_price: 45 },
+{ id: "sea_lantern", name_de: "Seelaterne", base_price: 55 },
+{ id: "redstone_lamp", name_de: "Redstone-Lampe", base_price: 45 },
+{ id: "end_rod", name_de: "Endstab", base_price: 30 },
+{ id: "jack_o_lantern", name_de: "Kürbislaterne", base_price: 20 },
+{ id: "glowstone", name_de: "Glowstone", base_price: 40 },
+{ id: "shroomlight", name_de: "Pilzlicht", base_price: 25 },
+{ id: "beacon", name_de: "Leuchtfeuer", base_price: 5000 },
+{ id: "conduit", name_de: "Aquisator", base_price: 2500 },
+{ id: "respawn_anchor", name_de: "Respawn-Anker", base_price: 600 },
+{ id: "candle", name_de: "Kerze", base_price: 10 },
+{ id: "white_candle", name_de: "Weiße Kerze", base_price: 12 },
+{ id: "red_candle", name_de: "Rote Kerze", base_price: 12 },
+{ id: "blue_candle", name_de: "Blaue Kerze", base_price: 12 },
+{ id: "black_candle", name_de: "Schwarze Kerze", base_price: 12 },
+
+/* ---------------------------------------------------
+   DEKORATION – PFLANZEN & NATUR (20 Items)
+--------------------------------------------------- */
+{ id: "flower_pot", name_de: "Blumentopf", base_price: 12 },
+{ id: "dead_bush", name_de: "Toter Busch", base_price: 6 },
+{ id: "fern", name_de: "Farn", base_price: 6 },
+{ id: "large_fern", name_de: "Großer Farn", base_price: 8 },
+{ id: "lily_pad", name_de: "Seerose", base_price: 10 },
+{ id: "hanging_roots", name_de: "Hängende Wurzeln", base_price: 8 },
+{ id: "spore_blossom", name_de: "Sporenblüte", base_price: 20 },
+{ id: "big_dripleaf", name_de: "Großes Tropfblatt", base_price: 15 },
+{ id: "small_dripleaf", name_de: "Kleines Tropfblatt", base_price: 10 },
+{ id: "cave_vines", name_de: "Höhlenranken", base_price: 12 },
+{ id: "weeping_vines", name_de: "Trauerranken", base_price: 12 },
+{ id: "twisting_vines", name_de: "Zwirbelranken", base_price: 12 },
+{ id: "crimson_roots", name_de: "Karmesinwurzeln", base_price: 10 },
+{ id: "warped_roots", name_de: "Wirrwurzeln", base_price: 10 },
+{ id: "nether_sprouts", name_de: "Nethersprossen", base_price: 10 },
+{ id: "chorus_flower", name_de: "Chorusblüte", base_price: 25 },
+{ id: "chorus_plant", name_de: "Choruspflanze", base_price: 20 },
+{ id: "azalea", name_de: "Azalee", base_price: 10 },
+{ id: "flowering_azalea", name_de: "Blühende Azalee", base_price: 12 },
+{ id: "moss_carpet", name_de: "Moosteppich", base_price: 8 },
+
+/* ---------------------------------------------------
+   DEKORATION – MÖBEL & BAU (20 Items)
+--------------------------------------------------- */
+{ id: "bookshelf", name_de: "Bücherregal", base_price: 45 },
+{ id: "lectern", name_de: "Lesepult", base_price: 50 },
+{ id: "barrel", name_de: "Fass", base_price: 30 },
+{ id: "chest", name_de: "Kiste", base_price: 25 },
+{ id: "ender_chest", name_de: "Endertruhe", base_price: 300 },
+{ id: "shulker_box", name_de: "Shulkerkiste", base_price: 500 },
+{ id: "crafting_table", name_de: "Werkbank", base_price: 15 },
+{ id: "furnace", name_de: "Ofen", base_price: 20 },
+{ id: "blast_furnace", name_de: "Schmelzofen", base_price: 80 },
+{ id: "smoker", name_de: "Räucherofen", base_price: 60 },
+{ id: "stonecutter", name_de: "Steinsäge", base_price: 50 },
+{ id: "loom", name_de: "Webstuhl", base_price: 35 },
+{ id: "cartography_table", name_de: "Kartentisch", base_price: 40 },
+{ id: "fletching_table", name_de: "Bognertisch", base_price: 40 },
+{ id: "smithing_table", name_de: "Schmiedetisch", base_price: 50 },
+{ id: "grindstone", name_de: "Schleifstein", base_price: 40 },
+{ id: "anvil", name_de: "Amboss", base_price: 200 },
+{ id: "cauldron", name_de: "Kessel", base_price: 40 },
+{ id: "brewing_stand", name_de: "Braustand", base_price: 60 },
+{ id: "bell", name_de: "Glocke", base_price: 250 },
+
+/* ---------------------------------------------------
+   BANNER (20 Items)
+--------------------------------------------------- */
+{ id: "white_banner", name_de: "Weißes Banner", base_price: 40 },
+{ id: "black_banner", name_de: "Schwarzes Banner", base_price: 40 },
+{ id: "red_banner", name_de: "Rotes Banner", base_price: 40 },
+{ id: "blue_banner", name_de: "Blaues Banner", base_price: 40 },
+{ id: "green_banner", name_de: "Grünes Banner", base_price: 40 },
+{ id: "yellow_banner", name_de: "Gelbes Banner", base_price: 40 },
+{ id: "purple_banner", name_de: "Lila Banner", base_price: 40 },
+{ id: "orange_banner", name_de: "Oranges Banner", base_price: 40 },
+{ id: "pink_banner", name_de: "Rosa Banner", base_price: 40 },
+{ id: "light_blue_banner", name_de: "Hellblaues Banner", base_price: 40 },
+{ id: "lime_banner", name_de: "Hellgrünes Banner", base_price: 40 },
+{ id: "cyan_banner", name_de: "Türkises Banner", base_price: 40 },
+{ id: "brown_banner", name_de: "Braunes Banner", base_price: 40 },
+{ id: "gray_banner", name_de: "Graues Banner", base_price: 40 },
+{ id: "light_gray_banner", name_de: "Hellgraues Banner", base_price: 40 },
+{ id: "magenta_banner", name_de: "Magenta Banner", base_price: 40 },
+{ id: "banner_pattern", name_de: "Banner-Muster", base_price: 25 },
+{ id: "creeper_banner_pattern", name_de: "Creeper-Muster", base_price: 80 },
+{ id: "skull_banner_pattern", name_de: "Totenkopf-Muster", base_price: 80 },
+{ id: "flower_banner_pattern", name_de: "Blumen-Muster", base_price: 80 },
+
+/* ---------------------------------------------------
+   SCHALLPLATTEN (15 Items)
+--------------------------------------------------- */
+{ id: "music_disc_13", name_de: "Schallplatte 13", base_price: 120 },
+{ id: "music_disc_cat", name_de: "Schallplatte Cat", base_price: 120 },
+{ id: "music_disc_blocks", name_de: "Schallplatte Blocks", base_price: 120 },
+{ id: "music_disc_chirp", name_de: "Schallplatte Chirp", base_price: 120 },
+{ id: "music_disc_far", name_de: "Schallplatte Far", base_price: 120 },
+{ id: "music_disc_mall", name_de: "Schallplatte Mall", base_price: 120 },
+{ id: "music_disc_mellohi", name_de: "Schallplatte Mellohi", base_price: 120 },
+{ id: "music_disc_stal", name_de: "Schallplatte Stal", base_price: 120 },
+{ id: "music_disc_strad", name_de: "Schallplatte Strad", base_price: 120 },
+{ id: "music_disc_ward", name_de: "Schallplatte Ward", base_price: 120 },
+{ id: "music_disc_11", name_de: "Schallplatte 11", base_price: 150 },
+{ id: "music_disc_wait", name_de: "Schallplatte Wait", base_price: 120 },
+{ id: "music_disc_otherside", name_de: "Schallplatte Otherside", base_price: 200 },
+{ id: "music_disc_5", name_de: "Schallplatte 5", base_price: 200 },
+{ id: "music_disc_pigstep", name_de: "Schallplatte Pigstep", base_price: 300 },
+
+/* ---------------------------------------------------
+   NETHER – BLÖCKE & MATERIALIEN (15 Items)
+--------------------------------------------------- */
+{ id: "netherrack", name_de: "Netherrack", base_price: 3 },
+{ id: "nether_bricks", name_de: "Netherziegel", base_price: 12 },
+{ id: "red_nether_bricks", name_de: "Rote Netherziegel", base_price: 18 },
+{ id: "nether_wart_block", name_de: "Netherwarzenblock", base_price: 20 },
+{ id: "warped_wart_block", name_de: "Wirrwarzenblock", base_price: 20 },
+{ id: "crimson_nylium", name_de: "Karmesin-Nylium", base_price: 15 },
+{ id: "warped_nylium", name_de: "Wirr-Nylium", base_price: 15 },
+{ id: "soul_sand", name_de: "Seelensand", base_price: 10 },
+{ id: "soul_soil", name_de: "Seelenerde", base_price: 10 },
+{ id: "magma_block", name_de: "Magmablock", base_price: 15 },
+{ id: "nether_gold_ore", name_de: "Nether-Golderz", base_price: 40 },
+{ id: "nether_quartz_ore", name_de: "Netherquarzerz", base_price: 40 },
+{ id: "ancient_debris", name_de: "Antiker Schrott", base_price: 1200 },
+{ id: "nether_sprouts", name_de: "Nethersprossen", base_price: 10 },
+{ id: "glowstone", name_de: "Glowstone", base_price: 40 },
+
+/* ---------------------------------------------------
+   END – BLÖCKE & MATERIALIEN (15 Items)
+--------------------------------------------------- */
+{ id: "end_stone", name_de: "Endstein", base_price: 20 },
+{ id: "end_stone_bricks", name_de: "Endsteinziegel", base_price: 25 },
+{ id: "purpur_block", name_de: "Purpurblock", base_price: 40 },
+{ id: "purpur_pillar", name_de: "Purpurpfeiler", base_price: 45 },
+{ id: "purpur_slab", name_de: "Purpurstufe", base_price: 20 },
+{ id: "purpur_stairs", name_de: "Purpurtreppe", base_price: 25 },
+{ id: "chorus_flower", name_de: "Chorusblüte", base_price: 25 },
+{ id: "chorus_plant", name_de: "Choruspflanze", base_price: 20 },
+{ id: "end_rod", name_de: "Endstab", base_price: 30 },
+{ id: "dragon_head", name_de: "Drachenkopf", base_price: 2000 },
+{ id: "dragon_egg", name_de: "Drachenei", base_price: 5000 },
+{ id: "shulker_shell", name_de: "Shulker-Schale", base_price: 250 },
+{ id: "elytra", name_de: "Elytren", base_price: 4500 },
+{ id: "end_crystal", name_de: "Endkristall", base_price: 800 },
+{ id: "popped_chorus_fruit", name_de: "Geplatzte Chorusfrucht", base_price: 25 },
+
+/* ---------------------------------------------------
+   BOSS-DROPS & SELTENE ITEMS (10 Items)
+--------------------------------------------------- */
+{ id: "nether_star", name_de: "Netherstern", base_price: 2500 },
+{ id: "wither_rose", name_de: "Witherrose", base_price: 40 },
+{ id: "totem_of_undying", name_de: "Totem der Unsterblichkeit", base_price: 1800 },
+{ id: "echo_shard", name_de: "Echoscherbe", base_price: 200 },
+{ id: "heart_of_the_sea", name_de: "Herz des Meeres", base_price: 900 },
+{ id: "trident", name_de: "Dreizack", base_price: 1200 },
+{ id: "goat_horn", name_de: "Ziegenhorn", base_price: 120 },
+{ id: "dragon_breath", name_de: "Drachenatem", base_price: 150 },
+{ id: "scute", name_de: "Schildkrötenpanzer", base_price: 40 },
+{ id: "turtle_egg", name_de: "Schildkrötenei", base_price: 60 },
+
+/* ---------------------------------------------------
+   VERSTÄRKTE & MAGISCHE BLÖCKE (8 Items)
+--------------------------------------------------- */
+{ id: "reinforced_deepslate", name_de: "Verstärkter Tiefenschiefer", base_price: 500 },
+{ id: "lodestone", name_de: "Leitstein", base_price: 300 },
+{ id: "respawn_anchor", name_de: "Respawn-Anker", base_price: 600 },
+{ id: "conduit", name_de: "Aquisator", base_price: 2500 },
+{ id: "beacon", name_de: "Leuchtfeuer", base_price: 5000 },
+{ id: "enchanting_table", name_de: "Zaubertisch", base_price: 500 },
+{ id: "anvil", name_de: "Amboss", base_price: 200 },
+{ id: "smithing_table", name_de: "Schmiedetisch", base_price: 50 },
+
 ];
 
 let market={};
