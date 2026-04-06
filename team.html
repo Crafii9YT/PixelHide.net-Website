@@ -7,10 +7,6 @@
 <meta property="og:description" content="PixelHide.net Netzwerk: Das ultimative Minecraft-Erlebnis!">
 <meta property="og:image" content="https://pixelhide.net/favicon.png">
 <meta property="og:url" content="https://pixelhide.net">
-<meta name="google-adsense-account" content="ca-pub-5958219245633236">
-
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5958219245633236"
-crossorigin="anonymous"></script>
 
 <title>PixelHide.net</title>
 
@@ -26,6 +22,11 @@ crossorigin="anonymous"></script>
   --card:#0b0b12;
   --text:#e5e7eb;
   --muted:#9ca3af;
+  --owner:#8b0000;
+  --admin:#ff4c4c;
+  --moderator:#ff6666;
+  --supporter:#facc15;
+  --builder:#22c55e;
 }
 
 *{
@@ -45,7 +46,7 @@ body{
 /* HERO */
 .hero{
   position:relative;
-  height:700px;
+  height:500px;
   background:url("https://pixelhide.net/Banner.png") center/cover no-repeat;
   display:flex;
   flex-direction:column;
@@ -55,29 +56,12 @@ body{
   padding:20px;
 }
 
-.hero::after{
-  content:"";
-  position:absolute;
-  bottom:0;
-  left:0;
-  width:100%;
-  height:150px;
-  background:linear-gradient(to bottom,rgba(5,5,7,0) 0%,#050507 100%);
-}
-
 .hero img{
   width:600px;
   max-width:90%;
   z-index:2;
   filter:drop-shadow(0 0 70px rgba(167,139,250,0.9));
   margin-bottom:20px;
-}
-
-.hero .banner-text{
-  max-width:720px;
-  color:#ddd6fe;
-  font-size:1.2rem;
-  margin-bottom:30px;
 }
 
 .hero .cta{
@@ -120,7 +104,7 @@ section{
 .grid{
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-  gap:16px;
+  gap:12px 12px; /* vertikal und horizontal Abstand kleiner */
 }
 
 .card{
@@ -137,6 +121,7 @@ section{
 
 .card:hover{
   transform:translateY(-4px);
+  box-shadow:0 0 20px rgba(167,139,250,0.4);
 }
 
 .card img{
@@ -151,13 +136,14 @@ section{
 .card h3{
   font-family:'Orbitron',sans-serif;
   color:#ddd6fe;
-  margin-bottom:8px;
+  margin-bottom:6px;
   font-size:1.1rem;
 }
 
-.card p{
-  font-size:0.9rem;
-  color:var(--muted);
+.rank{
+  font-weight:600;
+  margin-left:6px;
+  font-size:0.95rem;
 }
 
 /* COPY BUTTON */
@@ -176,77 +162,38 @@ section{
   transform:translateY(-2px);
 }
 
-/* TOAST */
-#copy-toast{
-  position:fixed;
-  left:20px;
-  bottom:-100px;
-  background:linear-gradient(135deg,#a78bfa,#c4b5fd);
-  color:#050507;
-  padding:16px 24px;
-  border-radius:12px;
+/* DOUBLE CARDS SECTION */
+.double-cards{
   display:flex;
-  align-items:center;
-  gap:12px;
-  box-shadow:0 8px 30px rgba(0,0,0,0.5);
-  opacity:0;
-  transform:translateY(50px);
-  transition:.5s;
-}
-
-#copy-toast.show{
-  opacity:1;
-  transform:translateY(0);
-}
-
-#close-toast{
-  background:none;
-  border:none;
-  font-size:1.2rem;
-  cursor:pointer;
+  gap:20px;
+  justify-content:center;
+  flex-wrap:wrap;
+  margin-top:30px;
 }
 
 /* ===== MOBILE RESPONSIVE ===== */
 @media (max-width:1024px){
-  .hero{
-    height:500px;
-  }
   .hero img{
     width:400px;
   }
   section{
     padding:50px 15px;
   }
-}
-
-@media (max-width:768px){
-  .hero{
-    height:420px;
-  }
-  .hero img{
-    width:280px;
-  }
-  .hero .cta{
+  .double-cards{
     flex-direction:column;
-    width:90%;
-  }
-  .hero .btn{
-    width:100%;
-  }
-  .grid{
     gap:12px;
   }
 }
 
-@media (max-width:480px){
-  .hero{
-    height:380px;
+@media (max-width:768px){
+  .hero img{
+    width:280px;
   }
+}
+
+@media (max-width:480px){
   .hero img{
     width:220px;
-  }
-  .hero .banner-text{
-    font-size:0.9rem;
   }
 }
 
@@ -262,35 +209,12 @@ footer span{
 }
 </style>
 
-<script>
-function copyIP(button){
-  navigator.clipboard.writeText("pixelhide.net");
-
-  let original = button.innerText;
-  button.innerText = "Kopiert";
-  setTimeout(()=>button.innerText = original,5000);
-
-  const toast = document.getElementById("copy-toast");
-  toast.classList.add("show");
-
-  const hideTimeout = setTimeout(()=>closeToast(),10000);
-
-  document.getElementById("close-toast").onclick=()=>{ clearTimeout(hideTimeout); closeToast(); }
-
-  function closeToast(){ toast.classList.remove("show"); }
-}
-</script>
-
 </head>
 
 <body>
 
 <div class="hero">
   <img src="https://pixelhide.net/pixelhidenet.png">
-  <div class="banner-text">
-    Das ist <strong>unser Minecraft-Server Team!</strong>
-  </div>
-
   <div class="cta">
     <a href="/join.html" class="btn btn-primary">Jetzt beitreten</a>
     <a href="https://discord.pixelhide.net" class="btn btn-outline">Discord</a>
@@ -301,20 +225,20 @@ function copyIP(button){
 <div class="grid">
   <div class="card">
     <img src="/team/pfp/crafii9.png" alt="Crafii9">
-    <h3>Crafii9 (Owner)</h3>
+    <h3>Crafii9 <span class="rank" style="color:var(--owner)">(Owner)</span></h3>
     <p>Hallo! Ich bin der stolze Besitzer von PixelHide.net! Ich betreibe den Server nun schon fast 4 Jahre. Angefangen als kleines Minecraft-Projekt, heute ein großes Server-Netzwerk.</p>
   </div>
 
   <div class="card">
     <img src="/team/pfp/leonard1412.png" alt="Leonard1412">
-    <h3>Leonard1412 (Owner)</h3>
+    <h3>Leonard1412 <span class="rank" style="color:var(--owner)">(Owner)</span></h3>
     <p>Dieses Teammitglied hat aktuell noch keine Beschreibung!</p>
   </div>
 
   <div class="card">
     <img src="/team/pfp/cryytexx.png" alt="Cryytexx">
-    <h3>Cryytexx (Administrator)</h3>
-    <p>Dieses Teammitglied hat aktuell noch keine Beschreibung!</p>
+    <h3>Cryytexx <span class="rank" style="color:var(--admin)">(Administrator)</span></h3>
+    <p>Heyhoo, ich bin ein Administrator von PixelHide.net. Ich habe es jeden Tag mit Hackern oder anderen Regelbrechern zutun. Ich habe früher als Developer angefangen und nun bin ich in der Admin-Ebene. Im Team bin ich schon seit fast 3 Jahren und ich hoffe ich kann noch weitere Jahre als Admin im Team tätig sein, ein Ende ist in meinen Augen noch nicht in Sicht.</p>
   </div>
 </div>
 </section>
@@ -323,19 +247,19 @@ function copyIP(button){
 <div class="grid">
   <div class="card">
     <img src="/team/pfp/kleine.png" alt="Kleine">
-    <h3>Kleine (Moderator)</h3>
+    <h3>Kleine <span class="rank" style="color:var(--moderator)">(Moderator)</span></h3>
     <p>Dieses Teammitglied hat aktuell noch keine Beschreibung!</p>
   </div>
 
   <div class="card">
     <img src="/team/pfp/lo10ic.png" alt="LO10IC">
-    <h3>LO10IC (Moderator)</h3>
+    <h3>LO10IC <span class="rank" style="color:var(--moderator)">(Moderator)</span></h3>
     <p>Dieses Teammitglied hat aktuell noch keine Beschreibung!</p>
   </div>
 
   <div class="card">
     <img src="/team/pfp/angelogxmr.png" alt="AngeloGXMR">
-    <h3>AngeloGXMR (Supporter)</h3>
+    <h3>AngeloGXMR <span class="rank" style="color:var(--supporter)">(Supporter)</span></h3>
     <p>Dieses Teammitglied hat aktuell noch keine Beschreibung!</p>
   </div>
 </div>
@@ -345,19 +269,19 @@ function copyIP(button){
 <div class="grid">
   <div class="card">
     <img src="/team/pfp/erniederbernie.png" alt="ErnieDerBernie">
-    <h3>ErnieDerBernie (Test-Supporter)</h3>
+    <h3>ErnieDerBernie <span class="rank" style="color:var(--supporter)">(Test-Supporter)</span></h3>
     <p>Dieses Teammitglied hat aktuell noch keine Beschreibung!</p>
   </div>
 
   <div class="card">
     <img src="/team/pfp/youmisse12.png" alt="YouMisse12">
-    <h3>YouMisse12 (Test-Supporter)</h3>
+    <h3>YouMisse12 <span class="rank" style="color:var(--supporter)">(Test-Supporter)</span></h3>
     <p>Dieses Teammitglied hat aktuell noch keine Beschreibung!</p>
   </div>
 
   <div class="card">
     <img src="/team/pfp/philipp0774.png" alt="Philipp0774">
-    <h3>Philipp0774 (Test-Supporter)</h3>
+    <h3>Philipp0774 <span class="rank" style="color:var(--supporter)">(Test-Supporter)</span></h3>
     <p>Dieses Teammitglied hat aktuell noch keine Beschreibung!</p>
   </div>
 </div>
@@ -367,52 +291,28 @@ function copyIP(button){
 <div class="grid">
   <div class="card">
     <img src="/team/pfp/jedentag3.png" alt="JedenTag3">
-    <h3>JedenTag3 (Builder)</h3>
+    <h3>JedenTag3 <span class="rank" style="color:var(--builder)">(Builder)</span></h3>
     <p>Dieses Teammitglied hat aktuell noch keine Beschreibung!</p>
   </div>
 </div>
 </section>
 
-<section style="text-align:center; margin-top:30px;">
-  <button class="copy-btn" onclick="copyIP(this)">Kopieren</button>
-  <br><br>
-  <a href="/version-support.html" style="font-size:0.85rem;color:var(--primary);text-decoration:none;">Unterstützte Versionen</a>
-</section>
-
-<section style="text-align:center; margin-top:30px;">
+<section class="double-cards">
   <div class="card">
     <h3>Gehöre mit zum Team!</h3>
     <p>Bewerbe dich im Team.</p>
-    <a href="/bewerben.html" class="copy-btn" style="margin-top:15px;display:inline-block;">Bewerben</a>
+    <a href="/bewerben.html" class="copy-btn">Bewerben</a>
   </div>
-</section>
 
-<section style="text-align:center; margin-top:30px;">
   <div class="card">
     <h3>Du benötigst Hilfe?</h3>
     <p>Kontaktiere unseren Support!</p>
-    <a href="/support.html" class="copy-btn" style="margin-top:15px;display:inline-block;">Support kontaktieren</a>
+    <a href="/support.html" class="copy-btn">Support kontaktieren</a>
   </div>
 </section>
 
-<div id="copy-toast">
-  <span>Server-Adresse wurde kopiert!</span>
-  <button id="close-toast">×</button>
-</div>
-
 <footer>
-  <div style="margin-bottom:20px;">
-    <a href="/join.html" style="margin:0 10px;color:var(--primary);text-decoration:none;">Jetzt beitreten</a> |
-    <a href="https://discord.pixelhide.net" style="margin:0 10px;color:var(--primary);text-decoration:none;">Discord</a> |
-    <a href="/team.html" style="margin:0 10px;color:var(--primary);text-decoration:none;">Team</a> |
-    <a href="/bewerben.html" style="margin:0 10px;color:var(--primary);text-decoration:none;">Bewerben</a> |
-    <a href="/support.html" style="margin:0 10px;color:var(--primary);text-decoration:none;">Support</a> |
-    <a href="/custom-welten.html" style="margin:0 10px;color:var(--primary);text-decoration:none;">Custom Welten</a> |
-    <a href="/version-support.html" style="margin:0 10px;color:var(--primary);text-decoration:none;">Versionen</a>
-  </div>
-  <div>
-    © 2026 <span style="color:var(--primary)">PixelHide.net</span>
-  </div>
+© 2026 <span>PixelHide.net</span> – Das ultimative Minecraft-Erlebnis
 </footer>
 
 </body>
