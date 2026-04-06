@@ -31,12 +31,13 @@ crossorigin="anonymous"></script>
 *{
   box-sizing:border-box;
   user-select:none !important;
+  margin:0;
+  padding:0;
 }
 
 body{
-  margin:0;
   font-family:'Inter',sans-serif;
-  background:#050507;
+  background:var(--secondary);
   color:var(--text);
   overflow-x:hidden;
 }
@@ -74,7 +75,7 @@ body{
 
 .hero .banner-text{
   max-width:720px;
-  color:black;
+  color:#ddd6fe;
   font-size:1.2rem;
   margin-bottom:30px;
 }
@@ -87,7 +88,6 @@ body{
   flex-wrap:wrap;
 }
 
-/* BUTTONS */
 .hero .btn{
   padding:18px 32px;
   font-size:1.1rem;
@@ -96,6 +96,7 @@ body{
   text-decoration:none;
   transition:.25s;
   display:inline-block;
+  text-align:center;
 }
 
 .hero .btn-primary{
@@ -105,64 +106,74 @@ body{
 
 .hero .btn-outline{
   border:1px solid rgba(167,139,250,0.4);
-  color:#050507;
+  color:#e5e7eb;
+  background:none;
 }
 
 /* CONTENT */
 section{
-  padding:80px 20px;
+  padding:60px 20px;
   max-width:1200px;
   margin:auto;
 }
 
 .grid{
   display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-  gap:24px;
+  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+  gap:16px;
 }
 
 .card{
   background:var(--card);
-  border-radius:22px;
-  padding:26px;
+  border-radius:18px;
+  padding:20px;
   border:1px solid rgba(167,139,250,0.15);
   transition:.3s;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  text-align:center;
 }
 
 .card:hover{
-  transform:translateY(-6px);
+  transform:translateY(-4px);
+}
+
+.card img{
+  width:80px;
+  height:80px;
+  border-radius:50%;
+  margin-bottom:12px;
+  object-fit:cover;
+  border:2px solid var(--primary-glow);
 }
 
 .card h3{
   font-family:'Orbitron',sans-serif;
   color:#ddd6fe;
+  margin-bottom:8px;
+  font-size:1.1rem;
 }
 
-.status{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin-top:40px;
-  padding:16px 20px;
-  background:rgba(0,0,0,0.4);
-  border-radius:18px;
-  border:1px solid rgba(167,139,250,0.25);
-}
-
-.online{
-  color:#22c55e;
-  font-weight:700;
+.card p{
+  font-size:0.9rem;
+  color:var(--muted);
 }
 
 /* COPY BUTTON */
 .copy-btn{
-  padding:8px 18px;
+  padding:10px 20px;
   font-size:0.9rem;
   border-radius:10px;
   border:none;
   cursor:pointer;
   background:linear-gradient(135deg,var(--primary),var(--primary-glow));
   color:#050507;
+  transition:.3s;
+}
+
+.copy-btn:hover{
+  transform:translateY(-2px);
 }
 
 /* TOAST */
@@ -196,33 +207,15 @@ section{
 }
 
 /* ===== MOBILE RESPONSIVE ===== */
-
 @media (max-width:1024px){
   .hero{
     height:500px;
   }
-
   .hero img{
     width:400px;
   }
-
-  iframe{
-    width:100%;
-    height:400px;
-  }
-
   section{
     padding:50px 15px;
-  }
-
-  .grid{
-    grid-template-columns:1fr;
-  }
-
-  .status{
-    flex-direction:column;
-    gap:20px;
-    text-align:center;
   }
 }
 
@@ -230,32 +223,18 @@ section{
   .hero{
     height:420px;
   }
-
   .hero img{
     width:280px;
   }
-
   .hero .cta{
     flex-direction:column;
     width:90%;
   }
-
   .hero .btn{
     width:100%;
-    text-align:center;
   }
-
-  .card{
-    padding:22px;
-  }
-
-  .copy-btn{
-    width:100%;
-    padding:12px;
-  }
-
-  iframe{
-    height:300px;
+  .grid{
+    gap:12px;
   }
 }
 
@@ -263,11 +242,9 @@ section{
   .hero{
     height:380px;
   }
-
   .hero img{
     width:220px;
   }
-
   .hero .banner-text{
     font-size:0.9rem;
   }
@@ -277,6 +254,11 @@ footer{
   text-align:center;
   padding:40px;
   border-top:1px solid rgba(167,139,250,0.15);
+  color:var(--muted);
+  font-size:0.9rem;
+}
+footer span{
+  color:var(--primary);
 }
 </style>
 
@@ -293,14 +275,9 @@ function copyIP(button){
 
   const hideTimeout = setTimeout(()=>closeToast(),10000);
 
-  document.getElementById("close-toast").onclick=()=>{
-    clearTimeout(hideTimeout);
-    closeToast();
-  }
+  document.getElementById("close-toast").onclick=()=>{ clearTimeout(hideTimeout); closeToast(); }
 
-  function closeToast(){
-    toast.classList.remove("show");
-  }
+  function closeToast(){ toast.classList.remove("show"); }
 }
 </script>
 
@@ -321,111 +298,121 @@ function copyIP(button){
 </div>
 
 <section>
-
 <div class="grid">
-<div class="card">
-<h3>Crafii9 (Owner)</h3>
-<p>Hallo! Ich bin der stolze Besitzer von PixelHide.net! Ich betreibe den Server nun jetzt schon seit fast 4 Jahren.
-Angefangen als kleines Minecraft Welten-Bauprojekt, geendet als großes Server-Projekt. Zusammen mit meinem Team bin
-ich sehr stolz auf dieses Projekt.</p>
-</div>
+  <div class="card">
+    <img src="/team/pfp/crafii9.png" alt="Crafii9">
+    <h3>Crafii9 (Owner)</h3>
+    <p>Hallo! Ich bin der stolze Besitzer von PixelHide.net! Ich betreibe den Server nun schon fast 4 Jahre. Angefangen als kleines Minecraft-Projekt, heute ein großes Server-Netzwerk.</p>
+  </div>
 
-<div class="card">
-<h3>Leonard1412 (Owner)</h3>
-<p>Dieses Teammitglied hat aktuell noch keine Beschreibung!</p>
-</div>
+  <div class="card">
+    <img src="/team/pfp/leonard1412.png" alt="Leonard1412">
+    <h3>Leonard1412 (Owner)</h3>
+    <p>Dieses Teammitglied hat aktuell noch keine Beschreibung!</p>
+  </div>
 
-<div class="card">
-<h3>Cryytexx (Administrator)</h3>
-<p>Dieses Teammitglied hat aktuell noch keine Beschreibung!</p>
+  <div class="card">
+    <img src="/team/pfp/cryytexx.png" alt="Cryytexx">
+    <h3>Cryytexx (Administrator)</h3>
+    <p>Dieses Teammitglied hat aktuell noch keine Beschreibung!</p>
+  </div>
 </div>
-  
 </section>
 
 <section>
-
 <div class="grid">
-<div class="card">
-<h3>Kleine (Moderator)</h3>
-<p>Dieses Teammitglied hat aktuell noch keine Beschreibung!</p>
-</div>
+  <div class="card">
+    <img src="/team/pfp/kleine.png" alt="Kleine">
+    <h3>Kleine (Moderator)</h3>
+    <p>Dieses Teammitglied hat aktuell noch keine Beschreibung!</p>
+  </div>
 
-<div class="card">
-<h3>LO10IC (Moderator)</h3>
-<p>Dieses Teammitglied hat aktuell noch keine Beschreibung!</p>
-</div>
+  <div class="card">
+    <img src="/team/pfp/lo10ic.png" alt="LO10IC">
+    <h3>LO10IC (Moderator)</h3>
+    <p>Dieses Teammitglied hat aktuell noch keine Beschreibung!</p>
+  </div>
 
-<div class="card">
-<h3>AngeloGXMR (Supporter)</h3>
-<p>Dieses Teammitglied hat aktuell noch keine Beschreibung!</p>
+  <div class="card">
+    <img src="/team/pfp/angelogxmr.png" alt="AngeloGXMR">
+    <h3>AngeloGXMR (Supporter)</h3>
+    <p>Dieses Teammitglied hat aktuell noch keine Beschreibung!</p>
+  </div>
 </div>
-  
 </section>
 
 <section>
-
 <div class="grid">
-<div class="card">
-<h3>ErnieDerBernie (Test-Supporter)</h3>
-<p>Dieses Teammitglied hat aktuell noch keine Beschreibung!</p>
-</div>
+  <div class="card">
+    <img src="/team/pfp/erniederbernie.png" alt="ErnieDerBernie">
+    <h3>ErnieDerBernie (Test-Supporter)</h3>
+    <p>Dieses Teammitglied hat aktuell noch keine Beschreibung!</p>
+  </div>
 
-<div class="card">
-<h3>YouMisse12 (Test-Supporter)</h3>
-<p>Dieses Teammitglied hat aktuell noch keine Beschreibung!</p>
-</div>
+  <div class="card">
+    <img src="/team/pfp/youmisse12.png" alt="YouMisse12">
+    <h3>YouMisse12 (Test-Supporter)</h3>
+    <p>Dieses Teammitglied hat aktuell noch keine Beschreibung!</p>
+  </div>
 
-<div class="card">
-<h3>Philipp0774 (Test-Supporter)</h3>
-<p>Dieses Teammitglied hat aktuell noch keine Beschreibung!</p>
+  <div class="card">
+    <img src="/team/pfp/philipp0774.png" alt="Philipp0774">
+    <h3>Philipp0774 (Test-Supporter)</h3>
+    <p>Dieses Teammitglied hat aktuell noch keine Beschreibung!</p>
+  </div>
 </div>
-  
 </section>
 
 <section>
-
-<div class="card">
-<h3>JedenTag3 (Builder)</h3>
-<p>Dieses Teammitglied hat aktuell noch keine Beschreibung!</p>
+<div class="grid">
+  <div class="card">
+    <img src="/team/pfp/jedentag3.png" alt="JedenTag3">
+    <h3>JedenTag3 (Builder)</h3>
+    <p>Dieses Teammitglied hat aktuell noch keine Beschreibung!</p>
+  </div>
 </div>
-
 </section>
 
-<button class="copy-btn" onclick="copyIP(this)">Kopieren</button>
-</div>
+<section style="text-align:center; margin-top:30px;">
+  <button class="copy-btn" onclick="copyIP(this)">Kopieren</button>
+  <br><br>
+  <a href="/version-support.html" style="font-size:0.85rem;color:var(--primary);text-decoration:none;">Unterstützte Versionen</a>
+</section>
 
-<a href="/version-support.html"
-style="font-size:0.85rem;color:var(--primary);text-decoration:none;">
-Unterstützte Versionen
-</a>
-</div>
-</div>
+<section style="text-align:center; margin-top:30px;">
+  <div class="card">
+    <h3>Gehöre mit zum Team!</h3>
+    <p>Bewerbe dich im Team.</p>
+    <a href="/bewerben.html" class="copy-btn" style="margin-top:15px;display:inline-block;">Bewerben</a>
+  </div>
+</section>
 
-<div class="card" style="text-align:center;margin-top:30px;">
-<h3>Gehöre mit zum Team!</h3>
-<p>Bewerbe dich im Team.</p>
-<a href="/bewerben.html" class="copy-btn" style="margin-top:15px;display:inline-block;">
-Bewerben
-</a>
-</div>
-
-<div class="card" style="text-align:center;margin-top:30px;">
-<h3>Du benötigst Hilfe?</h3>
-<p>Kontaktiere unseren Support!</p>
-<a href="/support.html" class="copy-btn" style="margin-top:15px;display:inline-block;">
-Support kontaktieren
-</a>
-</div>
-
+<section style="text-align:center; margin-top:30px;">
+  <div class="card">
+    <h3>Du benötigst Hilfe?</h3>
+    <p>Kontaktiere unseren Support!</p>
+    <a href="/support.html" class="copy-btn" style="margin-top:15px;display:inline-block;">Support kontaktieren</a>
+  </div>
 </section>
 
 <div id="copy-toast">
-<span>Server-Adresse wurde kopiert!</span>
-<button id="close-toast">×</button>
+  <span>Server-Adresse wurde kopiert!</span>
+  <button id="close-toast">×</button>
 </div>
 
 <footer>
-© 2026 <span style="color:var(--primary)">PixelHide.net</span>
+  <div style="margin-bottom:20px;">
+    <a href="/join.html" style="margin:0 10px;color:var(--primary);text-decoration:none;">Jetzt beitreten</a> |
+    <a href="https://discord.pixelhide.net" style="margin:0 10px;color:var(--primary);text-decoration:none;">Discord</a> |
+    <a href="/team.html" style="margin:0 10px;color:var(--primary);text-decoration:none;">Team</a> |
+    <a href="/bewerben.html" style="margin:0 10px;color:var(--primary);text-decoration:none;">Bewerben</a> |
+    <a href="/support.html" style="margin:0 10px;color:var(--primary);text-decoration:none;">Support</a> |
+    <a href="/custom-welten.html" style="margin:0 10px;color:var(--primary);text-decoration:none;">Custom Welten</a> |
+    <a href="/version-support.html" style="margin:0 10px;color:var(--primary);text-decoration:none;">Versionen</a>
+  </div>
+  <div>
+    © 2026 <span style="color:var(--primary)">PixelHide.net</span>
+  </div>
 </footer>
 
 </body>
