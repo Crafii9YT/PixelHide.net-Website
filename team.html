@@ -43,7 +43,6 @@ body{
   overflow-x:hidden;
 }
 
-/* HERO */
 .hero{
   position:relative;
   height:500px;
@@ -94,7 +93,6 @@ body{
   background:none;
 }
 
-/* CONTENT */
 section{
   padding:60px 20px;
   max-width:1200px;
@@ -104,7 +102,7 @@ section{
 .grid{
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-  gap:12px 12px; /* vertikal und horizontal Abstand kleiner */
+  gap:12px 12px;
 }
 
 .card{
@@ -146,7 +144,6 @@ section{
   font-size:0.95rem;
 }
 
-/* COPY BUTTON */
 .copy-btn{
   padding:10px 20px;
   font-size:0.9rem;
@@ -162,7 +159,6 @@ section{
   transform:translateY(-2px);
 }
 
-/* DOUBLE CARDS SECTION */
 .double-cards{
   display:flex;
   gap:20px;
@@ -171,30 +167,10 @@ section{
   margin-top:30px;
 }
 
-/* ===== MOBILE RESPONSIVE ===== */
-@media (max-width:1024px){
-  .hero img{
-    width:400px;
-  }
-  section{
-    padding:50px 15px;
-  }
-  .double-cards{
-    flex-direction:column;
-    gap:12px;
-  }
-}
-
-@media (max-width:768px){
-  .hero img{
-    width:280px;
-  }
-}
-
-@media (max-width:480px){
-  .hero img{
-    width:220px;
-  }
+h1 .count{
+  opacity:0.7;
+  font-size:0.8em;
+  margin-left:10px;
 }
 
 footer{
@@ -224,105 +200,53 @@ footer span{
 <section>
 <h1 style="color:var(--owner)">Owner</h1>
 <div class="grid">
-  <div class="card">
-    <img src="https://pixelhide.net/team/pfp/crafii9.png" alt="Crafii9">
-    <h3>Crafii9 <span class="rank" style="color:var(--owner)">(Owner)</span></h3>
-    <p>Hey! Ich bin der Besitzer von PixelHide.net. Angefangen hat alles 2020 auf einer einfachen Minecraft-Welt, einfach aus Spaß und mit der Idee, irgendwann ein eigenes Netzwerk zu haben. Nach einer Pause 2021 habe ich mir einen Aternos-Server geholt, um mit Freunden zu spielen.
-
-Später bin ich auf Minecraft Java und LabyMod gewechselt, wo ich im Voice-Chat Leonard1412 kennengelernt habe, der heute ebenfalls Owner ist. Über ihn habe ich auch Cryytexx (Liam) getroffen, der heute als Admin dabei ist.
-
-Zusammen haben wir PixelHide über mehrere Jahre aufgebaut und sind stolz auf das, was daraus geworden ist.</p>
-  </div>
-
-  <div class="card">
-    <img src="https://pixelhide.net/team/pfp/leonard1412.png" alt="Leonard1412">
-    <h3>Leonard1412 <span class="rank" style="color:var(--owner)">(Owner)</span></h3>
-    <p>Dieses Teammitglied hat aktuell noch keine Beschreibung!</p>
-  </div>
+  <div class="card"></div>
+  <div class="card"></div>
 </div>
 </section>
 
 <section>
 <h1 style="color:var(--admin)">Administratoren</h1>
 <div class="grid">
-  <div class="card">
-    <img src="https://pixelhide.net/team/pfp/cryytexx.png" alt="Cryytexx">
-    <h3>Cryytexx <span class="rank" style="color:var(--admin)">(Administrator)</span></h3>
-    <p>Heyhoo, ich bin ein Administrator von PixelHide.net. Ich habe es jeden Tag mit Hackern oder anderen Regelbrechern zutun. Ich habe früher als Developer angefangen und nun bin ich in der Admin-Ebene. Im Team bin ich schon seit fast 3 Jahren und ich hoffe ich kann noch weitere Jahre als Admin im Team tätig sein, ein Ende ist in meinen Augen noch nicht in Sicht.</p>
-  </div>
+  <div class="card"></div>
 </div>
 </section>
 
 <section>
 <h1 style="color:var(--moderator)">Moderatoren</h1>
 <div class="grid">
-  <div class="card">
-    <img src="https://pixelhide.net/team/pfp/kleine.png" alt="Kleine">
-    <h3>Kleine <span class="rank" style="color:var(--moderator)">(Moderator)</span></h3>
-    <p>Dieses Teammitglied hat aktuell noch keine Beschreibung!</p>
-  </div>
-
-  <div class="card">
-    <img src="https://pixelhide.net/team/pfp/lo10ic.png" alt="LO10IC">
-    <h3>LO10IC <span class="rank" style="color:var(--moderator)">(Moderator)</span></h3>
-    <p>Dieses Teammitglied hat aktuell noch keine Beschreibung!</p>
-  </div>
+  <div class="card"></div>
+  <div class="card"></div>
 </div>
 </section>
 
 <section>
 <h1 style="color:var(--supporter)">Supporter</h1>
 <div class="grid">
-  <div class="card">
-    <img src="https://pixelhide.net/team/pfp/angelogxmr.png" alt="AngeloGXMR">
-    <h3>AngeloGXMR <span class="rank" style="color:var(--supporter)">(Supporter)</span></h3>
-    <p>Dieses Teammitglied hat aktuell noch keine Beschreibung!</p>
-  </div>
+  <div class="card"></div>
 </div>
 </section>
 
 <section>
 <h1 style="color:#3b82f6">Test-Teammitglieder</h1>
 <div class="grid">
-  <div class="card">
-    <img src="https://pixelhide.net/team/pfp/erniederbernie.png" alt="ErnieDerBernie">
-    <h3>ErnieDerBernie <span class="rank" style="color:#3b82f6">(Test-Supporter)</span></h3>
-    <p>Hallo, ich bin Ernie und bin T-Supporter und kümmere mich viel um Tickets. Meine Hobbys sind Coden und Gaming. Ich liebe es in der Moderation zu sein, ich habe auch schon viele eigene Server geführt. Ich bin bei Pixelhide nun ungefäher zwei Monate im Team außerdem kümmere ich mich fast Täglich um Exploiter.</p>
-  </div>
-
-  <div class="card">
-    <img src="https://pixelhide.net/team/pfp/youmisse12.png" alt="YouMisse12">
-    <h3>YouMisse12 <span class="rank" style="color:#3b82f6">(Test-Supporter)</span></h3>
-    <p>Dieses Teammitglied hat aktuell noch keine Beschreibung!</p>
-  </div>
-
-  <div class="card">
-    <img src="https://pixelhide.net/team/pfp/philipp0774.png" alt="Philipp0774">
-    <h3>Philipp0774 <span class="rank" style="color:#3b82f6">(Test-Supporter)</span></h3>
-    <p>Dieses Teammitglied hat aktuell noch keine Beschreibung!</p>
-  </div>
+  <div class="card"></div>
+  <div class="card"></div>
+  <div class="card"></div>
 </div>
 </section>
 
 <section>
 <h1 style="color:var(--builder)">Builder</h1>
 <div class="grid">
-  <div class="card">
-    <img src="https://pixelhide.net/team/pfp/jedentag3.png" alt="JedenTag3">
-    <h3>JedenTag3 <span class="rank" style="color:var(--builder)">(Builder)</span></h3>
-    <p>Dieses Teammitglied hat aktuell noch keine Beschreibung!</p>
-  </div>
+  <div class="card"></div>
 </div>
 </section>
 
 <section>
 <h1 style="color:#A855F7">Unterstützer</h1>
 <div class="grid">
-  <div class="card">
-    <img src="https://pixelhide.net/team/pfp/valyria.png" alt="Valyria">
-    <h3>Valyria <span class="rank" style="color:#A855F7">(Unterstützer)</span></h3>
-    <p>Dieses Profil hat aktuell noch keine Beschreibung vorliegen!</p>
-  </div>
+  <div class="card"></div>
 </div>
 </section>
 
@@ -341,19 +265,24 @@ Zusammen haben wir PixelHide über mehrere Jahre aufgebaut und sind stolz auf da
 </section>
 
 <footer>
-  <div style="margin-bottom:20px;">
-    <a href="/join.html" style="margin:0 10px;color:var(--primary);text-decoration:none;">Jetzt beitreten</a> |
-    <a href="https://discord.pixelhide.net" style="margin:0 10px;color:var(--primary);text-decoration:none;">Discord</a> |
-    <a href="/team.html" style="margin:0 10px;color:var(--primary);text-decoration:none;">Team</a> |
-    <a href="/bewerben.html" style="margin:0 10px;color:var(--primary);text-decoration:none;">Bewerben</a> |
-    <a href="/support.html" style="margin:0 10px;color:var(--primary);text-decoration:none;">Support</a> |
-    <a href="/custom-welten.html" style="margin:0 10px;color:var(--primary);text-decoration:none;">Custom Welten</a> |
-    <a href="/version-support.html" style="margin:0 10px;color:var(--primary);text-decoration:none;">Versionen</a>
-  </div>
   <div>
-    © 2026 <span style="color:var(--primary)">PixelHide.net</span>
+    © 2026 <span>PixelHide.net</span>
   </div>
 </footer>
+
+<script>
+document.querySelectorAll("section").forEach(section => {
+  const grid = section.querySelector(".grid");
+  const title = section.querySelector("h1");
+  if(grid && title){
+    const count = grid.querySelectorAll(".card").length;
+    const span = document.createElement("span");
+    span.className = "count";
+    span.textContent = "(" + count + ")";
+    title.appendChild(span);
+  }
+});
+</script>
 
 </body>
 </html>
