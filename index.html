@@ -1,306 +1,224 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<meta property="og:title" content="PixelHide.net">
-<meta property="og:description" content="PixelHide.net Netzwerk: Das ultimative Minecraft-Erlebnis!">
-<meta property="og:image" content="https://pixelhide.net/favicon.png">
-<meta property="og:url" content="https://pixelhide.net">
-<meta name="google-adsense-account" content="ca-pub-5958219245633236">
-
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5958219245633236"
-crossorigin="anonymous"></script>
 
 <title>PixelHide.net</title>
 
-<link rel="icon" type="image/png" href="https://pixelhide.net/favicon.png">
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
-<link rel="manifest" href="https://pixelhide.net/manifest.json">
+<link rel="icon" href="https://pixelhide.net/favicon.png">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 
 <style>
 :root{
   --primary:#a78bfa;
   --primary-glow:#c4b5fd;
-  --secondary:#050507;
+  --bg:#050507;
   --card:#0b0b12;
   --text:#e5e7eb;
   --muted:#9ca3af;
 }
 
 *{
+  margin:0;
+  padding:0;
   box-sizing:border-box;
-  user-select:none !important;
 }
 
 body{
-  margin:0;
   font-family:'Inter',sans-serif;
-  background:#050507;
+  background:var(--bg);
   color:var(--text);
   overflow-x:hidden;
 }
 
-/* HERO */
+/* ===== ANIMATIONS ===== */
+
+@keyframes fadeUp{
+  from{opacity:0; transform:translateY(40px);}
+  to{opacity:1; transform:translateY(0);}
+}
+
+@keyframes glow{
+  0%{filter:drop-shadow(0 0 20px var(--primary));}
+  50%{filter:drop-shadow(0 0 60px var(--primary-glow));}
+  100%{filter:drop-shadow(0 0 20px var(--primary));}
+}
+
+@keyframes float{
+  0%,100%{transform:translateY(0);}
+  50%{transform:translateY(-12px);}
+}
+
+/* ===== HERO ===== */
+
 .hero{
-  position:relative;
-  height:700px;
-  background:url("https://pixelhide.net/Banner.png") center/cover no-repeat;
+  height:100vh;
   display:flex;
   flex-direction:column;
-  align-items:center;
   justify-content:center;
+  align-items:center;
   text-align:center;
-  padding:20px;
+  position:relative;
+  background:url("https://pixelhide.net/Banner.png") center/cover no-repeat;
 }
 
 .hero::after{
   content:"";
   position:absolute;
   bottom:0;
-  left:0;
   width:100%;
-  height:150px;
-  background:linear-gradient(to bottom,rgba(5,5,7,0) 0%,#050507 100%);
+  height:200px;
+  background:linear-gradient(to bottom,transparent,var(--bg));
 }
 
-.hero img{
-  width:600px;
+.logo{
+  width:500px;
   max-width:90%;
-  z-index:2;
-  filter:drop-shadow(0 0 70px rgba(167,139,250,0.9));
-  margin-bottom:20px;
+  animation:glow 4s infinite ease-in-out, float 6s infinite ease-in-out;
 }
 
-.hero .banner-text{
-  max-width:720px;
-  color:black;
-  font-size:1.2rem;
-  margin-bottom:30px;
+.hero-text{
+  margin-top:20px;
+  max-width:700px;
+  color:#000;
+  animation:fadeUp 1s ease;
 }
 
-.hero .cta{
+.cta{
+  margin-top:30px;
   display:flex;
-  gap:16px;
-  justify-content:center;
-  z-index:2;
+  gap:15px;
   flex-wrap:wrap;
+  justify-content:center;
+  animation:fadeUp 1.5s ease;
 }
 
-/* BUTTONS */
-.hero .btn{
-  padding:18px 32px;
-  font-size:1.1rem;
-  border-radius:14px;
-  font-weight:600;
+.btn{
+  padding:16px 28px;
+  border-radius:12px;
   text-decoration:none;
-  transition:.25s;
-  display:inline-block;
+  font-weight:600;
+  transition:.3s;
 }
 
-.hero .btn-primary{
+.btn-primary{
   background:linear-gradient(135deg,var(--primary),var(--primary-glow));
-  color:#050507;
+  color:#000;
 }
 
-.hero .btn-outline{
-  border:1px solid rgba(167,139,250,0.4);
-  color:#050507;
+.btn-outline{
+  border:1px solid var(--primary);
+  color:#000;
 }
 
-/* CONTENT */
+.btn:hover{
+  transform:scale(1.08);
+}
+
+/* ===== SECTIONS ===== */
+
 section{
-  padding:80px 20px;
+  padding:100px 20px;
   max-width:1200px;
   margin:auto;
 }
 
+h1{
+  font-family:'Orbitron';
+  margin-bottom:40px;
+  text-align:center;
+}
+
+/* ===== CARDS ===== */
+
 .grid{
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-  gap:24px;
+  gap:25px;
 }
 
 .card{
   background:var(--card);
-  border-radius:22px;
-  padding:26px;
-  border:1px solid rgba(167,139,250,0.15);
-  transition:.3s;
+  border-radius:20px;
+  padding:25px;
+  border:1px solid rgba(167,139,250,0.2);
+  transition:.4s;
+  animation:fadeUp 1s ease;
 }
 
 .card:hover{
-  transform:translateY(-6px);
+  transform:translateY(-10px) scale(1.03);
+  box-shadow:0 0 30px rgba(167,139,250,0.2);
 }
 
 .card h3{
-  font-family:'Orbitron',sans-serif;
+  font-family:'Orbitron';
   color:#ddd6fe;
+  margin-bottom:10px;
 }
 
+/* ===== VIDEO ===== */
+
+.video{
+  width:100%;
+  border-radius:20px;
+  overflow:hidden;
+  box-shadow:0 0 30px rgba(0,0,0,0.5);
+  transition:.4s;
+}
+
+.video:hover{
+  transform:scale(1.02);
+}
+
+/* ===== STATUS ===== */
+
 .status{
+  margin-top:50px;
   display:flex;
   justify-content:space-between;
   align-items:center;
-  margin-top:40px;
-  padding:16px 20px;
-  background:rgba(0,0,0,0.4);
-  border-radius:18px;
-  border:1px solid rgba(167,139,250,0.25);
+  background:rgba(0,0,0,0.5);
+  padding:20px;
+  border-radius:20px;
+  border:1px solid rgba(167,139,250,0.3);
+  backdrop-filter:blur(10px);
 }
 
-.online{
-  color:#22c55e;
-  font-weight:700;
-}
-
-/* COPY BUTTON */
 .copy-btn{
-  padding:8px 18px;
-  font-size:0.9rem;
-  border-radius:10px;
-  border:none;
-  cursor:pointer;
   background:linear-gradient(135deg,var(--primary),var(--primary-glow));
-  color:#050507;
-}
-
-/* TOAST */
-#copy-toast{
-  position:fixed;
-  left:20px;
-  bottom:-100px;
-  background:linear-gradient(135deg,#a78bfa,#c4b5fd);
-  color:#050507;
-  padding:16px 24px;
-  border-radius:12px;
-  display:flex;
-  align-items:center;
-  gap:12px;
-  box-shadow:0 8px 30px rgba(0,0,0,0.5);
-  opacity:0;
-  transform:translateY(50px);
-  transition:.5s;
-}
-
-#copy-toast.show{
-  opacity:1;
-  transform:translateY(0);
-}
-
-#close-toast{
-  background:none;
   border:none;
-  font-size:1.2rem;
+  padding:10px 20px;
+  border-radius:10px;
   cursor:pointer;
 }
 
-/* ===== MOBILE RESPONSIVE ===== */
-
-@media (max-width:1024px){
-  .hero{
-    height:500px;
-  }
-
-  .hero img{
-    width:400px;
-  }
-
-  iframe{
-    width:100%;
-    height:400px;
-  }
-
-  section{
-    padding:50px 15px;
-  }
-
-  .grid{
-    grid-template-columns:1fr;
-  }
-
-  .status{
-    flex-direction:column;
-    gap:20px;
-    text-align:center;
-  }
-}
-
-@media (max-width:768px){
-  .hero{
-    height:420px;
-  }
-
-  .hero img{
-    width:280px;
-  }
-
-  .hero .cta{
-    flex-direction:column;
-    width:90%;
-  }
-
-  .hero .btn{
-    width:100%;
-    text-align:center;
-  }
-
-  .card{
-    padding:22px;
-  }
-
-  .copy-btn{
-    width:100%;
-    padding:12px;
-  }
-
-  iframe{
-    height:300px;
-  }
-}
-
-@media (max-width:480px){
-  .hero{
-    height:380px;
-  }
-
-  .hero img{
-    width:220px;
-  }
-
-  .hero .banner-text{
-    font-size:0.9rem;
-  }
-}
+/* ===== FOOTER ===== */
 
 footer{
   text-align:center;
   padding:40px;
-  border-top:1px solid rgba(167,139,250,0.15);
+  border-top:1px solid rgba(167,139,250,0.2);
+}
+
+/* ===== MOBILE ===== */
+
+@media(max-width:768px){
+  .hero{height:80vh;}
+  .logo{width:300px;}
+  .status{
+    flex-direction:column;
+    gap:20px;
+  }
 }
 </style>
 
 <script>
-function copyIP(button){
+function copyIP(btn){
   navigator.clipboard.writeText("pixelhide.net");
-
-  let original = button.innerText;
-  button.innerText = "Kopiert";
-  setTimeout(()=>button.innerText = original,5000);
-
-  const toast = document.getElementById("copy-toast");
-  toast.classList.add("show");
-
-  const hideTimeout = setTimeout(()=>closeToast(),10000);
-
-  document.getElementById("close-toast").onclick=()=>{
-    clearTimeout(hideTimeout);
-    closeToast();
-  }
-
-  function closeToast(){
-    toast.classList.remove("show");
-  }
+  btn.innerText="Kopiert!";
+  setTimeout(()=>btn.innerText="Kopieren",3000);
 }
 </script>
 
@@ -308,10 +226,12 @@ function copyIP(button){
 
 <body>
 
+<!-- HERO -->
 <div class="hero">
-  <img src="https://pixelhide.net/pixelhidenet.png">
-  <div class="banner-text">
-    Der perfekte <strong>Minecraft Server</strong> um mit Freunden und Familie zu spielen. Tolle Community, Events und einzigartiges Spielerlebnis.
+  <img src="https://pixelhide.net/pixelhidenet.png" class="logo">
+
+  <div class="hero-text">
+    Der perfekte <strong>Minecraft Server</strong> um mit Freunden und Familie zu spielen.
   </div>
 
   <div class="cta">
@@ -320,25 +240,30 @@ function copyIP(button){
   </div>
 </div>
 
+<!-- TRAILER -->
 <section>
 <h1>Trailer</h1>
-<iframe 
+<div class="video">
+<iframe width="100%" height="500"
 src="https://www.youtube-nocookie.com/embed/LFdXT-xSR8M?autoplay=1"
-width="1000" height="700" allowfullscreen>
-</iframe>
+allowfullscreen></iframe>
+</div>
 </section>
 
+<!-- STREAM -->
 <section>
 <h1>Release-Stream</h1>
-<iframe 
+<div class="video">
+<iframe width="100%" height="500"
 src="https://www.youtube-nocookie.com/embed/ssHralUdniI?autoplay=1"
-width="1000" height="700" allowfullscreen>
-</iframe>
+allowfullscreen></iframe>
+</div>
 </section>
 
+<!-- FEATURES -->
 <section>
-
 <div class="grid">
+
 <div class="card">
 <h3>⚔️ Minigames</h3>
 <p>Spiele Klassiker wie Bedwars, Skywars, Build Battle.</p>
@@ -357,10 +282,9 @@ width="1000" height="700" allowfullscreen>
 <div class="card">
 <h3>🌍 Custom Welten</h3>
 <p>Erstelle deine eigenen Welten.</p>
-<a href="/custom-welten.html" class="copy-btn" style="margin-top:15px;display:inline-block;">
-Welt erstellen
-</a>
+<a href="/custom-welten.html" class="copy-btn">Welt erstellen</a>
 </div>
+
 </div>
 
 <div class="status">
@@ -369,57 +293,43 @@ Welt erstellen
 PixelHide.net
 </div>
 
-<div style="display:flex;flex-direction:column;align-items:center;gap:6px;">
-<div style="display:flex;gap:8px;align-items:center;">
+<div>
 <iframe src="https://status.pixelhide.net/badge?theme=dark"
 width="250" height="30" frameborder="0"></iframe>
-
+<br><br>
 <button class="copy-btn" onclick="copyIP(this)">Kopieren</button>
 </div>
-
-<a href="/version-support.html"
-style="font-size:0.85rem;color:var(--primary);text-decoration:none;">
-Unterstützte Versionen
-</a>
-</div>
-</div>
-
-<div class="card" style="text-align:center;margin-top:30px;">
-  <h3>Gehöre mit <a href="team.html" style="text-decoration:none;color:inherit;">zum Team</a>!</h3>
-  <p>Bewerbe dich im Team.</p>
-  <a href="/bewerben.html" class="copy-btn" style="margin-top:15px;display:inline-block;">
-    Bewerben
-  </a>
-</div>
-
-<div class="card" style="text-align:center;margin-top:30px;">
-<h3>Du benötigst Hilfe?</h3>
-<p>Kontaktiere unseren Support!</p>
-<a href="/support.html" class="copy-btn" style="margin-top:15px;display:inline-block;">
-Support kontaktieren
-</a>
 </div>
 
 </section>
 
-<div id="copy-toast">
-<span>Server-Adresse wurde kopiert!</span>
-<button id="close-toast">×</button>
+<!-- EXTRA CARDS -->
+<section>
+
+<div class="card" style="text-align:center;">
+<h3>Gehöre zum Team!</h3>
+<p>Bewerbe dich im Team.</p>
+<a href="/bewerben.html" class="copy-btn">Bewerben</a>
 </div>
 
+<br>
+
+<div class="card" style="text-align:center;">
+<h3>Support</h3>
+<p>Du brauchst Hilfe?</p>
+<a href="/support.html" class="copy-btn">Kontakt</a>
+</div>
+
+</section>
+
+<!-- FOOTER -->
 <footer>
-  <div style="margin-bottom:20px;">
-    <a href="/join.html" style="margin:0 10px;color:var(--primary);text-decoration:none;">Jetzt beitreten</a> |
-    <a href="https://discord.pixelhide.net" style="margin:0 10px;color:var(--primary);text-decoration:none;">Discord</a> |
-    <a href="/team.html" style="margin:0 10px;color:var(--primary);text-decoration:none;">Team</a> |
-    <a href="/bewerben.html" style="margin:0 10px;color:var(--primary);text-decoration:none;">Bewerben</a> |
-    <a href="/support.html" style="margin:0 10px;color:var(--primary);text-decoration:none;">Support</a> |
-    <a href="/custom-welten.html" style="margin:0 10px;color:var(--primary);text-decoration:none;">Custom Welten</a> |
-    <a href="/version-support.html" style="margin:0 10px;color:var(--primary);text-decoration:none;">Versionen</a>
-  </div>
-  <div>
-    © 2026 <span style="color:var(--primary)">PixelHide.net</span>
-  </div>
+<a href="/join.html">Join</a> |
+<a href="https://discord.pixelhide.net">Discord</a> |
+<a href="/team.html">Team</a> |
+<a href="/bewerben.html">Bewerben</a>
+<br><br>
+© 2026 PixelHide.net
 </footer>
 
 </body>
