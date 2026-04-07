@@ -26,8 +26,10 @@ crossorigin="anonymous"></script>
   --card:#0b0b12;
   --text:#e5e7eb;
   --muted:#9ca3af;
+  --discord:#5865F2;
 }
 
+/* GLOBAL */
 *{
   box-sizing:border-box;
   user-select:none !important;
@@ -94,8 +96,18 @@ body{
   border-radius:14px;
   font-weight:600;
   text-decoration:none;
-  transition:.25s;
-  display:inline-block;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  cursor:pointer;
+  transition:transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.hero .btn img{
+  display:block;
+  width:22px;
+  height:22px;
 }
 
 .hero .btn-primary{
@@ -103,9 +115,14 @@ body{
   color:#050507;
 }
 
-.hero .btn-outline{
-  border:1px solid rgba(167,139,250,0.4);
-  color:#050507;
+.hero .btn-discord{
+  background:var(--discord);
+  color:#fff;
+}
+
+.hero .btn:hover{
+  transform:scale(1.05);
+  box-shadow:0 0 25px rgba(255,255,255,0.3);
 }
 
 /* CONTENT */
@@ -126,11 +143,12 @@ section{
   border-radius:22px;
   padding:26px;
   border:1px solid rgba(167,139,250,0.15);
-  transition:.3s;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .card:hover{
   transform:translateY(-6px);
+  box-shadow:0 10px 25px rgba(167,139,250,0.3);
 }
 
 .card h3{
@@ -156,13 +174,31 @@ section{
 
 /* COPY BUTTON */
 .copy-btn{
-  padding:8px 18px;
-  font-size:0.9rem;
-  border-radius:10px;
+  padding:10px 20px;
+  font-size:0.95rem;
+  border-radius:12px;
   border:none;
   cursor:pointer;
+  display:flex;
+  align-items:center;
+  gap:8px;
+  justify-content:center;
+  transition:transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.copy-btn-primary{
   background:linear-gradient(135deg,var(--primary),var(--primary-glow));
   color:#050507;
+}
+
+.copy-btn-discord{
+  background:var(--discord);
+  color:#fff;
+}
+
+.copy-btn:hover{
+  transform:scale(1.05);
+  box-shadow:0 0 20px rgba(255,255,255,0.3);
 }
 
 /* TOAST */
@@ -242,7 +278,6 @@ section{
 
   .hero .btn{
     width:100%;
-    text-align:center;
   }
 
   .card{
@@ -315,8 +350,12 @@ function copyIP(button){
   </div>
 
   <div class="cta">
-    <a href="/join.html" class="btn btn-primary">Jetzt beitreten</a>
-    <a href="https://discord.pixelhide.net" class="btn btn-outline">Discord</a>
+    <a href="/join.html" class="btn btn-primary">
+      Jetzt beitreten
+    </a>
+    <a href="https://discord.pixelhide.net" class="btn btn-discord"> 
+      Discord
+    </a>
   </div>
 </div>
 
@@ -357,7 +396,7 @@ width="1000" height="700" allowfullscreen>
 <div class="card">
 <h3>🌍 Custom Welten</h3>
 <p>Erstelle deine eigenen Welten.</p>
-<a href="/custom-welten.html" class="copy-btn" style="margin-top:15px;display:inline-block;">
+<a href="/custom-welten.html" class="copy-btn copy-btn-primary" style="margin-top:15px;">
 Welt erstellen
 </a>
 </div>
@@ -374,7 +413,7 @@ PixelHide.net
 <iframe src="https://status.pixelhide.net/badge?theme=dark"
 width="250" height="30" frameborder="0"></iframe>
 
-<button class="copy-btn" onclick="copyIP(this)">Kopieren</button>
+<button class="copy-btn copy-btn-primary" onclick="copyIP(this)">Kopieren</button>
 </div>
 
 <a href="/version-support.html"
@@ -387,16 +426,16 @@ Unterstützte Versionen
 <div class="card" style="text-align:center;margin-top:30px;">
   <h3>Gehöre mit <a href="team.html" style="text-decoration:none;color:inherit;">zum Team</a>!</h3>
   <p>Bewerbe dich im Team.</p>
-  <a href="/bewerben.html" class="copy-btn" style="margin-top:15px;display:inline-block;">
-    Bewerben
+  <a href="/bewerben.html" class="copy-btn copy-btn-discord" style="margin-top:15px;">
+    <img src="https://pixelhide.net/assets/icons/discord.png" style="width:20px;height:20px;"> Bewerben
   </a>
 </div>
 
 <div class="card" style="text-align:center;margin-top:30px;">
 <h3>Du benötigst Hilfe?</h3>
 <p>Kontaktiere unseren Support!</p>
-<a href="/support.html" class="copy-btn" style="margin-top:15px;display:inline-block;">
-Support kontaktieren
+<a href="/support.html" class="copy-btn copy-btn-discord" style="margin-top:15px;">
+<img src="https://pixelhide.net/assets/icons/discord.png" style="width:20px;height:20px;"> Support kontaktieren
 </a>
 </div>
 
