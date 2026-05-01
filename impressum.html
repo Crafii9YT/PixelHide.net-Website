@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta property="og:title" content="PixelHide.net - Impressum">
+<meta property="og:description" content="Impressum von PixelHide.net">
+<meta property="og:image" content="https://pixelhide.net/favicon.png">
+<meta property="og:url" content="https://pixelhide.net">
+
+<title>PixelHide.net - Impressum</title>
+
+<link rel="icon" type="image/png" href="https://pixelhide.net/favicon.png">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --primary:#a78bfa;
+  --primary-glow:#c4b5fd;
+  --secondary:#050507;
+  --card:#0b0b12;
+  --text:#e5e7eb;
+  --muted:#9ca3af;
+}
+
+*{
+  box-sizing:border-box;
+  user-select:none !important;
+}
+
+body{
+  margin:0;
+  font-family:'Inter',sans-serif;
+  background:#050507;
+  color:var(--text);
+  overflow-x:hidden;
+}
+
+/* HERO */
+.hero{
+  position:relative;
+  height:350px;
+  background:url("https://pixelhide.net/Banner.png") center/cover no-repeat;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:20px;
+}
+
+.hero::after{
+  content:"";
+  position:absolute;
+  bottom:0;
+  left:0;
+  width:100%;
+  height:120px;
+  background:linear-gradient(to bottom,rgba(5,5,7,0) 0%,#050507 100%);
+}
+
+.hero h1{
+  font-size:3rem;
+  z-index:2;
+  color:white;
+  text-shadow:0 0 20px rgba(167,139,250,0.6);
+}
+
+/* CONTENT */
+section{
+  padding:80px 20px;
+  max-width:900px;
+  margin:auto;
+}
+
+.card{
+  background:var(--card);
+  border-radius:22px;
+  padding:30px;
+  border:1px solid rgba(167,139,250,0.15);
+  line-height:1.7;
+}
+
+.card h2{
+  color:#ddd6fe;
+  font-family:'Orbitron',sans-serif;
+  margin-top:0;
+}
+
+a{
+  color:var(--primary);
+  text-decoration:none;
+}
+
+footer{
+  text-align:center;
+  padding:40px;
+  border-top:1px solid rgba(167,139,250,0.15);
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="hero">
+  <h1>Impressum</h1>
+</div>
+
+<section>
+  <div class="card">
+
+    <h2>Angaben gemäß § 5 DDG</h2>
+
+    <p><strong>PixelHide</strong></p>
+
+    <p>
+      Kontakt:<br>
+      E-Mail: pixelhide.net@gmail.com
+    </p>
+
+    <h2>Verantwortlich für den Inhalt</h2>
+    <p>
+      PixelHide
+    </p>
+
+    <h2>Haftung für Inhalte</h2>
+    <p>
+      Die Inhalte dieser Website wurden mit größter Sorgfalt erstellt. Für die Richtigkeit, Vollständigkeit
+      und Aktualität der Inhalte wird jedoch keine Gewähr übernommen.
+    </p>
+
+    <h2>Haftung für Links</h2>
+    <p>
+      Diese Website enthält Links zu externen Webseiten Dritter, auf deren Inhalte kein Einfluss besteht.
+      Deshalb kann für diese fremden Inhalte keine Gewähr übernommen werden.
+    </p>
+
+    <h2>Hinweis</h2>
+    <p>
+      Dieses Projekt wird privat betrieben und verfolgt keine kommerziellen Zwecke.
+    </p>
+
+  </div>
+</section>
+
+<footer>
+  © 2026 <span style="color:var(--primary)">PixelHide.net</span>
+</footer>
+
+</body>
+</html>
