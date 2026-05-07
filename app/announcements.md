@@ -1,3 +1,21 @@
-# ich mag chicken nuggets 🤩
+# 🫵 Wir suchen dich! 🫵
 
-und a
+## Hey Spieler,
+
+Du bist Content Creator auf YouTube, Twitch oder wo anders?
+Dann bist du bei uns genau richtig!
+
+Bewerbe dich bei uns als Content Creator und bekomme exklusive Vorteile auf PixelHide!
+
+Ein paar sind:
+
+- Bekomme jeden Monat 1.000.000$, für Verlosungen an die Community
+- Erhalte einen exklusiven Creator Rang und Prefix
+- Chance auf Creator+
+- Deinen Kopf in der Creator Crate
+und viele andere exklusive Vorteile!
+
+Bewerbe dich jetzt im Bewerbungs-Kanal ( <#1499078746194448634> )
+
+- Crafii9
+*Owner - PixelHide.net*
