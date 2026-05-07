@@ -15,7 +15,7 @@ Ein paar sind:
 - Deinen Kopf in der Creator Crate
 und viele andere exklusive Vorteile!
 
-Bewerbe dich jetzt im Bewerbungs-Kanal ( <#1499078746194448634> )
+Bewerbe dich jetzt im Bewerbungs-Kanal ( [kanal](https://discord.com/channels/1432310028647534594/1432877205679243305) )
 
 - Crafii9
 *Owner - PixelHide.net*
