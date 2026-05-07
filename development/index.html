@@ -1,1 +1,307 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+<meta property="og:title" content="PixelHide.net">
+<meta property="og:description" content="Das ultimative Minecraft Netzwerk mit einzigartigen Games & Community!">
+<meta property="og:image" content="https://pixelhide.net/favicon.png">
+<meta property="og:url" content="https://pixelhide.net">
+
+<title>PixelHide.net</title>
+
+<link rel="icon" href="https://pixelhide.net/favicon.png">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --bg:#050507;
+  --card:#0d0d14;
+  --accent:#a78bfa;
+  --accent2:#c4b5fd;
+  --text:#e5e7eb;
+  --muted:#9ca3af;
+  --discord:#5865F2;
+}
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  user-select:none;
+}
+
+body{
+  font-family:Inter,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  overflow-x:hidden;
+}
+
+/* HERO */
+.hero{
+  height:90vh;
+  min-height:600px;
+  background:url("https://pixelhide.net/Banner.png") center/cover no-repeat;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+  position:relative;
+}
+
+.hero::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(to bottom,rgba(0,0,0,0.2),#050507);
+}
+
+.hero-content{
+  position:relative;
+  z-index:2;
+  max-width:900px;
+  padding:20px;
+}
+
+.hero img{
+  width:520px;
+  max-width:90%;
+  filter:drop-shadow(0 0 40px rgba(167,139,250,0.8));
+  margin-bottom:20px;
+}
+
+.hero p{
+  color:var(--muted);
+  font-size:1.1rem;
+  margin-bottom:25px;
+}
+
+.btn-row{
+  display:flex;
+  gap:15px;
+  flex-wrap:wrap;
+  justify-content:center;
+}
+
+.btn{
+  padding:14px 26px;
+  border-radius:12px;
+  font-weight:600;
+  text-decoration:none;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  transition:.25s;
+}
+
+.btn:hover{
+  transform:translateY(-3px);
+}
+
+.btn-primary{
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  color:#050507;
+}
+
+.btn-discord{
+  background:var(--discord);
+  color:white;
+}
+
+/* SECTIONS */
+section{
+  padding:70px 20px;
+  max-width:1200px;
+  margin:auto;
+}
+
+h2{
+  font-family:Orbitron;
+  margin-bottom:25px;
+  text-align:center;
+}
+
+/* GRID */
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+  gap:20px;
+}
+
+.card{
+  background:var(--card);
+  padding:22px;
+  border-radius:18px;
+  border:1px solid rgba(167,139,250,0.15);
+  transition:.25s;
+}
+
+.card:hover{
+  transform:translateY(-6px);
+  border-color:rgba(167,139,250,0.4);
+}
+
+.card h3{
+  color:#ddd6fe;
+  margin-bottom:10px;
+}
+
+/* VIDEO */
+.video{
+  width:100%;
+  aspect-ratio:16/9;
+  border:none;
+  border-radius:16px;
+}
+
+/* STATUS */
+.status{
+  margin-top:40px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:20px;
+  padding:18px;
+  background:rgba(255,255,255,0.03);
+  border-radius:16px;
+  flex-wrap:wrap;
+}
+
+.ip{
+  font-weight:600;
+}
+
+/* BUTTON COPY */
+.copy{
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  border:none;
+  padding:10px 18px;
+  border-radius:12px;
+  cursor:pointer;
+  font-weight:600;
+}
+
+/* FOOTER */
+footer{
+  text-align:center;
+  padding:40px;
+  border-top:1px solid rgba(255,255,255,0.05);
+  color:var(--muted);
+}
+
+footer a{
+  color:var(--accent);
+  text-decoration:none;
+  margin:0 8px;
+}
+
+/* MOBILE */
+@media(max-width:768px){
+  .hero img{width:300px;}
+  .status{flex-direction:column; text-align:center;}
+}
+</style>
+
+<script>
+function copyIP(){
+  navigator.clipboard.writeText("pixelhide.net");
+
+  const btn = document.getElementById("copyBtn");
+  btn.innerText = "Kopiert!";
+  setTimeout(()=>btn.innerText="IP kopieren",2000);
+}
+</script>
+
+</head>
+
+<body>
+
+<div class="hero">
+  <div class="hero-content">
+    <img src="https://pixelhide.net/pixelhidenet.png">
+
+    <p>Ein modernes Minecraft Netzwerk mit einzigartigen Minigames, CityBuild, Events & einer aktiven Community.</p>
+
+    <div class="btn-row">
+      <a href="/join.html" class="btn btn-primary">Jetzt beitreten</a>
+      <a href="https://discord.pixelhide.net" class="btn btn-discord">Discord</a>
+    </div>
+  </div>
+</div>
+
+<section>
+<h2>Trailer</h2>
+<iframe class="video" src="https://www.youtube-nocookie.com/embed/LFdXT-xSR8M?autoplay=0"></iframe>
+</section>
+
+<section>
+<h2>Features</h2>
+
+<div class="grid">
+  <div class="card">
+    <h3>⚔️ Minigames</h3>
+    <p>Bedwars, Skywars, Build Battle und mehr.</p>
+  </div>
+
+  <div class="card">
+    <h3>🏙️ CityBuild</h3>
+    <p>Baue deine eigene Welt mit anderen Spielern.</p>
+  </div>
+
+  <div class="card">
+    <h3>🔥 Events</h3>
+    <p>Regelmäßige Events mit Rewards & Spaß.</p>
+  </div>
+
+  <div class="card">
+    <h3>🌍 Custom Welten</h3>
+    <p>Erstelle eigene Welten und teile sie.</p>
+  </div>
+</div>
+
+<div class="status">
+  <div>
+    <div class="ip">PixelHide.net</div>
+    <small>Server IP</small>
+  </div>
+
+  <button class="copy" id="copyBtn" onclick="copyIP()">IP kopieren</button>
+</div>
+
+</section>
+
+<section>
+<h2>Community</h2>
+
+<div class="grid">
+  <div class="card">
+    <h3>👥 Team</h3>
+    <p>Bewirb dich und werde Teil des Projekts.</p>
+    <a href="/team.html">Mehr</a>
+  </div>
+
+  <div class="card">
+    <h3>💬 Support</h3>
+    <p>Hilfe direkt über Discord erhalten.</p>
+    <a href="https://discord.pixelhide.net">Support</a>
+  </div>
+</div>
+
+</section>
+
+<footer>
+  <div>
+    <a href="/join.html">Join</a>
+    <a href="/team.html">Team</a>
+    <a href="/custom-welten.html">Welten</a>
+    <a href="/impressum.html">Impressum</a>
+  </div>
+  <br>
+  © 2026 PixelHide.net
+</footer>
+
+</body>
+</html>
