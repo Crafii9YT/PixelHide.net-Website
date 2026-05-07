@@ -94,6 +94,7 @@ body{
   display:flex;
   align-items:center;
   justify-content:center;
+  gap:10px;
   transition:.25s;
 }
 
@@ -174,7 +175,6 @@ h2{
   font-weight:600;
 }
 
-/* BUTTON COPY */
 .copy{
   background:linear-gradient(135deg,var(--accent),var(--accent2));
   border:none;
@@ -227,7 +227,9 @@ function copyIP(){
 
     <div class="btn-row">
       <a href="/join.html" class="btn btn-primary">Jetzt beitreten</a>
-      <a href="https://discord.pixelhide.net" class="btn btn-discord">Discord</a>
+      <a href="https://discord.pixelhide.net" class="btn btn-discord">
+        Discord
+      </a>
     </div>
   </div>
 </div>
@@ -277,17 +279,26 @@ function copyIP(){
 <h2>Community</h2>
 
 <div class="grid">
+
   <div class="card">
     <h3>👥 Team</h3>
     <p>Bewirb dich und werde Teil des Projekts.</p>
-    <a href="/team.html">Mehr</a>
+
+    <a href="/team.html" class="btn btn-primary" style="margin-top:12px;">
+      Mehr erfahren
+    </a>
   </div>
 
   <div class="card">
     <h3>💬 Support</h3>
     <p>Hilfe direkt über Discord erhalten.</p>
-    <a href="https://discord.pixelhide.net">Support</a>
+
+    <a href="https://discord.pixelhide.net" class="btn btn-discord" style="margin-top:12px;">
+      <img src="https://pixelhide.net/assets/icons/discord.png" width="20" height="20">
+      Support öffnen
+    </a>
   </div>
+
 </div>
 
 </section>
