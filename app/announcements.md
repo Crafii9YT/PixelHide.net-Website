@@ -13,4 +13,4 @@ Bewerbe dich jetzt im Bewerbungs-Channel auf Discord!
 *Owner - PixelHide.net*
 
 
-***[1 von +30]***
+**[1 von +30]**
