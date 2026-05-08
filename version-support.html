@@ -19,19 +19,13 @@
 :root{
   --bg:#040406;
   --card:#0d0d14;
-  --card2:#13131d;
-
   --accent:#a78bfa;
   --accent2:#c4b5fd;
-
   --text:#f5f5f5;
   --muted:#9ca3af;
-
   --success:#22c55e;
   --error:#ef4444;
 }
-
-/* GLOBAL */
 
 *{
   margin:0;
@@ -65,7 +59,7 @@ body{
   border-radius:999px;
 }
 
-/* BACKGROUND GLOW */
+/* GLOW */
 
 .bg-glow{
   position:fixed;
@@ -110,10 +104,12 @@ body{
   content:"";
   position:absolute;
   inset:0;
+
   background:
   radial-gradient(circle at center,
   rgba(167,139,250,.2),
   transparent 60%);
+
   animation:pulse 6s infinite;
 }
 
@@ -175,38 +171,32 @@ body{
   line-height:1.7;
 }
 
-/* BUTTONS */
-
-.btn-row{
-  display:flex;
-  justify-content:center;
-  gap:18px;
-  flex-wrap:wrap;
-  margin-top:40px;
-}
+/* BUTTON */
 
 .btn{
   position:relative;
 
   padding:17px 32px;
+
+  border:none;
   border-radius:16px;
 
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  gap:12px;
-
-  text-decoration:none;
   font-weight:700;
+  font-size:1rem;
+
+  cursor:pointer;
 
   overflow:hidden;
 
   transition:.25s;
 
-  backdrop-filter:blur(10px);
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
 
-  border:none;
-  cursor:pointer;
+  color:#050507;
+
+  box-shadow:
+    0 0 20px rgba(167,139,250,.35),
+    0 0 60px rgba(167,139,250,.2);
 }
 
 .btn::before{
@@ -235,16 +225,7 @@ body{
   transform:translateY(-4px) scale(1.03);
 }
 
-.btn-primary{
-  background:linear-gradient(135deg,var(--accent),var(--accent2));
-  color:#050507;
-
-  box-shadow:
-    0 0 20px rgba(167,139,250,.35),
-    0 0 60px rgba(167,139,250,.2);
-}
-
-/* STATUS CARD */
+/* CARD */
 
 .version-card{
   margin-top:50px;
@@ -284,42 +265,180 @@ body{
   color:var(--accent2);
 }
 
-/* SELECT */
+/* CUSTOM DROPDOWN */
 
-.version-select{
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  gap:22px;
-}
-
-.version-select select{
+.custom-dropdown{
+  position:relative;
   width:100%;
   max-width:350px;
+  margin:auto;
+}
 
-  padding:16px 22px;
+.dropdown-trigger{
+  width:100%;
 
-  border-radius:18px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+
+  padding:18px 22px;
+
+  border-radius:20px;
 
   border:1px solid rgba(255,255,255,.08);
 
-  background:rgba(255,255,255,.03);
+  background:
+  linear-gradient(
+    145deg,
+    rgba(255,255,255,.04),
+    rgba(255,255,255,.02)
+  );
 
   color:var(--text);
 
   font-size:1rem;
+  font-weight:600;
 
-  outline:none;
+  cursor:pointer;
 
   transition:.25s;
+
+  backdrop-filter:blur(14px);
+
+  box-shadow:
+    0 10px 30px rgba(0,0,0,.35);
 }
 
-.version-select select:focus{
-  border-color:rgba(167,139,250,.5);
-  box-shadow:0 0 25px rgba(167,139,250,.15);
+.dropdown-trigger:hover{
+  transform:translateY(-3px);
+
+  border-color:rgba(167,139,250,.35);
+
+  box-shadow:
+    0 15px 40px rgba(0,0,0,.45),
+    0 0 40px rgba(167,139,250,.12);
 }
+
+.dropdown-trigger.active{
+  border-color:rgba(167,139,250,.45);
+
+  box-shadow:
+    0 0 30px rgba(167,139,250,.15);
+}
+
+.dropdown-arrow{
+  transition:.35s;
+  font-size:.8rem;
+  color:var(--accent2);
+}
+
+.dropdown-trigger.active .dropdown-arrow{
+  transform:rotate(180deg);
+}
+
+.dropdown-menu{
+  position:absolute;
+
+  top:calc(100% + 12px);
+  left:0;
+
+  width:100%;
+
+  max-height:0;
+  overflow:hidden;
+
+  opacity:0;
+
+  border-radius:24px;
+
+  background:
+  linear-gradient(
+    145deg,
+    rgba(16,16,24,.98),
+    rgba(10,10,15,.98)
+  );
+
+  backdrop-filter:blur(18px);
+
+  border:1px solid rgba(255,255,255,.07);
+
+  transition:
+    max-height .45s cubic-bezier(.22,1,.36,1),
+    opacity .25s;
+
+  box-shadow:
+    0 20px 60px rgba(0,0,0,.65),
+    0 0 50px rgba(167,139,250,.08);
+
+  z-index:1000;
+}
+
+.dropdown-menu.open{
+  max-height:340px;
+  opacity:1;
+  overflow-y:auto;
+}
+
+.dropdown-menu::-webkit-scrollbar{
+  width:7px;
+}
+
+.dropdown-menu::-webkit-scrollbar-thumb{
+  background:linear-gradient(var(--accent),var(--accent2));
+  border-radius:999px;
+}
+
+.dropdown-option{
+  padding:16px 20px;
+
+  cursor:pointer;
+
+  color:var(--text);
+
+  font-weight:500;
+
+  transition:.2s;
+
+  border-bottom:1px solid rgba(255,255,255,.03);
+
+  opacity:0;
+  transform:translateY(10px);
+}
+
+.dropdown-menu.open .dropdown-option{
+  animation:optionFade .35s forwards;
+}
+
+.dropdown-option:hover{
+  background:rgba(167,139,250,.12);
+
+  padding-left:28px;
+
+  color:white;
+}
+
+.dropdown-option.selected{
+  background:
+  linear-gradient(
+    90deg,
+    rgba(167,139,250,.22),
+    transparent
+  );
+
+  color:var(--accent2);
+}
+
+@keyframes optionFade{
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+}
+
+/* VERSION TEXT */
 
 .version-text{
+  margin-top:25px;
   font-size:1.2rem;
   font-weight:700;
   transition:.25s;
@@ -390,7 +509,9 @@ footer span{
 
   <div class="hero-content">
 
-    <img class="logo" src="https://pixelhide.net/pixelhidenet.png">
+    <img
+    class="logo"
+    src="https://pixelhide.net/pixelhidenet.png">
 
     <h1>Version Checker</h1>
 
@@ -404,6 +525,7 @@ footer span{
       <div class="server-status">
 
         <div>
+
           <div class="server-ip">
             pixelhide.net
           </div>
@@ -411,10 +533,11 @@ footer span{
           <div style="color:var(--muted);margin-top:6px;">
             Minecraft Server IP
           </div>
+
         </div>
 
         <button
-        class="btn btn-primary"
+        class="btn"
         id="copyBtn"
         onclick="copyIP()">
 
@@ -424,21 +547,37 @@ footer span{
 
       </div>
 
-      <div class="version-select">
+      <!-- CUSTOM DROPDOWN -->
 
-        <select id="versionDropdown" onchange="checkVersion()">
-          <option value="">
-            Wähle eine Version...
-          </option>
-        </select>
+      <div class="custom-dropdown" id="dropdown">
 
         <div
-        id="versionStatus"
-        class="version-text gray">
+        class="dropdown-trigger"
+        id="dropdownTrigger">
 
-          Wähle eine Version...
+          <span id="selectedText">
+            Wähle eine Version...
+          </span>
+
+          <span class="dropdown-arrow">
+            ▼
+          </span>
 
         </div>
+
+        <div
+        class="dropdown-menu"
+        id="dropdownMenu">
+
+        </div>
+
+      </div>
+
+      <div
+      id="versionStatus"
+      class="version-text gray">
+
+        Wähle eine Version...
 
       </div>
 
@@ -460,7 +599,7 @@ footer span{
 
 <script>
 
-// Copy IP
+// COPY IP
 
 function copyIP(){
 
@@ -471,14 +610,26 @@ function copyIP(){
   btn.innerHTML = "Kopiert!";
 
   setTimeout(()=>{
+
     btn.innerHTML = "IP kopieren";
+
   },2000);
 
 }
 
-// Version Dropdown
+// DROPDOWN
 
-const dropdown = document.getElementById("versionDropdown");
+const dropdown = document.getElementById("dropdown");
+
+const trigger = document.getElementById("dropdownTrigger");
+
+const menu = document.getElementById("dropdownMenu");
+
+const selectedText = document.getElementById("selectedText");
+
+let selectedVersion = "";
+
+// CREATE OPTIONS
 
 for(let major=21; major>=0; major--){
 
@@ -486,26 +637,87 @@ for(let major=21; major>=0; major--){
 
   for(let minor=minorMax; minor>=0; minor--){
 
-    dropdown.appendChild(
-      new Option(`1.${major}.${minor}`, `1.${major}.${minor}`)
-    );
+    const version = `1.${major}.${minor}`;
+
+    const option = document.createElement("div");
+
+    option.className = "dropdown-option";
+
+    option.textContent = version;
+
+    option.style.animationDelay =
+      `${(21-major)*0.01 + minor*0.003}s`;
+
+    option.onclick = ()=>{
+
+      document
+      .querySelectorAll(".dropdown-option")
+      .forEach(o=>o.classList.remove("selected"));
+
+      option.classList.add("selected");
+
+      selectedVersion = version;
+
+      selectedText.textContent = version;
+
+      closeDropdown();
+
+      checkVersion();
+
+    };
+
+    menu.appendChild(option);
 
   }
 
 }
 
-// Version Check
+// TOGGLE
+
+trigger.onclick = ()=>{
+
+  trigger.classList.toggle("active");
+
+  menu.classList.toggle("open");
+
+};
+
+// CLOSE DROPDOWN
+
+function closeDropdown(){
+
+  trigger.classList.remove("active");
+
+  menu.classList.remove("open");
+
+}
+
+// CLICK OUTSIDE
+
+document.addEventListener("click",(e)=>{
+
+  if(!dropdown.contains(e.target)){
+
+    closeDropdown();
+
+  }
+
+});
+
+// VERSION CHECK
 
 function checkVersion(){
 
-  const val = dropdown.value;
+  const status =
+    document.getElementById("versionStatus");
 
-  const status = document.getElementById("versionStatus");
+  if(!selectedVersion){
 
-  if(!val){
+    status.textContent =
+      "Bitte wähle eine Version!";
 
-    status.textContent = "Bitte wähle eine Version!";
-    status.className = "version-text gray";
+    status.className =
+      "version-text gray";
 
     return;
 
@@ -515,25 +727,34 @@ function checkVersion(){
 
   for(let major=13; major<=21; major++){
 
-    let minorMax = (major===21) ? 11 : 9;
+    let minorMax =
+      (major===21) ? 11 : 9;
 
     for(let minor=0; minor<=minorMax; minor++){
 
-      supportedVersions.push(`1.${major}.${minor}`);
+      supportedVersions.push(
+        `1.${major}.${minor}`
+      );
 
     }
 
   }
 
-  if(supportedVersions.includes(val)){
+  if(supportedVersions.includes(selectedVersion)){
 
-    status.textContent = "Diese Version ist unterstützt!";
-    status.className = "version-text green";
+    status.textContent =
+      "Diese Version ist unterstützt!";
+
+    status.className =
+      "version-text green";
 
   }else{
 
-    status.textContent = "Diese Version ist nicht unterstützt!";
-    status.className = "version-text red";
+    status.textContent =
+      "Diese Version ist nicht unterstützt!";
+
+    status.className =
+      "version-text red";
 
   }
 
