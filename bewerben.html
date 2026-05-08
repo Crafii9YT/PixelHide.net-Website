@@ -3,401 +3,439 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Bewerben - PixelHide.net</title>
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
-<link rel="icon" type="image/png" href="favicon.png">
+
+<title>Bewerbungen nicht verfügbar | PixelHide.net</title>
+
+<meta property="og:title" content="PixelHide.net">
+<meta property="og:description" content="Diese Seite ist aktuell nicht verfügbar.">
+<meta property="og:image" content="https://pixelhide.net/favicon.png">
+
+<link rel="icon" href="https://pixelhide.net/favicon.png">
+
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Inter:wght@300;400;500;700&display=swap" rel="stylesheet">
 
 <style>
+
 :root{
-  --primary:#a78bfa;
-  --primary-glow:#c4b5fd;
-  --bg:#050507;
-  --card:#0b0b12;
-  --text:#e5e7eb;
+  --bg:#040406;
+  --card:#0d0d14;
+  --card2:#13131d;
+
+  --accent:#a78bfa;
+  --accent2:#c4b5fd;
+
+  --discord:#5865F2;
+
+  --text:#f5f5f5;
   --muted:#9ca3af;
-  --error:#ef4444;
-  --success:#22c55e;
 }
 
-*{box-sizing:border-box;}
-body{
+*{
   margin:0;
-  background:radial-gradient(circle at top,#1a0f2e,#050507);
-  font-family:'Inter',sans-serif;
-  color:var(--text);
+  padding:0;
+  box-sizing:border-box;
 }
 
-/* ===== HERO BANNER ===== */
-.hero {
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  font-family:Inter,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  overflow:hidden;
+}
+
+/* SCROLLBAR */
+
+::-webkit-scrollbar{
+  width:10px;
+}
+
+::-webkit-scrollbar-track{
+  background:#08080d;
+}
+
+::-webkit-scrollbar-thumb{
+  background:linear-gradient(var(--accent),var(--accent2));
+  border-radius:999px;
+}
+
+/* BACKGROUND GLOW */
+
+.bg-glow{
+  position:fixed;
+  width:700px;
+  height:700px;
+  background:radial-gradient(circle,var(--accent) 0%,transparent 70%);
+  opacity:.12;
+  filter:blur(100px);
+  z-index:-1;
+  animation:floatGlow 12s ease-in-out infinite;
+}
+
+.bg-glow2{
+  right:-250px;
+  top:300px;
+  animation-delay:4s;
+}
+
+@keyframes floatGlow{
+  0%{transform:translateY(0px) translateX(0px);}
+  50%{transform:translateY(-50px) translateX(40px);}
+  100%{transform:translateY(0px) translateX(0px);}
+}
+
+/* HERO */
+
+.hero{
   position:relative;
-  height:500px;
-  background:url("Banner.png") center/cover no-repeat;
+  min-height:100vh;
+  background:
+    linear-gradient(rgba(0,0,0,.55),rgba(4,4,6,.97)),
+    url("https://pixelhide.net/Banner.png") center/cover no-repeat;
+
   display:flex;
-  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+  overflow:hidden;
+}
+
+.hero::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:
+  radial-gradient(circle at center,
+  rgba(167,139,250,.18),
+  transparent 60%);
+  animation:pulse 6s infinite;
+}
+
+@keyframes pulse{
+  0%{opacity:.4;transform:scale(1);}
+  50%{opacity:.8;transform:scale(1.08);}
+  100%{opacity:.4;transform:scale(1);}
+}
+
+.hero-content{
+  position:relative;
+  z-index:2;
+  width:100%;
+  max-width:900px;
+  padding:30px;
+  animation:heroEnter 1.2s ease;
+}
+
+@keyframes heroEnter{
+  from{
+    opacity:0;
+    transform:translateY(50px);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+}
+
+.logo{
+  width:520px;
+  max-width:95%;
+  margin-bottom:30px;
+
+  filter:
+    drop-shadow(0 0 20px rgba(167,139,250,.6))
+    drop-shadow(0 0 80px rgba(167,139,250,.45));
+
+  animation:floatLogo 5s ease-in-out infinite;
+}
+
+@keyframes floatLogo{
+  0%{transform:translateY(0px);}
+  50%{transform:translateY(-10px);}
+  100%{transform:translateY(0px);}
+}
+
+/* ERROR CARD */
+
+.error-card{
+  position:relative;
+
+  background:
+  linear-gradient(
+    145deg,
+    rgba(255,255,255,.05),
+    rgba(255,255,255,.02)
+  );
+
+  border:1px solid rgba(255,255,255,.08);
+
+  border-radius:32px;
+
+  padding:50px;
+
+  overflow:hidden;
+
+  backdrop-filter:blur(18px);
+
+  box-shadow:
+    0 20px 60px rgba(0,0,0,.6),
+    0 0 60px rgba(167,139,250,.08);
+}
+
+.error-card::before{
+  content:"";
+  position:absolute;
+  inset:0;
+
+  background:
+  radial-gradient(circle at top left,
+  rgba(167,139,250,.22),
+  transparent 55%);
+
+  opacity:.9;
+}
+
+.error-content{
+  position:relative;
+  z-index:2;
+}
+
+.error-icon{
+  width:180px;
+  margin-bottom:25px;
+
+  filter:
+    drop-shadow(0 0 25px rgba(239,68,68,.45))
+    drop-shadow(0 0 80px rgba(239,68,68,.2));
+
+  animation:errorFloat 4s ease-in-out infinite;
+}
+
+@keyframes errorFloat{
+  0%{transform:translateY(0px);}
+  50%{transform:translateY(-12px);}
+  100%{transform:translateY(0px);}
+}
+
+.error-title{
+  font-size:3.4rem;
+  font-family:Orbitron,sans-serif;
+  margin-bottom:18px;
+}
+
+.error-text{
+  font-size:1.15rem;
+  color:var(--muted);
+  max-width:650px;
+  margin:auto;
+  line-height:1.8;
+}
+
+/* BUTTONS */
+
+.btn-row{
+  display:flex;
+  justify-content:center;
+  gap:18px;
+  flex-wrap:wrap;
+  margin-top:40px;
+}
+
+.btn{
+  position:relative;
+
+  padding:17px 32px;
+  border-radius:16px;
+
+  display:flex;
   align-items:center;
   justify-content:center;
-  text-align:center;
-}
-.hero img{
-  width:600px;
-  max-width:90%;
-  z-index:2;
-  filter:drop-shadow(0 0 70px rgba(167,139,250,0.9));
-  margin-bottom:20px;
-}
-.hero .banner-text{
-  max-width:720px;
-  color:black;
-  font-size:1.2rem;
-  margin-bottom:30px;
-}
-.hero .cta{
-  display:inline-flex;
-  gap:16px;
-  justify-content:center;
-  z-index:2;
-}
-.hero .btn{
-  padding:18px 32px;
-  font-size:1.2rem;
-  border-radius:14px;
-  font-weight:600;
+  gap:12px;
+
   text-decoration:none;
-  transition:all .25s ease;
-  position:relative;
-}
-.hero .btn-primary{
-  background:linear-gradient(135deg,var(--primary),var(--primary-glow));
-  color:#050507;
-  box-shadow:0 10px 30px rgba(167,139,250,0.45);
-}
-.hero .btn-primary:hover{
-  transform:translateY(-2px) scale(1.03);
-  box-shadow:0 18px 50px rgba(167,139,250,0.6);
-}
-.hero .btn-outline{
-  border:1px solid rgba(167,139,250,0.4);
-  color:#050507;
-  backdrop-filter:blur(6px);
-}
-.hero .btn-outline:hover{
-  background:rgba(167,139,250,0.15);
+  font-weight:700;
+
+  overflow:hidden;
+
+  transition:.25s;
+
+  backdrop-filter:blur(10px);
 }
 
-/* ===== FORM ===== */
-section{max-width:900px;margin:40px auto; padding:0 20px;}
-.card{
-  background:var(--card);
-  border-radius:22px;
-  padding:32px;
-  border:1px solid rgba(167,139,250,0.15);
-  box-shadow:0 25px 70px rgba(0,0,0,0.7);
-}
-.form-group{margin-bottom:22px;}
-label{display:block;margin-bottom:8px;font-weight:600;}
-input, select, textarea{
+.btn::before{
+  content:"";
+  position:absolute;
+  top:0;
+  left:-120%;
   width:100%;
-  padding:14px;
-  border-radius:12px;
-  border:1px solid rgba(167,139,250,0.25);
-  background:#0f0f18;
-  color:var(--text);
-  font-size:0.95rem;
-  outline:none;
-  transition:0.2s;
-}
-input:focus, select:focus, textarea:focus{
-  border-color:var(--primary);
-  box-shadow:0 0 0 2px rgba(167,139,250,0.25);
-}
-textarea{resize:vertical; min-height:120px;}
-button{
-  width:100%;
-  padding:16px;
-  border:none;
-  border-radius:14px;
-  font-size:1.1rem;
-  font-weight:600;
-  cursor:pointer;
-  background:linear-gradient(135deg,var(--primary),var(--primary-glow));
-  color:#050507;
-  transition:0.25s;
-}
-button:hover{
-  transform:translateY(-2px);
-  box-shadow:0 15px 40px rgba(167,139,250,0.4);
+  height:100%;
+
+  background:linear-gradient(
+    90deg,
+    transparent,
+    rgba(255,255,255,.25),
+    transparent
+  );
+
+  transition:.6s;
 }
 
-/* ===== POPUP ===== */
-.popup {
-  position: fixed;
-  top:0; left:0;
-  width:100%; height:100%;
-  background: rgba(5,5,7,0.85);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index:10000;
-  opacity:0;
-  pointer-events:none;
-  transition: opacity 0.3s ease;
+.btn:hover::before{
+  left:120%;
 }
-.popup.show{opacity:1; pointer-events:auto;}
-.popup-card {
-  background:var(--card);
-  border-radius:26px;
-  padding:32px;
-  max-width:450px;
-  width:90%;
+
+.btn:hover{
+  transform:translateY(-4px) scale(1.03);
+}
+
+.btn-primary{
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  color:#050507;
+
+  box-shadow:
+    0 0 20px rgba(167,139,250,.35),
+    0 0 60px rgba(167,139,250,.2);
+}
+
+.btn-discord{
+  background:rgba(88,101,242,.15);
+  border:1px solid rgba(88,101,242,.4);
+  color:white;
+
+  box-shadow:
+    0 0 25px rgba(88,101,242,.2);
+}
+
+.btn img{
+  width:22px;
+  height:22px;
+}
+
+/* FOOTER */
+
+footer{
+  position:absolute;
+  bottom:0;
+  width:100%;
+
+  border-top:1px solid rgba(255,255,255,.06);
+
+  padding:28px 25px;
+
   text-align:center;
-  border:1px solid rgba(167,139,250,0.3);
-  box-shadow:0 20px 90px rgba(0,0,0,0.85);
-  animation: popupFade 0.4s ease forwards;
+  background:rgba(0,0,0,.25);
+  backdrop-filter:blur(12px);
 }
-.popup-card .popup-icon{
-  width:80px;
-  margin-bottom:20px;
-}
-.popup-card h2{
-  font-family:'Orbitron',sans-serif;
-  font-weight:800;
-  color:#ddd6fe;
+
+footer .links{
   margin-bottom:12px;
 }
-.popup-card p{
-  color:var(--text);
-  font-size:1rem;
-  margin-bottom:24px;
-  line-height:1.4;
-}
-.popup-card .popup-actions .btn{
-  width:100%;
-  max-width:180px;
-  margin:auto;
-}
-@keyframes popupFade{
-  from{transform:scale(0.8);opacity:0;}
-  to{transform:scale(1);opacity:1;}
+
+footer a{
+  color:var(--accent);
+  text-decoration:none;
+  margin:0 12px;
+  transition:.2s;
 }
 
-  /* ===== SUCCESS POPUP VERSION ===== */
-.popup-card.success{
-  max-width:950px;
-  display:flex;
-  align-items:center;
-  gap:50px;
-  text-align:left;
-  padding:50px;
+footer a:hover{
+  color:white;
 }
 
-.popup-card.success .popup-icon{
-  width:240px;
-  margin:0;
+footer span{
+  color:var(--accent);
 }
 
-.popup-card.success .popup-content{
-  flex:1;
+/* MOBILE */
+
+@media(max-width:768px){
+
+  .logo{
+    width:300px;
+  }
+
+  .error-card{
+    padding:35px 25px;
+    border-radius:24px;
+  }
+
+  .error-icon{
+    width:130px;
+  }
+
+  .error-title{
+    font-size:2.1rem;
+  }
+
+  .error-text{
+    font-size:1rem;
+  }
+
+  footer{
+    position:relative;
+  }
+
 }
 
-.popup-card.success h2{
-  font-size:2rem;
-}
-
-.popup-card.success p{
-  font-size:1.1rem;
-}
-
-
-/* ===== FOOTER ===== */
-footer{text-align:center;padding:50px 20px;color:var(--muted);}
 </style>
 </head>
-
 <body>
 
+<div class="bg-glow"></div>
+<div class="bg-glow bg-glow2"></div>
+
 <div class="hero">
-  <img src="pixelhidenet.png" alt="PixelHide.net Logo">
-  <div class="banner-text">Willkommen im Support! Erstelle einfach ein Ticket und fertig! Bitte merke dir, dass dieser Support kein Minecraft oder Microsoft Support ist! Dieser Support ist auschließlich für den Minecraft Server PixelHide.net gedacht!</div>
-  <div class="cta">
-    <a href="/join.html" class="btn btn-primary">Jetzt beitreten</a>
-    <a href="https://discord.pixelhide.net" class="btn btn-outline">Discord</a>
+
+  <div class="hero-content">
+
+    <img class="logo" src="https://pixelhide.net/pixelhidenet.png">
+
+    <div class="error-card">
+
+      <div class="error-content">
+
+        <img class="error-icon" src="https://pixelhide.net/error.png">
+
+        <h1 class="error-title">
+          Diese Seite ist nicht verfügbar
+        </h1>
+
+        <p class="error-text">
+          Es werden keine Bewerbungen über die Website mehr angenommen. Nutze bitte unseren Discord Server!
+        </p>
+
+        <div class="btn-row">
+
+          <a href="/" class="btn btn-primary">
+            Startseite
+          </a>
+          
+          <a href="https://discord.pixelhide.net" class="btn btn-discord">
+
+            <img src="https://pixelhide.net/assets/icons/discord.png">
+
+            Discord
+
+          </a>
+
+        </div>
+
+      </div>
+
+    </div>
+
   </div>
+
 </div>
 
-<section>
-<div class="card">
-  <form id="supportForm">
-    <div class="form-group">
-      <label>Minecraft / Ingame-Name *</label>
-      <input type="text" id="mcname" required>
-    </div>
-    <div class="form-group">
-      <label>Email-Adresse/Discord Username *</label>
-      <input type="text" id="email" required>
-    </div>
-    <div class="form-group">
-      <label>Voller Name</label>
-      <input type="text" id="fullname">
-    </div>
-    <div class="form-group">
-      <label>Welche Minecraft-Version nutzt du?/Auf was spielst du? *</label>
-      <select id="device" required>
-        <option value="">Bitte auswählen</option>
-        <option>Windows PC (Minecraft Java-Edition)</option>
-        <option>Windows PC (Minecraft Bedrock-Edition)</option>
-        <option>Windows PC (Minecraft Bedrock + Java-Edition)</option>
-        <option>Handy (Minecraft Bedrock-Edition)</option>
-        <option>Tablet (Minecraft Bedrock-Edition)</option>
-        <option>Mac (Minecraft Java-Edition)</option>
-        <option>Linux PC (Minecraft Java-Edition)</option>
-      </select>
-    </div>
-    <div class="form-group">
-      <label>Rang *</label>
-      <select id="category" required></select>
-    </div>
-    <div class="form-group">
-      <label>Typ *</label>
-      <select id="subcategory" required></select>
-    </div>
-    <div class="form-group">
-      <label>Über dich! (Warum bei uns? Was kannst du? Was kannst du nicht?) *</label>
-      <textarea id="description" required></textarea>
-    </div>
-    <button type="submit">Anfrage senden</button>
-  </form>
-</div>
-</section>
-
-<footer>© 2026 PixelHide.net · Nicht in Verbindung mit Mojang AB</footer>
-
-<!-- Popup -->
-<div id="ticketPopup" class="popup">
-  <div class="popup-card">
-  <img src="" class="popup-icon" alt="">
-  <div class="popup-content">
-    <h2 class="popup-title"></h2>
-    <p class="popup-message"></p>
-    <div class="popup-actions">
-      <button class="btn btn-primary" onclick="closePopup('ticketPopup')">Schließen</button>
-    </div>
+<footer>
+  <div>
+    © 2026 <span style="color:var(--accent)">PixelHide.net</span>
   </div>
-</div>
-
-<script>
-document.addEventListener("DOMContentLoaded", function () {
-    // Textauswahl deaktivieren
-    document.body.style.userSelect = "none";
-    document.body.style.webkitUserSelect = "none";
-    document.body.style.msUserSelect = "none";
-
-    // Markieren per Maus verhindern
-    document.addEventListener("selectstart", function (e) {
-        e.preventDefault();
-    });
-
-    // Rechtsklick optional blockieren
-    document.addEventListener("contextmenu", function (e) {
-        e.preventDefault();
-    });
-
-    // Draggen von Bildern verhindern
-    document.addEventListener("dragstart", function (e) {
-        e.preventDefault();
-    });
-});
-</script>
-<script src="https://uptime.betterstack.com/widgets/announcement.js" data-id="208286" async="async" type="text/javascript"></script>
-<script>
-const categories = {
-  "Creator":["YouTube Creator","Twitch Streamer","Anderes"],
-  "Trailer-Teilnehmer":["Teilnehmer"],
-  "Supporter":["Supporter"],
-  "Builder":["Builder"],
-  "Developer":["Minecraft/Server-Entwickler","Web-Entwickler"]
-};
-const categorySelect = document.getElementById("category");
-const subcategorySelect = document.getElementById("subcategory");
-function loadCategories(){
-  categorySelect.innerHTML = '<option value="">Bitte auswählen</option>';
-  for(let cat in categories){
-    categorySelect.innerHTML += `<option value="${cat}">${cat}</option>`;
-  }
-}
-function loadSubcategories(cat){
-  subcategorySelect.innerHTML = '<option value="">Bitte auswählen</option>';
-  categories[cat]?.forEach(sub=>{
-    subcategorySelect.innerHTML += `<option value="${sub}">${sub}</option>`;
-  });
-}
-categorySelect.addEventListener("change", e=>loadSubcategories(e.target.value));
-loadCategories();
-
-// Popup Funktionen
-function openPopup(type, message, ticketId=null){
-  const popup = document.getElementById("ticketPopup");
-  const card = popup.querySelector(".popup-card");
-  const icon = popup.querySelector(".popup-icon");
-  const title = popup.querySelector(".popup-title");
-  const msg = popup.querySelector(".popup-message");
-
-  card.classList.remove("success");
-
-  if(type==="success"){
-    icon.src="love.png";
-    title.textContent="Vielen Dank!";
-    card.classList.add("success");
-  } else {
-    icon.src="error.png";
-    title.textContent="Fehler!";
-  }
-
-  msg.innerHTML = message + (ticketId? `<br><strong>Application-ID: ${ticketId}</strong>`:"");
-  popup.classList.add("show");
-}
-function closePopup(id){document.getElementById(id)?.classList.remove("show");}
-
-// Ticket senden & Cooldown
-const COOLDOWN = 10 * 60 * 1000; // 10 Minuten
-document.getElementById("supportForm").addEventListener("submit", async function(e){
-  e.preventDefault();
-  const lastSent = localStorage.getItem("ticketCooldown");
-  const now = Date.now();
-  if(lastSent && now - lastSent < COOLDOWN){
-    openPopup("error","Bitte warte einen Moment, bis du die nächste Bewerbung senden kannst.");
-    return;
-  }
-
-  const ticketId = Math.floor(Math.random()*900000+100000);
-  const data = {
-    username:"Applications API",
-    embeds:[{
-      title:"Bewerbung",
-      color:10181046,
-      fields:[
-        {name:"Minecraft Name", value:document.getElementById("mcname").value || "Nicht angegeben"},
-        {name:"Email/Discord Username", value:document.getElementById("email").value},
-        {name:"Voller Name", value:document.getElementById("fullname").value || "Nicht angegeben"},
-        {name:"Gerät", value:document.getElementById("device").value},
-        {name:"Team Rang", value:document.getElementById("category").value},
-        {name:"Typ", value:document.getElementById("subcategory").value},
-        {name:"Beschreibung", value:document.getElementById("description").value},
-        {name:"Application-ID", value:ticketId.toString()}
-      ],
-      timestamp:new Date()
-    }]
-  };
-
-  try{
-    await fetch("https://discord.com/api/webhooks/1473274178936373319/LElhh1tvrNGzMVbls5l9gr-uIrbq_j2UrbHDKz9ihtrq51CAx4zV6ccnBTyHO-hDel9w",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(data)});
-    localStorage.setItem("ticketCooldown", Date.now());
-    openPopup("success","Bewerbung gesendet! Wir werden uns bald melden auf Discord oder per Email!", ticketId);
-    this.reset();
-  }catch(err){
-    openPopup("error","Bewerbung konnte nicht gesendet werden.");
-  }
-});
-</script>
+</footer>
 
 </body>
 </html>
