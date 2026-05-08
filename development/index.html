@@ -1,35 +1,45 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-<meta charset="UTF-8" />
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<meta property="og:title" content="PixelHide.net">
-<meta property="og:description" content="Das ultimative Minecraft Netzwerk mit einzigartigen Games & Community!">
-<meta property="og:image" content="https://pixelhide.net/favicon.png">
-<meta property="og:url" content="https://pixelhide.net">
 
 <title>PixelHide.net</title>
 
+<meta property="og:title" content="PixelHide.net">
+<meta property="og:description" content="Das ultimative Minecraft Netzwerk.">
+<meta property="og:image" content="https://pixelhide.net/favicon.png">
+
 <link rel="icon" href="https://pixelhide.net/favicon.png">
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Inter:wght@300;400;500;700&display=swap" rel="stylesheet">
 
 <style>
+
 :root{
-  --bg:#050507;
+  --bg:#040406;
   --card:#0d0d14;
+  --card2:#13131d;
+
   --accent:#a78bfa;
   --accent2:#c4b5fd;
-  --text:#e5e7eb;
-  --muted:#9ca3af;
+
   --discord:#5865F2;
+
+  --text:#f5f5f5;
+  --muted:#9ca3af;
 }
+
+/* GLOBAL */
 
 *{
   margin:0;
   padding:0;
   box-sizing:border-box;
-  user-select:none;
+}
+
+html{
+  scroll-behavior:smooth;
 }
 
 body{
@@ -39,279 +49,698 @@ body{
   overflow-x:hidden;
 }
 
+/* SCROLLBAR */
+
+::-webkit-scrollbar{
+  width:10px;
+}
+
+::-webkit-scrollbar-track{
+  background:#08080d;
+}
+
+::-webkit-scrollbar-thumb{
+  background:linear-gradient(var(--accent),var(--accent2));
+  border-radius:999px;
+}
+
+/* BACKGROUND GLOW */
+
+.bg-glow{
+  position:fixed;
+  width:700px;
+  height:700px;
+  background:radial-gradient(circle,var(--accent) 0%,transparent 70%);
+  opacity:.12;
+  filter:blur(100px);
+  z-index:-1;
+  animation:floatGlow 12s ease-in-out infinite;
+}
+
+.bg-glow2{
+  right:-250px;
+  top:300px;
+  animation-delay:4s;
+}
+
+@keyframes floatGlow{
+  0%{transform:translateY(0px) translateX(0px);}
+  50%{transform:translateY(-50px) translateX(40px);}
+  100%{transform:translateY(0px) translateX(0px);}
+}
+
 /* HERO */
+
 .hero{
-  height:90vh;
-  min-height:600px;
-  background:url("https://pixelhide.net/Banner.png") center/cover no-repeat;
+  position:relative;
+  min-height:100vh;
+  background:
+    linear-gradient(rgba(0,0,0,.45),rgba(4,4,6,.95)),
+    url("https://pixelhide.net/Banner.png") center/cover no-repeat;
+
   display:flex;
-  flex-direction:column;
   justify-content:center;
   align-items:center;
   text-align:center;
-  position:relative;
+  overflow:hidden;
 }
 
-.hero::after{
+.hero::before{
   content:"";
   position:absolute;
   inset:0;
-  background:linear-gradient(to bottom,rgba(0,0,0,0.2),#050507);
+  background:
+  radial-gradient(circle at center,
+  rgba(167,139,250,.2),
+  transparent 60%);
+  animation:pulse 6s infinite;
+}
+
+@keyframes pulse{
+  0%{opacity:.4;transform:scale(1);}
+  50%{opacity:.8;transform:scale(1.1);}
+  100%{opacity:.4;transform:scale(1);}
 }
 
 .hero-content{
   position:relative;
   z-index:2;
-  max-width:900px;
-  padding:20px;
+  width:100%;
+  max-width:1000px;
+  padding:30px;
+  animation:heroEnter 1.2s ease;
 }
 
-.hero img{
-  width:520px;
-  max-width:90%;
-  filter:drop-shadow(0 0 40px rgba(167,139,250,0.8));
-  margin-bottom:20px;
+@keyframes heroEnter{
+  from{
+    opacity:0;
+    transform:translateY(50px);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+}
+
+.logo{
+  width:620px;
+  max-width:95%;
+  margin-bottom:25px;
+
+  filter:
+    drop-shadow(0 0 20px rgba(167,139,250,.6))
+    drop-shadow(0 0 80px rgba(167,139,250,.5));
+
+  animation:floatLogo 5s ease-in-out infinite;
+}
+
+@keyframes floatLogo{
+  0%{transform:translateY(0px);}
+  50%{transform:translateY(-10px);}
+  100%{transform:translateY(0px);}
+}
+
+.hero h1{
+  font-size:4rem;
+  font-family:Orbitron;
+  margin-bottom:15px;
 }
 
 .hero p{
+  font-size:1.15rem;
   color:var(--muted);
-  font-size:1.1rem;
-  margin-bottom:25px;
+  max-width:750px;
+  margin:auto;
+  line-height:1.7;
 }
+
+/* BUTTONS */
 
 .btn-row{
   display:flex;
-  gap:15px;
-  flex-wrap:wrap;
   justify-content:center;
+  gap:18px;
+  flex-wrap:wrap;
+  margin-top:40px;
 }
 
 .btn{
-  padding:14px 26px;
-  border-radius:12px;
-  font-weight:600;
-  text-decoration:none;
+  position:relative;
+
+  padding:17px 32px;
+  border-radius:16px;
+
   display:flex;
   align-items:center;
   justify-content:center;
-  gap:10px;
+  gap:12px;
+
+  text-decoration:none;
+  font-weight:700;
+
+  overflow:hidden;
+
   transition:.25s;
+
+  backdrop-filter:blur(10px);
+}
+
+.btn::before{
+  content:"";
+  position:absolute;
+  top:0;
+  left:-120%;
+  width:100%;
+  height:100%;
+
+  background:linear-gradient(
+    90deg,
+    transparent,
+    rgba(255,255,255,.25),
+    transparent
+  );
+
+  transition:.6s;
+}
+
+.btn:hover::before{
+  left:120%;
 }
 
 .btn:hover{
-  transform:translateY(-3px);
+  transform:translateY(-4px) scale(1.03);
 }
 
 .btn-primary{
   background:linear-gradient(135deg,var(--accent),var(--accent2));
   color:#050507;
+
+  box-shadow:
+    0 0 20px rgba(167,139,250,.35),
+    0 0 60px rgba(167,139,250,.2);
 }
 
 .btn-discord{
-  background:var(--discord);
+  background:rgba(88,101,242,.15);
+  border:1px solid rgba(88,101,242,.4);
   color:white;
+
+  box-shadow:
+    0 0 25px rgba(88,101,242,.2);
 }
 
-/* SECTIONS */
-section{
-  padding:70px 20px;
-  max-width:1200px;
-  margin:auto;
+.btn img{
+  width:22px;
+  height:22px;
 }
 
-h2{
-  font-family:Orbitron;
-  margin-bottom:25px;
-  text-align:center;
+/* STATS */
+
+.stats{
+  display:flex;
+  justify-content:center;
+  gap:25px;
+  margin-top:60px;
+  flex-wrap:wrap;
 }
 
-/* GRID */
-.grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
-  gap:20px;
-}
+.stat{
+  min-width:180px;
 
-.card{
-  background:var(--card);
+  background:rgba(255,255,255,.03);
+  border:1px solid rgba(255,255,255,.06);
+
   padding:22px;
-  border-radius:18px;
-  border:1px solid rgba(167,139,250,0.15);
+  border-radius:20px;
+
+  backdrop-filter:blur(12px);
+
   transition:.25s;
 }
 
+.stat:hover{
+  transform:translateY(-5px);
+  border-color:rgba(167,139,250,.4);
+}
+
+.stat h2{
+  font-size:2rem;
+  color:var(--accent2);
+  margin-bottom:6px;
+}
+
+.stat p{
+  color:var(--muted);
+}
+
+/* SECTIONS */
+
+section{
+  max-width:1300px;
+  margin:auto;
+  padding:110px 25px;
+}
+
+.section-title{
+  text-align:center;
+  margin-bottom:60px;
+}
+
+.section-title h2{
+  font-size:3rem;
+  font-family:Orbitron;
+  margin-bottom:15px;
+}
+
+.section-title p{
+  color:var(--muted);
+}
+
+/* GRID */
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  gap:28px;
+}
+
+.card{
+  position:relative;
+
+  background:
+  linear-gradient(
+    145deg,
+    rgba(255,255,255,.04),
+    rgba(255,255,255,.02)
+  );
+
+  border:1px solid rgba(255,255,255,.07);
+
+  border-radius:28px;
+
+  padding:35px;
+
+  overflow:hidden;
+
+  transition:.35s;
+}
+
+.card::before{
+  content:"";
+  position:absolute;
+  inset:0;
+
+  background:
+  radial-gradient(circle at top left,
+  rgba(167,139,250,.22),
+  transparent 50%);
+
+  opacity:0;
+  transition:.35s;
+}
+
+.card:hover::before{
+  opacity:1;
+}
+
 .card:hover{
-  transform:translateY(-6px);
-  border-color:rgba(167,139,250,0.4);
+  transform:
+    translateY(-10px)
+    scale(1.02);
+
+  border-color:rgba(167,139,250,.3);
+
+  box-shadow:
+    0 15px 40px rgba(0,0,0,.5),
+    0 0 50px rgba(167,139,250,.15);
+}
+
+.card-icon{
+  font-size:3rem;
+  margin-bottom:18px;
 }
 
 .card h3{
-  color:#ddd6fe;
-  margin-bottom:10px;
+  font-size:1.5rem;
+  margin-bottom:12px;
+}
+
+.card p{
+  color:var(--muted);
+  line-height:1.7;
+}
+
+.card .btn{
+  margin-top:22px;
 }
 
 /* VIDEO */
+
+.video-wrapper{
+  position:relative;
+  border-radius:30px;
+  overflow:hidden;
+
+  box-shadow:
+    0 0 40px rgba(167,139,250,.12),
+    0 0 120px rgba(167,139,250,.08);
+}
+
 .video{
   width:100%;
   aspect-ratio:16/9;
   border:none;
-  border-radius:16px;
 }
 
 /* STATUS */
+
 .status{
-  margin-top:40px;
+  margin-top:50px;
+
   display:flex;
   justify-content:space-between;
   align-items:center;
   gap:20px;
-  padding:18px;
-  background:rgba(255,255,255,0.03);
-  border-radius:16px;
   flex-wrap:wrap;
+
+  background:
+  linear-gradient(
+    135deg,
+    rgba(255,255,255,.05),
+    rgba(255,255,255,.02)
+  );
+
+  border:1px solid rgba(255,255,255,.08);
+
+  padding:25px;
+  border-radius:24px;
 }
 
-.ip{
-  font-weight:600;
+.server-ip{
+  font-size:2rem;
+  font-weight:800;
+  color:var(--accent2);
 }
 
-.copy{
-  background:linear-gradient(135deg,var(--accent),var(--accent2));
+.copy-btn{
   border:none;
-  padding:10px 18px;
-  border-radius:12px;
   cursor:pointer;
-  font-weight:600;
 }
 
 /* FOOTER */
+
 footer{
+  margin-top:100px;
+  border-top:1px solid rgba(255,255,255,.06);
+
+  padding:50px 25px;
+
   text-align:center;
-  padding:40px;
-  border-top:1px solid rgba(255,255,255,0.05);
-  color:var(--muted);
+}
+
+footer .links{
+  margin-bottom:25px;
 }
 
 footer a{
   color:var(--accent);
   text-decoration:none;
-  margin:0 8px;
+  margin:0 12px;
+}
+
+footer a:hover{
+  color:white;
 }
 
 /* MOBILE */
+
 @media(max-width:768px){
-  .hero img{width:300px;}
-  .status{flex-direction:column; text-align:center;}
+
+  .hero h1{
+    font-size:2.5rem;
+  }
+
+  .section-title h2{
+    font-size:2.2rem;
+  }
+
+  .logo{
+    width:330px;
+  }
+
+  .stats{
+    flex-direction:column;
+    align-items:center;
+  }
+
+  .status{
+    flex-direction:column;
+    text-align:center;
+  }
+
+  .server-ip{
+    font-size:1.4rem;
+  }
+
 }
+
 </style>
 
 <script>
+
 function copyIP(){
+
   navigator.clipboard.writeText("pixelhide.net");
 
   const btn = document.getElementById("copyBtn");
-  btn.innerText = "Kopiert!";
-  setTimeout(()=>btn.innerText="IP kopieren",2000);
+
+  btn.innerHTML = "Kopiert!";
+  
+  setTimeout(()=>{
+    btn.innerHTML = "IP kopieren";
+  },2000);
+
 }
+
 </script>
 
 </head>
-
 <body>
 
-<div class="hero">
-  <div class="hero-content">
-    <img src="https://pixelhide.net/pixelhidenet.png">
+<div class="bg-glow"></div>
+<div class="bg-glow bg-glow2"></div>
 
-    <p>Ein modernes Minecraft Netzwerk mit einzigartigen Minigames, CityBuild, Events & einer aktiven Community.</p>
+<!-- HERO -->
+
+<div class="hero">
+
+  <div class="hero-content">
+
+    <img class="logo" src="https://pixelhide.net/pixelhidenet.png">
+
+    <h1>PIXELHIDE.NET</h1>
+
+    <p>
+      Das moderne Minecraft Netzwerk mit einzigartigen Minigames,
+      CityBuild, Events und einer aktiven Community.
+    </p>
 
     <div class="btn-row">
-      <a href="/join.html" class="btn btn-primary">Jetzt beitreten</a>
+
+      <a href="/join.html" class="btn btn-primary">
+        Jetzt beitreten
+      </a>
+
       <a href="https://discord.pixelhide.net" class="btn btn-discord">
+        <img src="https://pixelhide.net/assets/icons/discord.png">
         Discord
       </a>
+
     </div>
+
+    <div class="stats">
+
+      <div class="stat">
+        <h2>24/7</h2>
+        <p>Online Server</p>
+      </div>
+
+      <div class="stat">
+        <h2>1.8 - 1.21</h2>
+        <p>Version Support</p>
+      </div>
+
+      <div class="stat">
+        <h2>Events</h2>
+        <p>Jede Woche</p>
+      </div>
+
+    </div>
+
   </div>
+
 </div>
 
+<!-- TRAILER -->
+
 <section>
-<h2>Trailer</h2>
-<iframe class="video" src="https://www.youtube-nocookie.com/embed/LFdXT-xSR8M?autoplay=0"></iframe>
+
+  <div class="section-title">
+    <h2>Trailer</h2>
+    <p>Erlebe PixelHide in Aktion.</p>
+  </div>
+
+  <div class="video-wrapper">
+    <iframe
+    class="video"
+    src="https://www.youtube-nocookie.com/embed/LFdXT-xSR8M"
+    allowfullscreen></iframe>
+  </div>
+
 </section>
 
+<!-- FEATURES -->
+
 <section>
-<h2>Features</h2>
 
-<div class="grid">
-  <div class="card">
-    <h3>⚔️ Minigames</h3>
-    <p>Bedwars, Skywars, Build Battle und mehr.</p>
+  <div class="section-title">
+    <h2>Features</h2>
+    <p>Mehr als nur ein Minecraft Server.</p>
   </div>
 
-  <div class="card">
-    <h3>🏙️ CityBuild</h3>
-    <p>Baue deine eigene Welt mit anderen Spielern.</p>
+  <div class="grid">
+
+    <div class="card">
+      <div class="card-icon">⚔️</div>
+      <h3>Minigames</h3>
+      <p>
+        Bedwars, Skywars, Build Battle und weitere
+        einzigartige Modi.
+      </p>
+    </div>
+
+    <div class="card">
+      <div class="card-icon">🏙️</div>
+      <h3>CityBuild</h3>
+      <p>
+        Erstelle deine Stadt und baue dein eigenes Imperium.
+      </p>
+    </div>
+
+    <div class="card">
+      <div class="card-icon">🔥</div>
+      <h3>Events</h3>
+      <p>
+        Regelmäßige Community Events mit coolen Rewards.
+      </p>
+    </div>
+
+    <div class="card">
+      <div class="card-icon">🌍</div>
+      <h3>Custom Welten</h3>
+      <p>
+        Erstelle deine eigenen Welten direkt auf PixelHide.
+      </p>
+
+      <a href="/custom-welten.html" class="btn btn-primary">
+        Welt erstellen
+      </a>
+    </div>
+
   </div>
 
-  <div class="card">
-    <h3>🔥 Events</h3>
-    <p>Regelmäßige Events mit Rewards & Spaß.</p>
-  </div>
+  <!-- STATUS -->
 
-  <div class="card">
-    <h3>🌍 Custom Welten</h3>
-    <p>Erstelle eigene Welten und teile sie.</p>
-  </div>
-</div>
+  <div class="status">
 
-<div class="status">
-  <div>
-    <div class="ip">PixelHide.net</div>
-    <small>Server IP</small>
-  </div>
+    <div>
+      <div class="server-ip">pixelhide.net</div>
+      <div style="color:var(--muted)">
+        Minecraft Server IP
+      </div>
+    </div>
 
-  <button class="copy" id="copyBtn" onclick="copyIP()">IP kopieren</button>
-</div>
+    <button
+    class="btn btn-primary copy-btn"
+    id="copyBtn"
+    onclick="copyIP()">
+
+      IP kopieren
+
+    </button>
+
+  </div>
 
 </section>
 
+<!-- COMMUNITY -->
+
 <section>
-<h2>Community</h2>
 
-<div class="grid">
-
-  <div class="card">
-    <h3>👥 Team</h3>
-    <p>Bewirb dich und werde Teil des Projekts.</p>
-
-    <a href="/team.html" class="btn btn-primary" style="margin-top:12px;">
-      Mehr erfahren
-    </a>
+  <div class="section-title">
+    <h2>Community</h2>
+    <p>Werde Teil von PixelHide.</p>
   </div>
 
-  <div class="card">
-    <h3>💬 Support</h3>
-    <p>Hilfe direkt über Discord erhalten.</p>
+  <div class="grid">
 
-    <a href="https://discord.pixelhide.net" class="btn btn-discord" style="margin-top:12px;">
-      <img src="https://pixelhide.net/assets/icons/discord.png" width="20" height="20">
-      Support öffnen
-    </a>
+    <div class="card">
+
+      <div class="card-icon">👥</div>
+
+      <h3>Team</h3>
+
+      <p>
+        Bewirb dich und unterstütze das Netzwerk
+        als Teammitglied.
+      </p>
+
+      <a href="/team.html" class="btn btn-primary">
+        Mehr erfahren
+      </a>
+
+    </div>
+
+    <div class="card">
+
+      <div class="card-icon">💬</div>
+
+      <h3>Support</h3>
+
+      <p>
+        Hilfe direkt über unseren Discord Support erhalten.
+      </p>
+
+      <a href="https://discord.pixelhide.net" class="btn btn-discord">
+
+        <img src="https://pixelhide.net/assets/icons/discord.png">
+
+        Support öffnen
+
+      </a>
+
+    </div>
+
   </div>
-
-</div>
 
 </section>
 
 <footer>
-  <div>
+
+  <div class="links">
+
     <a href="/join.html">Join</a>
     <a href="/team.html">Team</a>
     <a href="/custom-welten.html">Welten</a>
+    <a href="/version-support.html">Versionen</a>
     <a href="/impressum.html">Impressum</a>
+
   </div>
-  <br>
-  © 2026 PixelHide.net
+
+  <div>
+    © 2026 <span style="color:var(--accent)">PixelHide.net</span>
+  </div>
+
 </footer>
 
 </body>
