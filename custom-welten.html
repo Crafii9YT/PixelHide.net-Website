@@ -5,342 +5,929 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Custom Welten | PixelHide.net</title>
-<link rel="icon" type="image/png" href="favicon.png">
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+
+<link rel="icon" href="favicon.png">
+
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Inter:wght@300;400;500;700&display=swap" rel="stylesheet">
 
 <style>
+
 :root{
-  --primary:#a78bfa;
-  --primary-glow:#c4b5fd;
-  --secondary:#050507;
-  --card:#0b0b12;
-  --text:#e5e7eb;
+  --bg:#040406;
+
+  --card:#0d0d14;
+  --card2:#13131d;
+
+  --accent:#a78bfa;
+  --accent2:#c4b5fd;
+
+  --discord:#5865F2;
+
+  --text:#f5f5f5;
   --muted:#9ca3af;
 }
 
+/* GLOBAL */
+
 *{
+  margin:0;
+  padding:0;
   box-sizing:border-box;
 }
 
+html{
+  scroll-behavior:smooth;
+}
+
 body{
-  margin:0;
-  font-family:'Inter',sans-serif;
-  background:#050507;
+  font-family:Inter,sans-serif;
+  background:var(--bg);
   color:var(--text);
   overflow-x:hidden;
-  transition:filter .3s ease;
+}
+
+/* SCROLLBAR */
+
+::-webkit-scrollbar{
+  width:10px;
+}
+
+::-webkit-scrollbar-track{
+  background:#08080d;
+}
+
+::-webkit-scrollbar-thumb{
+  background:linear-gradient(var(--accent),var(--accent2));
+  border-radius:999px;
+}
+
+/* GLOW */
+
+.bg-glow{
+  position:fixed;
+
+  width:700px;
+  height:700px;
+
+  background:
+  radial-gradient(circle,var(--accent) 0%,transparent 70%);
+
+  opacity:.12;
+
+  filter:blur(100px);
+
+  z-index:-1;
+
+  animation:floatGlow 12s ease-in-out infinite;
+}
+
+.bg-glow2{
+  right:-250px;
+  top:300px;
+  animation-delay:4s;
+}
+
+@keyframes floatGlow{
+
+  0%{
+    transform:translateY(0px) translateX(0px);
+  }
+
+  50%{
+    transform:translateY(-50px) translateX(40px);
+  }
+
+  100%{
+    transform:translateY(0px) translateX(0px);
+  }
+
 }
 
 /* HERO */
+
 .hero{
   position:relative;
-  height:700px;
-  background:url("Banner.png") center/cover no-repeat;
+
+  min-height:100vh;
+
+  background:
+  linear-gradient(rgba(0,0,0,.45),rgba(4,4,6,.96)),
+  url("Banner.png") center/cover no-repeat;
+
   display:flex;
-  flex-direction:column;
+  justify-content:center;
   align-items:center;
-  justify-content:center;
-  text-align:center;
-  padding:20px;
+
+  overflow:hidden;
 }
 
-.hero::after{
+.hero::before{
   content:"";
+
   position:absolute;
-  bottom:0;
-  left:0;
+  inset:0;
+
+  background:
+  radial-gradient(circle at center,
+  rgba(167,139,250,.2),
+  transparent 60%);
+
+  animation:pulse 6s infinite;
+}
+
+@keyframes pulse{
+
+  0%{
+    opacity:.4;
+    transform:scale(1);
+  }
+
+  50%{
+    opacity:.8;
+    transform:scale(1.08);
+  }
+
+  100%{
+    opacity:.4;
+    transform:scale(1);
+  }
+
+}
+
+.hero-content{
+  position:relative;
+  z-index:2;
+
   width:100%;
-  height:150px;
-  background:linear-gradient(to bottom,rgba(5,5,7,0) 0%,#050507 100%);
+  max-width:1100px;
+
+  text-align:center;
+
+  padding:30px;
+
+  animation:heroEnter 1.1s ease;
 }
 
-.hero img{
-  width:600px;
-  max-width:90%;
-  filter:drop-shadow(0 0 70px rgba(167,139,250,0.9));
+@keyframes heroEnter{
+
+  from{
+    opacity:0;
+    transform:translateY(40px);
+  }
+
+  to{
+    opacity:1;
+    transform:translateY(0px);
+  }
+
 }
 
-.hero .banner-text{
-  max-width:720px;
-  color:black;
-  font-size:1.2rem;
-  margin-bottom:30px;
+.logo{
+  width:620px;
+  max-width:95%;
+
+  margin-bottom:25px;
+
+  filter:
+    drop-shadow(0 0 20px rgba(167,139,250,.6))
+    drop-shadow(0 0 80px rgba(167,139,250,.5));
+
+  animation:floatLogo 5s ease-in-out infinite;
 }
 
-.hero .cta{
-  display:flex;
-  gap:16px;
-  flex-wrap:wrap;
-  justify-content:center;
+@keyframes floatLogo{
+
+  0%{
+    transform:translateY(0px);
+  }
+
+  50%{
+    transform:translateY(-10px);
+  }
+
+  100%{
+    transform:translateY(0px);
+  }
+
+}
+
+.hero-title{
+  font-size:4rem;
+  font-family:Orbitron;
+
+  margin-bottom:18px;
+}
+
+.hero-text{
+  max-width:760px;
+
+  margin:auto;
+
+  color:var(--muted);
+
+  line-height:1.8;
+  font-size:1.15rem;
 }
 
 /* BUTTONS */
+
+.btn-row{
+  display:flex;
+  justify-content:center;
+  gap:18px;
+  flex-wrap:wrap;
+
+  margin-top:45px;
+}
+
 .btn{
-  padding:16px 28px;
-  font-size:1.1rem;
-  border-radius:14px;
-  font-weight:600;
-  text-decoration:none;
-  transition:.25s;
-  cursor:pointer;
-}
-
-.btn-primary{
-  background:linear-gradient(135deg,var(--primary),var(--primary-glow));
-  color:#050507;
-  border:none;
-}
-
-.btn-outline{
-  border:1px solid rgba(167,139,250,0.4);
-  background:transparent;
-  color:#050507;
-}
-
-/* CONTENT */
-section{
   position:relative;
-  padding:80px 20px;
-  max-width:1200px;
-  margin:auto;
-}
 
-.top-create-btn{
-  position:absolute;
-  top:20px;
-  right:20px;
-}
+  padding:17px 34px;
 
-.center-empty{
-  text-align:center;
-  margin:160px 0 80px;
-  font-size:1.2rem;
-  color:var(--muted);
-}
+  border-radius:18px;
 
-/* POPUPS */
-.popup{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,0.75);
-  backdrop-filter:blur(0px);
   display:flex;
   align-items:center;
   justify-content:center;
-  z-index:10000;
+  gap:12px;
+
+  overflow:hidden;
+
+  text-decoration:none;
+  font-weight:700;
+
+  transition:.25s;
+
+  backdrop-filter:blur(10px);
+
+  cursor:pointer;
+}
+
+.btn::before{
+  content:"";
+
+  position:absolute;
+
+  top:0;
+  left:-120%;
+
+  width:100%;
+  height:100%;
+
+  background:
+  linear-gradient(
+    90deg,
+    transparent,
+    rgba(255,255,255,.22),
+    transparent
+  );
+
+  transition:.6s;
+}
+
+.btn:hover::before{
+  left:120%;
+}
+
+.btn:hover{
+  transform:translateY(-4px) scale(1.03);
+}
+
+.btn-primary{
+  border:none;
+
+  background:
+  linear-gradient(
+    135deg,
+    var(--accent),
+    var(--accent2)
+  );
+
+  color:#050507;
+
+  box-shadow:
+    0 0 25px rgba(167,139,250,.25),
+    0 0 70px rgba(167,139,250,.15);
+}
+
+.btn-discord{
+  background:rgba(88,101,242,.15);
+
+  border:1px solid rgba(88,101,242,.4);
+
+  color:white;
+
+  box-shadow:
+    0 0 25px rgba(88,101,242,.2);
+}
+
+/* SECTION */
+
+section{
+  max-width:1300px;
+  margin:auto;
+
+  padding:110px 25px;
+}
+
+/* WORLD PANEL */
+
+.world-panel{
+  background:
+  linear-gradient(
+    145deg,
+    rgba(255,255,255,.05),
+    rgba(255,255,255,.02)
+  );
+
+  border:1px solid rgba(255,255,255,.07);
+
+  border-radius:30px;
+
+  padding:40px;
+
+  backdrop-filter:blur(12px);
+
+  box-shadow:
+    0 20px 60px rgba(0,0,0,.4);
+}
+
+.panel-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+
+  gap:20px;
+  flex-wrap:wrap;
+
+  margin-bottom:40px;
+}
+
+.panel-title h2{
+  font-size:2.5rem;
+  font-family:Orbitron;
+
+  margin-bottom:10px;
+}
+
+.panel-title p{
+  color:var(--muted);
+}
+
+/* EMPTY */
+
+.empty{
+  text-align:center;
+
+  padding:100px 20px;
+}
+
+.empty-icon{
+  font-size:5rem;
+
+  margin-bottom:20px;
+
+  animation:floatLogo 5s ease-in-out infinite;
+}
+
+.empty h3{
+  font-size:2rem;
+
+  margin-bottom:12px;
+}
+
+.empty p{
+  color:var(--muted);
+
+  max-width:600px;
+  margin:auto;
+
+  line-height:1.7;
+}
+
+/* POPUP */
+
+.popup{
+  position:fixed;
+  inset:0;
+
+  background:rgba(0,0,0,.7);
+
+  display:flex;
+  justify-content:center;
+  align-items:center;
+
   opacity:0;
   pointer-events:none;
+
   transition:.3s;
+
+  backdrop-filter:blur(0px);
+
+  z-index:9999;
 }
 
 .popup.active{
   opacity:1;
   pointer-events:all;
-  backdrop-filter:blur(8px);
+
+  backdrop-filter:blur(10px);
 }
 
 .popup-card{
-  background:var(--card);
+  position:relative;
+
+  width:450px;
+  max-width:92%;
+
+  background:
+  linear-gradient(
+    145deg,
+    rgba(255,255,255,.05),
+    rgba(255,255,255,.02)
+  );
+
+  border:1px solid rgba(255,255,255,.08);
+
+  border-radius:30px;
+
   padding:35px;
-  border-radius:24px;
-  width:420px;
-  max-width:90%;
-  border:1px solid rgba(167,139,250,0.25);
-  box-shadow:0 30px 100px rgba(0,0,0,0.9);
-  text-align:center;
-  transform:scale(.7) translateY(60px);
+
+  transform:scale(.75) translateY(40px);
+
   opacity:0;
+
   transition:.4s cubic-bezier(.68,-0.55,.27,1.55);
+
+  box-shadow:
+    0 30px 100px rgba(0,0,0,.8);
 }
 
 .popup.active .popup-card{
-  transform:scale(1) translateY(0);
+  transform:scale(1) translateY(0px);
   opacity:1;
+}
+
+.popup-card h2{
+  font-family:Orbitron;
+
+  margin-bottom:25px;
+
+  text-align:center;
 }
 
 .popup-card input{
   width:100%;
-  padding:12px;
-  margin-bottom:12px;
-  border-radius:12px;
-  border:1px solid rgba(167,139,250,0.2);
-  background:#050507;
-  color:var(--text);
+
+  margin-bottom:15px;
+
+  padding:15px;
+
+  border-radius:16px;
+
+  border:1px solid rgba(255,255,255,.08);
+
+  background:rgba(255,255,255,.03);
+
+  color:white;
+
+  outline:none;
+
+  transition:.2s;
+}
+
+.popup-card input:focus{
+  border-color:rgba(167,139,250,.5);
+
+  box-shadow:
+    0 0 20px rgba(167,139,250,.2);
 }
 
 .popup-actions{
   display:flex;
-  gap:10px;
-  justify-content:center;
+  gap:12px;
+
+  margin-top:20px;
+
   flex-wrap:wrap;
 }
 
+.popup-actions .btn{
+  flex:1;
+}
+
 /* ERROR */
+
 .error-icon{
-  width:80px;
-  height:80px;
+  width:90px;
+
+  display:block;
+
+  margin:auto auto 20px;
 }
 
-/* MOBILE RESPONSIVE */
+/* SHAKE */
 
-@media(max-width:1024px){
-  .hero{
-    height:500px;
-  }
-
-  .hero img{
-    width:400px;
-  }
-
-  section{
-    padding:60px 15px;
-  }
+.shake{
+  animation:shake .35s;
 }
+
+@keyframes shake{
+
+  0%{
+    transform:translateX(0px);
+  }
+
+  25%{
+    transform:translateX(-8px);
+  }
+
+  50%{
+    transform:translateX(8px);
+  }
+
+  75%{
+    transform:translateX(-8px);
+  }
+
+  100%{
+    transform:translateX(0px);
+  }
+
+}
+
+/* FOOTER */
+
+footer{
+  margin-top:100px;
+
+  border-top:1px solid rgba(255,255,255,.06);
+
+  text-align:center;
+
+  padding:50px 25px;
+
+  color:var(--muted);
+}
+
+/* MOBILE */
 
 @media(max-width:768px){
-  .hero{
-    height:420px;
+
+  .hero-title{
+    font-size:2.5rem;
   }
 
-  .hero img{
-    width:260px;
-  }
-
-  .hero .cta{
-    flex-direction:column;
-    width:90%;
+  .logo{
+    width:320px;
   }
 
   .btn{
     width:100%;
-    text-align:center;
   }
 
-  .top-create-btn{
-    position:static;
-    text-align:center;
-    margin-bottom:30px;
+  .btn-row{
+    flex-direction:column;
   }
 
-  .popup-card{
-    width:95%;
-    padding:25px;
+  .panel-top{
+    flex-direction:column;
+    align-items:flex-start;
   }
+
+  .panel-title h2{
+    font-size:2rem;
+  }
+
+  .popup-actions{
+    flex-direction:column;
+  }
+
 }
 
-@media(max-width:480px){
-  .hero{
-    height:350px;
-  }
-
-  .hero img{
-    width:200px;
-  }
-
-  .hero .banner-text{
-    font-size:.95rem;
-  }
-
-  .center-empty{
-    margin:100px 0;
-  }
-}
 </style>
 </head>
 
 <body>
 
+<div class="bg-glow"></div>
+<div class="bg-glow bg-glow2"></div>
+
+<!-- HERO -->
+
 <div class="hero">
-  <img src="pixelhidenet.png">
-  <div class="banner-text">
-    Der perfekte <strong>Minecraft Server</strong> um mit Freunden und Familie zu spielen.
+
+  <div class="hero-content">
+
+    <img src="pixelhidenet.png" class="logo">
+
+    <h1 class="hero-title">
+      Custom Welten
+    </h1>
+
+    <p class="hero-text">
+      Erstelle deine eigene Welt auf PixelHide.net
+      und spiele gemeinsam mit Freunden in komplett
+      individuellen Umgebungen.
+    </p>
+
+    <div class="btn-row">
+
+      <a href="/join.html" class="btn btn-primary">
+        Jetzt beitreten
+      </a>
+
+      <a href="https://discord.pixelhide.net" class="btn btn-discord">
+        Discord
+      </a>
+
+    </div>
+
   </div>
 
-  <div class="cta">
-    <a href="/join.html" class="btn btn-primary">Jetzt beitreten</a>
-    <a href="https://discord.pixelhide.net" class="btn btn-outline">Discord</a>
-  </div>
 </div>
+
+<!-- SECTION -->
 
 <section>
 
-<div class="top-create-btn">
-  <button class="btn btn-primary" onclick="openPopup('createPopup')">
-    Welt erstellen
-  </button>
-</div>
+  <div class="world-panel">
 
-<div class="center-empty">
-  Es wurden keine Welt gefunden.
-</div>
+    <div class="panel-top">
+
+      <div class="panel-title">
+
+        <h2>Deine Welten</h2>
+
+        <p>
+          Erstelle und verwalte deine eigenen Welten.
+        </p>
+
+      </div>
+
+      <button
+      class="btn btn-primary"
+      onclick="openPopup('createPopup')">
+
+        Welt erstellen
+
+      </button>
+
+    </div>
+
+    <!-- EMPTY -->
+
+    <div class="empty">
+
+      <div class="empty-icon">
+        🌍
+      </div>
+
+      <h3>
+        Keine Welten gefunden
+      </h3>
+
+      <p>
+        Du besitzt aktuell noch keine Welten.
+        Erstelle jetzt deine erste Welt und beginne
+        dein eigenes Abenteuer.
+      </p>
+
+    </div>
+
+  </div>
 
 </section>
 
-<footer style="text-align:center;padding:40px;color:var(--text);border-top:1px solid rgba(167,139,250,0.15);">
-  © 2026 <span style="color:var(--primary);font-weight:600;">PixelHide.net</span>
+<footer>
+
+  © 2026
+  <span style="color:var(--accent)">
+    PixelHide.net
+  </span>
+
 </footer>
 
-<!-- POPUPS -->
+<!-- CREATE POPUP -->
 
 <div id="createPopup" class="popup">
+
   <div class="popup-card">
+
     <h2>Welt erstellen</h2>
+
     <input type="text" id="name" placeholder="Name">
+
     <input type="text" id="player" placeholder="Zuweisung (Spielername)">
-    <input type="text" id="env" placeholder="Enviroment">
+
+    <input type="text" id="env" placeholder="Environment">
 
     <div class="popup-actions">
-      <button class="btn btn-primary" onclick="createWorld()">Erstellen</button>
-      <button class="btn btn-outline" onclick="closePopup('createPopup')">Abbrechen</button>
+
+      <button
+      class="btn btn-primary"
+      onclick="createWorld()">
+
+        Erstellen
+
+      </button>
+
+      <button
+      class="btn btn-discord"
+      onclick="closePopup('createPopup')">
+
+        Abbrechen
+
+      </button>
+
     </div>
+
   </div>
+
 </div>
+
+<!-- ENV ERROR -->
 
 <div id="envError" class="popup">
+
   <div class="popup-card">
+
     <img src="error.png" class="error-icon">
+
     <h2>Fehler</h2>
-    <p>Das Enviroment der Welt existiert nicht. Versuche es erneut mit "normal", "nether" oder "end".</p>
-    <button class="btn btn-primary" onclick="closePopup('envError')">Schließen</button>
+
+    <p style="color:var(--muted);line-height:1.7;margin-bottom:25px;">
+
+      Das Environment existiert nicht.
+      Nutze nur:
+      normal, nether oder end.
+
+    </p>
+
+    <button
+    class="btn btn-primary"
+    onclick="closePopup('envError')">
+
+      Schließen
+
+    </button>
+
   </div>
+
 </div>
 
+<!-- LIMIT ERROR -->
+
 <div id="limitError" class="popup">
+
   <div class="popup-card">
+
     <img src="error.png" class="error-icon">
+
     <h2>Fehler</h2>
-    <p>Der zugewiesene Spieler hat das Limit von 0 Welten erreicht.</p>
-    <button class="btn btn-primary" onclick="closePopup('limitError')">Schließen</button>
+
+    <p style="color:var(--muted);line-height:1.7;margin-bottom:25px;">
+
+      Der Spieler hat das maximale
+      Welten-Limit erreicht.
+
+    </p>
+
+    <button
+    class="btn btn-primary"
+    onclick="closePopup('limitError')">
+
+      Schließen
+
+    </button>
+
   </div>
+
 </div>
 
 <script>
+
 function openPopup(id){
-  document.getElementById(id).classList.add("active");
+
+  document.getElementById(id)
+  .classList.add("active");
+
 }
 
 function closePopup(id){
-  document.getElementById(id).classList.remove("active");
+
+  document.getElementById(id)
+  .classList.remove("active");
+
 }
 
 function createWorld(){
-  const env = document.getElementById("env").value.trim().toLowerCase();
-  const createCard = document.querySelector("#createPopup .popup-card");
+
+  const env =
+  document.getElementById("env")
+  .value
+  .trim()
+  .toLowerCase();
+
+  const createCard =
+  document.querySelector("#createPopup .popup-card");
 
   if(!["normal","nether","end"].includes(env)){
+
     createCard.classList.add("shake");
-    setTimeout(()=>createCard.classList.remove("shake"),400);
 
     setTimeout(()=>{
-      closePopup("createPopup");
-      openPopup("envError");
+
+      createCard.classList.remove("shake");
+
     },350);
+
+    setTimeout(()=>{
+
+      closePopup("createPopup");
+
+      openPopup("envError");
+
+    },250);
+
     return;
+
   }
 
   closePopup("createPopup");
-  setTimeout(()=>openPopup("limitError"),300);
+
+  setTimeout(()=>{
+
+    openPopup("limitError");
+
+  },250);
+
 }
+
+/* RIPPLE */
+
+document.querySelectorAll(".btn").forEach(btn=>{
+
+  btn.addEventListener("click",e=>{
+
+    const rect = btn.getBoundingClientRect();
+
+    const ripple = document.createElement("span");
+
+    ripple.className = "ripple";
+
+    const size = Math.max(rect.width,rect.height);
+
+    ripple.style.width =
+    ripple.style.height =
+    size + "px";
+
+    ripple.style.left =
+    (e.clientX - rect.left - size/2) + "px";
+
+    ripple.style.top =
+    (e.clientY - rect.top - size/2) + "px";
+
+    ripple.style.position = "absolute";
+
+    ripple.style.background =
+    "rgba(255,255,255,.25)";
+
+    ripple.style.borderRadius = "50%";
+
+    ripple.style.transform = "scale(0)";
+
+    ripple.style.animation =
+    "ripple .65s linear";
+
+    btn.appendChild(ripple);
+
+    setTimeout(()=>{
+
+      ripple.remove();
+
+    },650);
+
+  });
+
+});
+
+/* RIPPLE ANIMATION */
+
+const style = document.createElement("style");
+
+style.innerHTML = `
+@keyframes ripple{
+  to{
+    transform:scale(4);
+    opacity:0;
+  }
+}
+`;
+
+document.head.appendChild(style);
+
 </script>
 
 </body>
