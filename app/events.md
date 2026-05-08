@@ -1,1 +1,1 @@
-# nikis events today
+❌ Kein Event verfügbar.
