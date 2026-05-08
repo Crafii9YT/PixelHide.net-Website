@@ -7,7 +7,7 @@
 <title>Version Checker | PixelHide.net</title>
 
 <meta property="og:title" content="PixelHide.net">
-<meta property="og:description" content="Version Support Checker für PixelHide.net">
+<meta property="og:description" content="Version Support Checker">
 <meta property="og:image" content="https://pixelhide.net/favicon.png">
 
 <link rel="icon" href="https://pixelhide.net/favicon.png">
@@ -19,12 +19,13 @@
 :root{
   --bg:#040406;
   --card:#0d0d14;
+  --card2:#13131d;
+
   --accent:#a78bfa;
   --accent2:#c4b5fd;
+
   --text:#f5f5f5;
   --muted:#9ca3af;
-  --success:#22c55e;
-  --error:#ef4444;
 }
 
 *{
@@ -74,14 +75,22 @@ body{
 
 .bg-glow2{
   right:-250px;
-  top:300px;
+  top:350px;
   animation-delay:4s;
 }
 
 @keyframes floatGlow{
-  0%{transform:translateY(0px) translateX(0px);}
-  50%{transform:translateY(-50px) translateX(40px);}
-  100%{transform:translateY(0px) translateX(0px);}
+  0%{
+    transform:translateY(0px) translateX(0px);
+  }
+
+  50%{
+    transform:translateY(-50px) translateX(40px);
+  }
+
+  100%{
+    transform:translateY(0px) translateX(0px);
+  }
 }
 
 /* HERO */
@@ -89,14 +98,15 @@ body{
 .hero{
   position:relative;
   min-height:100vh;
+
   background:
-    linear-gradient(rgba(0,0,0,.45),rgba(4,4,6,.96)),
-    url("https://pixelhide.net/Banner.png") center/cover no-repeat;
+  linear-gradient(rgba(0,0,0,.45),rgba(4,4,6,.96)),
+  url("Banner.png") center/cover no-repeat;
 
   display:flex;
   justify-content:center;
   align-items:center;
-  text-align:center;
+
   overflow:hidden;
 }
 
@@ -114,35 +124,52 @@ body{
 }
 
 @keyframes pulse{
-  0%{opacity:.4;transform:scale(1);}
-  50%{opacity:.8;transform:scale(1.1);}
-  100%{opacity:.4;transform:scale(1);}
+  0%{
+    opacity:.4;
+    transform:scale(1);
+  }
+
+  50%{
+    opacity:.8;
+    transform:scale(1.08);
+  }
+
+  100%{
+    opacity:.4;
+    transform:scale(1);
+  }
 }
 
 .hero-content{
   position:relative;
   z-index:2;
+
   width:100%;
-  max-width:1000px;
+  max-width:900px;
+
+  text-align:center;
   padding:30px;
-  animation:heroEnter 1.2s ease;
+
+  animation:heroEnter 1.1s ease;
 }
 
 @keyframes heroEnter{
   from{
     opacity:0;
-    transform:translateY(50px);
+    transform:translateY(40px);
   }
+
   to{
     opacity:1;
-    transform:translateY(0);
+    transform:translateY(0px);
   }
 }
 
 .logo{
   width:520px;
   max-width:95%;
-  margin-bottom:25px;
+
+  margin-bottom:30px;
 
   filter:
     drop-shadow(0 0 20px rgba(167,139,250,.6))
@@ -152,23 +179,78 @@ body{
 }
 
 @keyframes floatLogo{
-  0%{transform:translateY(0px);}
-  50%{transform:translateY(-10px);}
-  100%{transform:translateY(0px);}
+  0%{
+    transform:translateY(0px);
+  }
+
+  50%{
+    transform:translateY(-10px);
+  }
+
+  100%{
+    transform:translateY(0px);
+  }
 }
 
-.hero h1{
-  font-size:4rem;
+.hero-title{
+  font-size:3.6rem;
   font-family:Orbitron;
-  margin-bottom:15px;
+  margin-bottom:18px;
 }
 
-.hero p{
-  font-size:1.15rem;
+.hero-text{
   color:var(--muted);
-  max-width:750px;
+  max-width:700px;
   margin:auto;
-  line-height:1.7;
+
+  line-height:1.8;
+  font-size:1.08rem;
+}
+
+/* STATUS */
+
+.status{
+  margin-top:45px;
+
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:18px;
+
+  flex-wrap:wrap;
+}
+
+.ip-box{
+  background:
+  linear-gradient(
+    145deg,
+    rgba(255,255,255,.05),
+    rgba(255,255,255,.02)
+  );
+
+  border:1px solid rgba(255,255,255,.07);
+
+  border-radius:22px;
+
+  padding:22px 30px;
+
+  min-width:280px;
+
+  text-align:center;
+
+  backdrop-filter:blur(10px);
+}
+
+.ip{
+  font-size:2rem;
+  font-weight:800;
+  color:var(--accent2);
+
+  margin-bottom:8px;
+}
+
+.ip-small{
+  color:var(--muted);
 }
 
 /* BUTTON */
@@ -176,41 +258,42 @@ body{
 .btn{
   position:relative;
 
-  padding:17px 32px;
+  padding:17px 34px;
+  border-radius:18px;
 
-  border:none;
-  border-radius:16px;
-
-  font-weight:700;
-  font-size:1rem;
-
-  cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:12px;
 
   overflow:hidden;
 
+  text-decoration:none;
+  font-weight:700;
+
   transition:.25s;
 
-  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  backdrop-filter:blur(10px);
 
-  color:#050507;
-
-  box-shadow:
-    0 0 20px rgba(167,139,250,.35),
-    0 0 60px rgba(167,139,250,.2);
+  border:none;
+  cursor:pointer;
 }
 
 .btn::before{
   content:"";
+
   position:absolute;
   top:0;
   left:-120%;
+
   width:100%;
   height:100%;
 
-  background:linear-gradient(
+  background:
+  linear-gradient(
     90deg,
     transparent,
-    rgba(255,255,255,.25),
+    rgba(255,255,255,.22),
     transparent
   );
 
@@ -225,281 +308,291 @@ body{
   transform:translateY(-4px) scale(1.03);
 }
 
-/* CARD */
+.btn-primary{
+  background:
+  linear-gradient(
+    135deg,
+    var(--accent),
+    var(--accent2)
+  );
+
+  color:#050507;
+
+  box-shadow:
+    0 0 25px rgba(167,139,250,.25),
+    0 0 70px rgba(167,139,250,.15);
+}
+
+/* VERSION CARD */
+
+.version-wrapper{
+  margin-top:50px;
+
+  display:flex;
+  justify-content:center;
+}
 
 .version-card{
-  margin-top:50px;
+  width:100%;
+  max-width:420px;
 
   background:
   linear-gradient(
     145deg,
-    rgba(255,255,255,.04),
+    rgba(255,255,255,.05),
     rgba(255,255,255,.02)
   );
 
   border:1px solid rgba(255,255,255,.07);
 
-  border-radius:30px;
+  border-radius:28px;
 
-  padding:45px;
+  padding:28px;
 
   backdrop-filter:blur(12px);
 
   box-shadow:
-    0 15px 40px rgba(0,0,0,.5),
-    0 0 50px rgba(167,139,250,.12);
-}
-
-.server-status{
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  gap:20px;
-  flex-wrap:wrap;
-  margin-bottom:40px;
-}
-
-.server-ip{
-  font-size:2rem;
-  font-weight:800;
-  color:var(--accent2);
+    0 0 40px rgba(167,139,250,.08);
 }
 
 /* CUSTOM DROPDOWN */
 
-.custom-dropdown{
+.custom-select{
   position:relative;
   width:100%;
-  max-width:350px;
-  margin:auto;
 }
 
-.dropdown-trigger{
+.select-trigger{
+  position:relative;
+
   width:100%;
 
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
+  padding:16px 20px;
 
-  padding:18px 22px;
-
-  border-radius:20px;
+  background:rgba(255,255,255,.04);
 
   border:1px solid rgba(255,255,255,.08);
 
-  background:
-  linear-gradient(
-    145deg,
-    rgba(255,255,255,.04),
-    rgba(255,255,255,.02)
-  );
+  border-radius:18px;
 
-  color:var(--text);
-
-  font-size:1rem;
-  font-weight:600;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
 
   cursor:pointer;
 
   transition:.25s;
 
-  backdrop-filter:blur(14px);
-
-  box-shadow:
-    0 10px 30px rgba(0,0,0,.35);
+  overflow:hidden;
 }
 
-.dropdown-trigger:hover{
-  transform:translateY(-3px);
-
-  border-color:rgba(167,139,250,.35);
-
-  box-shadow:
-    0 15px 40px rgba(0,0,0,.45),
-    0 0 40px rgba(167,139,250,.12);
-}
-
-.dropdown-trigger.active{
+.select-trigger:hover{
   border-color:rgba(167,139,250,.45);
+}
+
+.select-trigger.active{
+  border-color:rgba(167,139,250,.55);
 
   box-shadow:
-    0 0 30px rgba(167,139,250,.15);
+    0 0 25px rgba(167,139,250,.12);
 }
 
-.dropdown-arrow{
-  transition:.35s;
-  font-size:.8rem;
-  color:var(--accent2);
+.arrow{
+  transition:.3s;
 }
 
-.dropdown-trigger.active .dropdown-arrow{
+.select-trigger.active .arrow{
   transform:rotate(180deg);
 }
 
-.dropdown-menu{
+.options{
   position:absolute;
 
-  top:calc(100% + 12px);
+  top:calc(100% + 10px);
   left:0;
 
   width:100%;
 
-  max-height:0;
+  background:rgba(12,12,18,.96);
+
+  border:1px solid rgba(255,255,255,.08);
+
+  border-radius:20px;
+
   overflow:hidden;
 
   opacity:0;
+  visibility:hidden;
 
-  border-radius:24px;
+  transform:translateY(-10px) scale(.96);
 
-  background:
-  linear-gradient(
-    145deg,
-    rgba(16,16,24,.98),
-    rgba(10,10,15,.98)
-  );
+  transition:.25s;
 
   backdrop-filter:blur(18px);
 
-  border:1px solid rgba(255,255,255,.07);
+  z-index:999;
 
-  transition:
-    max-height .45s cubic-bezier(.22,1,.36,1),
-    opacity .25s;
-
-  box-shadow:
-    0 20px 60px rgba(0,0,0,.65),
-    0 0 50px rgba(167,139,250,.08);
-
-  z-index:1000;
-}
-
-.dropdown-menu.open{
-  max-height:340px;
-  opacity:1;
+  max-height:220px;
   overflow-y:auto;
 }
 
-.dropdown-menu::-webkit-scrollbar{
-  width:7px;
+.options.show{
+  opacity:1;
+  visibility:visible;
+
+  transform:translateY(0px) scale(1);
 }
 
-.dropdown-menu::-webkit-scrollbar-thumb{
-  background:linear-gradient(var(--accent),var(--accent2));
-  border-radius:999px;
-}
+.option{
+  position:relative;
 
-.dropdown-option{
-  padding:16px 20px;
+  padding:14px 18px;
 
   cursor:pointer;
 
-  color:var(--text);
-
-  font-weight:500;
-
   transition:.2s;
 
-  border-bottom:1px solid rgba(255,255,255,.03);
-
-  opacity:0;
-  transform:translateY(10px);
+  overflow:hidden;
 }
 
-.dropdown-menu.open .dropdown-option{
-  animation:optionFade .35s forwards;
-}
-
-.dropdown-option:hover{
+.option:hover{
   background:rgba(167,139,250,.12);
-
-  padding-left:28px;
-
-  color:white;
 }
 
-.dropdown-option.selected{
-  background:
-  linear-gradient(
-    90deg,
-    rgba(167,139,250,.22),
-    transparent
-  );
-
-  color:var(--accent2);
-}
-
-@keyframes optionFade{
-  to{
-    opacity:1;
-    transform:translateY(0);
-  }
-}
-
-/* VERSION TEXT */
+/* STATUS TEXT */
 
 .version-text{
-  margin-top:25px;
-  font-size:1.2rem;
+  margin-top:22px;
+
+  text-align:center;
+
+  font-size:1.05rem;
   font-weight:700;
-  transition:.25s;
 }
 
-.gray{
+.version-text.gray{
   color:var(--muted);
 }
 
-.green{
-  color:var(--success);
+.version-text.green{
+  color:#22c55e;
 }
 
-.red{
-  color:var(--error);
+.version-text.red{
+  color:#ef4444;
+}
+
+/* RIPPLE */
+
+.ripple{
+  position:absolute;
+  border-radius:50%;
+  transform:scale(0);
+
+  background:rgba(255,255,255,.25);
+
+  animation:ripple .65s linear;
+
+  pointer-events:none;
+}
+
+@keyframes ripple{
+  to{
+    transform:scale(4);
+    opacity:0;
+  }
+}
+
+/* TOAST */
+
+#copy-toast{
+  position:fixed;
+
+  left:25px;
+  bottom:-120px;
+
+  background:
+  linear-gradient(
+    135deg,
+    var(--accent),
+    var(--accent2)
+  );
+
+  color:#050507;
+
+  padding:18px 24px;
+
+  border-radius:18px;
+
+  display:flex;
+  align-items:center;
+  gap:15px;
+
+  font-weight:700;
+
+  opacity:0;
+
+  transition:.5s cubic-bezier(.68,-0.55,.27,1.55);
+
+  box-shadow:
+    0 20px 40px rgba(0,0,0,.45);
+
+  z-index:9999;
+}
+
+#copy-toast.show{
+  bottom:25px;
+  opacity:1;
 }
 
 /* FOOTER */
 
 footer{
-  border-top:1px solid rgba(255,255,255,.06);
+  margin-top:100px;
 
-  padding:40px 20px;
+  border-top:1px solid rgba(255,255,255,.06);
 
   text-align:center;
 
-  color:var(--muted);
-}
+  padding:50px 25px;
 
-footer span{
-  color:var(--accent);
+  color:var(--muted);
 }
 
 /* MOBILE */
 
 @media(max-width:768px){
 
-  .hero h1{
-    font-size:2.4rem;
+  .hero-title{
+    font-size:2.3rem;
   }
 
   .logo{
-    width:320px;
+    width:300px;
+  }
+
+  .ip{
+    font-size:1.4rem;
+  }
+
+  .ip-box{
+    width:100%;
+    min-width:unset;
+  }
+
+  .btn{
+    width:100%;
   }
 
   .version-card{
-    padding:28px;
-  }
-
-  .server-status{
-    flex-direction:column;
-  }
-
-  .server-ip{
-    font-size:1.4rem;
+    padding:22px;
   }
 
 }
 
 </style>
 </head>
+
 <body>
 
 <div class="bg-glow"></div>
@@ -509,75 +602,67 @@ footer span{
 
   <div class="hero-content">
 
-    <img
-    class="logo"
-    src="https://pixelhide.net/pixelhidenet.png">
+    <img class="logo" src="pixelhidenet.png">
 
-    <h1>Version Checker</h1>
+    <h1 class="hero-title">
+      Version Checker
+    </h1>
 
-    <p>
-      Prüfe ganz einfach, ob deine Minecraft-Version
-      von PixelHide.net unterstützt wird.
+    <p class="hero-text">
+      Prüfe ob deine Minecraft Version auf PixelHide.net unterstützt wird.
     </p>
 
-    <div class="version-card">
+    <div class="status">
 
-      <div class="server-status">
+      <div class="ip-box">
 
-        <div>
-
-          <div class="server-ip">
-            pixelhide.net
-          </div>
-
-          <div style="color:var(--muted);margin-top:6px;">
-            Minecraft Server IP
-          </div>
-
+        <div class="ip">
+          pixelhide.net
         </div>
 
-        <button
-        class="btn"
-        id="copyBtn"
-        onclick="copyIP()">
-
-          IP kopieren
-
-        </button>
-
-      </div>
-
-      <!-- CUSTOM DROPDOWN -->
-
-      <div class="custom-dropdown" id="dropdown">
-
-        <div
-        class="dropdown-trigger"
-        id="dropdownTrigger">
-
-          <span id="selectedText">
-            Wähle eine Version...
-          </span>
-
-          <span class="dropdown-arrow">
-            ▼
-          </span>
-
-        </div>
-
-        <div
-        class="dropdown-menu"
-        id="dropdownMenu">
-
+        <div class="ip-small">
+          Minecraft Server Adresse
         </div>
 
       </div>
 
-      <div
-      id="versionStatus"
-      class="version-text gray">
+      <button
+      class="btn btn-primary"
+      onclick="copyIP(this)">
 
-        Wähle eine Version...
+        IP kopieren
+
+      </button>
+
+    </div>
+
+    <!-- VERSION -->
+
+    <div class="version-wrapper">
+
+      <div class="version-card">
+
+        <div class="custom-select">
+
+          <div class="select-trigger" id="selectTrigger">
+
+            <span id="selectedText">
+              Wähle eine Version...
+            </span>
+
+            <span class="arrow">
+              ▼
+            </span>
+
+          </div>
+
+          <div class="options" id="options"></div>
+
+        </div>
+
+        <div id="versionStatus" class="version-text gray">
+          Wähle eine Version...
+        </div>
 
       </div>
 
@@ -590,46 +675,66 @@ footer span{
 <footer>
 
   © 2026
-  <span>
+  <span style="color:var(--accent)">
     PixelHide.net
   </span>
-  · Nicht in Verbindung mit Mojang AB.
 
 </footer>
 
+<!-- TOAST -->
+
+<div id="copy-toast">
+  Server-Adresse wurde kopiert!
+</div>
+
 <script>
 
-// COPY IP
+/* COPY */
 
-function copyIP(){
+function copyIP(button){
 
   navigator.clipboard.writeText("pixelhide.net");
 
-  const btn = document.getElementById("copyBtn");
+  let original = button.innerHTML;
 
-  btn.innerHTML = "Kopiert!";
+  button.innerHTML = "Kopiert!";
 
   setTimeout(()=>{
-
-    btn.innerHTML = "IP kopieren";
-
+    button.innerHTML = original;
   },2000);
+
+  const toast = document.getElementById("copy-toast");
+
+  toast.classList.add("show");
+
+  setTimeout(()=>{
+    toast.classList.remove("show");
+  },5000);
 
 }
 
-// DROPDOWN
+/* CUSTOM DROPDOWN */
 
-const dropdown = document.getElementById("dropdown");
-
-const trigger = document.getElementById("dropdownTrigger");
-
-const menu = document.getElementById("dropdownMenu");
-
+const options = document.getElementById("options");
 const selectedText = document.getElementById("selectedText");
+const trigger = document.getElementById("selectTrigger");
+const status = document.getElementById("versionStatus");
 
-let selectedVersion = "";
+const supportedVersions = [];
 
-// CREATE OPTIONS
+for(let major=13; major<=21; major++){
+
+  let minorMax = (major===21) ? 11 : 9;
+
+  for(let minor=0; minor<=minorMax; minor++){
+
+    supportedVersions.push(`1.${major}.${minor}`);
+
+  }
+
+}
+
+const allVersions = [];
 
 for(let major=21; major>=0; major--){
 
@@ -637,128 +742,99 @@ for(let major=21; major>=0; major--){
 
   for(let minor=minorMax; minor>=0; minor--){
 
-    const version = `1.${major}.${minor}`;
-
-    const option = document.createElement("div");
-
-    option.className = "dropdown-option";
-
-    option.textContent = version;
-
-    option.style.animationDelay =
-      `${(21-major)*0.01 + minor*0.003}s`;
-
-    option.onclick = ()=>{
-
-      document
-      .querySelectorAll(".dropdown-option")
-      .forEach(o=>o.classList.remove("selected"));
-
-      option.classList.add("selected");
-
-      selectedVersion = version;
-
-      selectedText.textContent = version;
-
-      closeDropdown();
-
-      checkVersion();
-
-    };
-
-    menu.appendChild(option);
+    allVersions.push(`1.${major}.${minor}`);
 
   }
 
 }
 
-// TOGGLE
+allVersions.forEach(version=>{
+
+  const option = document.createElement("div");
+
+  option.className = "option";
+
+  option.innerText = version;
+
+  option.onclick = ()=>{
+
+    selectedText.innerText = version;
+
+    options.classList.remove("show");
+
+    trigger.classList.remove("active");
+
+    if(supportedVersions.includes(version)){
+
+      status.innerText = "Diese Version ist unterstützt!";
+      status.className = "version-text green";
+
+    }else{
+
+      status.innerText = "Diese Version ist nicht unterstützt!";
+      status.className = "version-text red";
+
+    }
+
+  };
+
+  options.appendChild(option);
+
+});
+
+/* TOGGLE */
 
 trigger.onclick = ()=>{
 
-  trigger.classList.toggle("active");
+  options.classList.toggle("show");
 
-  menu.classList.toggle("open");
+  trigger.classList.toggle("active");
 
 };
 
-// CLOSE DROPDOWN
-
-function closeDropdown(){
-
-  trigger.classList.remove("active");
-
-  menu.classList.remove("open");
-
-}
-
-// CLICK OUTSIDE
+/* CLOSE */
 
 document.addEventListener("click",(e)=>{
 
-  if(!dropdown.contains(e.target)){
+  if(!e.target.closest(".custom-select")){
 
-    closeDropdown();
+    options.classList.remove("show");
+
+    trigger.classList.remove("active");
 
   }
 
 });
 
-// VERSION CHECK
+/* RIPPLE */
 
-function checkVersion(){
+document.querySelectorAll(".btn,.select-trigger,.option").forEach(btn=>{
 
-  const status =
-    document.getElementById("versionStatus");
+  btn.addEventListener("click",e=>{
 
-  if(!selectedVersion){
+    const rect = btn.getBoundingClientRect();
 
-    status.textContent =
-      "Bitte wähle eine Version!";
+    const ripple = document.createElement("span");
 
-    status.className =
-      "version-text gray";
+    ripple.className = "ripple";
 
-    return;
+    const size = Math.max(rect.width,rect.height);
 
-  }
+    ripple.style.width = ripple.style.height = size + "px";
 
-  const supportedVersions = [];
+    ripple.style.left =
+    (e.clientX - rect.left - size / 2) + "px";
 
-  for(let major=13; major<=21; major++){
+    ripple.style.top =
+    (e.clientY - rect.top - size / 2) + "px";
 
-    let minorMax =
-      (major===21) ? 11 : 9;
+    btn.appendChild(ripple);
 
-    for(let minor=0; minor<=minorMax; minor++){
+    setTimeout(()=>ripple.remove(),650);
 
-      supportedVersions.push(
-        `1.${major}.${minor}`
-      );
+  });
 
-    }
-
-  }
-
-  if(supportedVersions.includes(selectedVersion)){
-
-    status.textContent =
-      "Diese Version ist unterstützt!";
-
-    status.className =
-      "version-text green";
-
-  }else{
-
-    status.textContent =
-      "Diese Version ist nicht unterstützt!";
-
-    status.className =
-      "version-text red";
-
-  }
-
-}
+});
 
 </script>
 
