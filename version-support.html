@@ -5,239 +5,540 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Version Checker | PixelHide.net</title>
-<link rel="icon" type="image/png" href="favicon.png">
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+
+<meta property="og:title" content="PixelHide.net">
+<meta property="og:description" content="Version Support Checker für PixelHide.net">
+<meta property="og:image" content="https://pixelhide.net/favicon.png">
+
+<link rel="icon" href="https://pixelhide.net/favicon.png">
+
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Inter:wght@300;400;500;700&display=swap" rel="stylesheet">
 
 <style>
+
 :root{
-  --primary:#a78bfa;
-  --primary-glow:#c4b5fd;
-  --secondary:#050507;
-  --card:#0b0b12;
-  --text:#e5e7eb;
+  --bg:#040406;
+  --card:#0d0d14;
+  --card2:#13131d;
+
+  --accent:#a78bfa;
+  --accent2:#c4b5fd;
+
+  --text:#f5f5f5;
   --muted:#9ca3af;
+
+  --success:#22c55e;
+  --error:#ef4444;
 }
 
+/* GLOBAL */
+
 *{
+  margin:0;
+  padding:0;
   box-sizing:border-box;
 }
 
+html{
+  scroll-behavior:smooth;
+}
+
 body{
-  margin:0;
-  font-family:'Inter',sans-serif;
-  background:#050507;
+  font-family:Inter,sans-serif;
+  background:var(--bg);
   color:var(--text);
   overflow-x:hidden;
 }
 
+/* SCROLLBAR */
+
+::-webkit-scrollbar{
+  width:10px;
+}
+
+::-webkit-scrollbar-track{
+  background:#08080d;
+}
+
+::-webkit-scrollbar-thumb{
+  background:linear-gradient(var(--accent),var(--accent2));
+  border-radius:999px;
+}
+
+/* BACKGROUND GLOW */
+
+.bg-glow{
+  position:fixed;
+  width:700px;
+  height:700px;
+  background:radial-gradient(circle,var(--accent) 0%,transparent 70%);
+  opacity:.12;
+  filter:blur(100px);
+  z-index:-1;
+  animation:floatGlow 12s ease-in-out infinite;
+}
+
+.bg-glow2{
+  right:-250px;
+  top:300px;
+  animation-delay:4s;
+}
+
+@keyframes floatGlow{
+  0%{transform:translateY(0px) translateX(0px);}
+  50%{transform:translateY(-50px) translateX(40px);}
+  100%{transform:translateY(0px) translateX(0px);}
+}
+
 /* HERO */
+
 .hero{
   position:relative;
-  height:400px;
-  background:url("Banner.png") center/cover no-repeat;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  text-align:center;
-  padding:20px;
-}
+  min-height:100vh;
+  background:
+    linear-gradient(rgba(0,0,0,.45),rgba(4,4,6,.96)),
+    url("https://pixelhide.net/Banner.png") center/cover no-repeat;
 
-.hero img{
-  width:400px;
-  max-width:90%;
-  filter:drop-shadow(0 0 70px rgba(167,139,250,0.9));
-}
-
-/* STATUS BAR */
-.status{
   display:flex;
   justify-content:center;
   align-items:center;
-  margin-top:40px;
-  padding:16px 20px;
-  background:rgba(0,0,0,0.4);
-  border-radius:18px;
-  border:1px solid rgba(167,139,250,0.25);
-  gap:12px;
-  flex-wrap:wrap;
   text-align:center;
+  overflow:hidden;
+}
+
+.hero::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:
+  radial-gradient(circle at center,
+  rgba(167,139,250,.2),
+  transparent 60%);
+  animation:pulse 6s infinite;
+}
+
+@keyframes pulse{
+  0%{opacity:.4;transform:scale(1);}
+  50%{opacity:.8;transform:scale(1.1);}
+  100%{opacity:.4;transform:scale(1);}
+}
+
+.hero-content{
+  position:relative;
+  z-index:2;
+  width:100%;
+  max-width:1000px;
+  padding:30px;
+  animation:heroEnter 1.2s ease;
+}
+
+@keyframes heroEnter{
+  from{
+    opacity:0;
+    transform:translateY(50px);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+}
+
+.logo{
+  width:520px;
+  max-width:95%;
+  margin-bottom:25px;
+
+  filter:
+    drop-shadow(0 0 20px rgba(167,139,250,.6))
+    drop-shadow(0 0 80px rgba(167,139,250,.5));
+
+  animation:floatLogo 5s ease-in-out infinite;
+}
+
+@keyframes floatLogo{
+  0%{transform:translateY(0px);}
+  50%{transform:translateY(-10px);}
+  100%{transform:translateY(0px);}
+}
+
+.hero h1{
+  font-size:4rem;
+  font-family:Orbitron;
+  margin-bottom:15px;
+}
+
+.hero p{
+  font-size:1.15rem;
+  color:var(--muted);
+  max-width:750px;
+  margin:auto;
+  line-height:1.7;
 }
 
 /* BUTTONS */
-.copy-btn{
-  padding:8px 16px;
-  font-size:0.9rem;
-  border-radius:10px;
+
+.btn-row{
+  display:flex;
+  justify-content:center;
+  gap:18px;
+  flex-wrap:wrap;
+  margin-top:40px;
+}
+
+.btn{
+  position:relative;
+
+  padding:17px 32px;
+  border-radius:16px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:12px;
+
+  text-decoration:none;
+  font-weight:700;
+
+  overflow:hidden;
+
+  transition:.25s;
+
+  backdrop-filter:blur(10px);
+
   border:none;
   cursor:pointer;
-  background:linear-gradient(135deg,var(--primary),var(--primary-glow));
+}
+
+.btn::before{
+  content:"";
+  position:absolute;
+  top:0;
+  left:-120%;
+  width:100%;
+  height:100%;
+
+  background:linear-gradient(
+    90deg,
+    transparent,
+    rgba(255,255,255,.25),
+    transparent
+  );
+
+  transition:.6s;
+}
+
+.btn:hover::before{
+  left:120%;
+}
+
+.btn:hover{
+  transform:translateY(-4px) scale(1.03);
+}
+
+.btn-primary{
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
   color:#050507;
+
+  box-shadow:
+    0 0 20px rgba(167,139,250,.35),
+    0 0 60px rgba(167,139,250,.2);
 }
 
-.copy-btn:hover{
-  transform:translateY(-1px) scale(1.02);
+/* STATUS CARD */
+
+.version-card{
+  margin-top:50px;
+
+  background:
+  linear-gradient(
+    145deg,
+    rgba(255,255,255,.04),
+    rgba(255,255,255,.02)
+  );
+
+  border:1px solid rgba(255,255,255,.07);
+
+  border-radius:30px;
+
+  padding:45px;
+
+  backdrop-filter:blur(12px);
+
+  box-shadow:
+    0 15px 40px rgba(0,0,0,.5),
+    0 0 50px rgba(167,139,250,.12);
 }
 
-/* VERSION SELECT */
+.server-status{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:20px;
+  flex-wrap:wrap;
+  margin-bottom:40px;
+}
+
+.server-ip{
+  font-size:2rem;
+  font-weight:800;
+  color:var(--accent2);
+}
+
+/* SELECT */
+
 .version-select{
   display:flex;
   flex-direction:column;
   align-items:center;
-  margin-top:60px;
-  gap:16px;
-  padding:0 15px;
+  gap:22px;
 }
 
 .version-select select{
-  padding:12px 20px;
-  font-size:1rem;
-  border-radius:12px;
-  border:1px solid rgba(167,139,250,0.4);
-  background:var(--card);
-  color:var(--text);
   width:100%;
-  max-width:260px;
-  text-align:center;
+  max-width:350px;
+
+  padding:16px 22px;
+
+  border-radius:18px;
+
+  border:1px solid rgba(255,255,255,.08);
+
+  background:rgba(255,255,255,.03);
+
+  color:var(--text);
+
+  font-size:1rem;
+
+  outline:none;
+
+  transition:.25s;
 }
 
-/* VERSION TEXT */
+.version-select select:focus{
+  border-color:rgba(167,139,250,.5);
+  box-shadow:0 0 25px rgba(167,139,250,.15);
+}
+
 .version-text{
-  font-size:1.1rem;
-  font-weight:600;
-  text-align:center;
+  font-size:1.2rem;
+  font-weight:700;
+  transition:.25s;
 }
 
-.version-text.gray{color:var(--muted);}
-.version-text.green{color:#22c55e;}
-.version-text.red{color:#ef4444;}
+.gray{
+  color:var(--muted);
+}
+
+.green{
+  color:var(--success);
+}
+
+.red{
+  color:var(--error);
+}
 
 /* FOOTER */
+
 footer{
+  border-top:1px solid rgba(255,255,255,.06);
+
+  padding:40px 20px;
+
   text-align:center;
-  padding:40px 20px 60px;
-  border-top:1px solid rgba(167,139,250,0.15);
+
+  color:var(--muted);
 }
 
 footer span{
-  color:var(--primary);
-  font-weight:600;
+  color:var(--accent);
 }
 
-/* ===== MOBILE RESPONSIVE ===== */
+/* MOBILE */
 
 @media(max-width:768px){
-  .hero{
-    height:300px;
+
+  .hero h1{
+    font-size:2.4rem;
   }
 
-  .hero img{
-    width:250px;
+  .logo{
+    width:320px;
   }
 
-  .status{
+  .version-card{
+    padding:28px;
+  }
+
+  .server-status{
     flex-direction:column;
-    gap:15px;
   }
 
-  .copy-btn{
-    width:100%;
-    padding:12px;
+  .server-ip{
+    font-size:1.4rem;
   }
+
 }
 
-@media(max-width:480px){
-  .hero{
-    height:260px;
-  }
-
-  .hero img{
-    width:200px;
-  }
-
-  .version-select select{
-    font-size:0.95rem;
-  }
-}
 </style>
 </head>
-
 <body>
 
+<div class="bg-glow"></div>
+<div class="bg-glow bg-glow2"></div>
+
 <div class="hero">
-  <img src="pixelhidenet.png" alt="PixelHide Logo">
-</div>
 
-<div class="status">
-  <strong>Server-IP:</strong>
-  <span>PixelHide.net</span>
-  <button class="copy-btn" onclick="copyIP(this)">Kopieren</button>
-</div>
+  <div class="hero-content">
 
-<div class="version-select">
-  <select id="versionDropdown" onchange="checkVersion()">
-    <option value="">Wähle eine Version...</option>
-  </select>
-  <div id="versionStatus" class="version-text gray">
-    Wähle eine Version...
+    <img class="logo" src="https://pixelhide.net/pixelhidenet.png">
+
+    <h1>Version Checker</h1>
+
+    <p>
+      Prüfe ganz einfach, ob deine Minecraft-Version
+      von PixelHide.net unterstützt wird.
+    </p>
+
+    <div class="version-card">
+
+      <div class="server-status">
+
+        <div>
+          <div class="server-ip">
+            pixelhide.net
+          </div>
+
+          <div style="color:var(--muted);margin-top:6px;">
+            Minecraft Server IP
+          </div>
+        </div>
+
+        <button
+        class="btn btn-primary"
+        id="copyBtn"
+        onclick="copyIP()">
+
+          IP kopieren
+
+        </button>
+
+      </div>
+
+      <div class="version-select">
+
+        <select id="versionDropdown" onchange="checkVersion()">
+          <option value="">
+            Wähle eine Version...
+          </option>
+        </select>
+
+        <div
+        id="versionStatus"
+        class="version-text gray">
+
+          Wähle eine Version...
+
+        </div>
+
+      </div>
+
+    </div>
+
   </div>
+
 </div>
 
 <footer>
-  © 2026 <span>PixelHide.net</span> · Nicht in Verbindung mit Mojang AB.
+
+  © 2026
+  <span>
+    PixelHide.net
+  </span>
+  · Nicht in Verbindung mit Mojang AB.
+
 </footer>
 
 <script>
+
 // Copy IP
-function copyIP(button){
+
+function copyIP(){
+
   navigator.clipboard.writeText("pixelhide.net");
-  let original = button.innerText;
-  button.innerText = "Kopiert";
-  setTimeout(()=>button.innerText = original,5000);
+
+  const btn = document.getElementById("copyBtn");
+
+  btn.innerHTML = "Kopiert!";
+
+  setTimeout(()=>{
+    btn.innerHTML = "IP kopieren";
+  },2000);
+
 }
 
-// Version Dropdown füllen
+// Version Dropdown
+
 const dropdown = document.getElementById("versionDropdown");
 
 for(let major=21; major>=0; major--){
+
   let minorMax = (major===21) ? 11 : 9;
 
   for(let minor=minorMax; minor>=0; minor--){
+
     dropdown.appendChild(
       new Option(`1.${major}.${minor}`, `1.${major}.${minor}`)
     );
+
   }
+
 }
 
-// Version prüfen
+// Version Check
+
 function checkVersion(){
+
   const val = dropdown.value;
+
   const status = document.getElementById("versionStatus");
 
   if(!val){
+
     status.textContent = "Bitte wähle eine Version!";
     status.className = "version-text gray";
+
     return;
+
   }
 
   const supportedVersions = [];
 
   for(let major=13; major<=21; major++){
+
     let minorMax = (major===21) ? 11 : 9;
 
     for(let minor=0; minor<=minorMax; minor++){
+
       supportedVersions.push(`1.${major}.${minor}`);
+
     }
+
   }
 
   if(supportedVersions.includes(val)){
+
     status.textContent = "Diese Version ist unterstützt!";
     status.className = "version-text green";
+
   }else{
+
     status.textContent = "Diese Version ist nicht unterstützt!";
     status.className = "version-text red";
+
   }
+
 }
+
 </script>
 
 </body>
