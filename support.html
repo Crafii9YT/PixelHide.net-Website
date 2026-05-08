@@ -3,443 +3,620 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Support - PixelHide.net</title>
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+
 <link rel="icon" type="image/png" href="favicon.png">
+
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
 
 <style>
 :root{
   --primary:#a78bfa;
   --primary-glow:#c4b5fd;
   --bg:#050507;
-  --card:#0b0b12;
-  --text:#e5e7eb;
+  --bg2:#0a0913;
+  --card:#0d0d16;
+  --text:#f3f4f6;
   --muted:#9ca3af;
-  --error:#ef4444;
-  --success:#22c55e;
+  --border:rgba(167,139,250,.18);
 }
 
-*{box-sizing:border-box;}
-body{
+*{
   margin:0;
-  background:radial-gradient(circle at top,#1a0f2e,#050507);
-  font-family:'Inter',sans-serif;
-  color:var(--text);
+  padding:0;
+  box-sizing:border-box;
+  user-select:none;
 }
 
-/* ===== HERO BANNER ===== */
-.hero {
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  background:
+    radial-gradient(circle at top,rgba(167,139,250,.15),transparent 35%),
+    linear-gradient(180deg,#07070b,#050507);
+  color:var(--text);
+  font-family:'Inter',sans-serif;
+  overflow-x:hidden;
+}
+
+/* BACKGROUND PARTICLES */
+
+.particles{
+  position:fixed;
+  inset:0;
+  overflow:hidden;
+  pointer-events:none;
+  z-index:-1;
+}
+
+.particle{
+  position:absolute;
+  width:4px;
+  height:4px;
+  border-radius:50%;
+  background:rgba(167,139,250,.35);
+  animation:float linear infinite;
+}
+
+@keyframes float{
+  from{
+    transform:translateY(100vh) scale(0);
+    opacity:0;
+  }
+
+  10%{
+    opacity:1;
+  }
+
+  to{
+    transform:translateY(-10vh) scale(1.4);
+    opacity:0;
+  }
+}
+
+/* HERO */
+
+.hero{
   position:relative;
-  height:500px;
-  background:url("Banner.png") center/cover no-repeat;
+  min-height:650px;
+  background:
+    linear-gradient(rgba(5,5,7,.45),rgba(5,5,7,.85)),
+    url("Banner.png") center/cover no-repeat;
   display:flex;
   flex-direction:column;
   align-items:center;
   justify-content:center;
   text-align:center;
+  padding:40px 20px;
+  overflow:hidden;
 }
+
+.hero::before{
+  content:"";
+  position:absolute;
+  width:700px;
+  height:700px;
+  background:radial-gradient(circle,rgba(167,139,250,.25),transparent 70%);
+  animation:pulse 5s infinite ease-in-out;
+}
+
+@keyframes pulse{
+  0%,100%{
+    transform:scale(1);
+    opacity:.7;
+  }
+
+  50%{
+    transform:scale(1.15);
+    opacity:1;
+  }
+}
+
 .hero img{
-  width:600px;
+  width:550px;
   max-width:90%;
   z-index:2;
-  filter:drop-shadow(0 0 70px rgba(167,139,250,0.9));
-  margin-bottom:20px;
+  margin-bottom:25px;
+  filter:
+    drop-shadow(0 0 20px rgba(167,139,250,.7))
+    drop-shadow(0 0 60px rgba(167,139,250,.55));
+  animation:logoFloat 5s ease-in-out infinite;
 }
-.hero .banner-text{
-  max-width:720px;
-  color:black;
-  font-size:1.2rem;
-  margin-bottom:30px;
+
+@keyframes logoFloat{
+  0%,100%{
+    transform:translateY(0px);
+  }
+
+  50%{
+    transform:translateY(-12px);
+  }
 }
-.hero .cta{
-  display:inline-flex;
-  gap:16px;
-  justify-content:center;
+
+.banner-text{
+  max-width:900px;
+  line-height:1.7;
+  font-size:1.15rem;
+  z-index:2;
+  color:#f3f4f6;
+}
+
+.cta{
+  display:flex;
+  gap:18px;
+  flex-wrap:wrap;
+  margin-top:35px;
   z-index:2;
 }
-.hero .btn{
-  padding:18px 32px;
-  font-size:1.2rem;
-  border-radius:14px;
-  font-weight:600;
-  text-decoration:none;
-  transition:all .25s ease;
+
+.btn{
   position:relative;
-}
-.hero .btn-primary{
-  background:linear-gradient(135deg,var(--primary),var(--primary-glow));
-  color:#050507;
-  box-shadow:0 10px 30px rgba(167,139,250,0.45);
-}
-.hero .btn-primary:hover{
-  transform:translateY(-2px) scale(1.03);
-  box-shadow:0 18px 50px rgba(167,139,250,0.6);
-}
-.hero .btn-outline{
-  border:1px solid rgba(167,139,250,0.4);
-  color:#050507;
-  backdrop-filter:blur(6px);
-}
-.hero .btn-outline:hover{
-  background:rgba(167,139,250,0.15);
-}
-
-/* ===== FORM ===== */
-section{max-width:900px;margin:40px auto; padding:0 20px;}
-.card{
-  background:var(--card);
-  border-radius:22px;
-  padding:32px;
-  border:1px solid rgba(167,139,250,0.15);
-  box-shadow:0 25px 70px rgba(0,0,0,0.7);
-}
-.form-group{margin-bottom:22px;}
-label{display:block;margin-bottom:8px;font-weight:600;}
-input, select, textarea{
-  width:100%;
-  padding:14px;
-  border-radius:12px;
-  border:1px solid rgba(167,139,250,0.25);
-  background:#0f0f18;
-  color:var(--text);
-  font-size:0.95rem;
-  outline:none;
-  transition:0.2s;
-}
-input:focus, select:focus, textarea:focus{
-  border-color:var(--primary);
-  box-shadow:0 0 0 2px rgba(167,139,250,0.25);
-}
-textarea{resize:vertical; min-height:120px;}
-button{
-  width:100%;
-  padding:16px;
-  border:none;
-  border-radius:14px;
-  font-size:1.1rem;
-  font-weight:600;
-  cursor:pointer;
-  background:linear-gradient(135deg,var(--primary),var(--primary-glow));
-  color:#050507;
-  transition:0.25s;
-}
-button:hover{
-  transform:translateY(-2px);
-  box-shadow:0 15px 40px rgba(167,139,250,0.4);
-}
-
-/* ===== POPUP ===== */
-.popup {
-  position: fixed;
-  top:0; left:0;
-  width:100%; height:100%;
-  background: rgba(5,5,7,0.85);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index:10000;
-  opacity:0;
-  pointer-events:none;
-  transition: opacity 0.3s ease;
-}
-.popup.show{opacity:1; pointer-events:auto;}
-.popup-card {
-  background:var(--card);
-  border-radius:26px;
-  padding:32px;
-  max-width:450px;
-  width:90%;
-  text-align:center;
-  border:1px solid rgba(167,139,250,0.3);
-  box-shadow:0 20px 90px rgba(0,0,0,0.85);
-  animation: popupFade 0.4s ease forwards;
-}
-.popup-card .popup-icon{
-  width:80px;
-  margin-bottom:20px;
-}
-.popup-card h2{
-  font-family:'Orbitron',sans-serif;
-  font-weight:800;
-  color:#ddd6fe;
-  margin-bottom:12px;
-}
-.popup-card p{
-  color:var(--text);
-  font-size:1rem;
-  margin-bottom:24px;
-  line-height:1.4;
-}
-.popup-card .popup-actions .btn{
-  width:100%;
-  max-width:180px;
-  margin:auto;
-}
-@keyframes popupFade{
-  from{transform:scale(0.8);opacity:0;}
-  to{transform:scale(1);opacity:1;}
-}
-
-  /* ===== SUCCESS POPUP VERSION ===== */
-.popup-card.success{
-  max-width:950px;
+  overflow:hidden;
+  padding:18px 34px;
+  border-radius:18px;
+  text-decoration:none;
+  font-weight:700;
+  transition:.3s;
   display:flex;
   align-items:center;
-  gap:50px;
-  text-align:left;
-  padding:50px;
+  justify-content:center;
+  gap:10px;
 }
 
-.popup-card.success .popup-icon{
-  width:240px;
-  margin:0;
+.btn::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:
+    linear-gradient(
+      120deg,
+      transparent 20%,
+      rgba(255,255,255,.3) 50%,
+      transparent 80%
+    );
+  transform:translateX(-120%);
+  animation:shine 3.5s linear infinite;
 }
 
-.popup-card.success .popup-content{
-  flex:1;
+@keyframes shine{
+  to{
+    transform:translateX(120%);
+  }
 }
 
-.popup-card.success h2{
-  font-size:2rem;
+.btn-primary{
+  background:linear-gradient(135deg,var(--primary),var(--primary-glow));
+  color:#050507;
+  box-shadow:0 15px 50px rgba(167,139,250,.4);
 }
 
-.popup-card.success p{
+.btn-discord{
+  background:#5865F2;
+  color:white;
+  box-shadow:0 15px 50px rgba(88,101,242,.4);
+}
+
+.btn:hover{
+  transform:translateY(-5px) scale(1.03);
+}
+
+/* CONTENT */
+
+section{
+  max-width:1000px;
+  margin:auto;
+  padding:80px 20px;
+}
+
+.card{
+  position:relative;
+  overflow:hidden;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(17,17,27,.95),
+      rgba(10,10,18,.95)
+    );
+  border-radius:32px;
+  padding:40px;
+  border:1px solid var(--border);
+  backdrop-filter:blur(14px);
+  box-shadow:
+    0 10px 40px rgba(0,0,0,.5),
+    0 0 80px rgba(167,139,250,.08);
+}
+
+.card::before{
+  content:"";
+  position:absolute;
+  inset:-1px;
+  border-radius:32px;
+  padding:1px;
+  background:
+    linear-gradient(
+      135deg,
+      rgba(167,139,250,.5),
+      transparent,
+      rgba(167,139,250,.2)
+    );
+
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+
+  -webkit-mask-composite:xor;
+  mask-composite:exclude;
+}
+
+.form-group{
+  margin-bottom:24px;
+}
+
+label{
+  display:block;
+  margin-bottom:10px;
+  font-weight:700;
+}
+
+input,
+select,
+textarea{
+  width:100%;
+  padding:16px;
+  border-radius:16px;
+  border:1px solid rgba(167,139,250,.15);
+  background:#0a0a12;
+  color:white;
+  font-size:.95rem;
+  transition:.25s;
+  outline:none;
+}
+
+input:hover,
+textarea:hover,
+select:hover{
+  border-color:rgba(167,139,250,.45);
+}
+
+input:focus,
+textarea:focus,
+select:focus{
+  border-color:var(--primary);
+  box-shadow:0 0 0 4px rgba(167,139,250,.15);
+}
+
+textarea{
+  resize:vertical;
+  min-height:140px;
+}
+
+/* SEND BUTTON */
+
+.submit-btn{
+  position:relative;
+  overflow:hidden;
+  width:100%;
+  border:none;
+  padding:20px;
+  border-radius:20px;
+  cursor:pointer;
   font-size:1.1rem;
+  font-weight:800;
+  background:linear-gradient(135deg,var(--primary),var(--primary-glow));
+  color:#050507;
+  transition:.3s;
+  box-shadow:
+    0 10px 40px rgba(167,139,250,.35);
 }
 
+.submit-btn:hover{
+  transform:translateY(-4px);
+  box-shadow:
+    0 20px 60px rgba(167,139,250,.45);
+}
 
-/* ===== FOOTER ===== */
-footer{text-align:center;padding:50px 20px;color:var(--muted);}
+.submit-btn:active{
+  transform:scale(.98);
+}
+
+/* POPUP */
+
+.popup{
+  position:fixed;
+  inset:0;
+  background:rgba(5,5,7,.8);
+  backdrop-filter:blur(12px);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  opacity:0;
+  pointer-events:none;
+  transition:.3s;
+  z-index:99999;
+}
+
+.popup.show{
+  opacity:1;
+  pointer-events:auto;
+}
+
+.popup-card{
+  width:90%;
+  max-width:520px;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(20,20,30,.98),
+      rgba(10,10,18,.98)
+    );
+  border-radius:28px;
+  padding:40px;
+  text-align:center;
+  border:1px solid rgba(167,139,250,.2);
+  box-shadow:
+    0 20px 80px rgba(0,0,0,.7),
+    0 0 80px rgba(239,68,68,.12);
+  transform:scale(.85);
+  transition:.35s cubic-bezier(.68,-0.55,.27,1.55);
+}
+
+.popup.show .popup-card{
+  transform:scale(1);
+}
+
+.popup-icon{
+  width:120px;
+  margin-bottom:20px;
+  animation:errorPulse 1.5s infinite;
+}
+
+@keyframes errorPulse{
+  0%,100%{
+    transform:scale(1);
+  }
+
+  50%{
+    transform:scale(1.08);
+  }
+}
+
+.popup-title{
+  font-size:2rem;
+  margin-bottom:15px;
+  font-family:'Orbitron',sans-serif;
+}
+
+.popup-message{
+  line-height:1.7;
+  color:#d1d5db;
+  margin-bottom:25px;
+}
+
+.popup-btn{
+  border:none;
+  padding:16px 26px;
+  border-radius:16px;
+  background:linear-gradient(135deg,var(--primary),var(--primary-glow));
+  color:#050507;
+  font-weight:700;
+  cursor:pointer;
+  transition:.25s;
+}
+
+.popup-btn:hover{
+  transform:translateY(-3px);
+}
+
+/* SHAKE */
+
+@keyframes shake{
+  0%{transform:translateX(0);}
+  20%{transform:translateX(-10px);}
+  40%{transform:translateX(10px);}
+  60%{transform:translateX(-8px);}
+  80%{transform:translateX(8px);}
+  100%{transform:translateX(0);}
+}
+
+.errorShake{
+  animation:shake .45s;
+}
+
+/* FOOTER */
+
+footer{
+  padding:50px 20px;
+  text-align:center;
+  color:var(--muted);
+  border-top:1px solid rgba(167,139,250,.1);
+}
+
+/* MOBILE */
+
+@media(max-width:768px){
+
+  .hero{
+    min-height:550px;
+  }
+
+  .hero img{
+    width:280px;
+  }
+
+  .banner-text{
+    font-size:1rem;
+  }
+
+  .cta{
+    flex-direction:column;
+    width:100%;
+  }
+
+  .btn{
+    width:100%;
+  }
+
+  .card{
+    padding:25px;
+  }
+
+}
 </style>
 </head>
 
 <body>
 
+<div class="particles" id="particles"></div>
+
 <div class="hero">
-  <img src="pixelhidenet.png" alt="PixelHide.net Logo">
-  <div class="banner-text">Willkommen im Support! Erstelle einfach ein Ticket und fertig! Bitte merke dir, dass dieser Support kein Minecraft oder Microsoft Support ist! Dieser Support ist auschließlich für den Minecraft Server PixelHide.net gedacht!</div>
-  <div class="cta">
-    <a href="/join.html" class="btn btn-primary">Jetzt beitreten</a>
-    <a href="https://discord.pixelhide.net" class="btn btn-outline">Discord</a>
+
+  <img src="pixelhidenet.png">
+
+  <div class="banner-text">
+    Willkommen im offiziellen PixelHide.net Support.<br>
+    Erstelle ganz einfach ein Ticket und unser Team hilft dir weiter.
   </div>
+
+  <div class="cta">
+
+    <a href="/join.html" class="btn btn-primary">
+      Jetzt beitreten
+    </a>
+
+    <a href="https://discord.pixelhide.net" class="btn btn-discord">
+      Discord
+    </a>
+
+  </div>
+
 </div>
 
 <section>
+
 <div class="card">
-  <form id="supportForm">
-    <div class="form-group">
-      <label>Minecraft / Ingame-Name (optional)</label>
-      <input type="text" id="mcname">
-    </div>
-    <div class="form-group">
-      <label>Email-Adresse *</label>
-      <input type="email" id="email" required>
-    </div>
-    <div class="form-group">
-      <label>Voller Name (optional)</label>
-      <input type="text" id="fullname">
-    </div>
-    <div class="form-group">
-      <label>Gerät / Minecraft-Version / Browser / Discord *</label>
-      <select id="device" required>
-        <option value="">Bitte auswählen</option>
-        <option>PC (Minecraft Java-Edition)</option>
-        <option>PC (Minecraft Bedrock-Edition)</option>
-        <option>PC (Minecraft Bedrock + Java-Edition)</option>
-        <option>Handy (Minecraft Bedrock-Edition)</option>
-        <option>[Browser] Chrome (Windows 10/11)</option>
-        <option>[Browser] Chrome (MacOS)</option>
-        <option>[Browser] Chrome (Mobile)</option>
-        <option>[Browser] Chrome (Linux)</option>
-        <option>[Browser] Chrome (Andere)</option>
-        <option>[Browser] Chrome Beta (Windows)</option>
-        <option>[Browser] Chrome Beta (MacOS)</option>
-        <option>[Browser] Chrome Beta (Linux/Mobile)</option>
-        <option>[Browser] Chrome Canary (Windows)</option>
-        <option>[Browser] Chrome Canary (MacOS)</option>
-        <option>[Browser] Chrome Canary (Linux/Mobile)</option>
-        <option>[Browser] Firefox (Windows 10/11)</option>
-        <option>[Browser] Firefox (MacOS)</option>
-        <option>[Browser] Firefox (Linux)</option>
-        <option>[Browser] Firefox (iOS)</option>
-        <option>[Browser] Firefox (Android)</option>
-        <option>[Browser] Firefox Beta (Windows)</option>
-        <option>[Browser] Firefox Beta (MacOS)</option>
-        <option>[Browser] Firefox Beta (Linux)</option>
-        <option>[Browser] Firefox Beta (Mobile)</option>
-        <option>[Browser] Firefox Beta (Andere)</option>
-        <option>[Browser] Firefox Canary (Windows)</option>
-        <option>[Browser] Firefox Canary (Andere)</option>
-        <option>[Browser] Opera (Windows)</option>
-        <option>[Browser] Opera (MacOS)</option>
-        <option>[Browser] Opera (Linux)</option>
-        <option>[Browser] Opera (Android)</option>
-        <option>[Browser] Opera (iOS)</option>
-        <option>[Browser] Opera Beta/Canary</option>
-        <option>[Browser] Microsoft Edge (Windows)</option>
-        <option>[Browser] Microsoft Edge (Android)</option>
-        <option>[Browser] Microsoft Edge (Andere)</option>
-        <option>[Browser] Microsoft Edge Beta (Windows)</option>
-        <option>[Browser] Microsoft Edge Beta (MacOS)</option>
-        <option>[Browser] Microsoft Edge Beta (Linux/Mobile/Anderes)</option>
-        <option>[Browser] Internet Explorer 11 (Windows)</option>
-        <option>[Browser] Internet Explorer 11 (Andere)</option>
-        <option>[Browser] Anderer Browser</option>
-        <option>[Discord] Discord (Windows, MacOS, Linux)</option>
-        <option>[Discord] Discord (Android/iOS)</option>
-        <option>[Discord] Discord Canary (Windows, MacOS, Linux)</option>
-        <option>[Discord] Discord Canary (Android/iOS)</option>
-        <option>[Discord] Discord PTB (Windows, MacOS, Linux)</option>
-        <option>[Discord] Discord PTB (Android/iOS)</option>
-      </select>
-    </div>
-    <div class="form-group">
-      <label>Kategorie *</label>
-      <select id="category" required></select>
-    </div>
-    <div class="form-group">
-      <label>Unterkategorie *</label>
-      <select id="subcategory" required></select>
-    </div>
-    <div class="form-group">
-      <label>Beschreibung *</label>
-      <textarea id="description" required></textarea>
-    </div>
-    <button type="submit">Anfrage senden</button>
-  </form>
+
+<form id="supportForm">
+
+<div class="form-group">
+<label>Email-Adresse *</label>
+<input type="email" required>
 </div>
+
+<div class="form-group">
+<label>Kategorie *</label>
+
+<select required>
+<option>Bitte auswählen</option>
+<option>Technischer Fehler</option>
+<option>Spielermeldung</option>
+<option>Bug melden</option>
+<option>Entbannungsantrag</option>
+<option>Account Problem</option>
+</select>
+
+</div>
+
+<div class="form-group">
+<label>Beschreibung *</label>
+<textarea required></textarea>
+</div>
+
+<button type="submit" class="submit-btn" id="submitBtn">
+  Anfrage senden
+</button>
+
+</form>
+
+</div>
+
 </section>
 
-<footer>© 2026 PixelHide.net · Nicht in Verbindung mit Mojang AB</footer>
+<footer>
+© 2026 PixelHide.net · Nicht verbunden mit Mojang AB
+</footer>
 
-<!-- Popup -->
-<div id="ticketPopup" class="popup">
-  <div class="popup-card">
-  <img src="" class="popup-icon" alt="">
-  <div class="popup-content">
-    <h2 class="popup-title"></h2>
-    <p class="popup-message"></p>
-    <div class="popup-actions">
-      <button class="btn btn-primary" onclick="closePopup('ticketPopup')">Schließen</button>
-    </div>
-  </div>
+<!-- POPUP -->
+
+<div class="popup" id="ticketPopup">
+
+<div class="popup-card">
+
+<img src="error.png" class="popup-icon">
+
+<h2 class="popup-title">
+Fehler!
+</h2>
+
+<p class="popup-message">
+Deine Support-Anfrage konnte momentan nicht gesendet werden.<br><br>
+Bitte versuche es später erneut.
+</p>
+
+<button class="popup-btn" onclick="closePopup()">
+Schließen
+</button>
+
+</div>
+
 </div>
 
 <script>
-document.addEventListener("DOMContentLoaded", function () {
-    // Textauswahl deaktivieren
-    document.body.style.userSelect = "none";
-    document.body.style.webkitUserSelect = "none";
-    document.body.style.msUserSelect = "none";
+/* PARTICLES */
 
-    // Markieren per Maus verhindern
-    document.addEventListener("selectstart", function (e) {
-        e.preventDefault();
-    });
+const particles = document.getElementById("particles");
 
-    // Rechtsklick optional blockieren
-    document.addEventListener("contextmenu", function (e) {
-        e.preventDefault();
-    });
+for(let i=0;i<50;i++){
 
-    // Draggen von Bildern verhindern
-    document.addEventListener("dragstart", function (e) {
-        e.preventDefault();
-    });
-});
-</script>
-<script src="https://uptime.betterstack.com/widgets/announcement.js" data-id="208286" async="async" type="text/javascript"></script>
-<script>
-const categories = {
-  "Account":["Account gehackt","Ich kann nicht mit meinem Account joinen!","Zugriff auf Account verloren (Übertragung von Daten beantragen)"],
-  "Fehlermeldung":["Ingame-Fehler","Website-Fehler","Discord-Fehler","App-Fehler","Sonstiges"],
-  "Spielermeldung":["Unerlaubte Clientmodifikationen/Hackclient","Unangemessener Skin/Name","Bugusing","Beleidigungen","Werbung","Echtgeldhandel","Drogenhandel","Sexuelle Inhalte","Unangemessenes Bauwerk","Drohungen","Umgehung des Chat-Filters","Glücksspiel","Spam","Betteln","Sonstiges"],
-  "Hilfe/Tutorial":["Hilfe"],
-  "Verstoß melden":["Einen Spieler melden","Inhalt melden","Bauwerk melden"],
-  "Entbannungsantrag":["Ich wurde gebannt, für ein Verhalten von meinem oder einem Zweitaccount.","Ich wurde gebannt, für ein Bauwerk was ich gebaut habe.","Ich wurde gebannt, da ich einen Bann umgangen habe.","Ich wurde gebannt, für einen Inhalt den ich erstellt habe auf einer Custom Welt oder wo anders auf PixelHide.","Ich wurde zu unrecht gebannt."],
-  "Käufe mit Ingame-Währung":["Ich habe mein Produkt nicht erhalten.","Ich beantrage eine Rückerstattung"],
-  "Technische Hilfe":["Technische Hilfe"]
-};
-const categorySelect = document.getElementById("category");
-const subcategorySelect = document.getElementById("subcategory");
-function loadCategories(){
-  categorySelect.innerHTML = '<option value="">Bitte auswählen</option>';
-  for(let cat in categories){
-    categorySelect.innerHTML += `<option value="${cat}">${cat}</option>`;
-  }
+  const p = document.createElement("div");
+  p.className = "particle";
+
+  p.style.left = Math.random()*100+"vw";
+  p.style.animationDuration = 6 + Math.random()*10 + "s";
+  p.style.animationDelay = Math.random()*5+"s";
+
+  particles.appendChild(p);
 }
-function loadSubcategories(cat){
-  subcategorySelect.innerHTML = '<option value="">Bitte auswählen</option>';
-  categories[cat]?.forEach(sub=>{
-    subcategorySelect.innerHTML += `<option value="${sub}">${sub}</option>`;
-  });
+
+/* POPUP */
+
+function openPopup(){
+  document.getElementById("ticketPopup").classList.add("show");
 }
-categorySelect.addEventListener("change", e=>loadSubcategories(e.target.value));
-loadCategories();
 
-// Popup Funktionen
-function openPopup(type, message, ticketId=null){
-  const popup = document.getElementById("ticketPopup");
-  const card = popup.querySelector(".popup-card");
-  const icon = popup.querySelector(".popup-icon");
-  const title = popup.querySelector(".popup-title");
-  const msg = popup.querySelector(".popup-message");
-
-  card.classList.remove("success");
-
-  if(type==="success"){
-    icon.src="love.png";
-    title.textContent="Vielen Dank!";
-    card.classList.add("success");
-  } else {
-    icon.src="error.png";
-    title.textContent="Fehler!";
-  }
-
-  msg.innerHTML = message + (ticketId? `<br><strong>Ticket-ID: ${ticketId}</strong>`:"");
-  popup.classList.add("show");
+function closePopup(){
+  document.getElementById("ticketPopup").classList.remove("show");
 }
-function closePopup(id){document.getElementById(id)?.classList.remove("show");}
 
-// Ticket senden & Cooldown
-const COOLDOWN = 30 * 1000;
-document.getElementById("supportForm").addEventListener("submit", async function(e){
+/* ALWAYS ERROR */
+
+document.getElementById("supportForm").addEventListener("submit",function(e){
+
   e.preventDefault();
-  const lastSent = localStorage.getItem("ticketCooldown");
-  const now = Date.now();
-  if(lastSent && now - lastSent < COOLDOWN){
-    openPopup("error","Bitte warte einen Moment, bis du die nächste Support-Anfrage senden kannst.");
-    return;
-  }
 
-  const ticketId = Math.floor(Math.random()*900000+100000);
-  const data = {
-    username:"Ticket API",
-    embeds:[{
-      title:"Support-Ticket",
-      color:10181046,
-      fields:[
-        {name:"Minecraft Name", value:document.getElementById("mcname").value || "Nicht angegeben"},
-        {name:"Email", value:document.getElementById("email").value},
-        {name:"Voller Name", value:document.getElementById("fullname").value || "Nicht angegeben"},
-        {name:"Gerät", value:document.getElementById("device").value},
-        {name:"Kategorie", value:document.getElementById("category").value},
-        {name:"Unterkategorie", value:document.getElementById("subcategory").value},
-        {name:"Beschreibung", value:document.getElementById("description").value},
-        {name:"Ticket-ID", value:ticketId.toString()}
-      ],
-      timestamp:new Date()
-    }]
-  };
+  const btn = document.getElementById("submitBtn");
+  const card = document.querySelector(".card");
 
-  try{
-    await fetch("https://discord.com/api/webhooks/1472308963755425943/1KUvbgy5AB09kk2gUe7LUbfoWeGzgBikHVsTWFPMj_VurieUio5p_7UOZd6tIxSP3c9V",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(data)});
-    localStorage.setItem("ticketCooldown", Date.now());
-    openPopup("success","Dein Ticket wurde erfolgreich gesendet! Wir werden uns bald bei dir per Email melden!", ticketId, "Bewahre deine Ticket-ID gut auf, da der Support danach fragen könnte!");
-    this.reset();
-  }catch(err){
-    openPopup("error","Ticket wurde aufgrund eines Fehlers nicht gesendet.");
-  }
+  btn.innerText = "Sende Anfrage...";
+  btn.disabled = true;
+
+  setTimeout(()=>{
+
+    openPopup();
+
+    card.classList.add("errorShake");
+
+    setTimeout(()=>{
+      card.classList.remove("errorShake");
+    },500);
+
+    btn.disabled = false;
+    btn.innerText = "Anfrage senden";
+
+  },2200);
+
 });
 </script>
 
