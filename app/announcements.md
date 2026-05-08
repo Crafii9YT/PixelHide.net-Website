@@ -12,4 +12,4 @@ Bewerbe dich jetzt im Bewerbungs-Channel auf Discord!
 - Crafii9
 *Owner - PixelHide.net*
 
--# *[1 von 1]*
+***[1 von 1]***
