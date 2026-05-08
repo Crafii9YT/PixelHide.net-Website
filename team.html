@@ -1,333 +1,1138 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
+
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <meta property="og:title" content="PixelHide.net">
-<meta property="og:description" content="PixelHide.net Netzwerk: Das Team hinter dem Netzwerk!">
+<meta property="og:description" content="Das Team hinter PixelHide.net">
 <meta property="og:image" content="https://pixelhide.net/favicon.png">
 <meta property="og:url" content="https://pixelhide.net">
 
-<title>PixelHide.net</title>
+<title>Team | PixelHide.net</title>
 
-<link rel="icon" type="image/png" href="https://pixelhide.net/favicon.png">
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
-<link rel="manifest" href="https://pixelhide.net/manifest.json">
+<link rel="icon" href="https://pixelhide.net/favicon.png">
+
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Inter:wght@300;400;500;700&display=swap" rel="stylesheet">
 
 <style>
+
 :root{
-  --primary:#a78bfa;
-  --primary-glow:#c4b5fd;
-  --secondary:#050507;
-  --card:#0b0b12;
-  --text:#e5e7eb;
+
+  --bg:#050507;
+
+  --card:#0e0e16;
+  --card2:#131320;
+
+  --text:#f3f4f6;
   --muted:#9ca3af;
-  --owner:#8b0000;
-  --admin:#ff4c4c;
-  --moderator:#ff6666;
+
+  --primary:#a78bfa;
+  --primaryGlow:#c4b5fd;
+
+  --discord:#5865F2;
+
+  --owner:#ff3d6e;
+  --admin:#ff5757;
+  --moderator:#ff8c66;
   --supporter:#facc15;
   --builder:#22c55e;
+  --tester:#3b82f6;
+  --partner:#A855F7;
+
 }
 
+/* GLOBAL */
+
 *{
-  box-sizing:border-box;
-  user-select:none !important;
   margin:0;
   padding:0;
+  box-sizing:border-box;
 }
 
 body{
-  font-family:'Inter',sans-serif;
-  background:var(--secondary);
+
+  font-family:Inter,sans-serif;
+
+  background:var(--bg);
   color:var(--text);
+
   overflow-x:hidden;
+
+}
+
+/* SCROLLBAR */
+
+::-webkit-scrollbar{
+  width:10px;
+}
+
+::-webkit-scrollbar-track{
+  background:#09090d;
+}
+
+::-webkit-scrollbar-thumb{
+  background:linear-gradient(var(--primary),var(--primaryGlow));
+  border-radius:999px;
+}
+
+/* BACKGROUND GLOW */
+
+.bg-glow{
+
+  position:fixed;
+
+  width:700px;
+  height:700px;
+
+  border-radius:50%;
+
+  background:
+  radial-gradient(circle,
+  rgba(167,139,250,.22),
+  transparent 70%);
+
+  filter:blur(90px);
+
+  z-index:-1;
+
+  animation:floatGlow 10s ease-in-out infinite;
+
+}
+
+.bg-glow2{
+
+  right:-250px;
+  top:400px;
+
+  animation-delay:4s;
+
+}
+
+@keyframes floatGlow{
+
+  0%{
+    transform:translateY(0px) translateX(0px);
+  }
+
+  50%{
+    transform:translateY(-40px) translateX(50px);
+  }
+
+  100%{
+    transform:translateY(0px) translateX(0px);
+  }
+
 }
 
 /* HERO */
+
 .hero{
+
   position:relative;
-  height:500px;
-  background:url("https://pixelhide.net/Banner.png") center/cover no-repeat;
+
+  min-height:70vh;
+
+  background:
+  linear-gradient(rgba(0,0,0,.55),rgba(5,5,7,.96)),
+  url("https://pixelhide.net/Banner.png") center/cover no-repeat;
+
   display:flex;
-  flex-direction:column;
   align-items:center;
   justify-content:center;
-  text-align:center;
-  padding:20px;
+
+  overflow:hidden;
+
 }
 
-.hero img{
-  width:600px;
-  max-width:90%;
+.hero::before{
+
+  content:"";
+
+  position:absolute;
+  inset:0;
+
+  background:
+  radial-gradient(circle at center,
+  rgba(167,139,250,.18),
+  transparent 60%);
+
+  animation:pulse 6s infinite;
+
+}
+
+@keyframes pulse{
+
+  0%{
+    opacity:.4;
+    transform:scale(1);
+  }
+
+  50%{
+    opacity:.8;
+    transform:scale(1.08);
+  }
+
+  100%{
+    opacity:.4;
+    transform:scale(1);
+  }
+
+}
+
+.hero-content{
+
+  position:relative;
   z-index:2;
-  filter:drop-shadow(0 0 70px rgba(167,139,250,0.9));
-  margin-bottom:20px;
+
+  text-align:center;
+
+  width:100%;
+  max-width:1200px;
+
+  padding:30px;
+
+  animation:heroEnter 1s ease;
+
 }
 
-.hero .cta{
+@keyframes heroEnter{
+
+  from{
+    opacity:0;
+    transform:translateY(40px);
+  }
+
+  to{
+    opacity:1;
+    transform:translateY(0px);
+  }
+
+}
+
+.logo{
+
+  width:620px;
+  max-width:95%;
+
+  margin-bottom:25px;
+
+  filter:
+  drop-shadow(0 0 20px rgba(167,139,250,.6))
+  drop-shadow(0 0 80px rgba(167,139,250,.5));
+
+  animation:floatLogo 5s ease-in-out infinite;
+
+}
+
+@keyframes floatLogo{
+
+  0%{
+    transform:translateY(0px);
+  }
+
+  50%{
+    transform:translateY(-10px);
+  }
+
+  100%{
+    transform:translateY(0px);
+  }
+
+}
+
+.hero-title{
+
+  font-size:4rem;
+  font-family:Orbitron,sans-serif;
+
+  margin-bottom:18px;
+
+}
+
+.hero-text{
+
+  color:var(--muted);
+
+  max-width:800px;
+
+  margin:auto;
+
+  line-height:1.8;
+  font-size:1.15rem;
+
+}
+
+/* BUTTONS */
+
+.btn-row{
+
   display:flex;
-  gap:16px;
   justify-content:center;
-  z-index:2;
+  gap:18px;
+
   flex-wrap:wrap;
+
+  margin-top:40px;
+
 }
 
-.hero .btn{
-  padding:18px 32px;
-  font-size:1.1rem;
-  border-radius:14px;
-  font-weight:600;
+.btn{
+
+  position:relative;
+
+  padding:17px 34px;
+
+  border-radius:18px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:12px;
+
+  overflow:hidden;
+
   text-decoration:none;
+
+  font-weight:700;
+
   transition:.25s;
-  display:inline-block;
-  text-align:center;
+
 }
 
-.hero .btn-primary{
-  background:linear-gradient(135deg,var(--primary),var(--primary-glow));
+.btn::before{
+
+  content:"";
+
+  position:absolute;
+
+  top:0;
+  left:-120%;
+
+  width:100%;
+  height:100%;
+
+  background:
+  linear-gradient(
+  90deg,
+  transparent,
+  rgba(255,255,255,.22),
+  transparent
+  );
+
+  transition:.6s;
+
+}
+
+.btn:hover::before{
+  left:120%;
+}
+
+.btn:hover{
+
+  transform:translateY(-4px) scale(1.03);
+
+}
+
+.btn-primary{
+
+  background:
+  linear-gradient(
+  135deg,
+  var(--primary),
+  var(--primaryGlow)
+  );
+
   color:#050507;
+
+  box-shadow:
+  0 0 25px rgba(167,139,250,.25),
+  0 0 70px rgba(167,139,250,.12);
+
 }
 
-.hero .btn-outline{
-  border:1px solid rgba(167,139,250,0.4);
-  color:#e5e7eb;
-  background:none;
+.btn-discord{
+
+  background:rgba(88,101,242,.15);
+
+  border:1px solid rgba(88,101,242,.4);
+
+  color:white;
+
+  box-shadow:
+  0 0 25px rgba(88,101,242,.15);
+
 }
 
 /* CONTENT */
-section{
-  padding:60px 20px;
-  max-width:1200px;
+
+.wrapper{
+
+  max-width:1450px;
+
   margin:auto;
+
+  padding:100px 25px;
+
 }
+
+/* SECTION TITLE */
+
+.team-section{
+
+  margin-bottom:70px;
+
+}
+
+.section-title{
+
+  display:flex;
+  align-items:center;
+  gap:14px;
+
+  font-size:2rem;
+
+  font-family:Orbitron,sans-serif;
+
+  margin-bottom:28px;
+
+}
+
+/* GRID */
 
 .grid{
+
   display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-  gap:12px 12px; /* vertikal und horizontal Abstand kleiner */
+
+  grid-template-columns:
+  repeat(auto-fit,minmax(320px,1fr));
+
+  gap:25px;
+
 }
 
+/* CARD */
+
 .card{
-  background:var(--card);
-  border-radius:18px;
-  padding:20px;
-  border:1px solid rgba(167,139,250,0.15);
+
+  position:relative;
+
+  overflow:hidden;
+
+  background:
+  linear-gradient(
+  145deg,
+  rgba(255,255,255,.04),
+  rgba(255,255,255,.02)
+  );
+
+  border:1px solid rgba(255,255,255,.06);
+
+  border-radius:28px;
+
+  padding:30px;
+
+  transition:.35s;
+
+  backdrop-filter:blur(14px);
+
+  box-shadow:
+  0 20px 60px rgba(0,0,0,.35);
+
+}
+
+.card::before{
+
+  content:"";
+
+  position:absolute;
+  inset:0;
+
+  background:
+  linear-gradient(
+  145deg,
+  rgba(255,255,255,.05),
+  transparent
+  );
+
+  opacity:0;
+
   transition:.3s;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  text-align:center;
+
+}
+
+.card:hover::before{
+  opacity:1;
 }
 
 .card:hover{
-  transform:translateY(-4px);
-  box-shadow:0 0 20px rgba(167,139,250,0.4);
+
+  transform:
+  translateY(-10px)
+  scale(1.02);
+
+  border-color:
+  rgba(167,139,250,.35);
+
+  box-shadow:
+  0 0 35px rgba(167,139,250,.2),
+  0 30px 70px rgba(0,0,0,.5);
+
 }
 
-.card img{
-  width:80px;
-  height:80px;
+/* PROFILE */
+
+.profile{
+
+  display:flex;
+  align-items:center;
+  gap:18px;
+
+  margin-bottom:18px;
+
+}
+
+.profile img{
+
+  width:90px;
+  height:90px;
+
   border-radius:50%;
-  margin-bottom:12px;
+
   object-fit:cover;
-  border:2px solid var(--primary-glow);
+
+  border:3px solid rgba(255,255,255,.1);
+
+  transition:.3s;
+
 }
 
-.card h3{
-  font-family:'Orbitron',sans-serif;
-  color:#ddd6fe;
+.card:hover img{
+
+  transform:scale(1.06);
+
+  box-shadow:
+  0 0 30px rgba(167,139,250,.4);
+
+}
+
+.profile-info h3{
+
+  font-size:1.4rem;
+
+  font-family:Orbitron,sans-serif;
+
   margin-bottom:6px;
-  font-size:1.1rem;
+
 }
 
 .rank{
-  font-weight:600;
-  margin-left:6px;
-  font-size:0.95rem;
+
+  display:inline-flex;
+
+  padding:6px 12px;
+
+  border-radius:999px;
+
+  font-size:.82rem;
+  font-weight:700;
+
+  background:rgba(255,255,255,.06);
+
+  border:1px solid rgba(255,255,255,.08);
+
 }
 
-/* COPY BUTTON */
-.copy-btn{
-  padding:10px 20px;
-  font-size:0.9rem;
-  border-radius:10px;
-  border:none;
-  cursor:pointer;
-  background:linear-gradient(135deg,var(--primary),var(--primary-glow));
-  color:#050507;
-  transition:.3s;
+/* TEXT */
+
+.card p{
+
+  color:var(--muted);
+
+  line-height:1.8;
+
+  font-size:.97rem;
+
 }
 
-.copy-btn:hover{
-  transform:translateY(-2px);
-}
-
-/* DOUBLE CARDS SECTION */
-.double-cards{
-  display:flex;
-  gap:20px;
-  justify-content:center;
-  flex-wrap:wrap;
-  margin-top:30px;
-}
-
-/* ===== MOBILE RESPONSIVE ===== */
-@media (max-width:1024px){
-  .hero img{
-    width:400px;
-  }
-  section{
-    padding:50px 15px;
-  }
-  .double-cards{
-    flex-direction:column;
-    gap:12px;
-  }
-}
-
-@media (max-width:768px){
-  .hero img{
-    width:280px;
-  }
-}
-
-@media (max-width:480px){
-  .hero img{
-    width:220px;
-  }
-}
+/* FOOTER */
 
 footer{
-  text-align:center;
-  padding:40px;
-  border-top:1px solid rgba(167,139,250,0.15);
-  color:var(--muted);
-  font-size:0.9rem;
-}
-footer span{
-  color:var(--primary);
-}
-</style>
 
+  margin-top:60px;
+
+  border-top:1px solid rgba(255,255,255,.06);
+
+  text-align:center;
+
+  padding:55px 25px;
+
+  color:var(--muted);
+
+}
+
+.footer-links{
+
+  display:flex;
+  justify-content:center;
+  gap:20px;
+
+  flex-wrap:wrap;
+
+  margin-bottom:20px;
+
+}
+
+.footer-links a{
+
+  color:var(--primary);
+
+  text-decoration:none;
+
+  transition:.2s;
+
+}
+
+.footer-links a:hover{
+
+  color:white;
+
+  text-shadow:
+  0 0 20px rgba(167,139,250,.7);
+
+}
+
+/* MOBILE */
+
+@media(max-width:768px){
+
+  .hero-title{
+    font-size:2.5rem;
+  }
+
+  .logo{
+    width:320px;
+  }
+
+  .btn{
+    width:100%;
+  }
+
+  .btn-row{
+    flex-direction:column;
+  }
+
+  .section-title{
+    font-size:1.5rem;
+  }
+
+  .profile{
+    flex-direction:column;
+    text-align:center;
+  }
+
+}
+
+</style>
 </head>
 
 <body>
 
+<div class="bg-glow"></div>
+<div class="bg-glow bg-glow2"></div>
+
+<!-- HERO -->
+
 <div class="hero">
-  <img src="https://pixelhide.net/pixelhidenet.png">
-  <div class="cta">
-    <a href="/join.html" class="btn btn-primary">Jetzt beitreten</a>
-    <a href="https://discord.pixelhide.net" class="btn btn-outline">Discord</a>
+
+  <div class="hero-content">
+
+    <img
+    src="https://pixelhide.net/pixelhidenet.png"
+    class="logo">
+
+    <h1 class="hero-title">
+      Das PixelHide Team
+    </h1>
+
+    <p class="hero-text">
+
+      Hinter PixelHide.net steckt ein leidenschaftliches
+      Team aus Entwicklern, Moderatoren, Supportern,
+      Buildern und kreativen Köpfen.
+
+    </p>
+
+    <div class="btn-row">
+
+      <a href="/join.html"
+      class="btn btn-primary">
+
+        Jetzt beitreten
+
+      </a>
+
+      <a href="https://discord.pixelhide.net"
+      class="btn btn-discord">
+
+        Discord
+
+      </a>
+
+    </div>
+
   </div>
+
 </div>
 
-<section>
-<h1 style="color:var(--owner)">Owner (2)</h1>
-<div class="grid">
-  <div class="card">
-    <img src="https://pixelhide.net/team/pfp/crafii9.png" alt="Crafii9">
-    <h3>Crafii9 <span class="rank" style="color:var(--owner)">(Owner)</span></h3>
-    <p>Hey! Ich bin der Besitzer von PixelHide.net. Angefangen hat alles 2020 auf einer einfachen Minecraft-Welt, einfach aus Spaß und mit der Idee, irgendwann ein eigenes Netzwerk zu haben. Nach einer Pause 2021 habe ich mir einen Aternos-Server geholt, um mit Freunden zu spielen.
+<!-- CONTENT -->
 
-Später bin ich auf Minecraft Java und LabyMod gewechselt, wo ich im Voice-Chat Leonard1412 kennengelernt habe, der heute ebenfalls Owner ist. Über ihn habe ich auch Cryytexx (Liam) getroffen, der heute als Admin dabei ist.
+<div class="wrapper">
 
-Zusammen haben wir PixelHide über mehrere Jahre aufgebaut und sind stolz auf das, was daraus geworden ist.</p>
+<!-- OWNER -->
+
+<div class="team-section">
+
+  <div class="section-title"
+  style="color:var(--owner);">
+
+    👑 Owner
+
   </div>
 
-  <div class="card">
-    <img src="https://pixelhide.net/team/pfp/leonard1412.png" alt="Leonard1412">
-    <h3>Leonard1412 <span class="rank" style="color:var(--owner)">(Owner)</span></h3>
-    <p>Dieses Teammitglied hat aktuell noch keine Beschreibung!</p>
+  <div class="grid">
+
+    <div class="card">
+
+      <div class="profile">
+
+        <img src="https://pixelhide.net/team/pfp/crafii9.png">
+
+        <div class="profile-info">
+
+          <h3>Crafii9</h3>
+
+          <span class="rank"
+          style="color:var(--owner);">
+
+            OWNER
+
+          </span>
+
+        </div>
+
+      </div>
+
+      <p>
+
+        Hey! Ich bin der Besitzer von PixelHide.net.
+        Angefangen hat alles 2020 auf einer einfachen
+        Minecraft-Welt. Über Jahre hinweg wurde daraus
+        ein richtiges Netzwerk mit eigener Community,
+        eigenen Systemen und riesigen Ideen.
+
+      </p>
+
+    </div>
+
+    <div class="card">
+
+      <div class="profile">
+
+        <img src="https://pixelhide.net/team/pfp/leonard1412.png">
+
+        <div class="profile-info">
+
+          <h3>Leonard1412</h3>
+
+          <span class="rank"
+          style="color:var(--owner);">
+
+            OWNER
+
+          </span>
+
+        </div>
+
+      </div>
+
+      <p>
+
+        Dieses Teammitglied hat aktuell
+        noch keine Beschreibung.
+
+      </p>
+
+    </div>
+
   </div>
+
 </div>
-</section>
 
-<section>
-<h1 style="color:var(--admin)">Administratoren (1)</h1>
-<div class="grid">
-  <div class="card">
-    <img src="https://pixelhide.net/team/pfp/cryytexx.png" alt="Cryytexx">
-    <h3>Cryytexx <span class="rank" style="color:var(--admin)">(Administrator)</span></h3>
-    <p>Heyhoo, ich bin ein Administrator von PixelHide.net. Ich habe es jeden Tag mit Hackern oder anderen Regelbrechern zutun. Ich habe früher als Developer angefangen und nun bin ich in der Admin-Ebene. Im Team bin ich schon seit fast 3 Jahren und ich hoffe ich kann noch weitere Jahre als Admin im Team tätig sein, ein Ende ist in meinen Augen noch nicht in Sicht.</p>
+<!-- ADMIN -->
+
+<div class="team-section">
+
+  <div class="section-title"
+  style="color:var(--admin);">
+
+    🛡️ Administratoren
+
   </div>
+
+  <div class="grid">
+
+    <div class="card">
+
+      <div class="profile">
+
+        <img src="https://pixelhide.net/team/pfp/cryytexx.png">
+
+        <div class="profile-info">
+
+          <h3>Cryytexx</h3>
+
+          <span class="rank"
+          style="color:var(--admin);">
+
+            ADMINISTRATOR
+
+          </span>
+
+        </div>
+
+      </div>
+
+      <p>
+
+        Ich kümmere mich um Regelverstöße,
+        Systeme und das Teammanagement.
+        Früher als Developer gestartet,
+        heute Administrator von PixelHide.net.
+
+      </p>
+
+    </div>
+
+  </div>
+
 </div>
-</section>
 
-<section>
-<h1 style="color:var(--moderator)">Moderatoren (2)</h1>
-<div class="grid">
-  <div class="card">
-    <img src="https://pixelhide.net/team/pfp/kleine.png" alt="Kleine">
-    <h3>Kleine <span class="rank" style="color:var(--moderator)">(Moderator)</span></h3>
-    <p>Dieses Teammitglied hat aktuell noch keine Beschreibung!</p>
+<!-- MODS -->
+
+<div class="team-section">
+
+  <div class="section-title"
+  style="color:var(--moderator);">
+
+    🔥 Moderatoren
+
   </div>
 
-  <div class="card">
-    <img src="https://pixelhide.net/team/pfp/lo10ic.png" alt="LO10IC">
-    <h3>LO10IC <span class="rank" style="color:var(--moderator)">(Moderator)</span></h3>
-    <p>Dieses Teammitglied hat aktuell noch keine Beschreibung!</p>
+  <div class="grid">
+
+    <div class="card">
+
+      <div class="profile">
+
+        <img src="https://pixelhide.net/team/pfp/kleine.png">
+
+        <div class="profile-info">
+
+          <h3>Kleine</h3>
+
+          <span class="rank"
+          style="color:var(--moderator);">
+
+            MODERATOR
+
+          </span>
+
+        </div>
+
+      </div>
+
+      <p>
+
+        Dieses Teammitglied hat aktuell
+        noch keine Beschreibung.
+
+      </p>
+
+    </div>
+
+    <div class="card">
+
+      <div class="profile">
+
+        <img src="https://pixelhide.net/team/pfp/lo10ic.png">
+
+        <div class="profile-info">
+
+          <h3>LO10IC</h3>
+
+          <span class="rank"
+          style="color:var(--moderator);">
+
+            MODERATOR
+
+          </span>
+
+        </div>
+
+      </div>
+
+      <p>
+
+        Dieses Teammitglied hat aktuell
+        noch keine Beschreibung.
+
+      </p>
+
+    </div>
+
   </div>
+
 </div>
-</section>
 
-<section>
-<h1 style="color:var(--supporter)">Supporter (1)</h1>
-<div class="grid">
-  <div class="card">
-    <img src="https://pixelhide.net/team/pfp/philipp0774.png" alt="Philipp0774">
-    <h3>Philipp0774 <span class="rank" style="color:var(--supporter)">(Supporter)</span></h3>
-    <p>Dieses Teammitglied hat aktuell noch keine Beschreibung!</p>
-  </div>
-</div>
-</section>
+<!-- SUPPORT -->
 
-<section>
-<h1 style="color:#3b82f6">Test-Teammitglieder (1)</h1>
-<div class="grid">
-  <div class="card">
-    <img src="https://pixelhide.net/team/pfp/youmisse12.png" alt="YouMisse12">
-    <h3>YouMisse12 <span class="rank" style="color:#3b82f6">(Test-Supporter)</span></h3>
-    <p>Dieses Teammitglied hat aktuell noch keine Beschreibung!</p>
-  </div>
-</div>
-</section>
+<div class="team-section">
 
-<section>
-<h1 style="color:var(--builder)">Builder (1)</h1>
-<div class="grid">
-  <div class="card">
-    <img src="https://pixelhide.net/team/pfp/lo10ic.png" alt="JedenTag3">
-    <h3>LO10IC <span class="rank" style="color:var(--builder)">(Builder)</span></h3>
-    <p>Dieses Teammitglied hat aktuell noch keine Beschreibung!</p>
-  </div>
-</div>
-</section>
+  <div class="section-title"
+  style="color:var(--supporter);">
 
-<section>
-<h1 style="color:#A855F7">Unterstützer (1)</h1>
-<div class="grid">
-  <div class="card">
-    <img src="https://pixelhide.net/team/pfp/valyria.png" alt="Valyria">
-    <h3>Valyria <span class="rank" style="color:#A855F7">(Unterstützer)</span></h3>
-    <p>Hey, ich bin Valyria.
-Ich bin momentan 24 Jahre alt und beschäftige mich seid über 10 Jahren mit Minecraft, welches vorallem gemoddet zu meinen absoluten Lieblingsspielen zählt. Seit rund 7 Jahren miete ich meine eigenen Gameserver und seit 3 Jahren hoste ist selbst welche. Ich bin sicherlich kein Profi, habe aber Spaß an dem ganzen und unterstütze gerne andere Projekte.</p>
+    💬 Supporter
+
   </div>
+
+  <div class="grid">
+
+    <div class="card">
+
+      <div class="profile">
+
+        <img src="https://pixelhide.net/team/pfp/philipp0774.png">
+
+        <div class="profile-info">
+
+          <h3>Philipp0774</h3>
+
+          <span class="rank"
+          style="color:var(--supporter);">
+
+            SUPPORTER
+
+          </span>
+
+        </div>
+
+      </div>
+
+      <p>
+
+        Dieses Teammitglied hat aktuell
+        noch keine Beschreibung.
+
+      </p>
+
+    </div>
+
+  </div>
+
 </div>
-</section>
+
+<!-- TEST -->
+
+<div class="team-section">
+
+  <div class="section-title"
+  style="color:var(--tester);">
+
+    🧪 Test-Team
+
+  </div>
+
+  <div class="grid">
+
+    <div class="card">
+
+      <div class="profile">
+
+        <img src="https://pixelhide.net/team/pfp/youmisse12.png">
+
+        <div class="profile-info">
+
+          <h3>YouMisse12</h3>
+
+          <span class="rank"
+          style="color:var(--tester);">
+
+            TEST-SUPPORTER
+
+          </span>
+
+        </div>
+
+      </div>
+
+      <p>
+
+        Dieses Teammitglied hat aktuell
+        noch keine Beschreibung.
+
+      </p>
+
+    </div>
+
+  </div>
+
+</div>
+
+<!-- BUILDER -->
+
+<div class="team-section">
+
+  <div class="section-title"
+  style="color:var(--builder);">
+
+    🏗️ Builder
+
+  </div>
+
+  <div class="grid">
+
+    <div class="card">
+
+      <div class="profile">
+
+        <img src="https://pixelhide.net/team/pfp/lo10ic.png">
+
+        <div class="profile-info">
+
+          <h3>LO10IC</h3>
+
+          <span class="rank"
+          style="color:var(--builder);">
+
+            BUILDER
+
+          </span>
+
+        </div>
+
+      </div>
+
+      <p>
+
+        Dieses Teammitglied hat aktuell
+        noch keine Beschreibung.
+
+      </p>
+
+    </div>
+
+  </div>
+
+</div>
+
+<!-- SUPPORTER -->
+
+<div class="team-section">
+
+  <div class="section-title"
+  style="color:var(--partner);">
+
+    💜 Unterstützer
+
+  </div>
+
+  <div class="grid">
+
+    <div class="card">
+
+      <div class="profile">
+
+        <img src="https://pixelhide.net/team/pfp/valyria.png">
+
+        <div class="profile-info">
+
+          <h3>Valyria</h3>
+
+          <span class="rank"
+          style="color:var(--partner);">
+
+            UNTERSTÜTZER
+
+          </span>
+
+        </div>
+
+      </div>
+
+      <p>
+
+        Ich beschäftige mich seit vielen Jahren
+        mit Minecraft und Serverhosting.
+        Ich unterstütze gerne kreative Projekte
+        und helfe dabei, große Ideen umzusetzen.
+
+      </p>
+
+    </div>
+
+  </div>
+
+</div>
+
+</div>
+
+<!-- FOOTER -->
 
 <footer>
-  <div style="margin-bottom:20px;">
-    <a href="/join.html" style="margin:0 10px;color:var(--primary);text-decoration:none;">Jetzt beitreten</a> |
-    <a href="https://discord.pixelhide.net" style="margin:0 10px;color:var(--primary);text-decoration:none;">Discord</a> |
-    <a href="/team.html" style="margin:0 10px;color:var(--primary);text-decoration:none;">Team</a> |
-    <a href="/bewerben.html" style="margin:0 10px;color:var(--primary);text-decoration:none;">Bewerben</a> |
-    <a href="/support.html" style="margin:0 10px;color:var(--primary);text-decoration:none;">Support</a> |
-    <a href="/custom-welten.html" style="margin:0 10px;color:var(--primary);text-decoration:none;">Custom Welten</a> |
-    <a href="/version-support.html" style="margin:0 10px;color:var(--primary);text-decoration:none;">Versionen</a>
+
+  <div class="footer-links">
+
+    <a href="/join.html">
+      Jetzt beitreten
+    </a>
+
+    <a href="https://discord.pixelhide.net">
+      Discord
+    </a>
+
+    <a href="/team.html">
+      Team
+    </a>
+
+    <a href="/bewerben.html">
+      Bewerben
+    </a>
+
+    <a href="/support.html">
+      Support
+    </a>
+
+    <a href="/custom-welten.html">
+      Custom Welten
+    </a>
+
+    <a href="/version-support.html">
+      Versionen
+    </a>
+
   </div>
+
   <div>
-    © 2026 <span style="color:var(--primary)">PixelHide.net</span>
+
+    © 2026
+    <span style="color:var(--primary)">
+      PixelHide.net
+    </span>
+
   </div>
+
 </footer>
 
 </body>
