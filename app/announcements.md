@@ -11,7 +11,3 @@ Bewerbe dich jetzt im Bewerbungs-Channel auf Discord!
 
 - Crafii9
 *Owner - PixelHide.net*
-#
-#
-#
-❌ Keine weitere Ankündigung verfügbar.
