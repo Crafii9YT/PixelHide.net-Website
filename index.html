@@ -522,6 +522,33 @@ function copyIP(){
 
 }
 
+/* =========================
+   SETTINGS SYNC (ADDED)
+   ========================= */
+
+function applySettings(){
+  const raw = localStorage.getItem("pixelhide_settings");
+  if(!raw) return;
+
+  try{
+    const s = JSON.parse(raw);
+    const r = document.documentElement;
+
+    if(s.accent) r.style.setProperty("--accent", s.accent);
+    if(s.accent2) r.style.setProperty("--accent2", s.accent2);
+    if(s.bg) r.style.setProperty("--bg", s.bg);
+    if(s.text) r.style.setProperty("--text", s.text);
+    if(s.muted) r.style.setProperty("--muted", s.muted);
+
+  }catch(e){}
+}
+
+applySettings();
+
+window.addEventListener("storage", (e)=>{
+  if(e.key === "pixelhide_settings") applySettings();
+});
+
 </script>
 
 </head>
@@ -646,8 +673,6 @@ function copyIP(){
 
   </div>
 
-  <!-- STATUS -->
-
   <div class="status">
 
     <div>
@@ -726,33 +751,13 @@ function copyIP(){
 
   <div class="footer-links">
 
-    <a href="/join.html">
-      Jetzt beitreten
-    </a>
-
-    <a href="https://discord.pixelhide.net">
-      Discord
-    </a>
-
-    <a href="/team.html">
-      Team
-    </a>
-
-    <a href="/bewerben.html">
-      Bewerben
-    </a>
-
-    <a href="/support.html">
-      Support
-    </a>
-
-    <a href="/custom-welten.html">
-      Custom Welten
-    </a>
-
-    <a href="/version-support.html">
-      Versionen
-    </a>
+    <a href="/join.html">Jetzt beitreten</a>
+    <a href="https://discord.pixelhide.net">Discord</a>
+    <a href="/team.html">Team</a>
+    <a href="/bewerben.html">Bewerben</a>
+    <a href="/support.html">Support</a>
+    <a href="/custom-welten.html">Custom Welten</a>
+    <a href="/version-support.html">Versionen</a>
 
   </div>
 
