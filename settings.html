@@ -32,6 +32,11 @@
   --text-size:1;
   --blur:16px;
 
+  --card-opacity:.06;
+  --glow-opacity:.12;
+
+  --transition:.25s;
+
 }
 
 /* GLOBAL */
@@ -67,9 +72,17 @@ body{
   font-size:calc(16px * var(--text-size));
 
   transition:
-  background .25s,
-  color .25s;
+  background var(--transition),
+  color var(--transition);
 
+}
+
+/* NO ANIMATIONS */
+
+.no-animations *{
+  animation:none !important;
+  transition:none !important;
+  scroll-behavior:auto !important;
 }
 
 /* SCROLLBAR */
@@ -87,9 +100,10 @@ body{
   border-radius:999px;
 }
 
-/* BACKGROUND */
+/* GLOW */
 
 .bg-glow{
+
   position:fixed;
 
   width:700px;
@@ -98,13 +112,14 @@ body{
   background:
   radial-gradient(circle,var(--accent) 0%,transparent 70%);
 
-  opacity:.12;
+  opacity:var(--glow-opacity);
 
   filter:blur(100px);
 
   z-index:-1;
 
   animation:floatGlow 12s ease-in-out infinite;
+
 }
 
 .bg-glow2{
@@ -160,9 +175,9 @@ body{
 
   font-weight:700;
 
-  transition:.25s;
-
   overflow:hidden;
+
+  transition:var(--transition);
 
 }
 
@@ -250,6 +265,24 @@ body{
     drop-shadow(0 0 25px rgba(167,139,250,.5))
     drop-shadow(0 0 80px rgba(167,139,250,.4));
 
+  animation:floatLogo 5s ease-in-out infinite;
+
+}
+
+@keyframes floatLogo{
+
+  0%{
+    transform:translateY(0px);
+  }
+
+  50%{
+    transform:translateY(-10px);
+  }
+
+  100%{
+    transform:translateY(0px);
+  }
+
 }
 
 .hero-title{
@@ -297,7 +330,7 @@ body{
   background:
   linear-gradient(
     145deg,
-    rgba(255,255,255,.05),
+    rgba(255,255,255,var(--card-opacity)),
     rgba(255,255,255,.02)
   );
 
@@ -309,7 +342,7 @@ body{
 
   backdrop-filter:blur(var(--blur));
 
-  transition:.25s;
+  transition:var(--transition);
 
 }
 
@@ -349,7 +382,7 @@ body{
 
 }
 
-/* INPUTS */
+/* SLIDER */
 
 .slider{
 
@@ -415,7 +448,7 @@ body{
 
   border:2px solid transparent;
 
-  transition:.25s;
+  transition:var(--transition);
 
 }
 
@@ -443,67 +476,23 @@ body{
 
 }
 
-/* THEME COLORS */
+/* THEMES */
 
-.theme-dark{
-  background:linear-gradient(135deg,#0b0b11,#8b5cf6);
-}
-
-.theme-light{
-  background:linear-gradient(135deg,#ffffff,#c4b5fd);
-}
-
-.theme-oled{
-  background:linear-gradient(135deg,#000000,#4c1d95);
-}
-
-.theme-nebula{
-  background:linear-gradient(135deg,#2e1065,#c084fc);
-}
-
-.theme-blue{
-  background:linear-gradient(135deg,#1e3a8a,#60a5fa);
-}
-
-.theme-green{
-  background:linear-gradient(135deg,#14532d,#86efac);
-}
-
-.theme-red{
-  background:linear-gradient(135deg,#7f1d1d,#f87171);
-}
-
-.theme-orange{
-  background:linear-gradient(135deg,#7c2d12,#fdba74);
-}
-
-.theme-pink{
-  background:linear-gradient(135deg,#831843,#f9a8d4);
-}
-
-.theme-cyan{
-  background:linear-gradient(135deg,#164e63,#67e8f9);
-}
-
-.theme-gold{
-  background:linear-gradient(135deg,#78350f,#fde68a);
-}
-
-.theme-forest{
-  background:linear-gradient(135deg,#052e16,#4ade80);
-}
-
-.theme-blood{
-  background:linear-gradient(135deg,#1f0000,#ff2d55);
-}
-
-.theme-midnight{
-  background:linear-gradient(135deg,#020617,#312e81);
-}
-
-.theme-candy{
-  background:linear-gradient(135deg,#f472b6,#c084fc);
-}
+.theme-dark{background:linear-gradient(135deg,#0b0b11,#8b5cf6);}
+.theme-light{background:linear-gradient(135deg,#ffffff,#c4b5fd);}
+.theme-oled{background:linear-gradient(135deg,#000000,#4c1d95);}
+.theme-nebula{background:linear-gradient(135deg,#2e1065,#c084fc);}
+.theme-blue{background:linear-gradient(135deg,#1e3a8a,#60a5fa);}
+.theme-green{background:linear-gradient(135deg,#14532d,#86efac);}
+.theme-red{background:linear-gradient(135deg,#7f1d1d,#f87171);}
+.theme-orange{background:linear-gradient(135deg,#7c2d12,#fdba74);}
+.theme-pink{background:linear-gradient(135deg,#831843,#f9a8d4);}
+.theme-cyan{background:linear-gradient(135deg,#164e63,#67e8f9);}
+.theme-gold{background:linear-gradient(135deg,#78350f,#fde68a);}
+.theme-forest{background:linear-gradient(135deg,#052e16,#4ade80);}
+.theme-blood{background:linear-gradient(135deg,#1f0000,#ff2d55);}
+.theme-midnight{background:linear-gradient(135deg,#020617,#312e81);}
+.theme-candy{background:linear-gradient(135deg,#f472b6,#c084fc);}
 
 /* TOGGLES */
 
@@ -520,7 +509,7 @@ body{
 
   cursor:pointer;
 
-  transition:.25s;
+  transition:var(--transition);
 
 }
 
@@ -540,7 +529,7 @@ body{
   top:4px;
   left:4px;
 
-  transition:.25s;
+  transition:var(--transition);
 
 }
 
@@ -595,7 +584,7 @@ body{
 
   color:#050507;
 
-  transition:.25s;
+  transition:var(--transition);
 
 }
 
@@ -631,40 +620,6 @@ body{
     opacity:0;
   }
 
-}
-
-/* TOAST */
-
-.toast{
-
-  position:fixed;
-
-  right:25px;
-  bottom:-120px;
-
-  z-index:9999;
-
-  padding:18px 24px;
-
-  border-radius:18px;
-
-  background:
-  linear-gradient(
-    135deg,
-    var(--accent),
-    var(--accent2)
-  );
-
-  color:#050507;
-
-  font-weight:700;
-
-  transition:.45s cubic-bezier(.68,-0.55,.27,1.55);
-
-}
-
-.toast.show{
-  bottom:25px;
 }
 
 /* FOOTER */
@@ -704,13 +659,9 @@ footer{
 <div class="bg-glow"></div>
 <div class="bg-glow bg-glow2"></div>
 
-<!-- BACK -->
-
 <a href="/" class="back-btn">
   ← Zurück
 </a>
-
-<!-- HERO -->
 
 <section class="hero">
 
@@ -724,14 +675,11 @@ footer{
 
     <p class="hero-text">
       Passe PixelHide komplett an deinen Stil an.
-      Themes, Blur, Zoom, Textgröße, Animationen und vieles mehr.
     </p>
 
   </div>
 
 </section>
-
-<!-- SETTINGS -->
 
 <div class="settings-wrapper">
 
@@ -804,78 +752,63 @@ footer{
 
     <div class="theme-grid">
 
-      <div class="theme theme-dark active"
-      onclick="applyTheme('dark',this)">
+      <div class="theme theme-dark active" data-theme="dark">
         <div class="theme-name">Dark</div>
       </div>
 
-      <div class="theme theme-light"
-      onclick="applyTheme('light',this)">
+      <div class="theme theme-light" data-theme="light">
         <div class="theme-name">Light</div>
       </div>
 
-      <div class="theme theme-oled"
-      onclick="applyTheme('oled',this)">
+      <div class="theme theme-oled" data-theme="oled">
         <div class="theme-name">OLED</div>
       </div>
 
-      <div class="theme theme-nebula"
-      onclick="applyTheme('nebula',this)">
+      <div class="theme theme-nebula" data-theme="nebula">
         <div class="theme-name">Nebula</div>
       </div>
 
-      <div class="theme theme-blue"
-      onclick="applyTheme('blue',this)">
+      <div class="theme theme-blue" data-theme="blue">
         <div class="theme-name">Blue</div>
       </div>
 
-      <div class="theme theme-green"
-      onclick="applyTheme('green',this)">
+      <div class="theme theme-green" data-theme="green">
         <div class="theme-name">Green</div>
       </div>
 
-      <div class="theme theme-red"
-      onclick="applyTheme('red',this)">
+      <div class="theme theme-red" data-theme="red">
         <div class="theme-name">Red</div>
       </div>
 
-      <div class="theme theme-orange"
-      onclick="applyTheme('orange',this)">
+      <div class="theme theme-orange" data-theme="orange">
         <div class="theme-name">Orange</div>
       </div>
 
-      <div class="theme theme-pink"
-      onclick="applyTheme('pink',this)">
+      <div class="theme theme-pink" data-theme="pink">
         <div class="theme-name">Pink</div>
       </div>
 
-      <div class="theme theme-cyan"
-      onclick="applyTheme('cyan',this)">
+      <div class="theme theme-cyan" data-theme="cyan">
         <div class="theme-name">Cyan</div>
       </div>
 
-      <div class="theme theme-gold"
-      onclick="applyTheme('gold',this)">
+      <div class="theme theme-gold" data-theme="gold">
         <div class="theme-name">Gold</div>
       </div>
 
-      <div class="theme theme-forest"
-      onclick="applyTheme('forest',this)">
+      <div class="theme theme-forest" data-theme="forest">
         <div class="theme-name">Forest</div>
       </div>
 
-      <div class="theme theme-blood"
-      onclick="applyTheme('blood',this)">
+      <div class="theme theme-blood" data-theme="blood">
         <div class="theme-name">Blood</div>
       </div>
 
-      <div class="theme theme-midnight"
-      onclick="applyTheme('midnight',this)">
+      <div class="theme theme-midnight" data-theme="midnight">
         <div class="theme-name">Midnight</div>
       </div>
 
-      <div class="theme theme-candy"
-      onclick="applyTheme('candy',this)">
+      <div class="theme theme-candy" data-theme="candy">
         <div class="theme-name">Candy</div>
       </div>
 
@@ -891,39 +824,30 @@ footer{
 
     <div class="setting">
       <label><span>Animations</span></label>
-      <div class="toggle active"></div>
-    </div>
-
-    <div class="setting">
-      <label><span>Particles</span></label>
-      <div class="toggle active"></div>
+      <div class="toggle active" id="toggle-animations"></div>
     </div>
 
     <div class="setting">
       <label><span>Glow Effects</span></label>
-      <div class="toggle active"></div>
+      <div class="toggle active" id="toggle-glow"></div>
     </div>
 
     <div class="setting">
       <label><span>Rounded UI</span></label>
-      <div class="toggle active"></div>
+      <div class="toggle active" id="toggle-rounded"></div>
     </div>
 
     <div class="setting">
       <label><span>Transparent Cards</span></label>
-      <div class="toggle active"></div>
+      <div class="toggle active" id="toggle-transparent"></div>
     </div>
 
     <div class="setting">
-      <label><span>Smooth Scrolling</span></label>
-      <div class="toggle active"></div>
+      <label><span>Smooth Transitions</span></label>
+      <div class="toggle active" id="toggle-transitions"></div>
     </div>
 
     <div class="btn-row">
-
-      <button class="btn" onclick="saveSettings()">
-        Save Settings
-      </button>
 
       <button class="btn" onclick="resetSettings()">
         Reset
@@ -944,203 +868,201 @@ footer{
 
 </footer>
 
-<div class="toast" id="toast">
-  Einstellungen gespeichert!
-</div>
-
 <script>
 
 /* THEMES */
 
 const themes = {
 
-  dark:{
-    bg:"#050507",
-    bg2:"#0b0b10",
-    card:"#101018",
-    accent:"#a78bfa",
-    accent2:"#c4b5fd",
-    text:"#f5f5f5",
-    muted:"#9ca3af"
-  },
+dark:{
+bg:"#050507",
+bg2:"#0b0b10",
+card:"#101018",
+accent:"#a78bfa",
+accent2:"#c4b5fd",
+text:"#f5f5f5",
+muted:"#9ca3af"
+},
 
-  light:{
-    bg:"#ffffff",
-    bg2:"#f4f4f5",
-    card:"#ffffff",
-    accent:"#8b5cf6",
-    accent2:"#c4b5fd",
-    text:"#111111",
-    muted:"#555555"
-  },
+light:{
+bg:"#ffffff",
+bg2:"#f4f4f5",
+card:"#ffffff",
+accent:"#8b5cf6",
+accent2:"#c4b5fd",
+text:"#111111",
+muted:"#555555"
+},
 
-  oled:{
-    bg:"#000000",
-    bg2:"#020202",
-    card:"#050505",
-    accent:"#8b5cf6",
-    accent2:"#c4b5fd",
-    text:"#ffffff",
-    muted:"#888888"
-  },
+oled:{
+bg:"#000000",
+bg2:"#020202",
+card:"#050505",
+accent:"#8b5cf6",
+accent2:"#c4b5fd",
+text:"#ffffff",
+muted:"#888888"
+},
 
-  nebula:{
-    bg:"#12051f",
-    bg2:"#1e1033",
-    card:"#24123a",
-    accent:"#c084fc",
-    accent2:"#e9d5ff",
-    text:"#ffffff",
-    muted:"#c4b5fd"
-  },
+nebula:{
+bg:"#12051f",
+bg2:"#1e1033",
+card:"#24123a",
+accent:"#c084fc",
+accent2:"#e9d5ff",
+text:"#ffffff",
+muted:"#c4b5fd"
+},
 
-  blue:{
-    bg:"#07111f",
-    bg2:"#0f172a",
-    card:"#172554",
-    accent:"#3b82f6",
-    accent2:"#60a5fa",
-    text:"#ffffff",
-    muted:"#93c5fd"
-  },
+blue:{
+bg:"#07111f",
+bg2:"#0f172a",
+card:"#172554",
+accent:"#3b82f6",
+accent2:"#60a5fa",
+text:"#ffffff",
+muted:"#93c5fd"
+},
 
-  green:{
-    bg:"#07130b",
-    bg2:"#0f1f14",
-    card:"#14532d",
-    accent:"#22c55e",
-    accent2:"#86efac",
-    text:"#ffffff",
-    muted:"#bbf7d0"
-  },
+green:{
+bg:"#07130b",
+bg2:"#0f1f14",
+card:"#14532d",
+accent:"#22c55e",
+accent2:"#86efac",
+text:"#ffffff",
+muted:"#bbf7d0"
+},
 
-  red:{
-    bg:"#160606",
-    bg2:"#2a0b0b",
-    card:"#7f1d1d",
-    accent:"#ef4444",
-    accent2:"#fca5a5",
-    text:"#ffffff",
-    muted:"#fecaca"
-  },
+red:{
+bg:"#160606",
+bg2:"#2a0b0b",
+card:"#7f1d1d",
+accent:"#ef4444",
+accent2:"#fca5a5",
+text:"#ffffff",
+muted:"#fecaca"
+},
 
-  orange:{
-    bg:"#1a0d05",
-    bg2:"#2e1607",
-    card:"#7c2d12",
-    accent:"#f97316",
-    accent2:"#fdba74",
-    text:"#ffffff",
-    muted:"#fed7aa"
-  },
+orange:{
+bg:"#1a0d05",
+bg2:"#2e1607",
+card:"#7c2d12",
+accent:"#f97316",
+accent2:"#fdba74",
+text:"#ffffff",
+muted:"#fed7aa"
+},
 
-  pink:{
-    bg:"#1f0717",
-    bg2:"#3b102c",
-    card:"#831843",
-    accent:"#ec4899",
-    accent2:"#f9a8d4",
-    text:"#ffffff",
-    muted:"#fbcfe8"
-  },
+pink:{
+bg:"#1f0717",
+bg2:"#3b102c",
+card:"#831843",
+accent:"#ec4899",
+accent2:"#f9a8d4",
+text:"#ffffff",
+muted:"#fbcfe8"
+},
 
-  cyan:{
-    bg:"#05161b",
-    bg2:"#082f49",
-    card:"#164e63",
-    accent:"#06b6d4",
-    accent2:"#67e8f9",
-    text:"#ffffff",
-    muted:"#a5f3fc"
-  },
+cyan:{
+bg:"#05161b",
+bg2:"#082f49",
+card:"#164e63",
+accent:"#06b6d4",
+accent2:"#67e8f9",
+text:"#ffffff",
+muted:"#a5f3fc"
+},
 
-  gold:{
-    bg:"#1b1405",
-    bg2:"#2d2209",
-    card:"#78350f",
-    accent:"#facc15",
-    accent2:"#fde68a",
-    text:"#ffffff",
-    muted:"#fef3c7"
-  },
+gold:{
+bg:"#1b1405",
+bg2:"#2d2209",
+card:"#78350f",
+accent:"#facc15",
+accent2:"#fde68a",
+text:"#ffffff",
+muted:"#fef3c7"
+},
 
-  forest:{
-    bg:"#03120a",
-    bg2:"#052e16",
-    card:"#14532d",
-    accent:"#4ade80",
-    accent2:"#86efac",
-    text:"#ffffff",
-    muted:"#bbf7d0"
-  },
+forest:{
+bg:"#03120a",
+bg2:"#052e16",
+card:"#14532d",
+accent:"#4ade80",
+accent2:"#86efac",
+text:"#ffffff",
+muted:"#bbf7d0"
+},
 
-  blood:{
-    bg:"#0f0000",
-    bg2:"#220000",
-    card:"#3f0000",
-    accent:"#ff2d55",
-    accent2:"#ff6b81",
-    text:"#ffffff",
-    muted:"#ffb3c1"
-  },
+blood:{
+bg:"#0f0000",
+bg2:"#220000",
+card:"#3f0000",
+accent:"#ff2d55",
+accent2:"#ff6b81",
+text:"#ffffff",
+muted:"#ffb3c1"
+},
 
-  midnight:{
-    bg:"#020617",
-    bg2:"#0f172a",
-    card:"#1e1b4b",
-    accent:"#6366f1",
-    accent2:"#a5b4fc",
-    text:"#ffffff",
-    muted:"#c7d2fe"
-  },
+midnight:{
+bg:"#020617",
+bg2:"#0f172a",
+card:"#1e1b4b",
+accent:"#6366f1",
+accent2:"#a5b4fc",
+text:"#ffffff",
+muted:"#c7d2fe"
+},
 
-  candy:{
-    bg:"#2a1023",
-    bg2:"#4a1d3f",
-    card:"#831843",
-    accent:"#f472b6",
-    accent2:"#c084fc",
-    text:"#ffffff",
-    muted:"#fbcfe8"
-  }
+candy:{
+bg:"#2a1023",
+bg2:"#4a1d3f",
+card:"#831843",
+accent:"#f472b6",
+accent2:"#c084fc",
+text:"#ffffff",
+muted:"#fbcfe8"
+}
 
 };
 
 /* APPLY THEME */
 
-function applyTheme(name,element){
+function applyTheme(name){
 
-  const t = themes[name];
+const t = themes[name];
 
-  document.documentElement.style
-  .setProperty("--bg",t.bg);
+document.documentElement.style.setProperty("--bg",t.bg);
+document.documentElement.style.setProperty("--bg2",t.bg2);
+document.documentElement.style.setProperty("--card",t.card);
+document.documentElement.style.setProperty("--accent",t.accent);
+document.documentElement.style.setProperty("--accent2",t.accent2);
+document.documentElement.style.setProperty("--text",t.text);
+document.documentElement.style.setProperty("--muted",t.muted);
 
-  document.documentElement.style
-  .setProperty("--bg2",t.bg2);
+document.querySelectorAll(".theme")
+.forEach(theme=>theme.classList.remove("active"));
 
-  document.documentElement.style
-  .setProperty("--card",t.card);
+document.querySelector(`.theme-${name}`)
+.classList.add("active");
 
-  document.documentElement.style
-  .setProperty("--accent",t.accent);
+save("theme",name);
 
-  document.documentElement.style
-  .setProperty("--accent2",t.accent2);
+}
 
-  document.documentElement.style
-  .setProperty("--text",t.text);
+/* SAVE */
 
-  document.documentElement.style
-  .setProperty("--muted",t.muted);
+function save(key,value){
 
-  document.querySelectorAll(".theme")
-  .forEach(t=>t.classList.remove("active"));
+localStorage.setItem(key,value);
 
-  if(element){
-    element.classList.add("active");
-  }
+}
 
-  localStorage.setItem("theme",name);
+/* LOAD */
+
+function load(key,defaultValue){
+
+return localStorage.getItem(key) || defaultValue;
 
 }
 
@@ -1152,15 +1074,17 @@ document.getElementById("zoom-slider");
 const zoomValue =
 document.getElementById("zoom-value");
 
-zoomSlider.oninput = ()=>{
+zoomSlider.addEventListener("input",()=>{
 
-  document.documentElement.style
-  .setProperty("--zoom",zoomSlider.value);
+document.documentElement.style
+.setProperty("--zoom",zoomSlider.value);
 
-  zoomValue.innerHTML =
-  Math.floor(zoomSlider.value * 100) + "%";
+zoomValue.innerHTML =
+Math.floor(zoomSlider.value * 100) + "%";
 
-};
+save("zoom",zoomSlider.value);
+
+});
 
 /* TEXT */
 
@@ -1170,15 +1094,17 @@ document.getElementById("text-slider");
 const textValue =
 document.getElementById("text-value");
 
-textSlider.oninput = ()=>{
+textSlider.addEventListener("input",()=>{
 
-  document.documentElement.style
-  .setProperty("--text-size",textSlider.value);
+document.documentElement.style
+.setProperty("--text-size",textSlider.value);
 
-  textValue.innerHTML =
-  Math.floor(textSlider.value * 100) + "%";
+textValue.innerHTML =
+Math.floor(textSlider.value * 100) + "%";
 
-};
+save("textSize",textSlider.value);
+
+});
 
 /* BLUR */
 
@@ -1188,182 +1114,250 @@ document.getElementById("blur-slider");
 const blurValue =
 document.getElementById("blur-value");
 
-blurSlider.oninput = ()=>{
+blurSlider.addEventListener("input",()=>{
 
-  document.documentElement.style
-  .setProperty("--blur",
-  blurSlider.value + "px");
+document.documentElement.style
+.setProperty("--blur",
+blurSlider.value + "px");
 
-  blurValue.innerHTML =
-  blurSlider.value + "px";
+blurValue.innerHTML =
+blurSlider.value + "px";
 
-};
-
-/* TOGGLES */
-
-document.querySelectorAll(".toggle")
-.forEach(toggle=>{
-
-  toggle.addEventListener("click",()=>{
-
-    toggle.classList.toggle("active");
-
-  });
+save("blur",blurSlider.value);
 
 });
 
-/* SAVE */
+/* TOGGLES */
 
-function saveSettings(){
+const toggles = [
 
-  localStorage.setItem(
-    "zoom",
-    zoomSlider.value
-  );
+{
+id:"toggle-animations",
+key:"animations",
+apply:(enabled)=>{
 
-  localStorage.setItem(
-    "textSize",
-    textSlider.value
-  );
-
-  localStorage.setItem(
-    "blur",
-    blurSlider.value
-  );
-
-  showToast();
-
+if(enabled){
+document.body.classList.remove("no-animations");
+}else{
+document.body.classList.add("no-animations");
 }
 
-/* LOAD */
+}
+},
 
-window.onload = ()=>{
+{
+id:"toggle-glow",
+key:"glow",
+apply:(enabled)=>{
 
-  const zoom =
-  localStorage.getItem("zoom");
+document.documentElement.style
+.setProperty(
+"--glow-opacity",
+enabled ? ".12" : "0"
+);
 
-  const text =
-  localStorage.getItem("textSize");
+}
+},
 
-  const blur =
-  localStorage.getItem("blur");
+{
+id:"toggle-rounded",
+key:"rounded",
+apply:(enabled)=>{
 
-  const theme =
-  localStorage.getItem("theme");
+document.documentElement.style
+.setProperty(
+"--radius",
+enabled ? "24px" : "0px"
+);
 
-  if(zoom){
+}
+},
 
-    zoomSlider.value = zoom;
+{
+id:"toggle-transparent",
+key:"transparent",
+apply:(enabled)=>{
 
-    document.documentElement.style
-    .setProperty("--zoom",zoom);
+document.documentElement.style
+.setProperty(
+"--card-opacity",
+enabled ? ".06" : ".18"
+);
 
-    zoomValue.innerHTML =
-    Math.floor(zoom * 100) + "%";
+}
+},
 
-  }
+{
+id:"toggle-transitions",
+key:"transitions",
+apply:(enabled)=>{
 
-  if(text){
+document.documentElement.style
+.setProperty(
+"--transition",
+enabled ? ".25s" : "0s"
+);
 
-    textSlider.value = text;
+}
+}
 
-    document.documentElement.style
-    .setProperty("--text-size",text);
+];
 
-    textValue.innerHTML =
-    Math.floor(text * 100) + "%";
+toggles.forEach(toggle=>{
 
-  }
+const element =
+document.getElementById(toggle.id);
 
-  if(blur){
+element.addEventListener("click",()=>{
 
-    blurSlider.value = blur;
+element.classList.toggle("active");
 
-    document.documentElement.style
-    .setProperty("--blur",blur + "px");
+const enabled =
+element.classList.contains("active");
 
-    blurValue.innerHTML =
-    blur + "px";
+toggle.apply(enabled);
 
-  }
+save(toggle.key,enabled);
 
-  if(theme){
+});
 
-    const themeElement =
-    document.querySelector(
-      `.theme-${theme}`
-    );
-
-    applyTheme(theme,themeElement);
-
-  }
-
-};
+});
 
 /* RESET */
 
 function resetSettings(){
 
-  localStorage.clear();
+localStorage.clear();
 
-  location.reload();
-
-}
-
-/* TOAST */
-
-function showToast(){
-
-  const toast =
-  document.getElementById("toast");
-
-  toast.classList.add("show");
-
-  setTimeout(()=>{
-
-    toast.classList.remove("show");
-
-  },3500);
+location.reload();
 
 }
+
+/* LOAD SETTINGS */
+
+window.onload = ()=>{
+
+/* THEME */
+
+const savedTheme =
+load("theme","dark");
+
+applyTheme(savedTheme);
+
+/* ZOOM */
+
+const savedZoom =
+load("zoom","1");
+
+zoomSlider.value = savedZoom;
+
+document.documentElement.style
+.setProperty("--zoom",savedZoom);
+
+zoomValue.innerHTML =
+Math.floor(savedZoom * 100) + "%";
+
+/* TEXT */
+
+const savedText =
+load("textSize","1");
+
+textSlider.value = savedText;
+
+document.documentElement.style
+.setProperty("--text-size",savedText);
+
+textValue.innerHTML =
+Math.floor(savedText * 100) + "%";
+
+/* BLUR */
+
+const savedBlur =
+load("blur","16");
+
+blurSlider.value = savedBlur;
+
+document.documentElement.style
+.setProperty("--blur",
+savedBlur + "px");
+
+blurValue.innerHTML =
+savedBlur + "px";
+
+/* TOGGLES */
+
+toggles.forEach(toggle=>{
+
+const enabled =
+load(toggle.key,"true") === "true";
+
+const element =
+document.getElementById(toggle.id);
+
+if(enabled){
+element.classList.add("active");
+}else{
+element.classList.remove("active");
+}
+
+toggle.apply(enabled);
+
+});
+
+};
+
+/* THEME CLICK */
+
+document.querySelectorAll(".theme")
+.forEach(theme=>{
+
+theme.addEventListener("click",()=>{
+
+applyTheme(
+theme.dataset.theme
+);
+
+});
+
+});
 
 /* RIPPLE */
 
 document.querySelectorAll(".btn,.back-btn")
 .forEach(btn=>{
 
-  btn.addEventListener("click",e=>{
+btn.addEventListener("click",e=>{
 
-    const rect =
-    btn.getBoundingClientRect();
+const rect =
+btn.getBoundingClientRect();
 
-    const ripple =
-    document.createElement("span");
+const ripple =
+document.createElement("span");
 
-    ripple.className = "ripple";
+ripple.className = "ripple";
 
-    const size =
-    Math.max(rect.width,rect.height);
+const size =
+Math.max(rect.width,rect.height);
 
-    ripple.style.width =
-    ripple.style.height =
-    size + "px";
+ripple.style.width =
+ripple.style.height =
+size + "px";
 
-    ripple.style.left =
-    (e.clientX - rect.left - size/2)
-    + "px";
+ripple.style.left =
+(e.clientX - rect.left - size/2)
++ "px";
 
-    ripple.style.top =
-    (e.clientY - rect.top - size/2)
-    + "px";
+ripple.style.top =
+(e.clientY - rect.top - size/2)
++ "px";
 
-    btn.appendChild(ripple);
+btn.appendChild(ripple);
 
-    setTimeout(()=>{
-      ripple.remove();
-    },650);
+setTimeout(()=>{
+ripple.remove();
+},650);
 
-  });
+});
 
 });
 
