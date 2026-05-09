@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Account Banned</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap');
+
+body {
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: radial-gradient(circle at top, #1b1b1b, #0a0a0a);
+    font-family: "Inter", sans-serif;
+    color: white;
+}
+
+.card {
+    text-align: center;
+    padding: 40px 50px;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(12px);
+    box-shadow: 0 0 40px rgba(255, 0, 0, 0.25);
+    border: 1px solid rgba(255, 0, 0, 0.2);
+    animation: pop 0.6s ease-out;
+}
+
+@keyframes pop {
+    from { transform: scale(0.8); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+.icon {
+    font-size: 60px;
+    margin-bottom: 10px;
+}
+
+h1 {
+    margin: 0;
+    font-size: 32px;
+    font-weight: 800;
+    color: #ff3b3b;
+}
+
+p {
+    margin-top: 10px;
+    color: #cfcfcf;
+    font-size: 14px;
+}
+
+.badge {
+    margin-top: 20px;
+    display: inline-block;
+    padding: 6px 12px;
+    border-radius: 999px;
+    background: rgba(255, 0, 0, 0.15);
+    color: #ff6b6b;
+    font-size: 12px;
+}
+
+.button {
+    margin-top: 25px;
+    padding: 10px 18px;
+    border: none;
+    border-radius: 12px;
+    background: #ff3b3b;
+    color: white;
+    cursor: pointer;
+    font-weight: 600;
+    transition: 0.2s;
+}
+
+.button:hover {
+    transform: scale(1.05);
+    background: #ff1f1f;
+}
+</style>
+
+</head>
+<body>
+
+<div class="card">
+    <div class="icon">⛔</div>
+    <h1>BANNED</h1>
+    <p>Dein Account wurde dauerhaft gesperrt.</p>
+    
+    <div class="badge">Reason: Violating Terms of Service</div>
+    
+    <br>
+    <button class="button" onclick="location.reload()">Retry</button>
+</div>
+
+</body>
+</html>
