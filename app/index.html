@@ -4,35 +4,32 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>PixelHide App • Download</title>
+<title>PixelHide App</title>
 
 <meta property="og:title" content="PixelHide App">
-<meta property="og:description" content="Lade die offizielle PixelHide App herunter">
+<meta property="og:description" content="Die offizielle PixelHide App herunterladen">
 <meta property="og:image" content="https://pixelhide.net/assets/images/app_icon_fixed.png">
 
 <link rel="icon" href="https://pixelhide.net/assets/images/app_icon_fixed.png">
 
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700;800&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
 
 :root{
 
   --bg:#050507;
-  --card:#101017;
-  --card2:#171722;
+
+  --card:#111118;
+  --card2:#161620;
 
   --accent:#a78bfa;
-  --accent2:#7c3aed;
+  --accent2:#c4b5fd;
 
-  --text:#ffffff;
+  --text:#f5f5f5;
   --muted:#9ca3af;
 
-  --border:rgba(255,255,255,.08);
-
 }
-
-/* RESET */
 
 *{
   margin:0;
@@ -45,9 +42,9 @@ html{
 }
 
 body{
+  font-family:Inter,sans-serif;
   background:var(--bg);
   color:var(--text);
-  font-family:Inter,sans-serif;
   overflow-x:hidden;
 }
 
@@ -66,164 +63,117 @@ body{
   border-radius:999px;
 }
 
-/* BACKGROUND */
+/* BG */
 
-.bg-grid{
-  position:fixed;
-  inset:0;
-
-  background-image:
-  linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px),
-  linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px);
-
-  background-size:40px 40px;
-
-  mask-image:radial-gradient(circle at center, black 30%, transparent 100%);
-
-  z-index:-3;
-}
-
-.glow{
+.bg-glow{
   position:fixed;
 
   width:700px;
   height:700px;
 
-  border-radius:50%;
-
   background:
   radial-gradient(circle,
-  rgba(167,139,250,.25),
+  rgba(167,139,250,.18),
   transparent 70%);
 
-  filter:blur(90px);
+  filter:blur(100px);
 
-  z-index:-2;
+  z-index:-1;
 
   animation:floatGlow 12s ease-in-out infinite;
 }
 
-.glow2{
-  right:-200px;
-  top:200px;
-  animation-delay:5s;
+.bg-glow2{
+  right:-250px;
+  top:300px;
+  animation-delay:4s;
 }
 
 @keyframes floatGlow{
 
   0%{
-    transform:translateY(0px);
+    transform:translateY(0px) translateX(0px);
   }
 
   50%{
-    transform:translateY(-50px);
+    transform:translateY(-40px) translateX(30px);
   }
 
   100%{
-    transform:translateY(0px);
+    transform:translateY(0px) translateX(0px);
   }
 
-}
-
-/* NAV */
-
-nav{
-  position:sticky;
-  top:0;
-
-  width:100%;
-
-  padding:18px 40px;
-
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-
-  background:rgba(5,5,7,.75);
-
-  backdrop-filter:blur(18px);
-
-  border-bottom:1px solid var(--border);
-
-  z-index:1000;
-}
-
-.nav-left{
-  display:flex;
-  align-items:center;
-  gap:16px;
-}
-
-.nav-icon{
-  width:58px;
-  height:58px;
-
-  border-radius:22px;
-
-  box-shadow:
-  0 0 30px rgba(167,139,250,.35);
-
-  animation:floatIcon 5s ease-in-out infinite;
-}
-
-@keyframes floatIcon{
-
-  0%{
-    transform:translateY(0px);
-  }
-
-  50%{
-    transform:translateY(-6px);
-  }
-
-  100%{
-    transform:translateY(0px);
-  }
-
-}
-
-.nav-title{
-  display:flex;
-  flex-direction:column;
-}
-
-.nav-title h1{
-  font-size:1.15rem;
-  font-weight:800;
-}
-
-.nav-title span{
-  color:var(--muted);
-  font-size:.9rem;
 }
 
 /* HERO */
 
 .hero{
+  position:relative;
+
   min-height:100vh;
+
+  background:
+  linear-gradient(rgba(0,0,0,.55),rgba(5,5,7,.96)),
+  url("Banner.png") center/cover no-repeat;
 
   display:flex;
   align-items:center;
   justify-content:center;
 
-  padding:100px 25px;
+  overflow:hidden;
 }
 
-.hero-inner{
+.hero::before{
+  content:"";
+
+  position:absolute;
+  inset:0;
+
+  background:
+  radial-gradient(circle at center,
+  rgba(167,139,250,.14),
+  transparent 65%);
+
+  animation:pulse 7s infinite;
+}
+
+@keyframes pulse{
+
+  0%{
+    opacity:.4;
+    transform:scale(1);
+  }
+
+  50%{
+    opacity:.8;
+    transform:scale(1.05);
+  }
+
+  100%{
+    opacity:.4;
+    transform:scale(1);
+  }
+
+}
+
+.hero-content{
+  position:relative;
+  z-index:2;
+
   width:100%;
-  max-width:1400px;
+  max-width:1200px;
+
+  padding:40px 25px;
 
   display:grid;
-  grid-template-columns:1fr 500px;
-  gap:80px;
+  grid-template-columns:1fr 420px;
+  gap:70px;
   align-items:center;
+
+  animation:heroEnter 1s ease;
 }
 
-.hero-left{
-  animation:fadeUp 1s ease;
-}
-
-@keyframes fadeUp{
+@keyframes heroEnter{
 
   from{
     opacity:0;
@@ -237,67 +187,132 @@ nav{
 
 }
 
-.badge{
-  display:inline-flex;
+/* LEFT */
+
+.hero-left{
+  max-width:700px;
+}
+
+.app-top{
+  display:flex;
   align-items:center;
-  gap:10px;
+  gap:22px;
 
-  background:
-  linear-gradient(
-    135deg,
-    rgba(167,139,250,.15),
-    rgba(124,58,237,.08)
-  );
-
-  border:1px solid rgba(167,139,250,.25);
-
-  padding:12px 18px;
-
-  border-radius:999px;
-
-  margin-bottom:28px;
-
-  font-size:.95rem;
-  color:#ddd6fe;
+  margin-bottom:30px;
 }
 
-.hero-title{
-  font-size:5rem;
-  line-height:1.05;
+.logo{
+  width:110px;
+  height:110px;
 
+  border-radius:28px;
+
+  box-shadow:
+  0 0 35px rgba(167,139,250,.35);
+
+  animation:floatLogo 5s ease-in-out infinite;
+}
+
+@keyframes floatLogo{
+
+  0%{
+    transform:translateY(0px);
+  }
+
+  50%{
+    transform:translateY(-8px);
+  }
+
+  100%{
+    transform:translateY(0px);
+  }
+
+}
+
+.app-info h1{
+  font-size:3.4rem;
   font-family:Orbitron;
-  font-weight:800;
-
-  margin-bottom:28px;
+  line-height:1;
 }
 
-.gradient{
-  background:
-  linear-gradient(
-    135deg,
-    #ffffff,
-    #c4b5fd,
-    #8b5cf6
-  );
-
-  -webkit-background-clip:text;
-  -webkit-text-fill-color:transparent;
+.app-info p{
+  margin-top:10px;
+  color:var(--muted);
+  font-size:1.05rem;
 }
 
 .hero-text{
   color:var(--muted);
 
-  font-size:1.15rem;
   line-height:1.9;
+  font-size:1.1rem;
 
-  max-width:720px;
+  margin-bottom:40px;
+}
 
-  margin-bottom:45px;
+/* STEPS */
+
+.join-steps{
+  display:flex;
+  flex-wrap:wrap;
+  gap:16px;
+
+  margin-bottom:38px;
+}
+
+.step{
+  background:
+  linear-gradient(
+    145deg,
+    rgba(255,255,255,.05),
+    rgba(255,255,255,.02)
+  );
+
+  border:1px solid rgba(255,255,255,.06);
+
+  border-radius:20px;
+
+  padding:18px 20px;
+
+  min-width:190px;
+
+  transition:.25s;
+
+  backdrop-filter:blur(10px);
+}
+
+.step:hover{
+  transform:translateY(-5px);
+  border-color:rgba(167,139,250,.35);
+}
+
+.step-number{
+  width:34px;
+  height:34px;
+
+  border-radius:999px;
+
+  background:
+  linear-gradient(
+    135deg,
+    var(--accent),
+    var(--accent2)
+  );
+
+  color:#050507;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  font-weight:800;
+
+  margin-bottom:14px;
 }
 
 /* BUTTONS */
 
-.button-row{
+.btn-row{
   display:flex;
   flex-wrap:wrap;
   gap:18px;
@@ -308,18 +323,17 @@ nav{
 
   overflow:hidden;
 
-  padding:18px 30px;
+  padding:17px 32px;
 
-  border-radius:22px;
+  border-radius:18px;
+
+  text-decoration:none;
+  font-weight:700;
 
   display:flex;
   align-items:center;
   justify-content:center;
-  gap:14px;
-
-  text-decoration:none;
-
-  font-weight:700;
+  gap:12px;
 
   transition:.25s;
 
@@ -340,11 +354,11 @@ nav{
   linear-gradient(
     90deg,
     transparent,
-    rgba(255,255,255,.22),
+    rgba(255,255,255,.2),
     transparent
   );
 
-  transition:.7s;
+  transition:.6s;
 }
 
 .btn:hover::before{
@@ -352,7 +366,7 @@ nav{
 }
 
 .btn:hover{
-  transform:translateY(-5px) scale(1.03);
+  transform:translateY(-4px) scale(1.03);
 }
 
 .btn-primary{
@@ -366,11 +380,11 @@ nav{
   color:#050507;
 
   box-shadow:
-  0 0 40px rgba(167,139,250,.35);
+  0 0 30px rgba(167,139,250,.25);
 }
 
-.btn-secondary{
-  border:1px solid rgba(255,255,255,.1);
+.btn-outline{
+  border:1px solid rgba(167,139,250,.3);
 
   background:
   rgba(255,255,255,.04);
@@ -383,13 +397,9 @@ nav{
 .phone{
   position:relative;
 
-  width:100%;
-  max-width:460px;
-  margin:auto;
+  border-radius:42px;
 
-  padding:18px;
-
-  border-radius:50px;
+  padding:16px;
 
   background:
   linear-gradient(
@@ -400,9 +410,10 @@ nav{
 
   border:1px solid rgba(255,255,255,.08);
 
+  backdrop-filter:blur(20px);
+
   box-shadow:
-  0 0 60px rgba(167,139,250,.12),
-  0 0 120px rgba(167,139,250,.08);
+  0 0 60px rgba(167,139,250,.12);
 
   animation:floatPhone 6s ease-in-out infinite;
 }
@@ -414,7 +425,7 @@ nav{
   }
 
   50%{
-    transform:translateY(-12px);
+    transform:translateY(-10px);
   }
 
   100%{
@@ -425,73 +436,77 @@ nav{
 
 .phone-screen{
   overflow:hidden;
-  border-radius:36px;
+
+  border-radius:30px;
 
   background:
   linear-gradient(
     180deg,
-    #0e0e16,
-    #060608
-  );
-}
-
-.app-top{
-  padding:35px 28px;
-}
-
-.app-card{
-  background:
-  linear-gradient(
-    145deg,
-    rgba(255,255,255,.05),
-    rgba(255,255,255,.02)
+    #101018,
+    #07070b
   );
 
-  border:1px solid rgba(255,255,255,.06);
-
-  border-radius:30px;
-
-  padding:26px;
-
-  margin-bottom:22px;
+  padding:24px;
 }
 
-.app-header{
+.phone-header{
   display:flex;
   align-items:center;
-  gap:18px;
+  gap:14px;
 
-  margin-bottom:22px;
+  margin-bottom:24px;
 }
 
-.app-icon{
-  width:82px;
-  height:82px;
+.phone-header img{
+  width:58px;
+  height:58px;
 
-  border-radius:26px;
-
-  box-shadow:
-  0 0 35px rgba(167,139,250,.35);
+  border-radius:18px;
 }
 
-.app-name{
-  font-size:1.4rem;
-  font-weight:800;
+.phone-title{
+  font-size:1.1rem;
+  font-weight:700;
 }
 
-.app-sub{
+.phone-sub{
   color:var(--muted);
-  margin-top:4px;
+  font-size:.9rem;
 }
 
-.fake-btn{
+.preview-card{
+  background:
+  rgba(255,255,255,.04);
+
+  border-radius:24px;
+
+  padding:22px;
+
+  margin-bottom:18px;
+
+  border:1px solid rgba(255,255,255,.05);
+}
+
+.preview-card h3{
+  margin-bottom:10px;
+}
+
+.preview-card p{
+  color:var(--muted);
+  line-height:1.6;
+  font-size:.95rem;
+}
+
+.install-btn{
   width:100%;
 
   border:none;
 
-  padding:18px;
+  padding:17px;
 
   border-radius:18px;
+
+  margin-top:18px;
 
   background:
   linear-gradient(
@@ -508,41 +523,12 @@ nav{
   cursor:pointer;
 }
 
-.stats{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:12px;
-}
+/* SECTION */
 
-.stat{
-  text-align:center;
-
-  padding:16px 10px;
-
-  border-radius:20px;
-
-  background:
-  rgba(255,255,255,.03);
-}
-
-.stat strong{
-  display:block;
-  font-size:1.1rem;
-  margin-bottom:6px;
-}
-
-.stat span{
-  color:var(--muted);
-  font-size:.85rem;
-}
-
-/* FEATURES */
-
-.features{
-  max-width:1400px;
+section{
+  max-width:1300px;
   margin:auto;
-
-  padding:40px 25px 120px;
+  padding:110px 25px;
 }
 
 .section-title{
@@ -553,168 +539,149 @@ nav{
 .section-title h2{
   font-size:3rem;
   font-family:Orbitron;
-  margin-bottom:18px;
+  margin-bottom:15px;
 }
 
 .section-title p{
   color:var(--muted);
 }
 
-.feature-grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
-  gap:22px;
-}
+/* VIDEO */
 
-.feature{
+.video-wrapper{
   position:relative;
 
   overflow:hidden;
 
+  border-radius:30px;
+
+  background:#000;
+
+  box-shadow:
+  0 0 40px rgba(167,139,250,.12),
+  0 0 120px rgba(167,139,250,.08);
+}
+
+.video-wrapper::before{
+  content:"";
+
+  position:absolute;
+  inset:0;
+
+  border-radius:30px;
+
+  border:1px solid rgba(255,255,255,.08);
+
+  pointer-events:none;
+}
+
+video{
+  width:100%;
+  display:block;
+}
+
+/* STATS */
+
+.status{
+  margin-top:45px;
+
+  display:flex;
+  justify-content:center;
+  flex-wrap:wrap;
+  gap:18px;
+}
+
+.ip-box{
   background:
   linear-gradient(
     145deg,
-    rgba(255,255,255,.04),
-    rgba(255,255,255,.015)
+    rgba(255,255,255,.05),
+    rgba(255,255,255,.02)
   );
 
   border:1px solid rgba(255,255,255,.07);
 
-  border-radius:30px;
+  border-radius:22px;
 
-  padding:32px;
+  padding:22px 30px;
 
-  transition:.3s;
+  min-width:260px;
+
+  text-align:center;
+
+  backdrop-filter:blur(10px);
 }
 
-.feature:hover{
-  transform:translateY(-8px);
-  border-color:rgba(167,139,250,.35);
+.ip{
+  font-size:1.8rem;
+  font-weight:800;
+
+  color:var(--accent2);
+
+  margin-bottom:8px;
 }
 
-.feature::before{
-  content:"";
-
-  position:absolute;
-  inset:0;
-
-  background:
-  radial-gradient(circle at top left,
-  rgba(167,139,250,.12),
-  transparent 60%);
-
-  opacity:0;
-
-  transition:.3s;
-}
-
-.feature:hover::before{
-  opacity:1;
-}
-
-.feature-icon{
-  font-size:2rem;
-  margin-bottom:18px;
-}
-
-.feature h3{
-  font-size:1.3rem;
-  margin-bottom:12px;
-}
-
-.feature p{
+.ip-small{
   color:var(--muted);
-  line-height:1.7;
 }
 
-/* DOWNLOAD SECTION */
+/* TOAST */
 
-.download{
-  padding:0 25px 120px;
-}
+#copy-toast{
+  position:fixed;
 
-.download-box{
-  max-width:1200px;
-  margin:auto;
+  left:25px;
+  bottom:-120px;
 
   background:
   linear-gradient(
-    145deg,
-    rgba(167,139,250,.12),
-    rgba(255,255,255,.03)
+    135deg,
+    var(--accent),
+    var(--accent2)
   );
 
-  border:1px solid rgba(255,255,255,.08);
+  color:#050507;
 
-  border-radius:40px;
+  padding:18px 24px;
 
-  padding:70px 40px;
+  border-radius:18px;
 
-  text-align:center;
+  display:flex;
+  align-items:center;
+  gap:15px;
 
-  position:relative;
-  overflow:hidden;
+  font-weight:700;
+
+  opacity:0;
+
+  transition:.5s cubic-bezier(.68,-0.55,.27,1.55);
+
+  z-index:9999;
 }
 
-.download-box::before{
-  content:"";
-
-  position:absolute;
-  inset:0;
-
-  background:
-  radial-gradient(circle at center,
-  rgba(255,255,255,.1),
-  transparent 65%);
+#copy-toast.show{
+  bottom:25px;
+  opacity:1;
 }
 
-.download-content{
-  position:relative;
-  z-index:2;
-}
-
-.download-content h2{
-  font-size:3rem;
-  font-family:Orbitron;
-  margin-bottom:20px;
-}
-
-.download-content p{
-  color:var(--muted);
-  max-width:700px;
-  margin:auto auto 40px;
-
-  line-height:1.8;
-}
-
-/* FOOTER */
-
-footer{
-  padding:50px 25px;
-
-  border-top:1px solid rgba(255,255,255,.06);
-
-  text-align:center;
-
-  color:var(--muted);
-}
-
-footer span{
-  color:var(--accent);
+#close-toast{
+  border:none;
+  background:none;
+  cursor:pointer;
+  font-size:1.2rem;
 }
 
 /* RIPPLE */
 
 .ripple{
   position:absolute;
-
   border-radius:50%;
 
   transform:scale(0);
 
   background:rgba(255,255,255,.25);
 
-  animation:ripple .7s linear;
+  animation:ripple .65s linear;
 }
 
 @keyframes ripple{
@@ -726,42 +693,77 @@ footer span{
 
 }
 
+/* FOOTER */
+
+footer{
+  margin-top:100px;
+
+  border-top:1px solid rgba(255,255,255,.06);
+
+  text-align:center;
+
+  padding:50px 25px;
+
+  color:var(--muted);
+}
+
 /* MOBILE */
 
-@media(max-width:1050px){
+@media(max-width:980px){
 
-  .hero-inner{
+  .hero-content{
     grid-template-columns:1fr;
     text-align:center;
   }
 
-  .button-row{
+  .app-top{
     justify-content:center;
   }
 
-  .hero-title{
-    font-size:3.4rem;
+  .join-steps{
+    justify-content:center;
+  }
+
+  .btn-row{
+    justify-content:center;
   }
 
 }
 
 @media(max-width:768px){
 
-  nav{
-    padding:18px 20px;
+  .app-info h1{
+    font-size:2.3rem;
   }
 
-  .hero-title{
-    font-size:2.5rem;
+  .hero-content{
+    gap:50px;
   }
 
-  .section-title h2,
-  .download-content h2{
+  .app-top{
+    flex-direction:column;
+  }
+
+  .join-steps{
+    flex-direction:column;
+    align-items:center;
+  }
+
+  .step{
+    width:100%;
+    max-width:340px;
+  }
+
+  .btn{
+    width:100%;
+  }
+
+  .btn-row{
+    flex-direction:column;
+  }
+
+  .section-title h2{
     font-size:2rem;
-  }
-
-  .download-box{
-    padding:50px 25px;
   }
 
 }
@@ -771,78 +773,104 @@ footer span{
 
 <body>
 
-<div class="bg-grid"></div>
-
-<div class="glow"></div>
-<div class="glow glow2"></div>
-
-<!-- NAV -->
-
-<nav>
-
-  <div class="nav-left">
-
-    <img
-    src="https://pixelhide.net/assets/images/app_icon_fixed.png"
-    class="nav-icon">
-
-    <div class="nav-title">
-
-      <h1>PixelHide App</h1>
-      <span>Official Application</span>
-
-    </div>
-
-  </div>
-
-</nav>
+<div class="bg-glow"></div>
+<div class="bg-glow bg-glow2"></div>
 
 <!-- HERO -->
 
-<section class="hero">
+<div class="hero">
 
-  <div class="hero-inner">
+  <div class="hero-content">
+
+    <!-- LEFT -->
 
     <div class="hero-left">
 
-      <div class="badge">
-        ✨ Neue offizielle PixelHide App
+      <div class="app-top">
+
+        <img
+        class="logo"
+        src="https://pixelhide.net/assets/images/app_icon_fixed.png">
+
+        <div class="app-info">
+
+          <h1>PixelHide App</h1>
+
+          <p>
+            Offizielle Community Anwendung
+          </p>
+
+        </div>
+
       </div>
-
-      <h1 class="hero-title">
-
-        Die neue
-        <span class="gradient">
-          PixelHide
-        </span>
-        App.
-
-      </h1>
 
       <p class="hero-text">
 
-        Chatte mit Freunden, erhalte Server-Benachrichtigungen,
-        verwalte deinen Account und bleibe immer mit der PixelHide
-        Community verbunden — alles in einer modernen App
-        mit ultraschnellem Design.
+        Die neue PixelHide App bringt alles an einen Ort.
+        Community, Benachrichtigungen, Server-Features,
+        News und vieles mehr — modern, schnell und clean.
 
       </p>
 
-      <div class="button-row">
+      <!-- STEPS -->
+
+      <div class="join-steps">
+
+        <div class="step">
+
+          <div class="step-number">
+            1
+          </div>
+
+          <div>
+            App herunterladen
+          </div>
+
+        </div>
+
+        <div class="step">
+
+          <div class="step-number">
+            2
+          </div>
+
+          <div>
+            Mit PixelHide verbinden
+          </div>
+
+        </div>
+
+        <div class="step">
+
+          <div class="step-number">
+            3
+          </div>
+
+          <div>
+            Community genießen
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- BUTTONS -->
+
+      <div class="btn-row">
 
         <a
         href="https://example.com"
         class="btn btn-primary">
 
-          ⬇️ Download starten
+          ⬇️ App herunterladen
 
         </a>
 
         <a
-        href="#features"
-        class="btn btn-secondary">
+        href="#preview"
+        class="btn btn-outline">
 
-          🚀 Features ansehen
+          📱 Vorschau ansehen
 
         </a>
 
@@ -856,226 +884,127 @@ footer span{
 
       <div class="phone-screen">
 
-        <div class="app-top">
+        <div class="phone-header">
 
-          <div class="app-card">
+          <img
+          src="https://pixelhide.net/assets/images/app_icon_fixed.png">
 
-            <div class="app-header">
+          <div>
 
-              <img
-              src="https://pixelhide.net/assets/images/app_icon_fixed.png"
-              class="app-icon">
-
-              <div>
-
-                <div class="app-name">
-                  PixelHide
-                </div>
-
-                <div class="app-sub">
-                  Official App
-                </div>
-
-              </div>
-
+            <div class="phone-title">
+              PixelHide
             </div>
 
-            <button
-            class="fake-btn">
-
-              Installieren
-
-            </button>
-
-          </div>
-
-          <div class="stats">
-
-            <div class="stat">
-              <strong>4.9★</strong>
-              <span>Bewertung</span>
-            </div>
-
-            <div class="stat">
-              <strong>1M+</strong>
-              <span>Downloads</span>
-            </div>
-
-            <div class="stat">
-              <strong>2026</strong>
-              <span>Release</span>
+            <div class="phone-sub">
+              Official App
             </div>
 
           </div>
 
         </div>
 
+        <div class="preview-card">
+
+          <h3>
+            🔔 Live Benachrichtigungen
+          </h3>
+
+          <p>
+            Erhalte Events, Wartungen,
+            Updates und Community-News direkt
+            auf dein Gerät.
+          </p>
+
+        </div>
+
+        <div class="preview-card">
+
+          <h3>
+            ⚡ Modernes Design
+          </h3>
+
+          <p>
+            Flüssige Animationen, schnelles UI
+            und ein cleanes violettes Theme.
+          </p>
+
+        </div>
+
+        <button class="install-btn">
+
+          Installieren
+
+        </button>
+
       </div>
 
     </div>
 
   </div>
 
-</section>
+</div>
 
-<!-- FEATURES -->
+<!-- PREVIEW -->
 
-<section
-id="features"
-class="features">
+<section id="preview">
 
   <div class="section-title">
 
     <h2>
-      Warum die App?
+      App Vorschau
     </h2>
 
     <p>
-      Entwickelt für die moderne PixelHide Community.
+      Ein kleiner Blick in die neue PixelHide App.
     </p>
 
   </div>
 
-  <div class="feature-grid">
+  <div class="video-wrapper">
 
-    <div class="feature">
+    <video autoplay muted loop playsinline>
 
-      <div class="feature-icon">
-        ⚡
-      </div>
+      <source src="pixelhide_app_preview.mp4" type="video/mp4">
 
-      <h3>
-        Extrem schnell
-      </h3>
-
-      <p>
-        Flüssige Animationen, schnelle Ladezeiten
-        und modernes UI ohne unnötigen Müll.
-      </p>
-
-    </div>
-
-    <div class="feature">
-
-      <div class="feature-icon">
-        🔔
-      </div>
-
-      <h3>
-        Live Benachrichtigungen
-      </h3>
-
-      <p>
-        Erhalte wichtige Updates, Events,
-        Wartungen und Community-News sofort.
-      </p>
-
-    </div>
-
-    <div class="feature">
-
-      <div class="feature-icon">
-        🎮
-      </div>
-
-      <h3>
-        Server Integration
-      </h3>
-
-      <p>
-        Direkt verbinden, Serverstatus sehen
-        und vieles mehr direkt aus der App.
-      </p>
-
-    </div>
-
-    <div class="feature">
-
-      <div class="feature-icon">
-        🛡️
-      </div>
-
-      <h3>
-        Sicher & Modern
-      </h3>
-
-      <p>
-        Moderne Sicherheit, verschlüsselte Daten
-        und stabiles Systemdesign.
-      </p>
-
-    </div>
-
-    <div class="feature">
-
-      <div class="feature-icon">
-        🌙
-      </div>
-
-      <h3>
-        Dark Mode
-      </h3>
-
-      <p>
-        Perfekt abgestimmtes dunkles Design
-        mit violettem Neon-Look.
-      </p>
-
-    </div>
-
-    <div class="feature">
-
-      <div class="feature-icon">
-        💬
-      </div>
-
-      <h3>
-        Community Features
-      </h3>
-
-      <p>
-        Chat, Freundeslisten, Community-Posts
-        und mehr direkt in der App.
-      </p>
-
-    </div>
+    </video>
 
   </div>
 
-</section>
+  <!-- STATUS -->
 
-<!-- DOWNLOAD -->
+  <div class="status">
 
-<section class="download">
+    <div class="ip-box">
 
-  <div class="download-box">
+      <div class="ip">
+        Android
+      </div>
 
-    <div class="download-content">
-
-      <h2>
-        Bereit für PixelHide?
-      </h2>
-
-      <p>
-
-        Lade jetzt die offizielle PixelHide App herunter
-        und entdecke die nächste Generation der Community.
-
-      </p>
-
-      <div class="button-row">
-
-        <a
-        href="https://example.com"
-        class="btn btn-primary">
-
-          ⬇️ Jetzt herunterladen
-
-        </a>
-
+      <div class="ip-small">
+        Unterstützte Plattform
       </div>
 
     </div>
+
+    <div class="ip-box">
+
+      <div class="ip">
+        iOS
+      </div>
+
+      <div class="ip-small">
+        Unterstützte Plattform
+      </div>
+
+    </div>
+
+    <button
+    class="btn btn-primary"
+    onclick="downloadApp(this)">
+
+      Download starten
+
+    </button>
 
   </div>
 
@@ -1084,15 +1013,69 @@ class="features">
 <footer>
 
   © 2026
-  <span>
+  <span style="color:var(--accent)">
     PixelHide
   </span>
 
 </footer>
 
+<!-- TOAST -->
+
+<div id="copy-toast">
+
+  <span>
+    Weiterleitung zum Download...
+  </span>
+
+  <button id="close-toast">
+    ×
+  </button>
+
+</div>
+
 <script>
 
-/* RIPPLE EFFECT */
+function downloadApp(button){
+
+  let original = button.innerHTML;
+
+  button.innerHTML = "Weiterleiten...";
+
+  const toast = document.getElementById("copy-toast");
+
+  toast.classList.add("show");
+
+  setTimeout(()=>{
+
+    window.location.href = "https://example.com";
+
+  },1200);
+
+  setTimeout(()=>{
+
+    button.innerHTML = original;
+
+  },2200);
+
+  const timeout = setTimeout(closeToast,5000);
+
+  document.getElementById("close-toast").onclick = ()=>{
+
+    clearTimeout(timeout);
+
+    closeToast();
+
+  };
+
+  function closeToast(){
+
+    toast.classList.remove("show");
+
+  }
+
+}
+
+/* RIPPLE */
 
 document.querySelectorAll(".btn").forEach(btn=>{
 
@@ -1116,7 +1099,7 @@ document.querySelectorAll(".btn").forEach(btn=>{
 
     btn.appendChild(ripple);
 
-    setTimeout(()=>ripple.remove(),700);
+    setTimeout(()=>ripple.remove(),650);
 
   });
 
