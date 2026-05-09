@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>PixelHide Settings</title>
+<title>PixelHide</title>
 
 <link rel="icon" href="favicon.png">
 
@@ -16,9 +16,6 @@
 
   --bg:#050507;
   --bg2:#0b0b10;
-
-  --card:#101018;
-  --card2:#161621;
 
   --accent:#a78bfa;
   --accent2:#c4b5fd;
@@ -47,119 +44,39 @@
   box-sizing:border-box;
 }
 
-html{
-  scroll-behavior:smooth;
-}
-
 body{
 
   font-family:Inter,sans-serif;
 
   background:
-  linear-gradient(
-    180deg,
-    var(--bg),
-    var(--bg2)
-  );
+  linear-gradient(180deg,var(--bg),var(--bg2));
 
   color:var(--text);
-
-  overflow-x:hidden;
 
   transform:scale(var(--zoom));
   transform-origin:top center;
 
   font-size:calc(16px * var(--text-size));
 
-  transition:
-  background var(--transition),
-  color var(--transition);
+  transition:background .25s,color .25s;
+
+  overflow-x:hidden;
 
 }
 
-/* NO ANIMATIONS */
+/* SETTINGS BUTTON */
 
-.no-animations *{
-  animation:none !important;
-  transition:none !important;
-  scroll-behavior:auto !important;
-}
-
-/* SCROLLBAR */
-
-::-webkit-scrollbar{
-  width:10px;
-}
-
-::-webkit-scrollbar-track{
-  background:#09090f;
-}
-
-::-webkit-scrollbar-thumb{
-  background:linear-gradient(var(--accent),var(--accent2));
-  border-radius:999px;
-}
-
-/* GLOW */
-
-.bg-glow{
+.settings-btn{
 
   position:fixed;
+  top:20px;
+  right:20px;
 
-  width:700px;
-  height:700px;
+  padding:14px 18px;
 
-  background:
-  radial-gradient(circle,var(--accent) 0%,transparent 70%);
+  border-radius:16px;
 
-  opacity:var(--glow-opacity);
-
-  filter:blur(100px);
-
-  z-index:-1;
-
-  animation:floatGlow 12s ease-in-out infinite;
-
-}
-
-.bg-glow2{
-  right:-200px;
-  top:300px;
-}
-
-@keyframes floatGlow{
-
-  0%{
-    transform:translateY(0px);
-  }
-
-  50%{
-    transform:translateY(-50px);
-  }
-
-  100%{
-    transform:translateY(0px);
-  }
-
-}
-
-/* BACK BUTTON */
-
-.back-btn{
-
-  position:fixed;
-
-  top:25px;
-  left:25px;
-
-  z-index:9999;
-
-  padding:14px 22px;
-
-  border-radius:18px;
-
-  background:
-  rgba(255,255,255,.06);
+  background:rgba(255,255,255,.06);
 
   border:1px solid rgba(255,255,255,.08);
 
@@ -169,689 +86,110 @@ body{
 
   text-decoration:none;
 
-  display:flex;
-  align-items:center;
-  gap:12px;
-
   font-weight:700;
 
-  overflow:hidden;
+  z-index:9999;
 
-  transition:var(--transition);
+  transition:.2s;
 
 }
 
-.back-btn:hover{
-
-  transform:translateY(-4px);
-
-  border-color:
-  rgba(167,139,250,.35);
-
+.settings-btn:hover{
+  transform:translateY(-3px);
+  border-color:rgba(167,139,250,.4);
 }
 
 /* HERO */
 
 .hero{
 
-  min-height:45vh;
+  min-height:100vh;
 
   display:flex;
-  justify-content:center;
   align-items:center;
+  justify-content:center;
 
   text-align:center;
 
-  padding:80px 20px;
-
-  position:relative;
-
-  overflow:hidden;
-
   background:
-  linear-gradient(rgba(0,0,0,.45),rgba(5,5,7,.95)),
-  url("Banner.png") center/cover no-repeat;
+  linear-gradient(rgba(0,0,0,.5),rgba(0,0,0,.9)),
+  url("Banner.png") center/cover;
 
 }
 
-.hero::before{
-
-  content:"";
-
-  position:absolute;
-  inset:0;
-
-  background:
-  radial-gradient(circle at center,
-  rgba(167,139,250,.25),
-  transparent 60%);
-
-  animation:pulse 6s infinite;
-
-}
-
-@keyframes pulse{
-
-  0%{
-    opacity:.4;
-    transform:scale(1);
-  }
-
-  50%{
-    opacity:.8;
-    transform:scale(1.06);
-  }
-
-  100%{
-    opacity:.4;
-    transform:scale(1);
-  }
-
-}
-
-.hero-content{
-  position:relative;
-  z-index:2;
-}
-
-.logo{
-
-  width:500px;
-  max-width:90%;
-
-  margin-bottom:25px;
-
-  filter:
-    drop-shadow(0 0 25px rgba(167,139,250,.5))
-    drop-shadow(0 0 80px rgba(167,139,250,.4));
-
-  animation:floatLogo 5s ease-in-out infinite;
-
-}
-
-@keyframes floatLogo{
-
-  0%{
-    transform:translateY(0px);
-  }
-
-  50%{
-    transform:translateY(-10px);
-  }
-
-  100%{
-    transform:translateY(0px);
-  }
-
-}
-
-.hero-title{
+.hero h1{
 
   font-family:Orbitron;
   font-size:4rem;
 
-  margin-bottom:15px;
-
 }
 
-.hero-text{
+.hero p{
 
+  margin-top:20px;
   color:var(--muted);
 
   max-width:700px;
-  margin:auto;
-
-  line-height:1.8;
 
 }
 
-/* SETTINGS */
+/* SIMPLE CARD */
 
-.settings-wrapper{
+.card{
 
-  max-width:1450px;
+  max-width:900px;
   margin:auto;
 
-  padding:80px 25px;
+  padding:40px;
 
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(330px,1fr));
-
-  gap:28px;
-
-}
-
-.settings-card{
-
-  position:relative;
-
-  overflow:hidden;
-
-  background:
-  linear-gradient(
-    145deg,
-    rgba(255,255,255,var(--card-opacity)),
-    rgba(255,255,255,.02)
-  );
-
-  border:1px solid rgba(255,255,255,.06);
+  margin-top:60px;
 
   border-radius:var(--radius);
 
-  padding:28px;
+  background:
+  rgba(255,255,255,var(--card-opacity));
 
   backdrop-filter:blur(var(--blur));
 
-  transition:var(--transition);
-
-}
-
-.settings-card:hover{
-
-  transform:translateY(-6px);
-
-  border-color:
-  rgba(167,139,250,.35);
-
-}
-
-.settings-card h2{
-
-  font-family:Orbitron;
-
-  margin-bottom:24px;
-
-  font-size:1.5rem;
-
-}
-
-.setting{
-
-  margin-bottom:28px;
-
-}
-
-.setting label{
-
-  display:flex;
-  justify-content:space-between;
-
-  margin-bottom:12px;
-
-  color:var(--muted);
-
-}
-
-/* SLIDER */
-
-.slider{
-
-  width:100%;
-
-  appearance:none;
-
-  height:10px;
-
-  border-radius:999px;
-
-  background:
-  linear-gradient(
-    90deg,
-    var(--accent),
-    var(--accent2)
-  );
-
-  outline:none;
-
-}
-
-.slider::-webkit-slider-thumb{
-
-  appearance:none;
-
-  width:24px;
-  height:24px;
-
-  border-radius:50%;
-
-  background:white;
-
-  cursor:pointer;
-
-  box-shadow:
-    0 0 20px rgba(167,139,250,.5);
-
-}
-
-/* THEMES */
-
-.theme-grid{
-
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-
-  gap:16px;
-
-}
-
-.theme{
-
-  position:relative;
-
-  height:90px;
-
-  border-radius:18px;
-
-  cursor:pointer;
-
-  overflow:hidden;
-
-  border:2px solid transparent;
+  border:1px solid rgba(255,255,255,.08);
 
   transition:var(--transition);
 
 }
 
-.theme:hover{
-  transform:scale(1.04);
-}
-
-.theme.active{
-  border-color:white;
-}
-
-.theme-name{
-
-  position:absolute;
-
-  bottom:10px;
-  left:12px;
-
-  font-size:.9rem;
-  font-weight:700;
-
-  color:white;
-
-  text-shadow:0 0 10px rgba(0,0,0,.5);
-
-}
-
-/* THEMES */
-
-.theme-dark{background:linear-gradient(135deg,#0b0b11,#8b5cf6);}
-.theme-light{background:linear-gradient(135deg,#ffffff,#c4b5fd);}
-.theme-oled{background:linear-gradient(135deg,#000000,#4c1d95);}
-.theme-nebula{background:linear-gradient(135deg,#2e1065,#c084fc);}
-.theme-blue{background:linear-gradient(135deg,#1e3a8a,#60a5fa);}
-.theme-green{background:linear-gradient(135deg,#14532d,#86efac);}
-.theme-red{background:linear-gradient(135deg,#7f1d1d,#f87171);}
-.theme-orange{background:linear-gradient(135deg,#7c2d12,#fdba74);}
-.theme-pink{background:linear-gradient(135deg,#831843,#f9a8d4);}
-.theme-cyan{background:linear-gradient(135deg,#164e63,#67e8f9);}
-.theme-gold{background:linear-gradient(135deg,#78350f,#fde68a);}
-.theme-forest{background:linear-gradient(135deg,#052e16,#4ade80);}
-.theme-blood{background:linear-gradient(135deg,#1f0000,#ff2d55);}
-.theme-midnight{background:linear-gradient(135deg,#020617,#312e81);}
-.theme-candy{background:linear-gradient(135deg,#f472b6,#c084fc);}
-
-/* TOGGLES */
-
-.toggle{
-
-  width:65px;
-  height:36px;
-
-  border-radius:999px;
-
-  background:#23232f;
-
-  position:relative;
-
-  cursor:pointer;
-
-  transition:var(--transition);
-
-}
-
-.toggle::before{
-
-  content:"";
-
-  position:absolute;
-
-  width:28px;
-  height:28px;
-
-  border-radius:50%;
-
-  background:white;
-
-  top:4px;
-  left:4px;
-
-  transition:var(--transition);
-
-}
-
-.toggle.active{
-
-  background:
-  linear-gradient(
-    135deg,
-    var(--accent),
-    var(--accent2)
-  );
-
-}
-
-.toggle.active::before{
-  left:33px;
-}
-
-/* BUTTONS */
-
-.btn-row{
-
-  display:flex;
-  gap:16px;
-
-  flex-wrap:wrap;
-
-}
-
-.btn{
-
-  position:relative;
-
-  overflow:hidden;
-
-  border:none;
-
-  padding:16px 24px;
-
-  border-radius:18px;
-
-  font-weight:700;
-
-  cursor:pointer;
-
-  background:
-  linear-gradient(
-    135deg,
-    var(--accent),
-    var(--accent2)
-  );
-
-  color:#050507;
-
-  transition:var(--transition);
-
-}
-
-.btn:hover{
-
-  transform:translateY(-4px) scale(1.03);
-
-  box-shadow:
-    0 0 25px rgba(167,139,250,.25);
-
-}
-
-/* RIPPLE */
-
-.ripple{
-
-  position:absolute;
-
-  border-radius:50%;
-
-  transform:scale(0);
-
-  background:rgba(255,255,255,.35);
-
-  animation:ripple .65s linear;
-
-}
-
-@keyframes ripple{
-
-  to{
-    transform:scale(4);
-    opacity:0;
-  }
-
-}
-
-/* FOOTER */
-
-footer{
-
-  margin-top:80px;
-
-  padding:40px 20px;
-
-  text-align:center;
-
-  border-top:1px solid rgba(255,255,255,.06);
-
-  color:var(--muted);
-
-}
-
-/* MOBILE */
-
-@media(max-width:768px){
-
-  .hero-title{
-    font-size:2.4rem;
-  }
-
-  .theme-grid{
-    grid-template-columns:repeat(2,1fr);
-  }
-
+/* ANIMATION DISABLE */
+
+.no-animations *{
+  animation:none !important;
+  transition:none !important;
 }
 
 </style>
 </head>
+
 <body>
 
-<div class="bg-glow"></div>
-<div class="bg-glow bg-glow2"></div>
-
-<a href="/" class="back-btn">
-  ← Zurück
+<a class="settings-btn" href="settings.html">
+⚙ Settings
 </a>
 
-<section class="hero">
+<div class="hero">
 
-  <div class="hero-content">
+  <div>
 
-    <img src="pixelhidenet.png" class="logo">
+    <h1>PixelHide</h1>
 
-    <h1 class="hero-title">
-      Settings
-    </h1>
-
-    <p class="hero-text">
-      Passe PixelHide komplett an deinen Stil an.
+    <p>
+      Deine Settings werden automatisch geladen (Theme, Zoom, Textgröße, Blur, Toggles).
     </p>
 
-  </div>
+    <div class="card">
 
-</section>
+      <h2>Live Settings Preview</h2>
 
-<div class="settings-wrapper">
-
-  <!-- APPEARANCE -->
-
-  <div class="settings-card">
-
-    <h2>Appearance</h2>
-
-    <div class="setting">
-
-      <label>
-        <span>Zoom</span>
-        <span id="zoom-value">100%</span>
-      </label>
-
-      <input
-      type="range"
-      min="0.7"
-      max="1.4"
-      step="0.01"
-      value="1"
-      class="slider"
-      id="zoom-slider">
-
-    </div>
-
-    <div class="setting">
-
-      <label>
-        <span>Text Size</span>
-        <span id="text-value">100%</span>
-      </label>
-
-      <input
-      type="range"
-      min="0.8"
-      max="1.6"
-      step="0.01"
-      value="1"
-      class="slider"
-      id="text-slider">
-
-    </div>
-
-    <div class="setting">
-
-      <label>
-        <span>Blur Strength</span>
-        <span id="blur-value">16px</span>
-      </label>
-
-      <input
-      type="range"
-      min="0"
-      max="40"
-      value="16"
-      class="slider"
-      id="blur-slider">
-
-    </div>
-
-  </div>
-
-  <!-- THEMES -->
-
-  <div class="settings-card">
-
-    <h2>Themes</h2>
-
-    <div class="theme-grid">
-
-      <div class="theme theme-dark active" data-theme="dark">
-        <div class="theme-name">Dark</div>
-      </div>
-
-      <div class="theme theme-light" data-theme="light">
-        <div class="theme-name">Light</div>
-      </div>
-
-      <div class="theme theme-oled" data-theme="oled">
-        <div class="theme-name">OLED</div>
-      </div>
-
-      <div class="theme theme-nebula" data-theme="nebula">
-        <div class="theme-name">Nebula</div>
-      </div>
-
-      <div class="theme theme-blue" data-theme="blue">
-        <div class="theme-name">Blue</div>
-      </div>
-
-      <div class="theme theme-green" data-theme="green">
-        <div class="theme-name">Green</div>
-      </div>
-
-      <div class="theme theme-red" data-theme="red">
-        <div class="theme-name">Red</div>
-      </div>
-
-      <div class="theme theme-orange" data-theme="orange">
-        <div class="theme-name">Orange</div>
-      </div>
-
-      <div class="theme theme-pink" data-theme="pink">
-        <div class="theme-name">Pink</div>
-      </div>
-
-      <div class="theme theme-cyan" data-theme="cyan">
-        <div class="theme-name">Cyan</div>
-      </div>
-
-      <div class="theme theme-gold" data-theme="gold">
-        <div class="theme-name">Gold</div>
-      </div>
-
-      <div class="theme theme-forest" data-theme="forest">
-        <div class="theme-name">Forest</div>
-      </div>
-
-      <div class="theme theme-blood" data-theme="blood">
-        <div class="theme-name">Blood</div>
-      </div>
-
-      <div class="theme theme-midnight" data-theme="midnight">
-        <div class="theme-name">Midnight</div>
-      </div>
-
-      <div class="theme theme-candy" data-theme="candy">
-        <div class="theme-name">Candy</div>
-      </div>
-
-    </div>
-
-  </div>
-
-  <!-- EXTRA -->
-
-  <div class="settings-card">
-
-    <h2>Extra Settings</h2>
-
-    <div class="setting">
-      <label><span>Animations</span></label>
-      <div class="toggle active" id="toggle-animations"></div>
-    </div>
-
-    <div class="setting">
-      <label><span>Glow Effects</span></label>
-      <div class="toggle active" id="toggle-glow"></div>
-    </div>
-
-    <div class="setting">
-      <label><span>Rounded UI</span></label>
-      <div class="toggle active" id="toggle-rounded"></div>
-    </div>
-
-    <div class="setting">
-      <label><span>Transparent Cards</span></label>
-      <div class="toggle active" id="toggle-transparent"></div>
-    </div>
-
-    <div class="setting">
-      <label><span>Smooth Transitions</span></label>
-      <div class="toggle active" id="toggle-transitions"></div>
-    </div>
-
-    <div class="btn-row">
-
-      <button class="btn" onclick="resetSettings()">
-        Reset
-      </button>
+      <p style="color:var(--muted);margin-top:10px;">
+        Diese Box reagiert direkt auf deine Settings.
+      </p>
 
     </div>
 
@@ -859,507 +197,78 @@ footer{
 
 </div>
 
-<footer>
-
-  © 2026
-  <span style="color:var(--accent)">
-    PixelHide Settings
-  </span>
-
-</footer>
-
 <script>
-
-/* THEMES */
-
-const themes = {
-
-dark:{
-bg:"#050507",
-bg2:"#0b0b10",
-card:"#101018",
-accent:"#a78bfa",
-accent2:"#c4b5fd",
-text:"#f5f5f5",
-muted:"#9ca3af"
-},
-
-light:{
-bg:"#ffffff",
-bg2:"#f4f4f5",
-card:"#ffffff",
-accent:"#8b5cf6",
-accent2:"#c4b5fd",
-text:"#111111",
-muted:"#555555"
-},
-
-oled:{
-bg:"#000000",
-bg2:"#020202",
-card:"#050505",
-accent:"#8b5cf6",
-accent2:"#c4b5fd",
-text:"#ffffff",
-muted:"#888888"
-},
-
-nebula:{
-bg:"#12051f",
-bg2:"#1e1033",
-card:"#24123a",
-accent:"#c084fc",
-accent2:"#e9d5ff",
-text:"#ffffff",
-muted:"#c4b5fd"
-},
-
-blue:{
-bg:"#07111f",
-bg2:"#0f172a",
-card:"#172554",
-accent:"#3b82f6",
-accent2:"#60a5fa",
-text:"#ffffff",
-muted:"#93c5fd"
-},
-
-green:{
-bg:"#07130b",
-bg2:"#0f1f14",
-card:"#14532d",
-accent:"#22c55e",
-accent2:"#86efac",
-text:"#ffffff",
-muted:"#bbf7d0"
-},
-
-red:{
-bg:"#160606",
-bg2:"#2a0b0b",
-card:"#7f1d1d",
-accent:"#ef4444",
-accent2:"#fca5a5",
-text:"#ffffff",
-muted:"#fecaca"
-},
-
-orange:{
-bg:"#1a0d05",
-bg2:"#2e1607",
-card:"#7c2d12",
-accent:"#f97316",
-accent2:"#fdba74",
-text:"#ffffff",
-muted:"#fed7aa"
-},
-
-pink:{
-bg:"#1f0717",
-bg2:"#3b102c",
-card:"#831843",
-accent:"#ec4899",
-accent2:"#f9a8d4",
-text:"#ffffff",
-muted:"#fbcfe8"
-},
-
-cyan:{
-bg:"#05161b",
-bg2:"#082f49",
-card:"#164e63",
-accent:"#06b6d4",
-accent2:"#67e8f9",
-text:"#ffffff",
-muted:"#a5f3fc"
-},
-
-gold:{
-bg:"#1b1405",
-bg2:"#2d2209",
-card:"#78350f",
-accent:"#facc15",
-accent2:"#fde68a",
-text:"#ffffff",
-muted:"#fef3c7"
-},
-
-forest:{
-bg:"#03120a",
-bg2:"#052e16",
-card:"#14532d",
-accent:"#4ade80",
-accent2:"#86efac",
-text:"#ffffff",
-muted:"#bbf7d0"
-},
-
-blood:{
-bg:"#0f0000",
-bg2:"#220000",
-card:"#3f0000",
-accent:"#ff2d55",
-accent2:"#ff6b81",
-text:"#ffffff",
-muted:"#ffb3c1"
-},
-
-midnight:{
-bg:"#020617",
-bg2:"#0f172a",
-card:"#1e1b4b",
-accent:"#6366f1",
-accent2:"#a5b4fc",
-text:"#ffffff",
-muted:"#c7d2fe"
-},
-
-candy:{
-bg:"#2a1023",
-bg2:"#4a1d3f",
-card:"#831843",
-accent:"#f472b6",
-accent2:"#c084fc",
-text:"#ffffff",
-muted:"#fbcfe8"
-}
-
-};
-
-/* APPLY THEME */
-
-function applyTheme(name){
-
-const t = themes[name];
-
-document.documentElement.style.setProperty("--bg",t.bg);
-document.documentElement.style.setProperty("--bg2",t.bg2);
-document.documentElement.style.setProperty("--card",t.card);
-document.documentElement.style.setProperty("--accent",t.accent);
-document.documentElement.style.setProperty("--accent2",t.accent2);
-document.documentElement.style.setProperty("--text",t.text);
-document.documentElement.style.setProperty("--muted",t.muted);
-
-document.querySelectorAll(".theme")
-.forEach(theme=>theme.classList.remove("active"));
-
-document.querySelector(`.theme-${name}`)
-.classList.add("active");
-
-save("theme",name);
-
-}
-
-/* SAVE */
-
-function save(key,value){
-
-localStorage.setItem(key,value);
-
-}
 
 /* LOAD */
 
-function load(key,defaultValue){
+function load(k,d){
+  return localStorage.getItem(k) || d;
+}
 
-return localStorage.getItem(key) || defaultValue;
+/* APPLY SETTINGS */
+
+function apply(){
+
+  const theme = load("theme","dark");
+
+  const themes = {
+
+    dark:{bg:"#050507",bg2:"#0b0b10"},
+    light:{bg:"#ffffff",bg2:"#f4f4f5"},
+    oled:{bg:"#000000",bg2:"#000000"},
+    nebula:{bg:"#12051f",bg2:"#1e1033"},
+    blue:{bg:"#07111f",bg2:"#0f172a"},
+    green:{bg:"#07130b",bg2:"#0f1f14"},
+    red:{bg:"#160606",bg2:"#2a0b0b"},
+    orange:{bg:"#1a0d05",bg2:"#2e1607"},
+    pink:{bg:"#1f0717",bg2:"#3b102c"},
+    cyan:{bg:"#05161b",bg2:"#082f49"},
+    gold:{bg:"#1b1405",bg2:"#2d2209"},
+    forest:{bg:"#03120a",bg2:"#052e16"},
+    blood:{bg:"#0f0000",bg2:"#220000"},
+    midnight:{bg:"#020617",bg2:"#0f172a"},
+    candy:{bg:"#2a1023",bg2:"#4a1d3f"}
+
+  };
+
+  if(themes[theme]){
+
+    document.documentElement.style.setProperty("--bg",themes[theme].bg);
+    document.documentElement.style.setProperty("--bg2",themes[theme].bg2);
+
+  }
+
+  const zoom = load("zoom","1");
+  const text = load("textSize","1");
+  const blur = load("blur","16");
+
+  document.documentElement.style.setProperty("--zoom",zoom);
+  document.documentElement.style.setProperty("--text-size",text);
+  document.documentElement.style.setProperty("--blur",blur+"px");
+
+  const animations = load("animations","true") === "true";
+
+  if(!animations){
+    document.body.classList.add("no-animations");
+  }
+
+  const glow = load("glow","true") === "true";
+  document.documentElement.style.setProperty("--glow-opacity", glow ? ".12" : "0");
+
+  const rounded = load("rounded","true") === "true";
+  document.documentElement.style.setProperty("--radius", rounded ? "24px" : "0px");
+
+  const transparent = load("transparent","true") === "true";
+  document.documentElement.style.setProperty("--card-opacity", transparent ? ".06" : ".2");
+
+  const transitions = load("transitions","true") === "true";
+  document.documentElement.style.setProperty("--transition", transitions ? ".25s" : "0s");
 
 }
 
-/* ZOOM */
+/* RUN */
 
-const zoomSlider =
-document.getElementById("zoom-slider");
-
-const zoomValue =
-document.getElementById("zoom-value");
-
-zoomSlider.addEventListener("input",()=>{
-
-document.documentElement.style
-.setProperty("--zoom",zoomSlider.value);
-
-zoomValue.innerHTML =
-Math.floor(zoomSlider.value * 100) + "%";
-
-save("zoom",zoomSlider.value);
-
-});
-
-/* TEXT */
-
-const textSlider =
-document.getElementById("text-slider");
-
-const textValue =
-document.getElementById("text-value");
-
-textSlider.addEventListener("input",()=>{
-
-document.documentElement.style
-.setProperty("--text-size",textSlider.value);
-
-textValue.innerHTML =
-Math.floor(textSlider.value * 100) + "%";
-
-save("textSize",textSlider.value);
-
-});
-
-/* BLUR */
-
-const blurSlider =
-document.getElementById("blur-slider");
-
-const blurValue =
-document.getElementById("blur-value");
-
-blurSlider.addEventListener("input",()=>{
-
-document.documentElement.style
-.setProperty("--blur",
-blurSlider.value + "px");
-
-blurValue.innerHTML =
-blurSlider.value + "px";
-
-save("blur",blurSlider.value);
-
-});
-
-/* TOGGLES */
-
-const toggles = [
-
-{
-id:"toggle-animations",
-key:"animations",
-apply:(enabled)=>{
-
-if(enabled){
-document.body.classList.remove("no-animations");
-}else{
-document.body.classList.add("no-animations");
-}
-
-}
-},
-
-{
-id:"toggle-glow",
-key:"glow",
-apply:(enabled)=>{
-
-document.documentElement.style
-.setProperty(
-"--glow-opacity",
-enabled ? ".12" : "0"
-);
-
-}
-},
-
-{
-id:"toggle-rounded",
-key:"rounded",
-apply:(enabled)=>{
-
-document.documentElement.style
-.setProperty(
-"--radius",
-enabled ? "24px" : "0px"
-);
-
-}
-},
-
-{
-id:"toggle-transparent",
-key:"transparent",
-apply:(enabled)=>{
-
-document.documentElement.style
-.setProperty(
-"--card-opacity",
-enabled ? ".06" : ".18"
-);
-
-}
-},
-
-{
-id:"toggle-transitions",
-key:"transitions",
-apply:(enabled)=>{
-
-document.documentElement.style
-.setProperty(
-"--transition",
-enabled ? ".25s" : "0s"
-);
-
-}
-}
-
-];
-
-toggles.forEach(toggle=>{
-
-const element =
-document.getElementById(toggle.id);
-
-element.addEventListener("click",()=>{
-
-element.classList.toggle("active");
-
-const enabled =
-element.classList.contains("active");
-
-toggle.apply(enabled);
-
-save(toggle.key,enabled);
-
-});
-
-});
-
-/* RESET */
-
-function resetSettings(){
-
-localStorage.clear();
-
-location.reload();
-
-}
-
-/* LOAD SETTINGS */
-
-window.onload = ()=>{
-
-/* THEME */
-
-const savedTheme =
-load("theme","dark");
-
-applyTheme(savedTheme);
-
-/* ZOOM */
-
-const savedZoom =
-load("zoom","1");
-
-zoomSlider.value = savedZoom;
-
-document.documentElement.style
-.setProperty("--zoom",savedZoom);
-
-zoomValue.innerHTML =
-Math.floor(savedZoom * 100) + "%";
-
-/* TEXT */
-
-const savedText =
-load("textSize","1");
-
-textSlider.value = savedText;
-
-document.documentElement.style
-.setProperty("--text-size",savedText);
-
-textValue.innerHTML =
-Math.floor(savedText * 100) + "%";
-
-/* BLUR */
-
-const savedBlur =
-load("blur","16");
-
-blurSlider.value = savedBlur;
-
-document.documentElement.style
-.setProperty("--blur",
-savedBlur + "px");
-
-blurValue.innerHTML =
-savedBlur + "px";
-
-/* TOGGLES */
-
-toggles.forEach(toggle=>{
-
-const enabled =
-load(toggle.key,"true") === "true";
-
-const element =
-document.getElementById(toggle.id);
-
-if(enabled){
-element.classList.add("active");
-}else{
-element.classList.remove("active");
-}
-
-toggle.apply(enabled);
-
-});
-
-};
-
-/* THEME CLICK */
-
-document.querySelectorAll(".theme")
-.forEach(theme=>{
-
-theme.addEventListener("click",()=>{
-
-applyTheme(
-theme.dataset.theme
-);
-
-});
-
-});
-
-/* RIPPLE */
-
-document.querySelectorAll(".btn,.back-btn")
-.forEach(btn=>{
-
-btn.addEventListener("click",e=>{
-
-const rect =
-btn.getBoundingClientRect();
-
-const ripple =
-document.createElement("span");
-
-ripple.className = "ripple";
-
-const size =
-Math.max(rect.width,rect.height);
-
-ripple.style.width =
-ripple.style.height =
-size + "px";
-
-ripple.style.left =
-(e.clientX - rect.left - size/2)
-+ "px";
-
-ripple.style.top =
-(e.clientY - rect.top - size/2)
-+ "px";
-
-btn.appendChild(ripple);
-
-setTimeout(()=>{
-ripple.remove();
-},650);
-
-});
-
-});
+apply();
 
 </script>
 
