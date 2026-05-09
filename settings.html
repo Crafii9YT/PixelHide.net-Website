@@ -15,6 +15,8 @@
 :root{
 
   --bg:#050507;
+  --bg2:#0b0b10;
+
   --card:#101018;
   --card2:#161621;
 
@@ -32,6 +34,8 @@
 
 }
 
+/* GLOBAL */
+
 *{
   margin:0;
   padding:0;
@@ -46,7 +50,13 @@ body{
 
   font-family:Inter,sans-serif;
 
-  background:var(--bg);
+  background:
+  linear-gradient(
+    180deg,
+    var(--bg),
+    var(--bg2)
+  );
+
   color:var(--text);
 
   overflow-x:hidden;
@@ -81,6 +91,7 @@ body{
 
 .bg-glow{
   position:fixed;
+
   width:700px;
   height:700px;
 
@@ -114,6 +125,53 @@ body{
   100%{
     transform:translateY(0px);
   }
+
+}
+
+/* BACK BUTTON */
+
+.back-btn{
+
+  position:fixed;
+
+  top:25px;
+  left:25px;
+
+  z-index:9999;
+
+  padding:14px 22px;
+
+  border-radius:18px;
+
+  background:
+  rgba(255,255,255,.06);
+
+  border:1px solid rgba(255,255,255,.08);
+
+  backdrop-filter:blur(16px);
+
+  color:var(--text);
+
+  text-decoration:none;
+
+  display:flex;
+  align-items:center;
+  gap:12px;
+
+  font-weight:700;
+
+  transition:.25s;
+
+  overflow:hidden;
+
+}
+
+.back-btn:hover{
+
+  transform:translateY(-4px);
+
+  border-color:
+  rgba(167,139,250,.35);
 
 }
 
@@ -218,13 +276,13 @@ body{
 
 .settings-wrapper{
 
-  max-width:1400px;
+  max-width:1450px;
   margin:auto;
 
   padding:80px 25px;
 
   display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+  grid-template-columns:repeat(auto-fit,minmax(330px,1fr));
 
   gap:28px;
 
@@ -267,7 +325,8 @@ body{
 .settings-card h2{
 
   font-family:Orbitron;
-  margin-bottom:22px;
+
+  margin-bottom:24px;
 
   font-size:1.5rem;
 
@@ -295,6 +354,7 @@ body{
 .slider{
 
   width:100%;
+
   appearance:none;
 
   height:10px;
@@ -330,24 +390,26 @@ body{
 
 }
 
+/* THEMES */
+
 .theme-grid{
 
   display:grid;
   grid-template-columns:repeat(3,1fr);
 
-  gap:15px;
+  gap:16px;
 
 }
 
 .theme{
 
-  height:80px;
+  position:relative;
+
+  height:90px;
 
   border-radius:18px;
 
   cursor:pointer;
-
-  position:relative;
 
   overflow:hidden;
 
@@ -365,28 +427,82 @@ body{
   border-color:white;
 }
 
-.theme-purple{
-  background:linear-gradient(135deg,#8b5cf6,#c4b5fd);
+.theme-name{
+
+  position:absolute;
+
+  bottom:10px;
+  left:12px;
+
+  font-size:.9rem;
+  font-weight:700;
+
+  color:white;
+
+  text-shadow:0 0 10px rgba(0,0,0,.5);
+
+}
+
+/* THEME COLORS */
+
+.theme-dark{
+  background:linear-gradient(135deg,#0b0b11,#8b5cf6);
+}
+
+.theme-light{
+  background:linear-gradient(135deg,#ffffff,#c4b5fd);
+}
+
+.theme-oled{
+  background:linear-gradient(135deg,#000000,#4c1d95);
+}
+
+.theme-nebula{
+  background:linear-gradient(135deg,#2e1065,#c084fc);
 }
 
 .theme-blue{
-  background:linear-gradient(135deg,#3b82f6,#60a5fa);
+  background:linear-gradient(135deg,#1e3a8a,#60a5fa);
 }
 
 .theme-green{
-  background:linear-gradient(135deg,#22c55e,#86efac);
+  background:linear-gradient(135deg,#14532d,#86efac);
 }
 
 .theme-red{
-  background:linear-gradient(135deg,#ef4444,#fca5a5);
+  background:linear-gradient(135deg,#7f1d1d,#f87171);
 }
 
 .theme-orange{
-  background:linear-gradient(135deg,#f97316,#fdba74);
+  background:linear-gradient(135deg,#7c2d12,#fdba74);
 }
 
 .theme-pink{
-  background:linear-gradient(135deg,#ec4899,#f9a8d4);
+  background:linear-gradient(135deg,#831843,#f9a8d4);
+}
+
+.theme-cyan{
+  background:linear-gradient(135deg,#164e63,#67e8f9);
+}
+
+.theme-gold{
+  background:linear-gradient(135deg,#78350f,#fde68a);
+}
+
+.theme-forest{
+  background:linear-gradient(135deg,#052e16,#4ade80);
+}
+
+.theme-blood{
+  background:linear-gradient(135deg,#1f0000,#ff2d55);
+}
+
+.theme-midnight{
+  background:linear-gradient(135deg,#020617,#312e81);
+}
+
+.theme-candy{
+  background:linear-gradient(135deg,#f472b6,#c084fc);
 }
 
 /* TOGGLES */
@@ -443,7 +559,16 @@ body{
   left:33px;
 }
 
-/* BUTTON */
+/* BUTTONS */
+
+.btn-row{
+
+  display:flex;
+  gap:16px;
+
+  flex-wrap:wrap;
+
+}
 
 .btn{
 
@@ -508,6 +633,40 @@ body{
 
 }
 
+/* TOAST */
+
+.toast{
+
+  position:fixed;
+
+  right:25px;
+  bottom:-120px;
+
+  z-index:9999;
+
+  padding:18px 24px;
+
+  border-radius:18px;
+
+  background:
+  linear-gradient(
+    135deg,
+    var(--accent),
+    var(--accent2)
+  );
+
+  color:#050507;
+
+  font-weight:700;
+
+  transition:.45s cubic-bezier(.68,-0.55,.27,1.55);
+
+}
+
+.toast.show{
+  bottom:25px;
+}
+
 /* FOOTER */
 
 footer{
@@ -545,6 +704,12 @@ footer{
 <div class="bg-glow"></div>
 <div class="bg-glow bg-glow2"></div>
 
+<!-- BACK -->
+
+<a href="/" class="back-btn">
+  ← Zurück
+</a>
+
 <!-- HERO -->
 
 <section class="hero">
@@ -559,7 +724,7 @@ footer{
 
     <p class="hero-text">
       Passe PixelHide komplett an deinen Stil an.
-      Farben, Zoom, Blur, Animationen, Textgröße und vieles mehr.
+      Themes, Blur, Zoom, Textgröße, Animationen und vieles mehr.
     </p>
 
   </div>
@@ -639,28 +804,79 @@ footer{
 
     <div class="theme-grid">
 
-      <div class="theme theme-purple active"
-      onclick="setTheme('#a78bfa','#c4b5fd',this)">
+      <div class="theme theme-dark active"
+      onclick="applyTheme('dark',this)">
+        <div class="theme-name">Dark</div>
+      </div>
+
+      <div class="theme theme-light"
+      onclick="applyTheme('light',this)">
+        <div class="theme-name">Light</div>
+      </div>
+
+      <div class="theme theme-oled"
+      onclick="applyTheme('oled',this)">
+        <div class="theme-name">OLED</div>
+      </div>
+
+      <div class="theme theme-nebula"
+      onclick="applyTheme('nebula',this)">
+        <div class="theme-name">Nebula</div>
       </div>
 
       <div class="theme theme-blue"
-      onclick="setTheme('#3b82f6','#60a5fa',this)">
+      onclick="applyTheme('blue',this)">
+        <div class="theme-name">Blue</div>
       </div>
 
       <div class="theme theme-green"
-      onclick="setTheme('#22c55e','#86efac',this)">
+      onclick="applyTheme('green',this)">
+        <div class="theme-name">Green</div>
       </div>
 
       <div class="theme theme-red"
-      onclick="setTheme('#ef4444','#fca5a5',this)">
+      onclick="applyTheme('red',this)">
+        <div class="theme-name">Red</div>
       </div>
 
       <div class="theme theme-orange"
-      onclick="setTheme('#f97316','#fdba74',this)">
+      onclick="applyTheme('orange',this)">
+        <div class="theme-name">Orange</div>
       </div>
 
       <div class="theme theme-pink"
-      onclick="setTheme('#ec4899','#f9a8d4',this)">
+      onclick="applyTheme('pink',this)">
+        <div class="theme-name">Pink</div>
+      </div>
+
+      <div class="theme theme-cyan"
+      onclick="applyTheme('cyan',this)">
+        <div class="theme-name">Cyan</div>
+      </div>
+
+      <div class="theme theme-gold"
+      onclick="applyTheme('gold',this)">
+        <div class="theme-name">Gold</div>
+      </div>
+
+      <div class="theme theme-forest"
+      onclick="applyTheme('forest',this)">
+        <div class="theme-name">Forest</div>
+      </div>
+
+      <div class="theme theme-blood"
+      onclick="applyTheme('blood',this)">
+        <div class="theme-name">Blood</div>
+      </div>
+
+      <div class="theme theme-midnight"
+      onclick="applyTheme('midnight',this)">
+        <div class="theme-name">Midnight</div>
+      </div>
+
+      <div class="theme theme-candy"
+      onclick="applyTheme('candy',this)">
+        <div class="theme-name">Candy</div>
       </div>
 
     </div>
@@ -674,48 +890,46 @@ footer{
     <h2>Extra Settings</h2>
 
     <div class="setting">
-
-      <label>
-        <span>Animations</span>
-      </label>
-
+      <label><span>Animations</span></label>
       <div class="toggle active"></div>
-
     </div>
 
     <div class="setting">
-
-      <label>
-        <span>Particles</span>
-      </label>
-
+      <label><span>Particles</span></label>
       <div class="toggle active"></div>
-
     </div>
 
     <div class="setting">
-
-      <label>
-        <span>Glow Effects</span>
-      </label>
-
+      <label><span>Glow Effects</span></label>
       <div class="toggle active"></div>
-
     </div>
 
     <div class="setting">
-
-      <label>
-        <span>Rounded UI</span>
-      </label>
-
+      <label><span>Rounded UI</span></label>
       <div class="toggle active"></div>
-
     </div>
 
-    <button class="btn">
-      Save Settings
-    </button>
+    <div class="setting">
+      <label><span>Transparent Cards</span></label>
+      <div class="toggle active"></div>
+    </div>
+
+    <div class="setting">
+      <label><span>Smooth Scrolling</span></label>
+      <div class="toggle active"></div>
+    </div>
+
+    <div class="btn-row">
+
+      <button class="btn" onclick="saveSettings()">
+        Save Settings
+      </button>
+
+      <button class="btn" onclick="resetSettings()">
+        Reset
+      </button>
+
+    </div>
 
   </div>
 
@@ -730,7 +944,205 @@ footer{
 
 </footer>
 
+<div class="toast" id="toast">
+  Einstellungen gespeichert!
+</div>
+
 <script>
+
+/* THEMES */
+
+const themes = {
+
+  dark:{
+    bg:"#050507",
+    bg2:"#0b0b10",
+    card:"#101018",
+    accent:"#a78bfa",
+    accent2:"#c4b5fd",
+    text:"#f5f5f5",
+    muted:"#9ca3af"
+  },
+
+  light:{
+    bg:"#ffffff",
+    bg2:"#f4f4f5",
+    card:"#ffffff",
+    accent:"#8b5cf6",
+    accent2:"#c4b5fd",
+    text:"#111111",
+    muted:"#555555"
+  },
+
+  oled:{
+    bg:"#000000",
+    bg2:"#020202",
+    card:"#050505",
+    accent:"#8b5cf6",
+    accent2:"#c4b5fd",
+    text:"#ffffff",
+    muted:"#888888"
+  },
+
+  nebula:{
+    bg:"#12051f",
+    bg2:"#1e1033",
+    card:"#24123a",
+    accent:"#c084fc",
+    accent2:"#e9d5ff",
+    text:"#ffffff",
+    muted:"#c4b5fd"
+  },
+
+  blue:{
+    bg:"#07111f",
+    bg2:"#0f172a",
+    card:"#172554",
+    accent:"#3b82f6",
+    accent2:"#60a5fa",
+    text:"#ffffff",
+    muted:"#93c5fd"
+  },
+
+  green:{
+    bg:"#07130b",
+    bg2:"#0f1f14",
+    card:"#14532d",
+    accent:"#22c55e",
+    accent2:"#86efac",
+    text:"#ffffff",
+    muted:"#bbf7d0"
+  },
+
+  red:{
+    bg:"#160606",
+    bg2:"#2a0b0b",
+    card:"#7f1d1d",
+    accent:"#ef4444",
+    accent2:"#fca5a5",
+    text:"#ffffff",
+    muted:"#fecaca"
+  },
+
+  orange:{
+    bg:"#1a0d05",
+    bg2:"#2e1607",
+    card:"#7c2d12",
+    accent:"#f97316",
+    accent2:"#fdba74",
+    text:"#ffffff",
+    muted:"#fed7aa"
+  },
+
+  pink:{
+    bg:"#1f0717",
+    bg2:"#3b102c",
+    card:"#831843",
+    accent:"#ec4899",
+    accent2:"#f9a8d4",
+    text:"#ffffff",
+    muted:"#fbcfe8"
+  },
+
+  cyan:{
+    bg:"#05161b",
+    bg2:"#082f49",
+    card:"#164e63",
+    accent:"#06b6d4",
+    accent2:"#67e8f9",
+    text:"#ffffff",
+    muted:"#a5f3fc"
+  },
+
+  gold:{
+    bg:"#1b1405",
+    bg2:"#2d2209",
+    card:"#78350f",
+    accent:"#facc15",
+    accent2:"#fde68a",
+    text:"#ffffff",
+    muted:"#fef3c7"
+  },
+
+  forest:{
+    bg:"#03120a",
+    bg2:"#052e16",
+    card:"#14532d",
+    accent:"#4ade80",
+    accent2:"#86efac",
+    text:"#ffffff",
+    muted:"#bbf7d0"
+  },
+
+  blood:{
+    bg:"#0f0000",
+    bg2:"#220000",
+    card:"#3f0000",
+    accent:"#ff2d55",
+    accent2:"#ff6b81",
+    text:"#ffffff",
+    muted:"#ffb3c1"
+  },
+
+  midnight:{
+    bg:"#020617",
+    bg2:"#0f172a",
+    card:"#1e1b4b",
+    accent:"#6366f1",
+    accent2:"#a5b4fc",
+    text:"#ffffff",
+    muted:"#c7d2fe"
+  },
+
+  candy:{
+    bg:"#2a1023",
+    bg2:"#4a1d3f",
+    card:"#831843",
+    accent:"#f472b6",
+    accent2:"#c084fc",
+    text:"#ffffff",
+    muted:"#fbcfe8"
+  }
+
+};
+
+/* APPLY THEME */
+
+function applyTheme(name,element){
+
+  const t = themes[name];
+
+  document.documentElement.style
+  .setProperty("--bg",t.bg);
+
+  document.documentElement.style
+  .setProperty("--bg2",t.bg2);
+
+  document.documentElement.style
+  .setProperty("--card",t.card);
+
+  document.documentElement.style
+  .setProperty("--accent",t.accent);
+
+  document.documentElement.style
+  .setProperty("--accent2",t.accent2);
+
+  document.documentElement.style
+  .setProperty("--text",t.text);
+
+  document.documentElement.style
+  .setProperty("--muted",t.muted);
+
+  document.querySelectorAll(".theme")
+  .forEach(t=>t.classList.remove("active"));
+
+  if(element){
+    element.classList.add("active");
+  }
+
+  localStorage.setItem("theme",name);
+
+}
 
 /* ZOOM */
 
@@ -750,7 +1162,7 @@ zoomSlider.oninput = ()=>{
 
 };
 
-/* TEXT SIZE */
+/* TEXT */
 
 const textSlider =
 document.getElementById("text-slider");
@@ -787,23 +1199,6 @@ blurSlider.oninput = ()=>{
 
 };
 
-/* THEMES */
-
-function setTheme(a,b,element){
-
-  document.documentElement.style
-  .setProperty("--accent",a);
-
-  document.documentElement.style
-  .setProperty("--accent2",b);
-
-  document.querySelectorAll(".theme")
-  .forEach(t=>t.classList.remove("active"));
-
-  element.classList.add("active");
-
-}
-
 /* TOGGLES */
 
 document.querySelectorAll(".toggle")
@@ -817,14 +1212,130 @@ document.querySelectorAll(".toggle")
 
 });
 
+/* SAVE */
+
+function saveSettings(){
+
+  localStorage.setItem(
+    "zoom",
+    zoomSlider.value
+  );
+
+  localStorage.setItem(
+    "textSize",
+    textSlider.value
+  );
+
+  localStorage.setItem(
+    "blur",
+    blurSlider.value
+  );
+
+  showToast();
+
+}
+
+/* LOAD */
+
+window.onload = ()=>{
+
+  const zoom =
+  localStorage.getItem("zoom");
+
+  const text =
+  localStorage.getItem("textSize");
+
+  const blur =
+  localStorage.getItem("blur");
+
+  const theme =
+  localStorage.getItem("theme");
+
+  if(zoom){
+
+    zoomSlider.value = zoom;
+
+    document.documentElement.style
+    .setProperty("--zoom",zoom);
+
+    zoomValue.innerHTML =
+    Math.floor(zoom * 100) + "%";
+
+  }
+
+  if(text){
+
+    textSlider.value = text;
+
+    document.documentElement.style
+    .setProperty("--text-size",text);
+
+    textValue.innerHTML =
+    Math.floor(text * 100) + "%";
+
+  }
+
+  if(blur){
+
+    blurSlider.value = blur;
+
+    document.documentElement.style
+    .setProperty("--blur",blur + "px");
+
+    blurValue.innerHTML =
+    blur + "px";
+
+  }
+
+  if(theme){
+
+    const themeElement =
+    document.querySelector(
+      `.theme-${theme}`
+    );
+
+    applyTheme(theme,themeElement);
+
+  }
+
+};
+
+/* RESET */
+
+function resetSettings(){
+
+  localStorage.clear();
+
+  location.reload();
+
+}
+
+/* TOAST */
+
+function showToast(){
+
+  const toast =
+  document.getElementById("toast");
+
+  toast.classList.add("show");
+
+  setTimeout(()=>{
+
+    toast.classList.remove("show");
+
+  },3500);
+
+}
+
 /* RIPPLE */
 
-document.querySelectorAll(".btn")
+document.querySelectorAll(".btn,.back-btn")
 .forEach(btn=>{
 
   btn.addEventListener("click",e=>{
 
-    const rect = btn.getBoundingClientRect();
+    const rect =
+    btn.getBoundingClientRect();
 
     const ripple =
     document.createElement("span");
