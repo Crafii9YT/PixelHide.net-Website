@@ -27,6 +27,14 @@
 
   --text:#f5f5f5;
   --muted:#9ca3af;
+
+  --zoom:1;
+  --text-size:1;
+  --blur:16px;
+  --radius:24px;
+  --glow-opacity:.12;
+  --card-opacity:.04;
+  --transition:.25s;
 }
 
 /* GLOBAL */
@@ -46,6 +54,19 @@ body{
   background:var(--bg);
   color:var(--text);
   overflow-x:hidden;
+
+  transform:scale(var(--zoom));
+  transform-origin:top center;
+  font-size:calc(16px * var(--text-size));
+  transition:background var(--transition), color var(--transition);
+}
+
+/* NO ANIMATIONS */
+
+.no-animations *{
+  animation:none !important;
+  transition:none !important;
+  scroll-behavior:auto !important;
 }
 
 /* SCROLLBAR */
@@ -63,6 +84,54 @@ body{
   border-radius:999px;
 }
 
+/* SETTINGS BUTTON */
+
+.settings-btn{
+  position:fixed;
+
+  top:25px;
+  right:25px;
+
+  z-index:9999;
+
+  padding:14px 22px;
+
+  border-radius:18px;
+
+  background:rgba(255,255,255,.06);
+
+  border:1px solid rgba(255,255,255,.08);
+
+  backdrop-filter:blur(16px);
+
+  color:var(--text);
+
+  text-decoration:none;
+
+  display:flex;
+  align-items:center;
+  gap:10px;
+
+  font-weight:700;
+  font-family:Inter,sans-serif;
+
+  transition:var(--transition);
+}
+
+.settings-btn:hover{
+  transform:translateY(-4px);
+  border-color:rgba(167,139,250,.35);
+  box-shadow:0 0 20px rgba(167,139,250,.15);
+}
+
+.settings-btn svg{
+  transition:transform .5s ease;
+}
+
+.settings-btn:hover svg{
+  transform:rotate(90deg);
+}
+
 /* BACKGROUND GLOW */
 
 .bg-glow{
@@ -70,7 +139,7 @@ body{
   width:700px;
   height:700px;
   background:radial-gradient(circle,var(--accent) 0%,transparent 70%);
-  opacity:.12;
+  opacity:var(--glow-opacity);
   filter:blur(100px);
   z-index:-1;
   animation:floatGlow 12s ease-in-out infinite;
@@ -225,20 +294,20 @@ body{
   background:
   linear-gradient(
     145deg,
-    rgba(255,255,255,.05),
+    rgba(255,255,255,var(--card-opacity)),
     rgba(255,255,255,.02)
   );
 
   border:1px solid rgba(255,255,255,.06);
 
   padding:18px 24px;
-  border-radius:18px;
+  border-radius:var(--radius);
 
   min-width:210px;
 
-  backdrop-filter:blur(10px);
+  backdrop-filter:blur(var(--blur));
 
-  transition:.25s;
+  transition:var(--transition);
 }
 
 .step:hover{
@@ -280,7 +349,7 @@ body{
   position:relative;
 
   padding:17px 34px;
-  border-radius:18px;
+  border-radius:var(--radius);
 
   display:flex;
   align-items:center;
@@ -292,9 +361,9 @@ body{
   text-decoration:none;
   font-weight:700;
 
-  transition:.25s;
+  transition:var(--transition);
 
-  backdrop-filter:blur(10px);
+  backdrop-filter:blur(var(--blur));
 }
 
 .btn::before{
@@ -379,7 +448,7 @@ section{
   position:relative;
 
   overflow:hidden;
-  border-radius:30px;
+  border-radius:var(--radius);
 
   background:#000;
 
@@ -394,7 +463,7 @@ section{
   position:absolute;
   inset:0;
 
-  border-radius:30px;
+  border-radius:var(--radius);
 
   border:1px solid rgba(255,255,255,.08);
 
@@ -423,13 +492,13 @@ video{
   background:
   linear-gradient(
     145deg,
-    rgba(255,255,255,.05),
+    rgba(255,255,255,var(--card-opacity)),
     rgba(255,255,255,.02)
   );
 
   border:1px solid rgba(255,255,255,.07);
 
-  border-radius:22px;
+  border-radius:var(--radius);
 
   padding:22px 30px;
 
@@ -437,7 +506,7 @@ video{
 
   text-align:center;
 
-  backdrop-filter:blur(10px);
+  backdrop-filter:blur(var(--blur));
 }
 
 .ip{
@@ -579,9 +648,88 @@ footer{
 }
 
 </style>
+
+<script>
+
+/* =========================
+   SETTINGS SYNC
+   ========================= */
+
+const THEMES = {
+  dark:{bg:"#050507",bg2:"#0b0b10",card:"#101018",accent:"#a78bfa",accent2:"#c4b5fd",text:"#f5f5f5",muted:"#9ca3af"},
+  light:{bg:"#ffffff",bg2:"#f4f4f5",card:"#ffffff",accent:"#8b5cf6",accent2:"#c4b5fd",text:"#111111",muted:"#555555"},
+  oled:{bg:"#000000",bg2:"#020202",card:"#050505",accent:"#8b5cf6",accent2:"#c4b5fd",text:"#ffffff",muted:"#888888"},
+  nebula:{bg:"#12051f",bg2:"#1e1033",card:"#24123a",accent:"#c084fc",accent2:"#e9d5ff",text:"#ffffff",muted:"#c4b5fd"},
+  blue:{bg:"#07111f",bg2:"#0f172a",card:"#172554",accent:"#3b82f6",accent2:"#60a5fa",text:"#ffffff",muted:"#93c5fd"},
+  green:{bg:"#07130b",bg2:"#0f1f14",card:"#14532d",accent:"#22c55e",accent2:"#86efac",text:"#ffffff",muted:"#bbf7d0"},
+  red:{bg:"#160606",bg2:"#2a0b0b",card:"#7f1d1d",accent:"#ef4444",accent2:"#fca5a5",text:"#ffffff",muted:"#fecaca"},
+  orange:{bg:"#1a0d05",bg2:"#2e1607",card:"#7c2d12",accent:"#f97316",accent2:"#fdba74",text:"#ffffff",muted:"#fed7aa"},
+  pink:{bg:"#1f0717",bg2:"#3b102c",card:"#831843",accent:"#ec4899",accent2:"#f9a8d4",text:"#ffffff",muted:"#fbcfe8"},
+  cyan:{bg:"#05161b",bg2:"#082f49",card:"#164e63",accent:"#06b6d4",accent2:"#67e8f9",text:"#ffffff",muted:"#a5f3fc"},
+  gold:{bg:"#1b1405",bg2:"#2d2209",card:"#78350f",accent:"#facc15",accent2:"#fde68a",text:"#ffffff",muted:"#fef3c7"},
+  forest:{bg:"#03120a",bg2:"#052e16",card:"#14532d",accent:"#4ade80",accent2:"#86efac",text:"#ffffff",muted:"#bbf7d0"},
+  blood:{bg:"#0f0000",bg2:"#220000",card:"#3f0000",accent:"#ff2d55",accent2:"#ff6b81",text:"#ffffff",muted:"#ffb3c1"},
+  midnight:{bg:"#020617",bg2:"#0f172a",card:"#1e1b4b",accent:"#6366f1",accent2:"#a5b4fc",text:"#ffffff",muted:"#c7d2fe"},
+  candy:{bg:"#2a1023",bg2:"#4a1d3f",card:"#831843",accent:"#f472b6",accent2:"#c084fc",text:"#ffffff",muted:"#fbcfe8"}
+};
+
+function applySettings(){
+  const r = document.documentElement;
+  const ls = localStorage;
+
+  const themeName = ls.getItem("theme") || "dark";
+  const t = THEMES[themeName] || THEMES.dark;
+  r.style.setProperty("--bg",      t.bg);
+  r.style.setProperty("--accent",  t.accent);
+  r.style.setProperty("--accent2", t.accent2);
+  r.style.setProperty("--text",    t.text);
+  r.style.setProperty("--muted",   t.muted);
+
+  const zoom = ls.getItem("zoom") || "1";
+  r.style.setProperty("--zoom", zoom);
+
+  const textSize = ls.getItem("textSize") || "1";
+  r.style.setProperty("--text-size", textSize);
+
+  const blur = ls.getItem("blur") || "16";
+  r.style.setProperty("--blur", blur + "px");
+
+  const rounded = ls.getItem("rounded");
+  r.style.setProperty("--radius", rounded === "false" ? "0px" : "24px");
+
+  const glow = ls.getItem("glow");
+  r.style.setProperty("--glow-opacity", glow === "false" ? "0" : ".12");
+
+  const transparent = ls.getItem("transparent");
+  r.style.setProperty("--card-opacity", transparent === "false" ? ".18" : ".04");
+
+  const transitions = ls.getItem("transitions");
+  r.style.setProperty("--transition", transitions === "false" ? "0s" : ".25s");
+
+  const animations = ls.getItem("animations");
+  if(animations === "false"){
+    document.body.classList.add("no-animations");
+  }else{
+    document.body.classList.remove("no-animations");
+  }
+}
+
+applySettings();
+window.addEventListener("storage", applySettings);
+
+</script>
+
 </head>
 
 <body>
+
+<a href="/settings.html" class="settings-btn">
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="12" cy="12" r="3"/>
+    <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+  </svg>
+  Settings
+</a>
 
 <div class="bg-glow"></div>
 <div class="bg-glow bg-glow2"></div>
