@@ -1,11 +1,10 @@
-# ⚠️ Website Umzug ⚠️ 
+# ❌ Website Umzug nicht erfolgreich! ❌
 
-## Hey liebe Spieler,
+## Liebe Spieler,
 
-Unsere Website zieht von GitHub um! Dieser Umzug dauer 1 - 2 Stunden und in diesem Zeitraum ist die Website nicht oder nur teilweise erreichbar.
+Unserer Website bleibt weiterhin auf GitHub, aufgrund von Problemen mit unserem neuen Hosting Provider.
 
-Dieser Umzug wird uns helfen, regülärere Updates zu veröffentlichen, mehr möglichkeiten mit der Website zu offenbaren, schnellere Ladezeiten der Website und vieles vieles mehr!
-
+Die Website ist nun wieder erreichbar für alle.
 Vielen dank für euer Verständnis!
 - Crafii9
-*Owner - PixelHide.net* (Bearbeitet)
+*Owner - PixelHide.net*
