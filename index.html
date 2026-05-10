@@ -35,7 +35,7 @@
 }
 
 *{ margin:0; padding:0; box-sizing:border-box; }
-html{ scroll-behavior:smooth; }
+html{ scroll-behavior:smooth; overflow-x:hidden; }
 
 body{
   font-family:Inter,sans-serif;
@@ -186,12 +186,46 @@ body{
   transform:translateY(0) scale(1);
 }
 
-.dropdown-email{
-  padding:14px 18px 10px;
-  font-size:.78rem;
-  color:var(--muted);
+.dropdown-header{
+  padding:16px 18px 12px;
   border-bottom:1px solid rgba(255,255,255,.06);
+}
+
+.dropdown-username{
+  font-size:1rem;
+  font-weight:700;
+  color:var(--text);
+  margin-bottom:4px;
   word-break:break-all;
+}
+
+.dropdown-email{
+  font-size:.75rem;
+  color:var(--muted);
+  word-break:break-all;
+  cursor:pointer;
+  display:inline-block;
+  transition:filter .3s;
+  user-select:none;
+}
+
+.dropdown-email.blurred{
+  filter:blur(5px);
+}
+
+.dropdown-email-hint{
+  font-size:.68rem;
+  color:rgba(156,163,175,.45);
+  margin-top:2px;
+  display:none;
+}
+
+.dropdown-email.blurred + .dropdown-email-hint{ display:block; }
+
+.dropdown-divider{
+  height:1px;
+  background:rgba(255,255,255,.06);
+  margin:0;
 }
 
 .dropdown-item{
@@ -227,10 +261,19 @@ body{
   align-items:center;
   justify-content:center;
   padding:20px;
+  overflow:hidden;
   opacity:0;
   pointer-events:none;
   transition:opacity .3s;
 }
+
+/* center modal vertically when there's room, scroll when not */
+.auth-overlay::after{
+  content:"";
+  display:block;
+  min-height:20px;
+}
+
 
 .auth-overlay.visible{
   opacity:1;
@@ -248,6 +291,10 @@ body{
   position:relative;
   width:100%;
   max-width:440px;
+  max-height:calc(100dvh - 40px);
+  overflow-y:auto;
+  -webkit-overflow-scrolling:touch;
+  margin:auto;
   background:rgba(13,13,22,.98);
   border:1px solid rgba(167,139,250,.2);
   border-radius:28px;
@@ -541,8 +588,83 @@ body{
 .auth-success p{ color:var(--muted); font-size:.88rem; }
 
 /* ──────────────────────────────────────
-   BACKGROUND GLOW
+   ACCOUNT SETTINGS MODAL
 ────────────────────────────────────── */
+
+.accsettings-overlay{
+  position:fixed;
+  inset:0;
+  z-index:100000;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+  overflow:hidden;
+  opacity:0;
+  pointer-events:none;
+  transition:opacity .3s;
+}
+
+.accsettings-overlay.visible{
+  opacity:1;
+  pointer-events:all;
+}
+
+.accsettings-overlay .auth-backdrop{
+  position:absolute;
+  inset:0;
+  background:rgba(0,0,0,.8);
+  backdrop-filter:blur(8px);
+}
+
+.accsettings-modal{
+  position:relative;
+  width:100%;
+  max-width:400px;
+  max-height:calc(100dvh - 40px);
+  overflow-y:auto;
+  background:rgba(13,13,22,.98);
+  border:1px solid rgba(167,139,250,.2);
+  border-radius:28px;
+  padding:36px 32px 32px;
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,.04),
+    0 40px 100px rgba(0,0,0,.85),
+    0 0 80px rgba(167,139,250,.12);
+  transform:translateY(24px) scale(.97);
+  transition:transform .35s cubic-bezier(.22,1,.36,1);
+}
+
+.accsettings-overlay.visible .accsettings-modal{
+  transform:translateY(0) scale(1);
+}
+
+.accsettings-title{
+  font-family:Orbitron,sans-serif;
+  font-size:1.15rem;
+  margin-bottom:6px;
+}
+
+.accsettings-sub{
+  font-size:.82rem;
+  color:var(--muted);
+  margin-bottom:24px;
+}
+
+.accsettings-success{
+  padding:10px 14px;
+  background:rgba(34,197,94,.1);
+  border:1px solid rgba(34,197,94,.25);
+  border-radius:10px;
+  color:#86efac;
+  font-size:.84rem;
+  display:none;
+  margin-bottom:14px;
+}
+
+.accsettings-success.show{ display:block; }
+
+
 
 .bg-glow{
   position:fixed;
@@ -814,12 +936,12 @@ footer a:hover{ color:white; }
    der Firebase Console → Projekteinstellungen → Allgemein
    ─────────────────────────────────────────────────────── */
 const firebaseConfig = {
-  apiKey:            "AIzaSyBtxHyCkI1TPdV6uWrhJ6bW4FjIdHVHuGw",          // ← anpassen
-  authDomain:        "pixelhide-app.firebaseapp.com",
-  projectId:         "pixelhide-app",
-  storageBucket:     "pixelhide-app.appspot.com",
-  messagingSenderId: "469716803908",       // ← anpassen
-  appId:             "1:469716803908:web:4adff338ab4db6b576b711"           // ← anpassen
+  apiKey: "AIzaSyBtxHyCkI1TPdV6uWrhJ6bW4FjIdHVHuGw",
+  authDomain: "pixelhide-app.firebaseapp.com",
+  projectId: "pixelhide-app",
+  storageBucket: "pixelhide-app.firebasestorage.app",
+  messagingSenderId: "469716803908",
+  appId: "1:469716803908:web:4adff338ab4db6b576b711"
 };
 
 firebase.initializeApp(firebaseConfig);
@@ -898,13 +1020,25 @@ function copyIP(){
   <!-- shown when logged in -->
   <div class="user-pill" id="userPill" style="display:none" onclick="toggleDropdown()">
     <div class="avatar" id="userAvatar">?</div>
-    <span class="email-text" id="userEmail">–</span>
+    <span class="email-text" id="userUsername">–</span>
     <svg class="chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
       <polyline points="6 9 12 15 18 9"/>
     </svg>
     <div class="user-dropdown" id="userDropdown">
-      <div class="dropdown-email" id="dropdownEmail"></div>
-      <div class="dropdown-item danger" onclick="signOut()">
+      <div class="dropdown-header">
+        <div class="dropdown-username" id="dropdownUsername">–</div>
+        <span class="dropdown-email blurred" id="dropdownEmail" onclick="toggleEmailBlur(event)"></span>
+        <div class="dropdown-email-hint">Klicken zum Anzeigen</div>
+      </div>
+      <div class="dropdown-item" onclick="openAccSettings()">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="3"/>
+          <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+        </svg>
+        Einstellungen
+      </div>
+      <div class="dropdown-divider"></div>
+      <div class="dropdown-item danger" onclick="doSignOut()">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
           <polyline points="16 17 21 12 16 7"/>
@@ -992,6 +1126,11 @@ function copyIP(){
 
         <div id="registerFields">
           <div class="auth-form">
+            <div class="form-group">
+              <label class="form-label">Username</label>
+              <input class="form-input" id="regUsername" type="text" placeholder="Dein Anzeigename" autocomplete="off" maxlength="32">
+            </div>
+
             <div class="form-group">
               <label class="form-label">E-Mail</label>
               <input class="form-input" id="regEmail" type="email" placeholder="deine@email.de" autocomplete="email">
@@ -1139,6 +1278,33 @@ function copyIP(){
   </div>
 </section>
 
+<!-- ─── ACCOUNT SETTINGS MODAL ───────────────────────── -->
+
+<div class="accsettings-overlay" id="accSettingsOverlay">
+  <div class="auth-backdrop" onclick="closeAccSettings()"></div>
+  <div class="accsettings-modal">
+    <button class="auth-close" onclick="closeAccSettings()">✕</button>
+
+    <div class="accsettings-title">Account-Einstellungen</div>
+    <div class="accsettings-sub">Passe deinen Profilnamen an.</div>
+
+    <div class="auth-error" id="accSettingsError"></div>
+    <div class="accsettings-success" id="accSettingsSuccess">✓ Username erfolgreich geändert!</div>
+
+    <div class="auth-form">
+      <div class="form-group">
+        <label class="form-label">Neuer Username</label>
+        <input class="form-input" id="newUsername" type="text" placeholder="Dein Username" autocomplete="off" maxlength="32">
+      </div>
+
+      <button class="auth-submit" id="accSettingsSubmit" onclick="doChangeUsername()">
+        <span class="btn-text">Speichern</span>
+        <div class="spinner"></div>
+      </button>
+    </div>
+  </div>
+</div>
+
 <!-- ─── FOOTER ────────────────────────────────────────── -->
 
 <footer>
@@ -1168,26 +1334,42 @@ function getPersistence(){
 /* ── Auth state ── */
 auth.onAuthStateChanged(user => {
   if(user){
-    showUserPill(user.email);
+    showUserPill(user);
   } else {
     showLoginBtn();
   }
 });
 
-function showUserPill(email){
-  document.getElementById("loginBtn").style.display  = "none";
+function getDisplayName(user){
+  return user.displayName || user.email.split("@")[0];
+}
+
+function showUserPill(user){
+  document.getElementById("loginBtn").style.display = "none";
   const pill = document.getElementById("userPill");
   pill.style.display = "flex";
-  document.getElementById("userEmail").textContent    = email;
-  document.getElementById("dropdownEmail").textContent = email;
-  document.getElementById("userAvatar").textContent   = email.charAt(0).toUpperCase();
+
+  const name = getDisplayName(user);
+  document.getElementById("userUsername").textContent    = name;
+  document.getElementById("dropdownUsername").textContent = name;
+  document.getElementById("dropdownEmail").textContent   = user.email;
+  document.getElementById("userAvatar").textContent      = name.charAt(0).toUpperCase();
+
+  /* reset email blur on each login */
+  document.getElementById("dropdownEmail").classList.add("blurred");
 }
 
 function showLoginBtn(){
-  document.getElementById("loginBtn").style.display  = "";
-  document.getElementById("userPill").style.display  = "none";
+  document.getElementById("loginBtn").style.display = "";
+  document.getElementById("userPill").style.display = "none";
   document.getElementById("userDropdown").classList.remove("visible");
   document.getElementById("userPill").classList.remove("open");
+}
+
+/* ── Blurred email toggle ── */
+function toggleEmailBlur(e){
+  e.stopPropagation();
+  document.getElementById("dropdownEmail").classList.toggle("blurred");
 }
 
 /* ── Dropdown ── */
@@ -1198,7 +1380,6 @@ function toggleDropdown(){
   pill.classList.toggle("open", open);
 }
 
-/* Close dropdown if clicking outside */
 document.addEventListener("click", e => {
   const pill = document.getElementById("userPill");
   if(pill && !pill.contains(e.target)){
@@ -1208,11 +1389,11 @@ document.addEventListener("click", e => {
 });
 
 /* ── Sign out ── */
-async function signOut(){
+async function doSignOut(){
   await auth.signOut();
 }
 
-/* ── Modal ── */
+/* ── Auth modal ── */
 function openAuth(){
   document.getElementById("authOverlay").classList.add("visible");
   document.body.style.overflow = "hidden";
@@ -1224,8 +1405,77 @@ function closeAuth(){
   document.body.style.overflow = "";
 }
 
+/* ── Account Settings modal ── */
+function openAccSettings(){
+  /* close dropdown first */
+  document.getElementById("userDropdown").classList.remove("visible");
+  document.getElementById("userPill").classList.remove("open");
+
+  /* prefill with current username */
+  const user = auth.currentUser;
+  if(user) document.getElementById("newUsername").value = getDisplayName(user);
+
+  /* reset state */
+  const errEl = document.getElementById("accSettingsError");
+  errEl.classList.remove("show"); errEl.textContent = "";
+  document.getElementById("accSettingsSuccess").classList.remove("show");
+
+  document.getElementById("accSettingsOverlay").classList.add("visible");
+  document.body.style.overflow = "hidden";
+  setTimeout(() => document.getElementById("newUsername").focus(), 320);
+}
+
+function closeAccSettings(){
+  document.getElementById("accSettingsOverlay").classList.remove("visible");
+  document.body.style.overflow = "";
+}
+
+/* ── Change username ── */
+async function doChangeUsername(){
+  const newName = document.getElementById("newUsername").value.trim();
+  const btn     = document.getElementById("accSettingsSubmit");
+  const errEl   = document.getElementById("accSettingsError");
+  const sucEl   = document.getElementById("accSettingsSuccess");
+
+  errEl.classList.remove("show"); errEl.textContent = "";
+  sucEl.classList.remove("show");
+
+  if(!newName){
+    errEl.textContent = "Bitte einen Username eingeben.";
+    errEl.classList.add("show");
+    return;
+  }
+  if(newName.length < 3){
+    errEl.textContent = "Username muss mindestens 3 Zeichen haben.";
+    errEl.classList.add("show");
+    return;
+  }
+
+  btn.disabled = true;
+  btn.classList.add("loading");
+
+  try {
+    await auth.currentUser.updateProfile({ displayName: newName });
+    sucEl.classList.add("show");
+    /* update pill live */
+    document.getElementById("userUsername").textContent     = newName;
+    document.getElementById("dropdownUsername").textContent = newName;
+    document.getElementById("userAvatar").textContent       = newName.charAt(0).toUpperCase();
+    setTimeout(closeAccSettings, 1600);
+  } catch(err){
+    errEl.textContent = "Fehler beim Speichern. Bitte versuche es erneut.";
+    errEl.classList.add("show");
+  } finally {
+    btn.disabled = false;
+    btn.classList.remove("loading");
+  }
+}
+
+/* ── Escape closes any open modal ── */
 document.addEventListener("keydown", e => {
-  if(e.key === "Escape") closeAuth();
+  if(e.key !== "Escape") return;
+  closeAuth();
+  closeAccSettings();
 });
 
 /* ── Tabs ── */
@@ -1257,14 +1507,15 @@ function togglePw(inputId, btn){
 /* ── Error messages (DE) ── */
 function firebaseErrDE(code){
   const map = {
-    "auth/invalid-email":            "Ungültige E-Mail-Adresse.",
-    "auth/user-not-found":           "Kein Konto mit dieser E-Mail gefunden.",
-    "auth/wrong-password":           "Falsches Passwort.",
-    "auth/email-already-in-use":     "Diese E-Mail wird bereits verwendet.",
-    "auth/weak-password":            "Passwort muss mindestens 6 Zeichen haben.",
-    "auth/too-many-requests":        "Zu viele Versuche. Bitte später versuchen.",
-    "auth/network-request-failed":   "Netzwerkfehler. Bitte Verbindung prüfen.",
-    "auth/invalid-credential":       "E-Mail oder Passwort falsch.",
+    "auth/invalid-email":          "Ungültige E-Mail-Adresse.",
+    "auth/user-not-found":         "Kein Konto mit dieser E-Mail gefunden.",
+    "auth/wrong-password":         "Falsches Passwort.",
+    "auth/email-already-in-use":   "Diese E-Mail wird bereits verwendet.",
+    "auth/weak-password":          "Passwort muss mindestens 6 Zeichen haben.",
+    "auth/too-many-requests":      "Zu viele Versuche. Bitte später versuchen.",
+    "auth/network-request-failed": "Netzwerkfehler. Bitte Verbindung prüfen.",
+    "auth/invalid-credential":     "E-Mail oder Passwort falsch.",
+    "auth/user-disabled":          "Dieses Konto wurde deaktiviert. Bitte kontaktiere den Support.",
   };
   return map[code] || "Ein Fehler ist aufgetreten. Bitte versuche es erneut.";
 }
@@ -1305,13 +1556,18 @@ async function doLogin(){
 /* ── Register ── */
 async function doRegister(){
   clearErrors();
-  const email = document.getElementById("regEmail").value.trim();
-  const pw    = document.getElementById("regPw").value;
-  const pw2   = document.getElementById("regPw2").value;
-  const btn   = document.getElementById("regSubmit");
+  const username = document.getElementById("regUsername").value.trim();
+  const email    = document.getElementById("regEmail").value.trim();
+  const pw       = document.getElementById("regPw").value;
+  const pw2      = document.getElementById("regPw2").value;
+  const btn      = document.getElementById("regSubmit");
 
-  if(!email || !pw || !pw2){
+  if(!username || !email || !pw || !pw2){
     showErr("registerError", "Bitte alle Felder ausfüllen.");
+    return;
+  }
+  if(username.length < 3){
+    showErr("registerError", "Username muss mindestens 3 Zeichen haben.");
     return;
   }
   if(pw !== pw2){
@@ -1328,9 +1584,9 @@ async function doRegister(){
 
   try {
     await auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
-    await auth.createUserWithEmailAndPassword(email, pw);
+    const cred = await auth.createUserWithEmailAndPassword(email, pw);
+    await cred.user.updateProfile({ displayName: username });
 
-    /* success animation then close */
     document.getElementById("registerFields").style.display = "none";
     document.getElementById("registerSuccess").classList.add("show");
     setTimeout(closeAuth, 2200);
@@ -1344,6 +1600,12 @@ async function doRegister(){
 /* ── Enter key to submit ── */
 document.addEventListener("keydown", e => {
   if(e.key !== "Enter") return;
+
+  if(document.getElementById("accSettingsOverlay").classList.contains("visible")){
+    doChangeUsername();
+    return;
+  }
+
   const overlay = document.getElementById("authOverlay");
   if(!overlay.classList.contains("visible")) return;
   const loginVisible = document.getElementById("loginForm").style.display !== "none";
