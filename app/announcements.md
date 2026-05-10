@@ -1,13 +1,9 @@
-# 🫵 Wir suchen Team-Mitglieder! 🫵
+# ⚠️ Website Umzug ⚠️
 
-## Hey Spieler,
+## Hey liebe Spieler,
 
-Wir suchen aktuell aktiv Supporter, Builder, usw.!
-Werde ein Teil vom Team und helfe Spieler, baue wunderbare Bauwerke oder was ganz anderes!
+Unsere Website zieht von GitHub um! Dieser Umzug dauer 1 - 2 Stunden und in diesem Zeitraum ist die Website nicht oder nur teilweise erreichbar.
 
-Du hast Interesse? 
-
-Bewerbe dich jetzt im Bewerbungs-Channel auf Discord!
-
+Vielen dank für euer Verständnis!
 - Crafii9
 *Owner - PixelHide.net*
