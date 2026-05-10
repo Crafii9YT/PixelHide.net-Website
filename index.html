@@ -20,15 +20,11 @@
   --bg:#040406;
   --card:#0d0d14;
   --card2:#13131d;
-
   --accent:#a78bfa;
   --accent2:#c4b5fd;
-
   --discord:#5865F2;
-
   --text:#f5f5f5;
   --muted:#9ca3af;
-
   --zoom:1;
   --text-size:1;
   --blur:16px;
@@ -38,31 +34,19 @@
   --transition:.25s;
 }
 
-/* GLOBAL */
-
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-}
-
-html{
-  scroll-behavior:smooth;
-}
+*{ margin:0; padding:0; box-sizing:border-box; }
+html{ scroll-behavior:smooth; }
 
 body{
   font-family:Inter,sans-serif;
   background:var(--bg);
   color:var(--text);
   overflow-x:hidden;
-
   transform:scale(var(--zoom));
   transform-origin:top center;
   font-size:calc(16px * var(--text-size));
   transition:background var(--transition), color var(--transition);
 }
-
-/* NO ANIMATIONS */
 
 .no-animations *{
   animation:none !important;
@@ -70,95 +54,515 @@ body{
   scroll-behavior:auto !important;
 }
 
-/* SCROLLBAR */
-
-::-webkit-scrollbar{
-  width:10px;
-}
-
-::-webkit-scrollbar-track{
-  background:#08080d;
-}
-
+::-webkit-scrollbar{ width:10px; }
+::-webkit-scrollbar-track{ background:#08080d; }
 ::-webkit-scrollbar-thumb{
   background:linear-gradient(var(--accent),var(--accent2));
   border-radius:999px;
 }
 
-/* SETTINGS BUTTON */
+/* ──────────────────────────────────────
+   TOP-RIGHT BUTTONS
+────────────────────────────────────── */
 
-.settings-btn{
+.top-buttons{
   position:fixed;
-
   top:25px;
   right:25px;
-
   z-index:9999;
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
 
+.settings-btn,
+.login-btn{
   padding:14px 22px;
-
   border-radius:18px;
-
   background:rgba(255,255,255,.06);
-
   border:1px solid rgba(255,255,255,.08);
-
   backdrop-filter:blur(16px);
-
   color:var(--text);
-
   text-decoration:none;
-
   display:flex;
   align-items:center;
   gap:10px;
-
   font-weight:700;
   font-family:Inter,sans-serif;
-
+  cursor:pointer;
   transition:var(--transition);
+  font-size:1rem;
+  white-space:nowrap;
 }
 
-.settings-btn:hover{
+.settings-btn:hover,
+.login-btn:hover{
   transform:translateY(-4px);
   border-color:rgba(167,139,250,.35);
   box-shadow:0 0 20px rgba(167,139,250,.15);
 }
 
-.settings-btn svg{
-  transition:transform .5s ease;
+.settings-btn svg{ transition:transform .5s ease; }
+.settings-btn:hover svg{ transform:rotate(90deg); }
+
+/* user pill */
+.user-pill{
+  position:relative;
+  padding:11px 20px;
+  border-radius:18px;
+  background:linear-gradient(135deg,rgba(167,139,250,.2),rgba(196,181,253,.1));
+  border:1px solid rgba(167,139,250,.35);
+  backdrop-filter:blur(16px);
+  color:var(--text);
+  display:flex;
+  align-items:center;
+  gap:10px;
+  font-weight:700;
+  font-family:Inter,sans-serif;
+  cursor:pointer;
+  transition:var(--transition);
+  font-size:.88rem;
+  user-select:none;
+  max-width:220px;
 }
 
-.settings-btn:hover svg{
-  transform:rotate(90deg);
+.user-pill:hover{
+  transform:translateY(-4px);
+  border-color:rgba(167,139,250,.6);
+  box-shadow:0 0 25px rgba(167,139,250,.25);
 }
 
-/* BACKGROUND GLOW */
+.user-pill .avatar{
+  width:28px;
+  height:28px;
+  border-radius:50%;
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:.8rem;
+  font-weight:900;
+  color:#111;
+  flex-shrink:0;
+}
+
+.user-pill .email-text{
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+
+.user-pill .chevron{
+  margin-left:auto;
+  transition:transform .25s;
+  flex-shrink:0;
+  opacity:.6;
+}
+
+.user-pill.open .chevron{ transform:rotate(180deg); }
+
+/* dropdown */
+.user-dropdown{
+  position:absolute;
+  top:calc(100% + 12px);
+  right:0;
+  min-width:180px;
+  background:rgba(13,13,20,.95);
+  border:1px solid rgba(167,139,250,.2);
+  border-radius:16px;
+  backdrop-filter:blur(24px);
+  box-shadow:0 20px 60px rgba(0,0,0,.7), 0 0 40px rgba(167,139,250,.1);
+  overflow:hidden;
+  opacity:0;
+  pointer-events:none;
+  transform:translateY(-8px) scale(.97);
+  transform-origin:top right;
+  transition:opacity .2s, transform .2s;
+}
+
+.user-dropdown.visible{
+  opacity:1;
+  pointer-events:all;
+  transform:translateY(0) scale(1);
+}
+
+.dropdown-email{
+  padding:14px 18px 10px;
+  font-size:.78rem;
+  color:var(--muted);
+  border-bottom:1px solid rgba(255,255,255,.06);
+  word-break:break-all;
+}
+
+.dropdown-item{
+  padding:13px 18px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  cursor:pointer;
+  font-size:.9rem;
+  color:var(--text);
+  transition:.18s;
+}
+
+.dropdown-item:hover{
+  background:rgba(255,255,255,.06);
+  color:var(--accent2);
+}
+
+.dropdown-item.danger:hover{
+  background:rgba(239,68,68,.1);
+  color:#fca5a5;
+}
+
+/* ──────────────────────────────────────
+   AUTH MODAL OVERLAY
+────────────────────────────────────── */
+
+.auth-overlay{
+  position:fixed;
+  inset:0;
+  z-index:99999;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+  opacity:0;
+  pointer-events:none;
+  transition:opacity .3s;
+}
+
+.auth-overlay.visible{
+  opacity:1;
+  pointer-events:all;
+}
+
+.auth-backdrop{
+  position:absolute;
+  inset:0;
+  background:rgba(0,0,0,.75);
+  backdrop-filter:blur(8px);
+}
+
+.auth-modal{
+  position:relative;
+  width:100%;
+  max-width:440px;
+  background:rgba(13,13,22,.98);
+  border:1px solid rgba(167,139,250,.2);
+  border-radius:28px;
+  padding:40px 36px 36px;
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,.04),
+    0 40px 100px rgba(0,0,0,.8),
+    0 0 80px rgba(167,139,250,.12);
+  transform:translateY(30px) scale(.97);
+  transition:transform .35s cubic-bezier(.22,1,.36,1);
+}
+
+.auth-overlay.visible .auth-modal{
+  transform:translateY(0) scale(1);
+}
+
+/* close */
+.auth-close{
+  position:absolute;
+  top:18px;
+  right:18px;
+  width:36px;
+  height:36px;
+  border-radius:50%;
+  border:1px solid rgba(255,255,255,.08);
+  background:rgba(255,255,255,.04);
+  color:var(--muted);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+  font-size:1.1rem;
+  transition:.2s;
+}
+.auth-close:hover{ background:rgba(255,255,255,.1); color:var(--text); }
+
+/* logo/header */
+.auth-logo{
+  text-align:center;
+  margin-bottom:28px;
+}
+
+.auth-logo .icon{
+  width:52px;
+  height:52px;
+  border-radius:16px;
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  font-size:1.6rem;
+  margin-bottom:14px;
+  box-shadow:0 0 30px rgba(167,139,250,.35);
+}
+
+.auth-logo h2{
+  font-family:Orbitron,sans-serif;
+  font-size:1.4rem;
+  color:var(--text);
+  margin-bottom:4px;
+}
+
+.auth-logo p{
+  font-size:.85rem;
+  color:var(--muted);
+}
+
+/* tabs */
+.auth-tabs{
+  display:flex;
+  background:rgba(255,255,255,.04);
+  border:1px solid rgba(255,255,255,.07);
+  border-radius:14px;
+  padding:4px;
+  margin-bottom:28px;
+  gap:4px;
+}
+
+.auth-tab{
+  flex:1;
+  padding:10px;
+  text-align:center;
+  border-radius:10px;
+  cursor:pointer;
+  font-size:.88rem;
+  font-weight:600;
+  color:var(--muted);
+  transition:.2s;
+  user-select:none;
+}
+
+.auth-tab.active{
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  color:#111;
+  box-shadow:0 0 20px rgba(167,139,250,.3);
+}
+
+/* form */
+.auth-form{ display:flex; flex-direction:column; gap:16px; }
+
+.form-group{ display:flex; flex-direction:column; gap:7px; }
+
+.form-label{
+  font-size:.8rem;
+  font-weight:600;
+  color:var(--muted);
+  letter-spacing:.03em;
+  text-transform:uppercase;
+}
+
+.form-input{
+  padding:14px 16px;
+  border-radius:12px;
+  border:1px solid rgba(255,255,255,.1);
+  background:rgba(255,255,255,.04);
+  color:var(--text);
+  font-size:.95rem;
+  font-family:Inter,sans-serif;
+  outline:none;
+  transition:.2s;
+}
+
+.form-input:focus{
+  border-color:rgba(167,139,250,.5);
+  background:rgba(167,139,250,.06);
+  box-shadow:0 0 0 3px rgba(167,139,250,.12);
+}
+
+.form-input::placeholder{ color:rgba(156,163,175,.5); }
+
+/* password toggle */
+.input-wrap{
+  position:relative;
+  display:flex;
+}
+
+.input-wrap .form-input{ width:100%; padding-right:46px; }
+
+.pw-toggle{
+  position:absolute;
+  right:14px;
+  top:50%;
+  transform:translateY(-50%);
+  background:none;
+  border:none;
+  color:var(--muted);
+  cursor:pointer;
+  padding:4px;
+  display:flex;
+  align-items:center;
+  transition:.2s;
+}
+.pw-toggle:hover{ color:var(--accent); }
+
+/* remember checkbox */
+.remember-row{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  cursor:pointer;
+  user-select:none;
+}
+
+.remember-row input[type="checkbox"]{
+  appearance:none;
+  width:18px;
+  height:18px;
+  border-radius:6px;
+  border:1.5px solid rgba(255,255,255,.15);
+  background:rgba(255,255,255,.04);
+  cursor:pointer;
+  position:relative;
+  transition:.2s;
+  flex-shrink:0;
+}
+
+.remember-row input[type="checkbox"]:checked{
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  border-color:transparent;
+}
+
+.remember-row input[type="checkbox"]:checked::after{
+  content:"";
+  position:absolute;
+  left:4px;
+  top:2px;
+  width:6px;
+  height:9px;
+  border:2px solid #111;
+  border-top:none;
+  border-left:none;
+  transform:rotate(45deg);
+}
+
+.remember-label{
+  font-size:.88rem;
+  color:var(--muted);
+}
+
+/* error message */
+.auth-error{
+  padding:11px 14px;
+  background:rgba(239,68,68,.1);
+  border:1px solid rgba(239,68,68,.25);
+  border-radius:10px;
+  color:#fca5a5;
+  font-size:.84rem;
+  display:none;
+}
+
+.auth-error.show{ display:block; }
+
+/* submit button */
+.auth-submit{
+  padding:15px;
+  border-radius:12px;
+  border:none;
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  color:#111;
+  font-size:1rem;
+  font-weight:800;
+  font-family:Inter,sans-serif;
+  cursor:pointer;
+  position:relative;
+  overflow:hidden;
+  transition:.25s;
+  margin-top:4px;
+}
+
+.auth-submit:hover{
+  transform:translateY(-2px);
+  box-shadow:0 0 30px rgba(167,139,250,.4);
+}
+
+.auth-submit:active{ transform:translateY(0); }
+
+.auth-submit:disabled{
+  opacity:.6;
+  cursor:not-allowed;
+  transform:none;
+}
+
+.auth-submit .spinner{
+  display:none;
+  width:18px;
+  height:18px;
+  border:2.5px solid rgba(0,0,0,.3);
+  border-top-color:#111;
+  border-radius:50%;
+  animation:spin .7s linear infinite;
+  margin:0 auto;
+}
+
+.auth-submit.loading .btn-text{ display:none; }
+.auth-submit.loading .spinner{ display:block; }
+
+@keyframes spin{ to{ transform:rotate(360deg); } }
+
+/* divider */
+.auth-divider{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  color:rgba(255,255,255,.15);
+  font-size:.78rem;
+  margin:2px 0;
+}
+.auth-divider::before,
+.auth-divider::after{
+  content:"";
+  flex:1;
+  height:1px;
+  background:rgba(255,255,255,.08);
+}
+
+/* success */
+.auth-success{
+  text-align:center;
+  padding:20px 0 10px;
+  display:none;
+}
+.auth-success.show{ display:block; }
+.auth-success .check{
+  font-size:2.8rem;
+  margin-bottom:12px;
+}
+.auth-success h3{
+  font-size:1.2rem;
+  margin-bottom:6px;
+}
+.auth-success p{ color:var(--muted); font-size:.88rem; }
+
+/* ──────────────────────────────────────
+   BACKGROUND GLOW
+────────────────────────────────────── */
 
 .bg-glow{
   position:fixed;
-  width:700px;
-  height:700px;
+  width:700px; height:700px;
   background:radial-gradient(circle,var(--accent) 0%,transparent 70%);
   opacity:var(--glow-opacity);
   filter:blur(100px);
   z-index:-1;
   animation:floatGlow 12s ease-in-out infinite;
 }
-
-.bg-glow2{
-  right:-250px;
-  top:300px;
-  animation-delay:4s;
-}
-
+.bg-glow2{ right:-250px; top:300px; animation-delay:4s; }
 @keyframes floatGlow{
-  0%{transform:translateY(0px) translateX(0px);}
-  50%{transform:translateY(-50px) translateX(40px);}
-  100%{transform:translateY(0px) translateX(0px);}
+  0%{ transform:translateY(0px) translateX(0px); }
+  50%{ transform:translateY(-50px) translateX(40px); }
+  100%{ transform:translateY(0px) translateX(0px); }
 }
 
-/* HERO */
+/* ──────────────────────────────────────
+   HERO
+────────────────────────────────────── */
 
 .hero{
   position:relative;
@@ -166,7 +570,6 @@ body{
   background:
     linear-gradient(rgba(0,0,0,.45),rgba(4,4,6,.95)),
     url("https://pixelhide.net/Banner.png") center/cover no-repeat;
-
   display:flex;
   justify-content:center;
   align-items:center;
@@ -178,17 +581,14 @@ body{
   content:"";
   position:absolute;
   inset:0;
-  background:
-  radial-gradient(circle at center,
-  rgba(167,139,250,.2),
-  transparent 60%);
+  background:radial-gradient(circle at center,rgba(167,139,250,.2),transparent 60%);
   animation:pulse 6s infinite;
 }
 
 @keyframes pulse{
-  0%{opacity:.4;transform:scale(1);}
-  50%{opacity:.8;transform:scale(1.1);}
-  100%{opacity:.4;transform:scale(1);}
+  0%{ opacity:.4; transform:scale(1); }
+  50%{ opacity:.8; transform:scale(1.1); }
+  100%{ opacity:.4; transform:scale(1); }
 }
 
 .hero-content{
@@ -201,38 +601,22 @@ body{
 }
 
 @keyframes heroEnter{
-  from{
-    opacity:0;
-    transform:translateY(50px);
-  }
-  to{
-    opacity:1;
-    transform:translateY(0);
-  }
+  from{ opacity:0; transform:translateY(50px); }
+  to{ opacity:1; transform:translateY(0); }
 }
 
 .logo{
   width:620px;
   max-width:95%;
   margin-bottom:25px;
-
-  filter:
-    drop-shadow(0 0 20px rgba(167,139,250,.6))
-    drop-shadow(0 0 80px rgba(167,139,250,.5));
-
+  filter:drop-shadow(0 0 20px rgba(167,139,250,.6)) drop-shadow(0 0 80px rgba(167,139,250,.5));
   animation:floatLogo 5s ease-in-out infinite;
 }
 
 @keyframes floatLogo{
-  0%{transform:translateY(0px);}
-  50%{transform:translateY(-10px);}
-  100%{transform:translateY(0px);}
-}
-
-.hero h1{
-  font-size:4rem;
-  font-family:Orbitron;
-  margin-bottom:15px;
+  0%{ transform:translateY(0px); }
+  50%{ transform:translateY(-10px); }
+  100%{ transform:translateY(0px); }
 }
 
 .hero p{
@@ -242,8 +626,6 @@ body{
   margin:auto;
   line-height:1.7;
 }
-
-/* BUTTONS */
 
 .btn-row{
   display:flex;
@@ -255,75 +637,44 @@ body{
 
 .btn{
   position:relative;
-
   padding:17px 32px;
   border-radius:10px;
-
   display:flex;
   align-items:center;
   justify-content:center;
   gap:12px;
-
   text-decoration:none;
   font-weight:700;
-
   overflow:hidden;
-
   transition:var(--transition);
-
   backdrop-filter:blur(var(--blur));
 }
 
 .btn::before{
   content:"";
   position:absolute;
-  top:0;
-  left:-120%;
-  width:100%;
-  height:100%;
-
-  background:linear-gradient(
-    90deg,
-    transparent,
-    rgba(255,255,255,.25),
-    transparent
-  );
-
+  top:0; left:-120%;
+  width:100%; height:100%;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.25),transparent);
   transition:.6s;
 }
-
-.btn:hover::before{
-  left:120%;
-}
-
-.btn:hover{
-  transform:translateY(-4px) scale(1.03);
-}
+.btn:hover::before{ left:120%; }
+.btn:hover{ transform:translateY(-4px) scale(1.03); }
 
 .btn-primary{
   background:linear-gradient(135deg,var(--accent),var(--accent2));
   color:#050507;
-
-  box-shadow:
-    0 0 20px rgba(167,139,250,.35),
-    0 0 60px rgba(167,139,250,.2);
+  box-shadow:0 0 20px rgba(167,139,250,.35),0 0 60px rgba(167,139,250,.2);
 }
 
 .btn-discord{
   background:rgba(88,101,242,.15);
   border:1px solid rgba(88,101,242,.4);
   color:white;
-
-  box-shadow:
-    0 0 25px rgba(88,101,242,.2);
+  box-shadow:0 0 25px rgba(88,101,242,.2);
 }
 
-.btn img{
-  width:22px;
-  height:22px;
-}
-
-/* STATS */
+.btn img{ width:22px; height:22px; }
 
 .stats{
   display:flex;
@@ -335,32 +686,16 @@ body{
 
 .stat{
   min-width:180px;
-
   background:rgba(255,255,255,.03);
   border:1px solid rgba(255,255,255,.06);
-
   padding:22px;
   border-radius:var(--radius);
-
   backdrop-filter:blur(var(--blur));
-
   transition:var(--transition);
 }
-
-.stat:hover{
-  transform:translateY(-5px);
-  border-color:rgba(167,139,250,.4);
-}
-
-.stat h2{
-  font-size:2rem;
-  color:var(--accent2);
-  margin-bottom:6px;
-}
-
-.stat p{
-  color:var(--muted);
-}
+.stat:hover{ transform:translateY(-5px); border-color:rgba(167,139,250,.4); }
+.stat h2{ font-size:2rem; color:var(--accent2); margin-bottom:6px; }
+.stat p{ color:var(--muted); }
 
 /* SECTIONS */
 
@@ -374,18 +709,12 @@ section{
   text-align:center;
   margin-bottom:60px;
 }
-
 .section-title h2{
   font-size:3rem;
   font-family:Orbitron;
   margin-bottom:15px;
 }
-
-.section-title p{
-  color:var(--muted);
-}
-
-/* GRID */
+.section-title p{ color:var(--muted); }
 
 .grid{
   display:grid;
@@ -395,22 +724,11 @@ section{
 
 .card{
   position:relative;
-
-  background:
-  linear-gradient(
-    145deg,
-    rgba(255,255,255,var(--card-opacity)),
-    rgba(255,255,255,.02)
-  );
-
+  background:linear-gradient(145deg,rgba(255,255,255,var(--card-opacity)),rgba(255,255,255,.02));
   border:1px solid rgba(255,255,255,.07);
-
   border-radius:var(--radius);
-
   padding:35px;
-
   overflow:hidden;
-
   transition:var(--transition);
 }
 
@@ -418,170 +736,96 @@ section{
   content:"";
   position:absolute;
   inset:0;
-
-  background:
-  radial-gradient(circle at top left,
-  rgba(167,139,250,.22),
-  transparent 50%);
-
+  background:radial-gradient(circle at top left,rgba(167,139,250,.22),transparent 50%);
   opacity:0;
   transition:var(--transition);
 }
-
-.card:hover::before{
-  opacity:1;
-}
+.card:hover::before{ opacity:1; }
 
 .card:hover{
-  transform:
-    translateY(-10px)
-    scale(1.02);
-
+  transform:translateY(-10px) scale(1.02);
   border-color:rgba(167,139,250,.3);
-
-  box-shadow:
-    0 15px 40px rgba(0,0,0,.5),
-    0 0 50px rgba(167,139,250,.15);
+  box-shadow:0 15px 40px rgba(0,0,0,.5),0 0 50px rgba(167,139,250,.15);
 }
 
-.card-icon{
-  font-size:3rem;
-  margin-bottom:18px;
-}
-
-.card h3{
-  font-size:1.5rem;
-  margin-bottom:12px;
-}
-
-.card p{
-  color:var(--muted);
-  line-height:1.7;
-}
-
-.card .btn{
-  margin-top:22px;
-}
-
-/* VIDEO */
+.card-icon{ font-size:3rem; margin-bottom:18px; }
+.card h3{ font-size:1.5rem; margin-bottom:12px; }
+.card p{ color:var(--muted); line-height:1.7; }
+.card .btn{ margin-top:22px; }
 
 .video-wrapper{
   position:relative;
   border-radius:var(--radius);
   overflow:hidden;
-
-  box-shadow:
-    0 0 40px rgba(167,139,250,.12),
-    0 0 120px rgba(167,139,250,.08);
+  box-shadow:0 0 40px rgba(167,139,250,.12),0 0 120px rgba(167,139,250,.08);
 }
 
-.video{
-  width:100%;
-  aspect-ratio:16/9;
-  border:none;
-}
-
-/* STATUS */
+.video{ width:100%; aspect-ratio:16/9; border:none; }
 
 .status{
   margin-top:50px;
-
   display:flex;
   justify-content:space-between;
   align-items:center;
   gap:20px;
   flex-wrap:wrap;
-
-  background:
-  linear-gradient(
-    135deg,
-    rgba(255,255,255,.05),
-    rgba(255,255,255,.02)
-  );
-
+  background:linear-gradient(135deg,rgba(255,255,255,.05),rgba(255,255,255,.02));
   border:1px solid rgba(255,255,255,.08);
-
   padding:25px;
   border-radius:var(--radius);
 }
 
-.server-ip{
-  font-size:2rem;
-  font-weight:800;
-  color:var(--accent2);
-}
-
-.copy-btn{
-  border:none;
-  cursor:pointer;
-}
-
-/* FOOTER */
+.server-ip{ font-size:2rem; font-weight:800; color:var(--accent2); }
+.copy-btn{ border:none; cursor:pointer; }
 
 footer{
   margin-top:100px;
   border-top:1px solid rgba(255,255,255,.06);
-
   padding:50px 25px;
-
   text-align:center;
 }
 
-footer .links{
-  margin-bottom:25px;
-}
-
-footer a{
-  color:var(--accent);
-  text-decoration:none;
-  margin:0 12px;
-}
-
-footer a:hover{
-  color:white;
-}
-
-/* MOBILE */
+footer .footer-links{ margin-bottom:25px; }
+footer a{ color:var(--accent); text-decoration:none; margin:0 12px; }
+footer a:hover{ color:white; }
 
 @media(max-width:768px){
-
-  .hero h1{
-    font-size:2.5rem;
-  }
-
-  .section-title h2{
-    font-size:2.2rem;
-  }
-
-  .logo{
-    width:330px;
-  }
-
-  .stats{
-    flex-direction:column;
-    align-items:center;
-  }
-
-  .status{
-    flex-direction:column;
-    text-align:center;
-  }
-
-  .server-ip{
-    font-size:1.4rem;
-  }
-
+  .hero h1{ font-size:2.5rem; }
+  .section-title h2{ font-size:2.2rem; }
+  .logo{ width:330px; }
+  .stats{ flex-direction:column; align-items:center; }
+  .status{ flex-direction:column; text-align:center; }
+  .server-ip{ font-size:1.4rem; }
+  .top-buttons{ top:15px; right:15px; gap:8px; }
+  .settings-btn, .login-btn{ padding:11px 16px; font-size:.85rem; }
+  .auth-modal{ padding:28px 22px 26px; }
 }
 
 </style>
 
+<!-- Firebase SDK (compat v9 via CDN) -->
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+
 <script>
 
-/* =========================
-   SETTINGS SYNC
-   Liest dieselben localStorage-Keys
-   die settings.html schreibt.
-   ========================= */
+/* ─── FIREBASE CONFIG ─────────────────────────────────────
+   ⚠ Ersetze apiKey, authDomain etc. mit deinen Werten aus
+   der Firebase Console → Projekteinstellungen → Allgemein
+   ─────────────────────────────────────────────────────── */
+const firebaseConfig = {
+  apiKey:            "AIzaSyBtxHyCkI1TPdV6uWrhJ6bW4FjIdHVHuGw",          // ← anpassen
+  authDomain:        "pixelhide-app.firebaseapp.com",
+  projectId:         "pixelhide-app",
+  storageBucket:     "pixelhide-app.appspot.com",
+  messagingSenderId: "469716803908",       // ← anpassen
+  appId:             "1:469716803908:web:4adff338ab4db6b576b711"           // ← anpassen
+};
+
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+
+/* ─── SETTINGS SYNC ───────────────────────────────────── */
 
 const THEMES = {
   dark:{bg:"#050507",bg2:"#0b0b10",card:"#101018",accent:"#a78bfa",accent2:"#c4b5fd",text:"#f5f5f5",muted:"#9ca3af"},
@@ -604,8 +848,6 @@ const THEMES = {
 function applySettings(){
   const r = document.documentElement;
   const ls = localStorage;
-
-  /* THEME */
   const themeName = ls.getItem("theme") || "dark";
   const t = THEMES[themeName] || THEMES.dark;
   r.style.setProperty("--bg",      t.bg);
@@ -615,273 +857,292 @@ function applySettings(){
   r.style.setProperty("--accent2", t.accent2);
   r.style.setProperty("--text",    t.text);
   r.style.setProperty("--muted",   t.muted);
-
-  /* ZOOM */
-  const zoom = ls.getItem("zoom") || "1";
-  r.style.setProperty("--zoom", zoom);
-
-  /* TEXT SIZE */
-  const textSize = ls.getItem("textSize") || "1";
-  r.style.setProperty("--text-size", textSize);
-
-  /* BLUR */
-  const blur = ls.getItem("blur") || "16";
-  r.style.setProperty("--blur", blur + "px");
-
-  /* ROUNDED UI */
-  const rounded = ls.getItem("rounded");
-  r.style.setProperty("--radius", rounded === "false" ? "0px" : "24px");
-
-  /* GLOW */
-  const glow = ls.getItem("glow");
-  r.style.setProperty("--glow-opacity", glow === "false" ? "0" : ".12");
-
-  /* TRANSPARENT CARDS */
-  const transparent = ls.getItem("transparent");
-  r.style.setProperty("--card-opacity", transparent === "false" ? ".18" : ".04");
-
-  /* TRANSITIONS */
-  const transitions = ls.getItem("transitions");
-  r.style.setProperty("--transition", transitions === "false" ? "0s" : ".25s");
-
-  /* ANIMATIONS */
-  const animations = ls.getItem("animations");
-  if(animations === "false"){
-    document.body.classList.add("no-animations");
-  }else{
-    document.body.classList.remove("no-animations");
-  }
+  r.style.setProperty("--zoom", ls.getItem("zoom") || "1");
+  r.style.setProperty("--text-size", ls.getItem("textSize") || "1");
+  r.style.setProperty("--blur", (ls.getItem("blur") || "16") + "px");
+  r.style.setProperty("--radius", ls.getItem("rounded") === "false" ? "0px" : "24px");
+  r.style.setProperty("--glow-opacity", ls.getItem("glow") === "false" ? "0" : ".12");
+  r.style.setProperty("--card-opacity", ls.getItem("transparent") === "false" ? ".18" : ".04");
+  r.style.setProperty("--transition", ls.getItem("transitions") === "false" ? "0s" : ".25s");
+  if(ls.getItem("animations") === "false") document.body.classList.add("no-animations");
+  else document.body.classList.remove("no-animations");
 }
 
-/* Sofort beim Laden anwenden (vor dem Rendern) */
 applySettings();
-
-/* Sync wenn Settings in einem anderen Tab geändert werden */
 window.addEventListener("storage", applySettings);
-
-/* ========================= */
 
 function copyIP(){
   navigator.clipboard.writeText("pixelhide.net");
-
   const btn = document.getElementById("copyBtn");
   btn.innerHTML = "Kopiert!";
-  
-  setTimeout(()=>{
-    btn.innerHTML = "IP kopieren";
-  },2000);
+  setTimeout(()=>{ btn.innerHTML = "IP kopieren"; }, 2000);
 }
 
 </script>
-
 </head>
 <body>
 
-<a href="/settings.html" class="settings-btn">
-  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-    <circle cx="12" cy="12" r="3"/>
-    <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
-  </svg>
-  Settings
-</a>
+<!-- ─── TOP BUTTONS ──────────────────────────────────── -->
+
+<div class="top-buttons">
+
+  <!-- shown when NOT logged in -->
+  <button class="login-btn" id="loginBtn" onclick="openAuth()">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+      <circle cx="12" cy="7" r="4"/>
+    </svg>
+    Anmelden
+  </button>
+
+  <!-- shown when logged in -->
+  <div class="user-pill" id="userPill" style="display:none" onclick="toggleDropdown()">
+    <div class="avatar" id="userAvatar">?</div>
+    <span class="email-text" id="userEmail">–</span>
+    <svg class="chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="6 9 12 15 18 9"/>
+    </svg>
+    <div class="user-dropdown" id="userDropdown">
+      <div class="dropdown-email" id="dropdownEmail"></div>
+      <div class="dropdown-item danger" onclick="signOut()">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+          <polyline points="16 17 21 12 16 7"/>
+          <line x1="21" y1="12" x2="9" y2="12"/>
+        </svg>
+        Abmelden
+      </div>
+    </div>
+  </div>
+
+  <a href="/settings.html" class="settings-btn">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="3"/>
+      <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+    </svg>
+    Settings
+  </a>
+</div>
+
+<!-- ─── AUTH MODAL ───────────────────────────────────── -->
+
+<div class="auth-overlay" id="authOverlay">
+  <div class="auth-backdrop" onclick="closeAuth()"></div>
+  <div class="auth-modal">
+
+    <button class="auth-close" onclick="closeAuth()">✕</button>
+
+    <div class="auth-logo">
+      <div class="icon">⛏</div>
+      <h2>PixelHide.net</h2>
+      <p id="authSubtitle">Melde dich an oder erstelle ein Konto</p>
+    </div>
+
+    <!-- TABS -->
+    <div class="auth-tabs">
+      <div class="auth-tab active" id="tabLogin" onclick="switchTab('login')">Anmelden</div>
+      <div class="auth-tab" id="tabRegister" onclick="switchTab('register')">Registrieren</div>
+    </div>
+
+    <!-- LOGIN FORM -->
+    <div id="loginForm">
+      <div class="auth-form">
+        <div class="auth-error" id="loginError"></div>
+
+        <div class="form-group">
+          <label class="form-label">E-Mail</label>
+          <input class="form-input" id="loginEmail" type="email" placeholder="deine@email.de" autocomplete="email">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Passwort</label>
+          <div class="input-wrap">
+            <input class="form-input" id="loginPw" type="password" placeholder="••••••••" autocomplete="current-password">
+            <button class="pw-toggle" type="button" onclick="togglePw('loginPw',this)" tabindex="-1">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                <circle cx="12" cy="12" r="3"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <label class="remember-row">
+          <input type="checkbox" id="rememberMe" checked>
+          <span class="remember-label">Angemeldet bleiben</span>
+        </label>
+
+        <button class="auth-submit" id="loginSubmit" onclick="doLogin()">
+          <span class="btn-text">Anmelden</span>
+          <div class="spinner"></div>
+        </button>
+      </div>
+    </div>
+
+    <!-- REGISTER FORM -->
+    <div id="registerForm" style="display:none">
+      <div class="auth-form">
+        <div class="auth-error" id="registerError"></div>
+
+        <div class="auth-success" id="registerSuccess">
+          <div class="check">🎉</div>
+          <h3>Willkommen!</h3>
+          <p>Dein Konto wurde erstellt. Du bist jetzt angemeldet.</p>
+        </div>
+
+        <div id="registerFields">
+          <div class="auth-form">
+            <div class="form-group">
+              <label class="form-label">E-Mail</label>
+              <input class="form-input" id="regEmail" type="email" placeholder="deine@email.de" autocomplete="email">
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Passwort</label>
+              <div class="input-wrap">
+                <input class="form-input" id="regPw" type="password" placeholder="Mindestens 6 Zeichen" autocomplete="new-password">
+                <button class="pw-toggle" type="button" onclick="togglePw('regPw',this)" tabindex="-1">
+                  <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                    <circle cx="12" cy="12" r="3"/>
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Passwort bestätigen</label>
+              <div class="input-wrap">
+                <input class="form-input" id="regPw2" type="password" placeholder="••••••••" autocomplete="new-password">
+                <button class="pw-toggle" type="button" onclick="togglePw('regPw2',this)" tabindex="-1">
+                  <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                    <circle cx="12" cy="12" r="3"/>
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            <button class="auth-submit" id="regSubmit" onclick="doRegister()">
+              <span class="btn-text">Konto erstellen</span>
+              <div class="spinner"></div>
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ─── BACKGROUND GLOWS ─────────────────────────────── -->
 
 <div class="bg-glow"></div>
 <div class="bg-glow bg-glow2"></div>
 
-<!-- HERO -->
+<!-- ─── HERO ─────────────────────────────────────────── -->
 
 <div class="hero">
-
   <div class="hero-content">
-
     <img class="logo" src="https://pixelhide.net/pixelhidenet.png">
-
-    <p>
-      Spiele mit deinen Freunden, Überlebe, Farme oder Baue! Alles ist möglich auf PixelHide.net!
-    </p>
-
+    <p>Spiele mit deinen Freunden, Überlebe, Farme oder Baue! Alles ist möglich auf PixelHide.net!</p>
     <div class="btn-row">
-
-      <a href="/join.html" class="btn btn-primary">
-        Jetzt beitreten
-      </a>
-
+      <a href="/join.html" class="btn btn-primary">Jetzt beitreten</a>
       <a href="https://discord.pixelhide.net" class="btn btn-discord">
         <img src="https://pixelhide.net/assets/icons/discord.png">
         Discord
       </a>
-
     </div>
-
     <div class="stats">
-
-      <div class="stat">
-        <h2>24/7</h2>
-        <p>Online Server</p>
-      </div>
-
-      <div class="stat">
-        <h2>1.13 - 1.21.11</h2>
-        <p>Version Support</p>
-      </div>
-
-      <div class="stat">
-        <h2>Über 5</h2>
-        <p>Aktive Teamitglieder</p>
-      </div>
-
+      <div class="stat"><h2>24/7</h2><p>Online Server</p></div>
+      <div class="stat"><h2>1.13 – 1.21.11</h2><p>Version Support</p></div>
+      <div class="stat"><h2>Über 5</h2><p>Aktive Teammitglieder</p></div>
     </div>
-
   </div>
-
 </div>
 
-<!-- TRAILER -->
+<!-- ─── TRAILER ───────────────────────────────────────── -->
 
 <section>
-
   <div class="section-title">
     <h2>Trailer</h2>
     <p>Erlebe PixelHide in Aktion.</p>
   </div>
-
   <div class="video-wrapper">
-    <iframe
-    class="video"
-    src="https://www.youtube-nocookie.com/embed/LFdXT-xSR8M"
-    allowfullscreen></iframe>
+    <iframe class="video" src="https://www.youtube-nocookie.com/embed/LFdXT-xSR8M" allowfullscreen></iframe>
   </div>
-
 </section>
 
-<!-- FEATURES -->
+<!-- ─── FEATURES ─────────────────────────────────────── -->
 
 <section>
-
   <div class="section-title">
     <h2>Features</h2>
     <p>Mehr als nur ein Minecraft Server.</p>
   </div>
-
   <div class="grid">
-
     <div class="card">
       <div class="card-icon">⚔️</div>
       <h3>Minigames</h3>
-      <p>
-        Bedwars, Skywars, Build Battle und weitere
-        einzigartige Modi.
-      </p>
+      <p>Bedwars, Skywars, Build Battle und weitere einzigartige Modi.</p>
     </div>
-
     <div class="card">
       <div class="card-icon">🏙️</div>
       <h3>CityBuild</h3>
-      <p>
-        Erstelle deine Stadt und baue dein eigenes Imperium.
-      </p>
+      <p>Erstelle deine Stadt und baue dein eigenes Imperium.</p>
     </div>
-
     <div class="card">
       <div class="card-icon">🔥</div>
       <h3>Events</h3>
-      <p>
-        Regelmäßige Community Events mit coolen Rewards.
-      </p>
+      <p>Regelmäßige Community Events mit coolen Rewards.</p>
     </div>
-
     <div class="card">
       <div class="card-icon">🌍</div>
       <h3>Custom Welten</h3>
-      <p>
-        Erstelle deine eigenen Welten direkt auf PixelHide.
-      </p>
-
-      <a href="/custom-welten.html" class="btn btn-primary">
-        Welt erstellen
-      </a>
+      <p>Erstelle deine eigenen Welten direkt auf PixelHide.</p>
+      <a href="/custom-welten.html" class="btn btn-primary">Welt erstellen</a>
     </div>
-
   </div>
-
   <div class="status">
-
     <div>
       <div class="server-ip">pixelhide.net</div>
-      <div style="color:var(--muted)">
-        Minecraft Server IP
-      </div>
+      <div style="color:var(--muted)">Minecraft Server IP</div>
     </div>
-
-    <button
-    class="btn btn-primary copy-btn"
-    id="copyBtn"
-    onclick="copyIP()">
-
-      IP kopieren
-
-    </button>
-
+    <button class="btn btn-primary copy-btn" id="copyBtn" onclick="copyIP()">IP kopieren</button>
   </div>
-
 </section>
 
-<!-- COMMUNITY -->
+<!-- ─── COMMUNITY ─────────────────────────────────────── -->
 
 <section>
-
   <div class="section-title">
     <h2>Community</h2>
     <p>Werde Teil von PixelHide.</p>
   </div>
-
   <div class="grid">
-
     <div class="card">
-
       <div class="card-icon">👥</div>
-
       <h3>Team</h3>
-
-      <p>
-        Bewirb dich und unterstütze das Netzwerk
-        als Teammitglied.
-      </p>
-
-      <a href="/team.html" class="btn btn-primary">
-        Mehr erfahren
-      </a>
-
+      <p>Bewirb dich und unterstütze das Netzwerk als Teammitglied.</p>
+      <a href="/team.html" class="btn btn-primary">Mehr erfahren</a>
     </div>
-
     <div class="card">
-
       <div class="card-icon">💬</div>
-
       <h3>Support</h3>
-
-      <p>
-        Hilfe direkt über unseren Discord Support erhalten.
-      </p>
-
+      <p>Hilfe direkt über unseren Discord Support erhalten.</p>
       <a href="https://discord.pixelhide.net" class="btn btn-discord">
-
         <img src="https://pixelhide.net/assets/icons/discord.png">
-
         Support öffnen
-
       </a>
-
     </div>
-
   </div>
-
 </section>
 
+<!-- ─── FOOTER ────────────────────────────────────────── -->
+
 <footer>
-
   <div class="footer-links">
-
     <a href="/join.html">Jetzt beitreten</a>
     <a href="https://discord.pixelhide.net">Discord</a>
     <a href="/team.html">Team</a>
@@ -889,19 +1150,207 @@ function copyIP(){
     <a href="/support.html">Support</a>
     <a href="/custom-welten.html">Custom Welten</a>
     <a href="/version-support.html">Versionen</a>
-
   </div>
-
-  <div>
-
-    © 2026
-    <span style="color:var(--accent)">
-      PixelHide.net
-    </span>
-
-  </div>
-
+  <div>© 2026 <span style="color:var(--accent)">PixelHide.net</span></div>
 </footer>
 
+<!-- ─── AUTH LOGIC ────────────────────────────────────── -->
+
+<script>
+
+/* ── Persistence toggle ── */
+function getPersistence(){
+  return document.getElementById("rememberMe")?.checked
+    ? firebase.auth.Auth.Persistence.LOCAL
+    : firebase.auth.Auth.Persistence.SESSION;
+}
+
+/* ── Auth state ── */
+auth.onAuthStateChanged(user => {
+  if(user){
+    showUserPill(user.email);
+  } else {
+    showLoginBtn();
+  }
+});
+
+function showUserPill(email){
+  document.getElementById("loginBtn").style.display  = "none";
+  const pill = document.getElementById("userPill");
+  pill.style.display = "flex";
+  document.getElementById("userEmail").textContent    = email;
+  document.getElementById("dropdownEmail").textContent = email;
+  document.getElementById("userAvatar").textContent   = email.charAt(0).toUpperCase();
+}
+
+function showLoginBtn(){
+  document.getElementById("loginBtn").style.display  = "";
+  document.getElementById("userPill").style.display  = "none";
+  document.getElementById("userDropdown").classList.remove("visible");
+  document.getElementById("userPill").classList.remove("open");
+}
+
+/* ── Dropdown ── */
+function toggleDropdown(){
+  const pill = document.getElementById("userPill");
+  const dd   = document.getElementById("userDropdown");
+  const open = dd.classList.toggle("visible");
+  pill.classList.toggle("open", open);
+}
+
+/* Close dropdown if clicking outside */
+document.addEventListener("click", e => {
+  const pill = document.getElementById("userPill");
+  if(pill && !pill.contains(e.target)){
+    document.getElementById("userDropdown").classList.remove("visible");
+    pill.classList.remove("open");
+  }
+});
+
+/* ── Sign out ── */
+async function signOut(){
+  await auth.signOut();
+}
+
+/* ── Modal ── */
+function openAuth(){
+  document.getElementById("authOverlay").classList.add("visible");
+  document.body.style.overflow = "hidden";
+  setTimeout(() => document.getElementById("loginEmail").focus(), 350);
+}
+
+function closeAuth(){
+  document.getElementById("authOverlay").classList.remove("visible");
+  document.body.style.overflow = "";
+}
+
+document.addEventListener("keydown", e => {
+  if(e.key === "Escape") closeAuth();
+});
+
+/* ── Tabs ── */
+function switchTab(tab){
+  const isLogin = tab === "login";
+  document.getElementById("tabLogin").classList.toggle("active", isLogin);
+  document.getElementById("tabRegister").classList.toggle("active", !isLogin);
+  document.getElementById("loginForm").style.display    = isLogin ? "" : "none";
+  document.getElementById("registerForm").style.display = isLogin ? "none" : "";
+  clearErrors();
+}
+
+function clearErrors(){
+  ["loginError","registerError"].forEach(id => {
+    const el = document.getElementById(id);
+    el.classList.remove("show");
+    el.textContent = "";
+  });
+}
+
+/* ── Password toggle ── */
+function togglePw(inputId, btn){
+  const inp = document.getElementById(inputId);
+  const isText = inp.type === "text";
+  inp.type = isText ? "password" : "text";
+  btn.style.color = isText ? "" : "var(--accent)";
+}
+
+/* ── Error messages (DE) ── */
+function firebaseErrDE(code){
+  const map = {
+    "auth/invalid-email":            "Ungültige E-Mail-Adresse.",
+    "auth/user-not-found":           "Kein Konto mit dieser E-Mail gefunden.",
+    "auth/wrong-password":           "Falsches Passwort.",
+    "auth/email-already-in-use":     "Diese E-Mail wird bereits verwendet.",
+    "auth/weak-password":            "Passwort muss mindestens 6 Zeichen haben.",
+    "auth/too-many-requests":        "Zu viele Versuche. Bitte später versuchen.",
+    "auth/network-request-failed":   "Netzwerkfehler. Bitte Verbindung prüfen.",
+    "auth/invalid-credential":       "E-Mail oder Passwort falsch.",
+  };
+  return map[code] || "Ein Fehler ist aufgetreten. Bitte versuche es erneut.";
+}
+
+function showErr(id, msg){
+  const el = document.getElementById(id);
+  el.textContent = msg;
+  el.classList.add("show");
+}
+
+/* ── Login ── */
+async function doLogin(){
+  clearErrors();
+  const email = document.getElementById("loginEmail").value.trim();
+  const pw    = document.getElementById("loginPw").value;
+  const btn   = document.getElementById("loginSubmit");
+
+  if(!email || !pw){
+    showErr("loginError", "Bitte E-Mail und Passwort eingeben.");
+    return;
+  }
+
+  btn.disabled = true;
+  btn.classList.add("loading");
+
+  try {
+    await auth.setPersistence(getPersistence());
+    await auth.signInWithEmailAndPassword(email, pw);
+    closeAuth();
+  } catch(err){
+    showErr("loginError", firebaseErrDE(err.code));
+  } finally {
+    btn.disabled = false;
+    btn.classList.remove("loading");
+  }
+}
+
+/* ── Register ── */
+async function doRegister(){
+  clearErrors();
+  const email = document.getElementById("regEmail").value.trim();
+  const pw    = document.getElementById("regPw").value;
+  const pw2   = document.getElementById("regPw2").value;
+  const btn   = document.getElementById("regSubmit");
+
+  if(!email || !pw || !pw2){
+    showErr("registerError", "Bitte alle Felder ausfüllen.");
+    return;
+  }
+  if(pw !== pw2){
+    showErr("registerError", "Passwörter stimmen nicht überein.");
+    return;
+  }
+  if(pw.length < 6){
+    showErr("registerError", "Passwort muss mindestens 6 Zeichen haben.");
+    return;
+  }
+
+  btn.disabled = true;
+  btn.classList.add("loading");
+
+  try {
+    await auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
+    await auth.createUserWithEmailAndPassword(email, pw);
+
+    /* success animation then close */
+    document.getElementById("registerFields").style.display = "none";
+    document.getElementById("registerSuccess").classList.add("show");
+    setTimeout(closeAuth, 2200);
+  } catch(err){
+    showErr("registerError", firebaseErrDE(err.code));
+    btn.disabled = false;
+    btn.classList.remove("loading");
+  }
+}
+
+/* ── Enter key to submit ── */
+document.addEventListener("keydown", e => {
+  if(e.key !== "Enter") return;
+  const overlay = document.getElementById("authOverlay");
+  if(!overlay.classList.contains("visible")) return;
+  const loginVisible = document.getElementById("loginForm").style.display !== "none";
+  if(loginVisible) doLogin();
+  else doRegister();
+});
+
+</script>
 </body>
 </html>
