@@ -1269,6 +1269,7 @@ function copyIP(){
     </svg>
     <div class="user-dropdown" id="userDropdown">
       <div class="dropdown-header">
+        <div class="dropdown-avatar" id="dropdownAvatar">?</div>
         <div class="dropdown-username" id="dropdownUsername">–</div>
         <span class="dropdown-email blurred" id="dropdownEmail" onclick="toggleEmailBlur(event)"></span>
         <div class="dropdown-email-hint">Klicken zum Anzeigen</div>
@@ -1529,21 +1530,78 @@ function copyIP(){
     <button class="auth-close" onclick="closeAccSettings()">✕</button>
 
     <div class="accsettings-title">Account-Einstellungen</div>
-    <div class="accsettings-sub">Passe deinen Profilnamen an.</div>
+    <div class="accsettings-sub">Profilbild und Username anpassen.</div>
 
-    <div class="auth-error" id="accSettingsError"></div>
-    <div class="accsettings-success" id="accSettingsSuccess">✓ Username erfolgreich geändert!</div>
+    <!-- Avatar preview -->
+    <div class="avatar-preview-wrap">
+      <div class="avatar-preview" id="accAvatarPreview" onclick="document.getElementById('fileTabBtn').click(); document.getElementById('fileInput').click()">
+        <span id="accAvatarLetter">?</span>
+        <div class="avatar-overlay">Ändern</div>
+      </div>
+    </div>
+
+    <!-- Source tabs -->
+    <div class="avatar-tabs">
+      <div class="avatar-tab active" id="fileTabBtn" onclick="switchAvatarTab('file')">📁 Datei hochladen</div>
+      <div class="avatar-tab" id="urlTabBtn"  onclick="switchAvatarTab('url')">🔗 URL verwenden</div>
+    </div>
+
+    <!-- File upload panel -->
+    <div id="avatarFilePanel">
+      <div class="file-drop" id="fileDrop">
+        <input type="file" id="fileInput" accept="image/*" onchange="handleFileSelect(this)">
+        <div class="file-drop-icon">🖼️</div>
+        <div class="file-drop-text">
+          <strong>Klicken oder Bild reinziehen</strong><br>
+          PNG, JPG, GIF, WebP · max. <strong>10 MB</strong>
+        </div>
+      </div>
+    </div>
+
+    <!-- URL panel -->
+    <div id="avatarUrlPanel" style="display:none">
+      <div class="form-group">
+        <label class="form-label">Bild-URL</label>
+        <input class="form-input" id="avatarUrlInput" type="url" placeholder="https://example.com/avatar.png">
+      </div>
+      <button class="auth-submit" style="margin-top:10px" onclick="applyAvatarUrl()">
+        <span class="btn-text">URL übernehmen</span>
+        <div class="spinner"></div>
+      </button>
+    </div>
+
+    <div style="height:1px;background:rgba(255,255,255,.07);margin:22px 0"></div>
+
+    <!-- Username -->
+    <div class="auth-error" id="accSettingsError" style="margin-bottom:12px"></div>
+    <div class="accsettings-success" id="accSettingsSuccess"></div>
 
     <div class="auth-form">
       <div class="form-group">
-        <label class="form-label">Neuer Username</label>
+        <label class="form-label">Username</label>
         <input class="form-input" id="newUsername" type="text" placeholder="Dein Username" autocomplete="off" maxlength="32">
       </div>
-
       <button class="auth-submit" id="accSettingsSubmit" onclick="doChangeUsername()">
         <span class="btn-text">Speichern</span>
         <div class="spinner"></div>
       </button>
+    </div>
+  </div>
+</div>
+
+<!-- ─── FILE SIZE ERROR POPUP ─────────────────────────── -->
+
+<div class="sizeerr-overlay" id="sizeErrOverlay">
+  <div class="auth-backdrop" onclick="closeSizeErr()"></div>
+  <div class="sizeerr-box">
+    <div class="sizeerr-icon">⚠️</div>
+    <h3>Datei zu groß</h3>
+    <p>Dein Bild ist größer als <strong>10 MB</strong>.<br>Komprimiere es zuerst und versuche es erneut.</p>
+    <div class="sizeerr-actions">
+      <a class="sizeerr-tinypng" href="https://tinypng.com/" target="_blank" rel="noopener">
+        🐼 TinyPNG öffnen
+      </a>
+      <button class="sizeerr-close-btn" onclick="closeSizeErr()">Schließen</button>
     </div>
   </div>
 </div>
@@ -1567,12 +1625,424 @@ function copyIP(){
 
 <script>
 
+/* ── Avatar storage key per user ── */
+const AVATAR_KEY = uid => `pixelhide_avatar_${uid}`;
+
+/* ── Apply avatar src to all avatar elements ── */
+function applyAvatarEverywhere(src, letter){
+  const els = {
+    pill:     document.getElementById("userAvatar"),
+    dropdown: document.getElementById("dropdownAvatar"),
+    preview:  document.getElementById("accAvatarPreview"),
+  };
+
+  if(src){
+    const makeImg = () => {
+      const img = document.createElement("img");
+      img.src = src;
+      img.alt = "Avatar";
+      return img;
+    };
+    /* pill */
+    els.pill.innerHTML = "";
+    els.pill.appendChild(makeImg());
+    /* dropdown */
+    els.dropdown.innerHTML = "";
+    els.dropdown.appendChild(makeImg());
+    /* preview */
+    const prev = els.preview;
+    const overlay = prev.querySelector(".avatar-overlay");
+    prev.innerHTML = "";
+    prev.appendChild(makeImg());
+    const ov = document.createElement("div");
+    ov.className = "avatar-overlay";
+    ov.textContent = "Ändern";
+    prev.appendChild(ov);
+  } else {
+    els.pill.innerHTML     = letter;
+    els.dropdown.innerHTML = letter;
+    document.getElementById("accAvatarLetter").textContent = letter;
+  }
+}
+
+/* ── Load saved avatar from localStorage ── */
+function loadAvatar(uid, letter){
+  try {
+    const raw = localStorage.getItem(AVATAR_KEY(uid));
+    if(raw) applyAvatarEverywhere(raw, letter);
+    else     applyAvatarEverywhere(null, letter);
+  } catch(e){
+    applyAvatarEverywhere(null, letter);
+  }
+}
+
+/* ── Avatar tab switch ── */
+function switchAvatarTab(tab){
+  const isFile = tab === "file";
+  document.getElementById("fileTabBtn").classList.toggle("active",  isFile);
+  document.getElementById("urlTabBtn").classList.toggle("active",  !isFile);
+  document.getElementById("avatarFilePanel").style.display = isFile ? "" : "none";
+  document.getElementById("avatarUrlPanel").style.display  = isFile ? "none" : "";
+}
+
+/* ── File select / drag-drop ── */
+function handleFileSelect(input){
+  const file = input.files[0];
+  if(!file) return;
+  processImageFile(file);
+}
+
+const dropZone = () => document.getElementById("fileDrop");
+
+document.addEventListener("DOMContentLoaded", () => {
+  const dz = dropZone();
+  if(!dz) return;
+  dz.addEventListener("dragover", e => { e.preventDefault(); dz.classList.add("dragover"); });
+  dz.addEventListener("dragleave", () => dz.classList.remove("dragover"));
+  dz.addEventListener("drop", e => {
+    e.preventDefault();
+    dz.classList.remove("dragover");
+    const file = e.dataTransfer.files[0];
+    if(file) processImageFile(file);
+  });
+});
+
+function processImageFile(file){
+  const MAX = 10 * 1024 * 1024; // 10 MB
+  if(file.size > MAX){ openSizeErr(); return; }
+
+  const reader = new FileReader();
+  reader.onload = e => {
+    const src = e.target.result;
+    saveAndApplyAvatar(src);
+  };
+  reader.readAsDataURL(file);
+}
+
+/* ── URL avatar ── */
+function applyAvatarUrl(){
+  const url = document.getElementById("avatarUrlInput").value.trim();
+  if(!url){ showAccErr("Bitte eine URL eingeben."); return; }
+  try { new URL(url); } catch{ showAccErr("Ungültige URL."); return; }
+
+  /* quick load check */
+  const img = new Image();
+  img.onload  = () => saveAndApplyAvatar(url);
+  img.onerror = () => showAccErr("Bild konnte nicht geladen werden. Bitte URL prüfen.");
+  img.src = url;
+}
+
+/* ── Save avatar to localStorage and update UI ── */
+function saveAndApplyAvatar(src){
+  const user = auth.currentUser;
+  if(!user) return;
+  try {
+    localStorage.setItem(AVATAR_KEY(user.uid), src);
+  } catch(e){
+    showAccErr("Speichern fehlgeschlagen – localStorage voll? Bitte Bild komprimieren.");
+    return;
+  }
+  const letter = getDisplayName(user).charAt(0).toUpperCase();
+  applyAvatarEverywhere(src, letter);
+  showAccSuccess("✓ Profilbild gespeichert!");
+}
+
+/* ── Size error popup ── */
+function openSizeErr(){
+  document.getElementById("sizeErrOverlay").classList.add("visible");
+}
+function closeSizeErr(){
+  document.getElementById("sizeErrOverlay").classList.remove("visible");
+}
+
 /* ── Persistence toggle ── */
 function getPersistence(){
   return document.getElementById("rememberMe")?.checked
     ? firebase.auth.Auth.Persistence.LOCAL
     : firebase.auth.Auth.Persistence.SESSION;
 }
+
+/* ── Auth state ── */
+auth.onAuthStateChanged(user => {
+  if(user) showUserPill(user);
+  else     showLoginBtn();
+});
+
+function getDisplayName(user){
+  return user.displayName || user.email.split("@")[0];
+}
+
+function showUserPill(user){
+  document.getElementById("loginBtn").style.display = "none";
+  const pill = document.getElementById("userPill");
+  pill.style.display = "flex";
+
+  const name   = getDisplayName(user);
+  const letter = name.charAt(0).toUpperCase();
+  document.getElementById("userUsername").textContent     = name;
+  document.getElementById("dropdownUsername").textContent = name;
+  document.getElementById("dropdownEmail").textContent    = user.email;
+
+  /* reset email blur */
+  document.getElementById("dropdownEmail").classList.add("blurred");
+
+  /* load avatar */
+  loadAvatar(user.uid, letter);
+}
+
+function showLoginBtn(){
+  document.getElementById("loginBtn").style.display = "";
+  document.getElementById("userPill").style.display = "none";
+  document.getElementById("userDropdown").classList.remove("visible");
+  document.getElementById("userPill").classList.remove("open");
+}
+
+/* ── Blurred email toggle ── */
+function toggleEmailBlur(e){
+  e.stopPropagation();
+  document.getElementById("dropdownEmail").classList.toggle("blurred");
+}
+
+/* ── Dropdown ── */
+function toggleDropdown(){
+  const pill = document.getElementById("userPill");
+  const dd   = document.getElementById("userDropdown");
+  const open = dd.classList.toggle("visible");
+  pill.classList.toggle("open", open);
+}
+
+document.addEventListener("click", e => {
+  const pill = document.getElementById("userPill");
+  if(pill && !pill.contains(e.target)){
+    document.getElementById("userDropdown").classList.remove("visible");
+    pill.classList.remove("open");
+  }
+});
+
+/* ── Sign out ── */
+async function doSignOut(){
+  await auth.signOut();
+}
+
+/* ── Auth modal ── */
+function openAuth(){
+  document.getElementById("authOverlay").classList.add("visible");
+  document.body.style.overflow = "hidden";
+  setTimeout(() => document.getElementById("loginEmail").focus(), 350);
+}
+
+function closeAuth(){
+  document.getElementById("authOverlay").classList.remove("visible");
+  document.body.style.overflow = "";
+}
+
+/* ── Account Settings modal ── */
+function openAccSettings(){
+  document.getElementById("userDropdown").classList.remove("visible");
+  document.getElementById("userPill").classList.remove("open");
+
+  const user = auth.currentUser;
+  if(user){
+    document.getElementById("newUsername").value = getDisplayName(user);
+
+    /* sync preview avatar */
+    const letter = getDisplayName(user).charAt(0).toUpperCase();
+    document.getElementById("accAvatarLetter").textContent = letter;
+    try {
+      const src = localStorage.getItem(AVATAR_KEY(user.uid));
+      const prev = document.getElementById("accAvatarPreview");
+      const ov   = prev.querySelector(".avatar-overlay") ||
+                   (() => { const d = document.createElement("div"); d.className="avatar-overlay"; d.textContent="Ändern"; return d; })();
+      if(src){
+        prev.innerHTML = "";
+        const img = document.createElement("img"); img.src = src; img.alt="Avatar";
+        prev.appendChild(img);
+        prev.appendChild(ov);
+      } else {
+        const span = document.createElement("span"); span.id="accAvatarLetter"; span.textContent=letter;
+        prev.innerHTML = "";
+        prev.appendChild(span);
+        prev.appendChild(ov);
+      }
+    } catch(e){}
+  }
+
+  /* reset UI state */
+  clearAccState();
+  switchAvatarTab("file");
+  document.getElementById("avatarUrlInput").value = "";
+
+  document.getElementById("accSettingsOverlay").classList.add("visible");
+  document.body.style.overflow = "hidden";
+  setTimeout(() => document.getElementById("newUsername").focus(), 320);
+}
+
+function closeAccSettings(){
+  document.getElementById("accSettingsOverlay").classList.remove("visible");
+  document.body.style.overflow = "";
+}
+
+function clearAccState(){
+  const e = document.getElementById("accSettingsError");
+  e.classList.remove("show"); e.textContent = "";
+  const s = document.getElementById("accSettingsSuccess");
+  s.classList.remove("show"); s.textContent = "";
+}
+
+function showAccErr(msg){
+  const e = document.getElementById("accSettingsError");
+  e.textContent = msg; e.classList.add("show");
+  const s = document.getElementById("accSettingsSuccess");
+  s.classList.remove("show");
+}
+
+function showAccSuccess(msg){
+  const s = document.getElementById("accSettingsSuccess");
+  s.textContent = msg; s.classList.add("show");
+  const e = document.getElementById("accSettingsError");
+  e.classList.remove("show");
+}
+
+/* ── Change username ── */
+async function doChangeUsername(){
+  const newName = document.getElementById("newUsername").value.trim();
+  const btn     = document.getElementById("accSettingsSubmit");
+  clearAccState();
+
+  if(!newName){ showAccErr("Bitte einen Username eingeben."); return; }
+  if(newName.length < 3){ showAccErr("Username muss mindestens 3 Zeichen haben."); return; }
+
+  btn.disabled = true;
+  btn.classList.add("loading");
+
+  try {
+    await auth.currentUser.updateProfile({ displayName: newName });
+    showAccSuccess("✓ Username erfolgreich geändert!");
+    document.getElementById("userUsername").textContent     = newName;
+    document.getElementById("dropdownUsername").textContent = newName;
+    document.getElementById("userAvatar").innerHTML !== "" &&
+      (document.getElementById("userAvatar").textContent = newName.charAt(0).toUpperCase());
+    setTimeout(closeAccSettings, 1600);
+  } catch(err){
+    showAccErr("Fehler beim Speichern. Bitte versuche es erneut.");
+  } finally {
+    btn.disabled = false;
+    btn.classList.remove("loading");
+  }
+}
+
+/* ── Escape closes any open modal ── */
+document.addEventListener("keydown", e => {
+  if(e.key !== "Escape") return;
+  closeAuth();
+  closeAccSettings();
+  closeSizeErr();
+});
+
+/* ── Tabs ── */
+function switchTab(tab){
+  const isLogin = tab === "login";
+  document.getElementById("tabLogin").classList.toggle("active", isLogin);
+  document.getElementById("tabRegister").classList.toggle("active", !isLogin);
+  document.getElementById("loginForm").style.display    = isLogin ? "" : "none";
+  document.getElementById("registerForm").style.display = isLogin ? "none" : "";
+  clearErrors();
+}
+
+function clearErrors(){
+  ["loginError","registerError"].forEach(id => {
+    const el = document.getElementById(id);
+    el.classList.remove("show"); el.textContent = "";
+  });
+}
+
+/* ── Password toggle ── */
+function togglePw(inputId, btn){
+  const inp = document.getElementById(inputId);
+  const isText = inp.type === "text";
+  inp.type = isText ? "password" : "text";
+  btn.style.color = isText ? "" : "var(--accent)";
+}
+
+/* ── Firebase error messages (DE) ── */
+function firebaseErrDE(code){
+  const map = {
+    "auth/invalid-email":          "Ungültige E-Mail-Adresse.",
+    "auth/user-not-found":         "Kein Konto mit dieser E-Mail gefunden.",
+    "auth/wrong-password":         "Falsches Passwort.",
+    "auth/email-already-in-use":   "Diese E-Mail wird bereits verwendet.",
+    "auth/weak-password":          "Passwort muss mindestens 6 Zeichen haben.",
+    "auth/too-many-requests":      "Zu viele Versuche. Bitte später versuchen.",
+    "auth/network-request-failed": "Netzwerkfehler. Bitte Verbindung prüfen.",
+    "auth/invalid-credential":     "E-Mail oder Passwort falsch.",
+    "auth/user-disabled":          "Dieses Konto wurde deaktiviert. Bitte kontaktiere den Support.",
+  };
+  return map[code] || "Ein Fehler ist aufgetreten. Bitte versuche es erneut.";
+}
+
+function showErr(id, msg){
+  const el = document.getElementById(id);
+  el.textContent = msg; el.classList.add("show");
+}
+
+/* ── Login ── */
+async function doLogin(){
+  clearErrors();
+  const email = document.getElementById("loginEmail").value.trim();
+  const pw    = document.getElementById("loginPw").value;
+  const btn   = document.getElementById("loginSubmit");
+
+  if(!email || !pw){ showErr("loginError", "Bitte E-Mail und Passwort eingeben."); return; }
+
+  btn.disabled = true; btn.classList.add("loading");
+  try {
+    await auth.setPersistence(getPersistence());
+    await auth.signInWithEmailAndPassword(email, pw);
+    closeAuth();
+  } catch(err){
+    showErr("loginError", firebaseErrDE(err.code));
+  } finally {
+    btn.disabled = false; btn.classList.remove("loading");
+  }
+}
+
+/* ── Register ── */
+async function doRegister(){
+  clearErrors();
+  const username = document.getElementById("regUsername").value.trim();
+  const email    = document.getElementById("regEmail").value.trim();
+  const pw       = document.getElementById("regPw").value;
+  const pw2      = document.getElementById("regPw2").value;
+  const btn      = document.getElementById("regSubmit");
+
+  if(!username || !email || !pw || !pw2){ showErr("registerError","Bitte alle Felder ausfüllen."); return; }
+  if(username.length < 3){ showErr("registerError","Username muss mindestens 3 Zeichen haben."); return; }
+  if(pw !== pw2){ showErr("registerError","Passwörter stimmen nicht überein."); return; }
+  if(pw.length < 6){ showErr("registerError","Passwort muss mindestens 6 Zeichen haben."); return; }
+
+  btn.disabled = true; btn.classList.add("loading");
+  try {
+    await auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
+    const cred = await auth.createUserWithEmailAndPassword(email, pw);
+    await cred.user.updateProfile({ displayName: username });
+    document.getElementById("registerFields").style.display = "none";
+    document.getElementById("registerSuccess").classList.add("show");
+    setTimeout(closeAuth, 2200);
+  } catch(err){
+    showErr("registerError", firebaseErrDE(err.code));
+    btn.disabled = false; btn.classList.remove("loading");
+  }
+}
+
+/* ── Enter key ── */
+document.addEventListener("keydown", e => {
+  if(e.key !== "Enter") return;
+  if(document.getElementById("accSettingsOverlay").classList.contains("visible")){ doChangeUsername(); return; }
+  const overlay = document.getElementById("authOverlay");
+  if(!overlay.classList.contains("visible")) return;
+  const loginVisible = document.getElementById("loginForm").style.display !== "none";
+  if(loginVisible) doLogin(); else doRegister();
+});
 
 /* ── Auth state ── */
 auth.onAuthStateChanged(user => {
