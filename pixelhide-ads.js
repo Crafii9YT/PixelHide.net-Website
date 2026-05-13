@@ -7,11 +7,12 @@
 
     // ---------- STYLE ----------
     const style = document.createElement("style");
+
     style.innerHTML = `
     .ph-inline-ad {
       width: min(100%, 950px);
 
-      margin: 42px auto;
+      margin: 40px auto;
 
       border-radius: 18px;
       overflow: hidden;
@@ -20,7 +21,7 @@
 
       font-family: Arial, sans-serif;
 
-      box-shadow: 0 15px 50px rgba(0,0,0,0.16);
+      box-shadow: 0 15px 50px rgba(0,0,0,0.18);
 
       background: #111;
     }
@@ -30,9 +31,9 @@
       height: auto;
       display: block;
 
-      object-fit: cover;
-
       max-height: 420px;
+
+      object-fit: cover;
     }
 
     .ph-overlay {
@@ -47,7 +48,7 @@
 
       background: linear-gradient(
         to top,
-        rgba(0,0,0,0.78),
+        rgba(0,0,0,0.75),
         rgba(0,0,0,0.2),
         rgba(0,0,0,0.05)
       );
@@ -63,13 +64,12 @@
 
       font-size: 10px;
       font-weight: bold;
-      letter-spacing: 1px;
 
-      opacity: 0.7;
+      opacity: 0.75;
 
       background: rgba(0,0,0,0.35);
 
-      padding: 4px 7px;
+      padding: 4px 8px;
 
       border-radius: 999px;
 
@@ -79,14 +79,14 @@
     .ph-close {
       position: absolute;
 
-      top: 36px;
+      top: 34px;
       right: 12px;
 
       width: 32px;
       height: 32px;
 
-      border: none;
       border-radius: 50%;
+      border: none;
 
       background: rgba(0,0,0,0.55);
 
@@ -97,6 +97,7 @@
 
     .ph-title {
       margin: 0;
+
       font-size: 26px;
       font-weight: bold;
     }
@@ -106,7 +107,7 @@
 
       font-size: 15px;
 
-      opacity: 0.93;
+      opacity: 0.92;
 
       line-height: 1.45;
 
@@ -130,22 +131,8 @@
       font-weight: bold;
       font-size: 14px;
     }
-
-    @media (max-width: 700px) {
-
-      .ph-inline-ad {
-        margin: 24px 12px;
-      }
-
-      .ph-title {
-        font-size: 20px;
-      }
-
-      .ph-desc {
-        font-size: 13px;
-      }
-    }
     `;
+
     document.head.appendChild(style);
 
     // ---------- PICK ----------
@@ -177,11 +164,15 @@
 
         <div class="ph-overlay">
 
-          <div class="ph-ad-label">ANZEIGE</div>
+          <div class="ph-ad-label">
+            ANZEIGE
+          </div>
 
           <button class="ph-close">✕</button>
 
-          <h2 class="ph-title">${data.title}</h2>
+          <h2 class="ph-title">
+            ${data.title}
+          </h2>
 
           <div class="ph-desc">
             ${data.description}
@@ -205,42 +196,28 @@
       return ad;
     }
 
-    // ---------- GET VALID CONTENT BLOCKS ----------
-    function getContentBlocks() {
+    // ---------- GET CONTENT ----------
+    function getBlocks() {
 
-      const selectors = [
-        "section",
-        "article",
-        "main > div",
-        ".section",
-        ".container",
-        ".content",
-        ".card",
-        ".panel",
-        ".box"
+      let blocks = [
+        ...document.body.querySelectorAll("div")
       ];
 
-      const blocks = [];
+      // nur größere sichtbare content-boxen
+      blocks = blocks.filter(el => {
 
-      selectors.forEach(selector => {
+        if (el.classList.contains("ph-inline-ad")) return false;
 
-        document.querySelectorAll(selector).forEach(el => {
+        if (!el.offsetParent) return false;
 
-          // ignorieren wenn zu klein
-          if (el.offsetHeight < 120) return;
+        if (el.offsetHeight < 120) return false;
 
-          // keine ads in ads
-          if (el.classList.contains("ph-inline-ad")) return;
+        if (el.innerText.trim().length < 40) return false;
 
-          // muss sichtbar sein
-          if (!el.offsetParent) return;
-
-          blocks.push(el);
-        });
-
+        return true;
       });
 
-      return [...new Set(blocks)];
+      return blocks;
     }
 
     // ---------- INSERT ----------
@@ -252,38 +229,41 @@
 
         const ads = await res.json();
 
-        // alte ads entfernen
+        // alte entfernen
         document.querySelectorAll(".ph-inline-ad").forEach(a => a.remove());
 
-        const blocks = getContentBlocks();
+        const blocks = getBlocks();
 
-        if (blocks.length < 3) return;
+        if (blocks.length === 0) return;
 
-        // random positions
-        const positions = [];
+        const used = [];
 
-        while (
-          positions.length < Math.min(MAX_ADS, Math.floor(blocks.length / 3))
-        ) {
+        const amount = Math.min(
+          MAX_ADS,
+          Math.max(1, Math.floor(blocks.length / 8))
+        );
 
-          const random = Math.floor(Math.random() * (blocks.length - 1));
+        for (let i = 0; i < amount; i++) {
 
-          if (!positions.includes(random)) {
-            positions.push(random);
-          }
-        }
+          let random;
 
-        positions.forEach(pos => {
+          do {
 
-          const block = blocks[pos];
+            random = Math.floor(Math.random() * blocks.length);
+
+          } while (used.includes(random));
+
+          used.push(random);
+
+          const block = blocks[random];
 
           const adData = pickAd(ads);
 
           const ad = createAd(adData);
 
-          // BETWEEN CONTENT
+          // direkt zwischen content
           block.insertAdjacentElement("afterend", ad);
-        });
+        }
 
       } catch (e) {
 
@@ -294,15 +274,17 @@
     // ---------- START ----------
     loadAds();
 
-    // reload alle 5 minuten
     setInterval(loadAds, 5 * 60 * 1000);
 
   }
 
-  // ---------- SAFE INIT ----------
+  // ---------- INIT ----------
   if (document.readyState === "loading") {
+
     document.addEventListener("DOMContentLoaded", init);
+
   } else {
+
     init();
   }
 
