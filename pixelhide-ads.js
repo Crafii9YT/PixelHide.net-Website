@@ -9,142 +9,123 @@
     const style = document.createElement("style");
 
     style.innerHTML = `
-    .ph-inline-ad {
-      width: min(100%, 950px);
-
-      margin: 40px auto;
-
-      border-radius: 18px;
-      overflow: hidden;
-
-      position: relative;
-
-      font-family: Arial, sans-serif;
-
-      box-shadow: 0 15px 50px rgba(0,0,0,0.18);
-
-      background: #111;
+    .ph-inline-ad{
+      width:min(100%,950px);
+      margin:48px auto;
+      border-radius:18px;
+      overflow:hidden;
+      position:relative;
+      font-family:Arial,sans-serif;
+      box-shadow:0 15px 50px rgba(0,0,0,0.18);
+      background:#111;
     }
 
-    .ph-inline-ad img {
-      width: 100%;
-      height: auto;
-      display: block;
-
-      max-height: 420px;
-
-      object-fit: cover;
+    .ph-inline-ad img{
+      width:100%;
+      display:block;
+      max-height:420px;
+      object-fit:cover;
     }
 
-    .ph-overlay {
-      position: absolute;
-      inset: 0;
-
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-
-      padding: 18px;
-
-      background: linear-gradient(
+    .ph-overlay{
+      position:absolute;
+      inset:0;
+      display:flex;
+      flex-direction:column;
+      justify-content:flex-end;
+      padding:18px;
+      background:linear-gradient(
         to top,
-        rgba(0,0,0,0.75),
-        rgba(0,0,0,0.2),
+        rgba(0,0,0,0.78),
+        rgba(0,0,0,0.22),
         rgba(0,0,0,0.05)
       );
-
-      color: white;
+      color:white;
     }
 
-    .ph-ad-label {
-      position: absolute;
-
-      top: 10px;
-      right: 14px;
-
-      font-size: 10px;
-      font-weight: bold;
-
-      opacity: 0.75;
-
-      background: rgba(0,0,0,0.35);
-
-      padding: 4px 8px;
-
-      border-radius: 999px;
-
-      backdrop-filter: blur(6px);
+    .ph-ad-label{
+      position:absolute;
+      top:10px;
+      right:14px;
+      font-size:10px;
+      font-weight:bold;
+      letter-spacing:1px;
+      opacity:.75;
+      background:rgba(0,0,0,.35);
+      padding:4px 8px;
+      border-radius:999px;
+      backdrop-filter:blur(6px);
     }
 
-    .ph-close {
-      position: absolute;
-
-      top: 34px;
-      right: 12px;
-
-      width: 32px;
-      height: 32px;
-
-      border-radius: 50%;
-      border: none;
-
-      background: rgba(0,0,0,0.55);
-
-      color: white;
-
-      cursor: pointer;
+    .ph-close{
+      position:absolute;
+      top:34px;
+      right:12px;
+      width:32px;
+      height:32px;
+      border:none;
+      border-radius:50%;
+      background:rgba(0,0,0,.55);
+      color:white;
+      cursor:pointer;
+      font-size:14px;
     }
 
-    .ph-title {
-      margin: 0;
-
-      font-size: 26px;
-      font-weight: bold;
+    .ph-title{
+      margin:0;
+      font-size:26px;
+      font-weight:bold;
     }
 
-    .ph-desc {
-      margin-top: 7px;
-
-      font-size: 15px;
-
-      opacity: 0.92;
-
-      line-height: 1.45;
-
-      max-width: 700px;
+    .ph-desc{
+      margin-top:7px;
+      font-size:15px;
+      line-height:1.45;
+      opacity:.92;
+      max-width:700px;
     }
 
-    .ph-btn {
-      margin-top: 16px;
+    .ph-btn{
+      margin-top:16px;
+      width:fit-content;
+      padding:11px 18px;
+      border-radius:12px;
+      background:linear-gradient(135deg,#00c853,#00b0ff);
+      color:white;
+      text-decoration:none;
+      font-weight:bold;
+      font-size:14px;
+    }
 
-      width: fit-content;
+    @media(max-width:700px){
 
-      padding: 11px 18px;
+      .ph-inline-ad{
+        margin:28px 12px;
+      }
 
-      border-radius: 12px;
+      .ph-title{
+        font-size:20px;
+      }
 
-      background: linear-gradient(135deg,#00c853,#00b0ff);
-
-      color: white;
-      text-decoration: none;
-
-      font-weight: bold;
-      font-size: 14px;
+      .ph-desc{
+        font-size:13px;
+      }
     }
     `;
 
     document.head.appendChild(style);
 
     // ---------- PICK ----------
-    function pickAd(ads) {
+    function pickAd(ads){
 
-      let total = ads.reduce((a, b) => a + b.chance, 0);
+      let total = ads.reduce((a,b)=>a+b.chance,0);
 
       let r = Math.random() * total;
 
-      for (let ad of ads) {
+      for(const ad of ads){
 
-        if (r < ad.chance) return ad;
+        if(r < ad.chance)
+          return ad;
 
         r -= ad.chance;
       }
@@ -153,7 +134,7 @@
     }
 
     // ---------- CREATE ----------
-    function createAd(data) {
+    function createAd(data){
 
       const ad = document.createElement("div");
 
@@ -168,7 +149,9 @@
             ANZEIGE
           </div>
 
-          <button class="ph-close">✕</button>
+          <button class="ph-close">
+            ✕
+          </button>
 
           <h2 class="ph-title">
             ${data.title}
@@ -196,94 +179,137 @@
       return ad;
     }
 
-    // ---------- GET CONTENT ----------
-    function getBlocks() {
+    // ---------- GET VALID ELEMENTS ----------
+    function getValidElements(){
 
-      let blocks = [
-        ...document.body.querySelectorAll("div")
-      ];
+      return [...document.body.children]
+        .filter(el => {
 
-      // nur größere sichtbare content-boxen
-      blocks = blocks.filter(el => {
+          // keine ads
+          if(el.classList.contains("ph-inline-ad"))
+            return false;
 
-        if (el.classList.contains("ph-inline-ad")) return false;
+          // keine scripts/styles
+          if(
+            el.tagName === "SCRIPT" ||
+            el.tagName === "STYLE"
+          )
+            return false;
 
-        if (!el.offsetParent) return false;
+          // keine kleinen elemente
+          if(el.offsetHeight < 140)
+            return false;
 
-        if (el.offsetHeight < 120) return false;
+          // keine typischen cards/widgets
+          const cls = (
+            el.className || ""
+          ).toString().toLowerCase();
 
-        if (el.innerText.trim().length < 40) return false;
+          if(
+            cls.includes("card") ||
+            cls.includes("grid") ||
+            cls.includes("item") ||
+            cls.includes("widget") ||
+            cls.includes("sidebar") ||
+            cls.includes("popup") ||
+            cls.includes("modal") ||
+            cls.includes("box")
+          )
+            return false;
 
-        return true;
-      });
+          // keine inline elemente
+          const style = getComputedStyle(el);
 
-      return blocks;
+          if(
+            style.display === "inline" ||
+            style.display === "inline-block"
+          )
+            return false;
+
+          return true;
+        });
     }
 
-    // ---------- INSERT ----------
-    async function loadAds() {
+    // ---------- LOAD ----------
+    async function loadAds(){
 
-      try {
+      try{
 
         const res = await fetch(AD_URL);
 
         const ads = await res.json();
 
-        // alte entfernen
-        document.querySelectorAll(".ph-inline-ad").forEach(a => a.remove());
+        // alte ads löschen
+        document.querySelectorAll(".ph-inline-ad")
+          .forEach(el => el.remove());
 
-        const blocks = getBlocks();
+        const elements = getValidElements();
 
-        if (blocks.length === 0) return;
+        if(elements.length < 2)
+          return;
 
         const used = [];
 
         const amount = Math.min(
           MAX_ADS,
-          Math.max(1, Math.floor(blocks.length / 8))
+          Math.max(1, Math.floor(elements.length / 3))
         );
 
-        for (let i = 0; i < amount; i++) {
+        for(let i = 0; i < amount; i++){
 
           let random;
 
-          do {
+          do{
 
-            random = Math.floor(Math.random() * blocks.length);
+            random = Math.floor(
+              Math.random() * (elements.length - 1)
+            );
 
-          } while (used.includes(random));
+          }while(used.includes(random));
 
           used.push(random);
 
-          const block = blocks[random];
+          const target = elements[random];
 
-          const adData = pickAd(ads);
+          const ad = createAd(
+            pickAd(ads)
+          );
 
-          const ad = createAd(adData);
-
-          // direkt zwischen content
-          block.insertAdjacentElement("afterend", ad);
+          // zwischen große layout elemente
+          target.insertAdjacentElement(
+            "afterend",
+            ad
+          );
         }
 
-      } catch (e) {
+      }catch(e){
 
-        console.error("PixelHide Ads:", e);
+        console.error(
+          "PixelHide Ads:",
+          e
+        );
       }
     }
 
     // ---------- START ----------
     loadAds();
 
-    setInterval(loadAds, 5 * 60 * 1000);
+    setInterval(
+      loadAds,
+      5 * 60 * 1000
+    );
 
   }
 
   // ---------- INIT ----------
-  if (document.readyState === "loading") {
+  if(document.readyState === "loading"){
 
-    document.addEventListener("DOMContentLoaded", init);
+    document.addEventListener(
+      "DOMContentLoaded",
+      init
+    );
 
-  } else {
+  }else{
 
     init();
   }
