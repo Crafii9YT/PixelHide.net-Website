@@ -1,1 +1,18 @@
-
+[
+  {
+    "title": "PixelHide Pro",
+    "banner": "https://pixelhide.net/Banner.png",
+    "chance": 50,
+    "description": "Unlock unlimited features with PixelHide Pro. Faster, smarter, better.",
+    "button_text": "Jetzt upgraden",
+    "button_link": "https://pixelhide.net/pro"
+  },
+  {
+    "title": "PixelHide AHHH",
+    "banner": "https://pixelhide.net/favicon.png",
+    "chance": 50,
+    "description": "Unlock unlimited features with PixelHide Pro. Faster, smarter, better.",
+    "button_text": "Jetzt upgraden",
+    "button_link": "https://pixelhide.net/pro"
+  }
+]
