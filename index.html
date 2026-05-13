@@ -304,30 +304,37 @@ body{
   bottom: 20px;
   left: 50%;
   transform: translateX(-50%);
-  width: 92%;
+  width: min(1000px, 92vw);
   max-width: 1000px;
-  height: 180px;
+
   border-radius: 18px;
   overflow: hidden;
-  z-index: 99999;
+
+  z-index: 999999;
+
   font-family: Arial, sans-serif;
-  box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+
+  box-shadow: 0 20px 60px rgba(0,0,0,0.45);
+
+  /* wichtig für dynamische Höhe */
+  height: auto;
 }
 
-/* scroll follow smooth */
-.ad-banner {
-  transition: transform 0.3s ease;
+/* IMAGE bestimmt jetzt die Höhe */
+.ad-bg {
+  width: 100%;
+  line-height: 0;
 }
 
-/* background image full banner */
 .ad-bg img {
   width: 100%;
-  height: 100%;
-  object-fit: cover;
+  height: auto;        /* 🔥 KEY: dynamische Höhe */
+  display: block;
+  object-fit: contain;
   filter: brightness(0.55);
 }
 
-/* overlay */
+/* overlay bleibt über image */
 .ad-overlay {
   position: absolute;
   inset: 0;
@@ -338,7 +345,7 @@ body{
   color: white;
 }
 
-/* close button top right */
+/* close button */
 #adClose {
   position: absolute;
   top: 10px;
@@ -348,9 +355,9 @@ body{
   border-radius: 50%;
   border: none;
   background: rgba(0,0,0,0.6);
+  backdrop-filter: blur(8px);
   color: white;
   cursor: pointer;
-  backdrop-filter: blur(6px);
 }
 
 /* text */
@@ -366,7 +373,7 @@ body{
   max-width: 60%;
 }
 
-/* button bottom left */
+/* button unten links */
 #adButton {
   align-self: flex-start;
   padding: 10px 16px;
@@ -375,15 +382,9 @@ body{
   border-radius: 10px;
   text-decoration: none;
   font-weight: bold;
-  margin-top: auto;
-  transition: 0.2s;
 }
 
-#adButton:hover {
-  transform: scale(1.05);
-}
-
-/* hidden */
+/* smooth show */
 .hidden {
   display: none;
 }
@@ -2464,7 +2465,12 @@ async function loadAd() {
 
     currentAd = pickAd(ads);
 
-    document.getElementById("adImage").src = currentAd.banner;
+    document.getElementById("adImage").onload = () => {
+      const banner = document.getElementById("adBanner");
+
+      // forces reflow -> prevents height glitches
+      banner.style.height = "auto";
+    document.getElementById("adBanner").style.height = "auto";
     document.getElementById("adTitle").innerText = currentAd.title;
     document.getElementById("adDesc").innerText = currentAd.description;
 
