@@ -1,16 +1,16 @@
 (() => {
 
+  // 🔥 verhindert doppelte Initialisierung
+  if (window.__pixelhide_ads_loaded) return;
+  window.__pixelhide_ads_loaded = true;
+
   function init() {
 
     const AD_URL = "https://pixelhide.net/ads/advertisements.json";
 
-    // max 2 ads
     const MAX_ADS = 2;
 
-    // langsamer start
-    const INITIAL_DELAY = 5000;
-
-    // reload
+    const INITIAL_DELAY = 4000;
     const RELOAD_TIME = 5 * 60 * 1000;
 
     // ---------- STYLE ----------
@@ -36,22 +36,14 @@
     }
 
     @keyframes phFade{
-      from{
-        opacity:0;
-        transform:translateY(20px);
-      }
-      to{
-        opacity:1;
-        transform:translateY(0);
-      }
+      from{opacity:0;transform:translateY(18px);}
+      to{opacity:1;transform:translateY(0);}
     }
 
     .ph-inline-ad img{
       width:100%;
       display:block;
-
       max-height:420px;
-
       object-fit:cover;
     }
 
@@ -77,7 +69,6 @@
 
     .ph-ad-label{
       position:absolute;
-
       top:10px;
       right:14px;
 
@@ -92,14 +83,13 @@
 
       border-radius:999px;
 
-      backdrop-filter:blur(6px);
-
       letter-spacing:1px;
+
+      backdrop-filter:blur(6px);
     }
 
     .ph-close{
       position:absolute;
-
       top:34px;
       right:12px;
 
@@ -118,20 +108,15 @@
 
     .ph-title{
       margin:0;
-
       font-size:26px;
       font-weight:bold;
     }
 
     .ph-desc{
       margin-top:7px;
-
       font-size:15px;
-
       line-height:1.45;
-
       opacity:.92;
-
       max-width:700px;
     }
 
@@ -144,11 +129,7 @@
 
       border-radius:12px;
 
-      background:linear-gradient(
-        135deg,
-        #00c853,
-        #00b0ff
-      );
+      background:linear-gradient(135deg,#00c853,#00b0ff);
 
       color:white;
       text-decoration:none;
@@ -163,17 +144,11 @@
     // ---------- PICK ----------
     function pickAd(ads){
 
-      let total =
-        ads.reduce((a,b)=>a+b.chance,0);
-
-      let r =
-        Math.random() * total;
+      let total = ads.reduce((a,b)=>a+b.chance,0);
+      let r = Math.random() * total;
 
       for(const ad of ads){
-
-        if(r < ad.chance)
-          return ad;
-
+        if(r < ad.chance) return ad;
         r -= ad.chance;
       }
 
@@ -183,110 +158,71 @@
     // ---------- CREATE ----------
     function createAd(data){
 
-      const ad =
-        document.createElement("div");
-
-      ad.className =
-        "ph-inline-ad";
+      const ad = document.createElement("div");
+      ad.className = "ph-inline-ad";
 
       ad.innerHTML = `
         <img src="${data.banner}">
 
         <div class="ph-overlay">
 
-          <div class="ph-ad-label">
-            ANZEIGE
-          </div>
+          <div class="ph-ad-label">ANZEIGE</div>
 
-          <button class="ph-close">
-            ✕
-          </button>
+          <button class="ph-close">✕</button>
 
-          <h2 class="ph-title">
-            ${data.title}
-          </h2>
+          <h2 class="ph-title">${data.title}</h2>
 
-          <div class="ph-desc">
-            ${data.description}
-          </div>
+          <div class="ph-desc">${data.description}</div>
 
-          <a
-            class="ph-btn"
-            href="${data.button_link}"
-            target="_blank"
-          >
+          <a class="ph-btn" href="${data.button_link}" target="_blank">
             ${data.button_text}
           </a>
 
         </div>
       `;
 
-      ad.querySelector(".ph-close")
-        .onclick = () => ad.remove();
+      ad.querySelector(".ph-close").onclick = () => ad.remove();
 
       return ad;
     }
 
-    // ---------- TARGETS ----------
+    // ---------- VALID TARGETS ----------
     function getTargets(){
 
-      return [...document.body.children]
-        .filter((el,index)=>{
+      return [...document.body.children].filter((el,index)=>{
 
-          // keine ads
-          if(
-            el.classList.contains(
-              "ph-inline-ad"
-            )
-          )
-            return false;
+        if(el.classList.contains("ph-inline-ad"))
+          return false;
 
-          // keine scripts/styles
-          if(
-            el.tagName === "SCRIPT" ||
-            el.tagName === "STYLE"
-          )
-            return false;
+        if(el.tagName === "SCRIPT" || el.tagName === "STYLE")
+          return false;
 
-          // nicht ganz oben
-          if(index < 3)
-            return false;
+        if(index < 3)
+          return false;
 
-          // kleine elemente ignorieren
-          if(el.offsetHeight < 100)
-            return false;
+        if(el.offsetHeight < 120)
+          return false;
 
-          const cls =
-            (
-              el.className || ""
-            )
-            .toString()
-            .toLowerCase();
+        const cls = (el.className || "").toLowerCase();
 
-          const id =
-            (
-              el.id || ""
-            )
-            .toLowerCase();
+        if(
+          cls.includes("header") ||
+          cls.includes("navbar") ||
+          cls.includes("nav") ||
+          cls.includes("top") ||
+          cls.includes("banner") ||
+          cls.includes("hero") ||
+          cls.includes("menu")
+        )
+          return false;
 
-          // KEINE header/banner/navbar
-          if(
-            cls.includes("header") ||
-            cls.includes("banner") ||
-            cls.includes("hero") ||
-            cls.includes("navbar") ||
-            cls.includes("topbar") ||
-            cls.includes("nav") ||
-            cls.includes("menu") ||
-            id.includes("header") ||
-            id.includes("banner") ||
-            id.includes("hero") ||
-            id.includes("nav")
-          )
-            return false;
+        return true;
+      });
+    }
 
-          return true;
-        });
+    // ---------- RANDOM COUNT ----------
+    function randomAmount(){
+      return Math.random() < 0.6 ? 1 : 2;
     }
 
     // ---------- LOAD ----------
@@ -294,114 +230,56 @@
 
       try{
 
-        const res =
-          await fetch(AD_URL);
+        const res = await fetch(AD_URL);
+        const ads = await res.json();
 
-        const ads =
-          await res.json();
-
-        // alte ads entfernen
+        // 💀 HARD RESET: NIE mehr als 2 möglich
         document
           .querySelectorAll(".ph-inline-ad")
           .forEach(el => el.remove());
 
-        const targets =
-          getTargets();
+        const targets = getTargets();
 
-        if(targets.length < 3)
-          return;
+        if(targets.length < 3) return;
 
-        // manchmal 1 manchmal 2
-        const amount =
-          Math.random() < 0.55
-            ? 1
-            : 2;
+        const amount = Math.min(MAX_ADS, randomAmount());
 
         const used = [];
 
-        for(
-          let i = 0;
-          i < amount;
-          i++
-        ){
+        for(let i = 0; i < amount; i++){
 
           let index;
-
           let tries = 0;
 
           do{
-
-            index =
-              Math.floor(
-                Math.random() *
-                targets.length
-              );
-
+            index = Math.floor(Math.random() * targets.length);
             tries++;
-
           }
-          while(
-            (
-              used.some(
-                u =>
-                  Math.abs(u - index) < 3
-              )
-            ) &&
-            tries < 50
-          );
+          while(used.includes(index) && tries < 30);
 
           used.push(index);
 
-          const target =
-            targets[index];
+          const ad = createAd(pickAd(ads));
 
-          const ad =
-            createAd(
-              pickAd(ads)
-            );
-
-          target.insertAdjacentElement(
-            "afterend",
-            ad
-          );
+          targets[index].insertAdjacentElement("afterend", ad);
         }
 
       }catch(e){
-
-        console.error(
-          "PixelHide Ads:",
-          e
-        );
+        console.error("PixelHide Ads:", e);
       }
     }
 
     // ---------- START ----------
     setTimeout(() => {
-
       loadAds();
-
-      setInterval(
-        loadAds,
-        RELOAD_TIME
-      );
-
+      setInterval(loadAds, RELOAD_TIME);
     }, INITIAL_DELAY);
 
   }
 
-  // ---------- INIT ----------
-  if(
-    document.readyState ===
-    "loading"
-  ){
-
-    document.addEventListener(
-      "DOMContentLoaded",
-      init
-    );
-
-  }else{
-
+  if(document.readyState === "loading"){
+    document.addEventListener("DOMContentLoaded", init);
+  } else {
     init();
   }
 
