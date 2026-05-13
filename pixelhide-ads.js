@@ -10,12 +10,18 @@
     style.innerHTML = `
     .ph-inline-ad {
       width: min(100%, 950px);
-      margin: 40px auto;
+
+      margin: 42px auto;
+
       border-radius: 18px;
       overflow: hidden;
+
       position: relative;
+
       font-family: Arial, sans-serif;
-      box-shadow: 0 15px 50px rgba(0,0,0,0.18);
+
+      box-shadow: 0 15px 50px rgba(0,0,0,0.16);
+
       background: #111;
     }
 
@@ -23,7 +29,9 @@
       width: 100%;
       height: auto;
       display: block;
+
       object-fit: cover;
+
       max-height: 420px;
     }
 
@@ -33,42 +41,58 @@
 
       display: flex;
       flex-direction: column;
-      justify-content: space-between;
+      justify-content: flex-end;
 
       padding: 18px;
 
       background: linear-gradient(
         to top,
-        rgba(0,0,0,0.72),
-        rgba(0,0,0,0.25),
-        rgba(0,0,0,0.08)
+        rgba(0,0,0,0.78),
+        rgba(0,0,0,0.2),
+        rgba(0,0,0,0.05)
       );
 
       color: white;
     }
 
+    .ph-ad-label {
+      position: absolute;
+
+      top: 10px;
+      right: 14px;
+
+      font-size: 10px;
+      font-weight: bold;
+      letter-spacing: 1px;
+
+      opacity: 0.7;
+
+      background: rgba(0,0,0,0.35);
+
+      padding: 4px 7px;
+
+      border-radius: 999px;
+
+      backdrop-filter: blur(6px);
+    }
+
     .ph-close {
       position: absolute;
-      top: 12px;
+
+      top: 36px;
       right: 12px;
 
-      width: 36px;
-      height: 36px;
+      width: 32px;
+      height: 32px;
 
       border: none;
       border-radius: 50%;
 
       background: rgba(0,0,0,0.55);
-      backdrop-filter: blur(8px);
 
       color: white;
+
       cursor: pointer;
-
-      font-size: 15px;
-    }
-
-    .ph-content {
-      margin-top: auto;
     }
 
     .ph-title {
@@ -78,16 +102,21 @@
     }
 
     .ph-desc {
-      margin-top: 6px;
+      margin-top: 7px;
+
       font-size: 15px;
-      opacity: 0.92;
+
+      opacity: 0.93;
+
+      line-height: 1.45;
+
       max-width: 700px;
-      line-height: 1.4;
     }
 
     .ph-btn {
       margin-top: 16px;
-      display: inline-block;
+
+      width: fit-content;
 
       padding: 11px 18px;
 
@@ -97,6 +126,7 @@
 
       color: white;
       text-decoration: none;
+
       font-weight: bold;
       font-size: 14px;
     }
@@ -114,50 +144,56 @@
       .ph-desc {
         font-size: 13px;
       }
-
-      .ph-btn {
-        width: fit-content;
-      }
     }
     `;
     document.head.appendChild(style);
 
-    // ---------- WEIGHTED PICK ----------
+    // ---------- PICK ----------
     function pickAd(ads) {
+
       let total = ads.reduce((a, b) => a + b.chance, 0);
+
       let r = Math.random() * total;
 
       for (let ad of ads) {
+
         if (r < ad.chance) return ad;
+
         r -= ad.chance;
       }
 
       return ads[0];
     }
 
-    // ---------- CREATE AD ----------
-    function createAd(adData) {
+    // ---------- CREATE ----------
+    function createAd(data) {
 
       const ad = document.createElement("div");
+
       ad.className = "ph-inline-ad";
 
       ad.innerHTML = `
-        <img src="${adData.banner}" alt="Advertisement">
+        <img src="${data.banner}" alt="Advertisement">
 
         <div class="ph-overlay">
 
+          <div class="ph-ad-label">ANZEIGE</div>
+
           <button class="ph-close">✕</button>
 
-          <div class="ph-content">
-            <h2 class="ph-title">${adData.title}</h2>
-            <div class="ph-desc">${adData.description}</div>
+          <h2 class="ph-title">${data.title}</h2>
 
-            <a class="ph-btn"
-               href="${adData.button_link}"
-               target="_blank">
-              ${adData.button_text}
-            </a>
+          <div class="ph-desc">
+            ${data.description}
           </div>
+
+          <a
+            class="ph-btn"
+            href="${data.button_link}"
+            target="_blank"
+          >
+            ${data.button_text}
+          </a>
 
         </div>
       `;
@@ -169,69 +205,96 @@
       return ad;
     }
 
-    // ---------- INSERT INTO LAYOUT ----------
+    // ---------- GET VALID CONTENT BLOCKS ----------
+    function getContentBlocks() {
+
+      const selectors = [
+        "section",
+        "article",
+        "main > div",
+        ".section",
+        ".container",
+        ".content",
+        ".card",
+        ".panel",
+        ".box"
+      ];
+
+      const blocks = [];
+
+      selectors.forEach(selector => {
+
+        document.querySelectorAll(selector).forEach(el => {
+
+          // ignorieren wenn zu klein
+          if (el.offsetHeight < 120) return;
+
+          // keine ads in ads
+          if (el.classList.contains("ph-inline-ad")) return;
+
+          // muss sichtbar sein
+          if (!el.offsetParent) return;
+
+          blocks.push(el);
+        });
+
+      });
+
+      return [...new Set(blocks)];
+    }
+
+    // ---------- INSERT ----------
     async function loadAds() {
 
       try {
 
         const res = await fetch(AD_URL);
+
         const ads = await res.json();
 
-        // mögliche Sektionen suchen
-        let sections = [
-          ...document.querySelectorAll("section"),
-          ...document.querySelectorAll("main > div"),
-          ...document.querySelectorAll("article"),
-          ...document.querySelectorAll(".section"),
-          ...document.querySelectorAll(".container")
-        ];
+        // alte ads entfernen
+        document.querySelectorAll(".ph-inline-ad").forEach(a => a.remove());
 
-        // fallback
-        if (sections.length === 0) {
-          sections = [...document.body.children];
-        }
+        const blocks = getContentBlocks();
 
-        // nicht zu wenig
-        if (sections.length < 2) return;
+        if (blocks.length < 3) return;
 
-        // existierende ads löschen
-        document.querySelectorAll(".ph-inline-ad").forEach(e => e.remove());
+        // random positions
+        const positions = [];
 
-        // max ads berechnen
-        const amount = Math.min(
-          MAX_ADS,
-          Math.max(1, Math.floor(sections.length / 4))
-        );
+        while (
+          positions.length < Math.min(MAX_ADS, Math.floor(blocks.length / 3))
+        ) {
 
-        const usedIndexes = [];
+          const random = Math.floor(Math.random() * (blocks.length - 1));
 
-        for (let i = 0; i < amount; i++) {
-
-          let randomIndex;
-
-          do {
-            randomIndex = Math.floor(Math.random() * (sections.length - 1));
+          if (!positions.includes(random)) {
+            positions.push(random);
           }
-          while (usedIndexes.includes(randomIndex));
-
-          usedIndexes.push(randomIndex);
-
-          const selectedAd = pickAd(ads);
-
-          const adElement = createAd(selectedAd);
-
-          sections[randomIndex].after(adElement);
         }
+
+        positions.forEach(pos => {
+
+          const block = blocks[pos];
+
+          const adData = pickAd(ads);
+
+          const ad = createAd(adData);
+
+          // BETWEEN CONTENT
+          block.insertAdjacentElement("afterend", ad);
+        });
 
       } catch (e) {
-        console.error("PixelHide Ads Error:", e);
+
+        console.error("PixelHide Ads:", e);
       }
     }
 
     // ---------- START ----------
     loadAds();
 
-    // reload alle 5 min
+    // reload alle 5 minuten
     setInterval(loadAds, 5 * 60 * 1000);
 
   }
