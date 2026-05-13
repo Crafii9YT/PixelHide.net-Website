@@ -8,7 +8,7 @@
 
     const AD_URL = "https://pixelhide.net/ads/advertisements.json";
 
-    const MAX_ADS = 3;
+    const MAX_ADS = 2;
 
     const INITIAL_DELAY = 1000;
     const RELOAD_TIME = 5 * 60 * 1000;
