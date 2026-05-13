@@ -298,96 +298,6 @@ body{
 
 .file-drop-text strong{ color:var(--accent2); }
 
-  /* ------------------------------------------BANNER------------------------------------------ */
-.ad-banner {
-  position: fixed;
-  bottom: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: min(1000px, 92vw);
-  max-width: 1000px;
-
-  border-radius: 18px;
-  overflow: hidden;
-
-  z-index: 999999;
-
-  font-family: Arial, sans-serif;
-
-  box-shadow: 0 20px 60px rgba(0,0,0,0.45);
-
-  /* wichtig für dynamische Höhe */
-  height: auto;
-}
-
-/* IMAGE bestimmt jetzt die Höhe */
-.ad-bg {
-  width: 100%;
-  line-height: 0;
-}
-
-.ad-bg img {
-  width: 100%;
-  height: auto;        /* 🔥 KEY: dynamische Höhe */
-  display: block;
-  object-fit: contain;
-  filter: brightness(0.55);
-}
-
-/* overlay bleibt über image */
-.ad-overlay {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding: 16px;
-  color: white;
-}
-
-/* close button */
-#adClose {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  width: 34px;
-  height: 34px;
-  border-radius: 50%;
-  border: none;
-  background: rgba(0,0,0,0.6);
-  backdrop-filter: blur(8px);
-  color: white;
-  cursor: pointer;
-}
-
-/* text */
-.ad-text h2 {
-  margin: 0;
-  font-size: 20px;
-}
-
-.ad-text p {
-  margin: 4px 0 0;
-  font-size: 14px;
-  opacity: 0.9;
-  max-width: 60%;
-}
-
-/* button unten links */
-#adButton {
-  align-self: flex-start;
-  padding: 10px 16px;
-  background: linear-gradient(135deg, #00c853, #00b0ff);
-  color: white;
-  border-radius: 10px;
-  text-decoration: none;
-  font-weight: bold;
-}
-
-/* smooth show */
-.hidden {
-  display: none;
-}
 /* ── size-error popup ── */
 .sizeerr-overlay{
   position:fixed;
@@ -1269,12 +1179,12 @@ footer a:hover{ color:white; }
    der Firebase Console → Projekteinstellungen → Allgemein
    ─────────────────────────────────────────────────────── */
 const firebaseConfig = {
-  apiKey: "AIzaSyBtxHyCkI1TPdV6uWrhJ6bW4FjIdHVHuGw",
-  authDomain: "pixelhide-app.firebaseapp.com",
-  projectId: "pixelhide-app",
-  storageBucket: "pixelhide-app.firebasestorage.app",
-  messagingSenderId: "469716803908",
-  appId: "1:469716803908:web:4adff338ab4db6b576b711"
+  apiKey:            "DEIN_API_KEY",          // ← anpassen
+  authDomain:        "pixelhide-app.firebaseapp.com",
+  projectId:         "pixelhide-app",
+  storageBucket:     "pixelhide-app.appspot.com",
+  messagingSenderId: "DEINE_SENDER_ID",       // ← anpassen
+  appId:             "DEINE_APP_ID"           // ← anpassen
 };
 
 firebase.initializeApp(firebaseConfig);
@@ -1694,29 +1604,6 @@ function copyIP(){
       <button class="sizeerr-close-btn" onclick="closeSizeErr()">Schließen</button>
     </div>
   </div>
-</div>
-
-<!-- ─── AD BANNER ─────────────────────────── -->
-
-<div id="adBanner" class="ad-banner hidden">
-  
-  <div class="ad-bg">
-    <img id="adImage" src="" alt="ad">
-  </div>
-
-  <div class="ad-overlay">
-
-    <button id="adClose">✕</button>
-
-    <div class="ad-text">
-      <h2 id="adTitle"></h2>
-      <p id="adDesc"></p>
-    </div>
-
-    <a id="adButton" target="_blank"></a>
-
-  </div>
-
 </div>
 
 <!-- ─── FOOTER ────────────────────────────────────────── -->
@@ -2438,74 +2325,6 @@ document.addEventListener("keydown", e => {
   if(loginVisible) doLogin();
   else doRegister();
 });
-
-/* ── ADS ── */
-const AD_URL = "https://pixelhide.net/ads/advertisements.json";
-
-let adTimer = null;
-let currentAd = null;
-
-// weighted pick
-function pickAd(ads) {
-  let total = ads.reduce((a, b) => a + b.chance, 0);
-  let r = Math.random() * total;
-
-  for (let ad of ads) {
-    if (r < ad.chance) return ad;
-    r -= ad.chance;
-  }
-  return ads[0];
-}
-
-// load ad
-async function loadAd() {
-  try {
-    const res = await fetch(AD_URL);
-    const ads = await res.json();
-
-    currentAd = pickAd(ads);
-
-    document.getElementById("adImage").onload = () => {
-      const banner = document.getElementById("adBanner");
-
-      // forces reflow -> prevents height glitches
-      banner.style.height = "auto";
-    document.getElementById("adBanner").style.height = "auto";
-    document.getElementById("adTitle").innerText = currentAd.title;
-    document.getElementById("adDesc").innerText = currentAd.description;
-
-    const btn = document.getElementById("adButton");
-    btn.innerText = currentAd.button_text;
-    btn.href = currentAd.button_link;
-
-    document.getElementById("adBanner").classList.remove("hidden");
-
-    clearTimeout(adTimer);
-    adTimer = setTimeout(loadAd, 5 * 60 * 1000);
-
-  } catch (e) {
-    console.error("Ad error", e);
-  }
-}
-
-// close
-document.getElementById("adClose").addEventListener("click", () => {
-  document.getElementById("adBanner").classList.add("hidden");
-  clearTimeout(adTimer);
-  setTimeout(loadAd, 5 * 60 * 1000);
-});
-
-// scroll follow effect (smooth floating)
-window.addEventListener("scroll", () => {
-  const banner = document.getElementById("adBanner");
-  if (banner.classList.contains("hidden")) return;
-
-  const offset = window.scrollY * 0.02;
-  banner.style.transform = `translateX(-50%) translateY(${offset}px)`;
-});
-
-// start
-loadAd();
 
 </script>
 </body>
