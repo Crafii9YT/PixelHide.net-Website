@@ -4,13 +4,13 @@
 
     const AD_URL = "https://pixelhide.net/ads/advertisements.json";
 
-    // echte max ads
-    const MAX_ADS = 5;
+    // max 2 ads
+    const MAX_ADS = 2;
 
-    // langsamer laden
-    const INITIAL_DELAY = 4000;
+    // langsamer start
+    const INITIAL_DELAY = 5000;
 
-    // reload zeit
+    // reload
     const RELOAD_TIME = 5 * 60 * 1000;
 
     // ---------- STYLE ----------
@@ -19,7 +19,7 @@
     style.innerHTML = `
     .ph-inline-ad{
       width:min(100%,950px);
-      margin:48px auto;
+      margin:56px auto;
 
       border-radius:18px;
       overflow:hidden;
@@ -222,87 +222,71 @@
       `;
 
       ad.querySelector(".ph-close")
-        .onclick = () => {
-
-        ad.remove();
-      };
+        .onclick = () => ad.remove();
 
       return ad;
     }
 
-    // ---------- VALID TARGETS ----------
+    // ---------- TARGETS ----------
     function getTargets(){
 
-      const all =
-        [...document.body.children];
+      return [...document.body.children]
+        .filter((el,index)=>{
 
-      return all.filter((el,index)=>{
-
-        // keine ads
-        if(
-          el.classList.contains(
-            "ph-inline-ad"
+          // keine ads
+          if(
+            el.classList.contains(
+              "ph-inline-ad"
+            )
           )
-        )
-          return false;
+            return false;
 
-        // kein script/style
-        if(
-          el.tagName === "SCRIPT" ||
-          el.tagName === "STYLE"
-        )
-          return false;
+          // keine scripts/styles
+          if(
+            el.tagName === "SCRIPT" ||
+            el.tagName === "STYLE"
+          )
+            return false;
 
-        // keine kleinen elemente
-        if(el.offsetHeight < 120)
-          return false;
+          // nicht ganz oben
+          if(index < 3)
+            return false;
 
-        // NICHT GANZ OBEN
-        if(index < 2)
-          return false;
+          // kleine elemente ignorieren
+          if(el.offsetHeight < 100)
+            return false;
 
-        // header/navbar vermeiden
-        const cls =
-          (el.className || "")
-          .toString()
-          .toLowerCase();
+          const cls =
+            (
+              el.className || ""
+            )
+            .toString()
+            .toLowerCase();
 
-        const id =
-          (el.id || "")
-          .toLowerCase();
+          const id =
+            (
+              el.id || ""
+            )
+            .toLowerCase();
 
-        if(
-          cls.includes("header") ||
-          cls.includes("navbar") ||
-          cls.includes("nav") ||
-          cls.includes("topbar") ||
-          cls.includes("menu") ||
-          id.includes("header") ||
-          id.includes("nav")
-        )
-          return false;
+          // KEINE header/banner/navbar
+          if(
+            cls.includes("header") ||
+            cls.includes("banner") ||
+            cls.includes("hero") ||
+            cls.includes("navbar") ||
+            cls.includes("topbar") ||
+            cls.includes("nav") ||
+            cls.includes("menu") ||
+            id.includes("header") ||
+            id.includes("banner") ||
+            id.includes("hero") ||
+            id.includes("nav")
+          )
+            return false;
 
-        return true;
-      });
-    }
-
-    // ---------- RANDOM AD COUNT ----------
-    function randomAdAmount(){
-
-      const possible = [
-        1,1,1,
-        2,2,
-        3,3,
-        4,
-        5
-      ];
-
-      return possible[
-        Math.floor(
-          Math.random() *
-          possible.length
-        )
-      ];
+          return true;
+        });
     }
 
     // ---------- LOAD ----------
@@ -316,7 +300,7 @@
         const ads =
           await res.json();
 
-        // alte ads löschen
+        // alte ads entfernen
         document
           .querySelectorAll(".ph-inline-ad")
           .forEach(el => el.remove());
@@ -324,16 +308,14 @@
         const targets =
           getTargets();
 
-        if(targets.length < 2)
+        if(targets.length < 3)
           return;
 
-        // NICHT IMMER ALLE
+        // manchmal 1 manchmal 2
         const amount =
-          Math.min(
-            randomAdAmount(),
-            MAX_ADS,
-            targets.length - 1
-          );
+          Math.random() < 0.55
+            ? 1
+            : 2;
 
         const used = [];
 
@@ -345,6 +327,8 @@
 
           let index;
 
+          let tries = 0;
+
           do{
 
             index =
@@ -353,8 +337,17 @@
                 targets.length
               );
 
-          }while(
-            used.includes(index)
+            tries++;
+
+          }
+          while(
+            (
+              used.some(
+                u =>
+                  Math.abs(u - index) < 3
+              )
+            ) &&
+            tries < 50
           );
 
           used.push(index);
@@ -366,26 +359,6 @@
             createAd(
               pickAd(ads)
             );
-
-          // zwischen cards nur SELTEN
-          const cls =
-            (
-              target.className || ""
-            )
-            .toString()
-            .toLowerCase();
-
-          const isCard =
-            cls.includes("card") ||
-            cls.includes("grid") ||
-            cls.includes("item");
-
-          // 75% skip bei cards
-          if(
-            isCard &&
-            Math.random() < 0.75
-          )
-            continue;
 
           target.insertAdjacentElement(
             "afterend",
