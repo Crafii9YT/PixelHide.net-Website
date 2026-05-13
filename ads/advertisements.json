@@ -14,5 +14,21 @@
     "description": "Ohne Wyvernlabs, würde es PixelHide garnicht mehr geben!",
     "button_text": "Besuchen",
     "button_link": "https://wyvernlabs.de/"
+  },
+  {
+    "title": "PixelHide.net",
+    "banner": "https://pixelhide.net/cdn/trailer_img.png",
+    "chance": 50,
+    "description": "Der Minecraft-Server für Familie und Co.!",
+    "button_text": "Jetzt beitreten!",
+    "button_link": "https://pixelhide.net/join"
+  },
+  {
+    "title": "British County Railway",
+    "banner": "https://pixelhide.net/ads/assets/bcr_banner.png",
+    "chance": 25,
+    "description": "Der ultimative Railway Simulator!",
+    "button_text": "Weiter zu roblox.com",
+    "button_link": "https://www.roblox.com/games/87066532928823/British-County-Railway"
   }
 ]
