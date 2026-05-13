@@ -9,13 +9,13 @@
     style.innerHTML = `
     .ph-ad {
       position: fixed;
-      bottom: 24px;
+      top: 50%;
       left: 50%;
-      transform: translateX(-50%);
+
+      transform: translate(-50%, -50%);
 
       width: min(720px, 88vw);
       max-width: 720px;
-
       max-height: 260px;
 
       border-radius: 16px;
@@ -25,24 +25,18 @@
 
       font-family: Arial, sans-serif;
 
-      box-shadow: 0 18px 50px rgba(0,0,0,0.45);
+      box-shadow: 0 25px 80px rgba(0,0,0,0.55);
 
-      transition: transform 0.3s ease, opacity 0.3s ease;
+      transition: opacity 0.25s ease, transform 0.25s ease;
     }
 
     .ph-ad.hidden {
       display: none;
     }
 
-    .ph-bg {
-      width: 100%;
-      height: 100%;
-    }
-
     .ph-bg img {
       width: 100%;
       height: 100%;
-      max-height: 260px;
       object-fit: cover;
       display: block;
       filter: brightness(0.55) saturate(1.1);
@@ -113,7 +107,7 @@
     `;
     document.head.appendChild(style);
 
-    // ---------- CREATE ELEMENT ----------
+    // ---------- CREATE AD ----------
     const ad = document.createElement("div");
     ad.className = "ph-ad hidden";
 
@@ -187,11 +181,14 @@
       setTimeout(load, 5 * 60 * 1000);
     };
 
-    // ---------- OPTIONAL SCROLL FLOAT ----------
+    // ---------- IMPORTANT: FIXED FLOAT (NO BREAKING TRANSFORM) ----------
     window.addEventListener("scroll", () => {
       if (ad.classList.contains("hidden")) return;
-      const offset = window.scrollY * 0.015;
-      ad.style.transform = `translateX(-50%) translateY(${offset}px)`;
+
+      const drift = Math.sin(window.scrollY * 0.002) * 6;
+
+      // ONLY translate Y, KEEP CENTER POSITION SAFE
+      ad.style.transform = `translate(-50%, -50%) translateY(${drift}px)`;
     });
 
     load();
