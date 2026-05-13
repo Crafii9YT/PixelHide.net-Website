@@ -2333,7 +2333,59 @@ document.addEventListener("keydown", e => {
   if(loginVisible) doLogin();
   else doRegister();
 });
+</script>
+<script>
+(function () {
+  const STORAGE_KEY = "ph_hide_ads";
 
+  const toggle = document.getElementById("adToggle");
+
+  function applyAdState(hidden) {
+    const ads = document.querySelectorAll(".ph-inline-ad");
+
+    ads.forEach(el => {
+      if (hidden) {
+        el.remove(); // komplett löschen
+      } else {
+        el.style.display = ""; // falls wieder sichtbar gemacht wird
+      }
+    });
+  }
+
+  // Initial state (Standard: AUS = false)
+  const saved = localStorage.getItem(STORAGE_KEY);
+  const isHidden = saved === "true";
+
+  // Toggle UI setzen
+  if (toggle) toggle.checked = isHidden;
+
+  // Direkt anwenden beim Laden
+  if (isHidden) applyAdState(true);
+
+  // Listener
+  if (toggle) {
+    toggle.addEventListener("change", () => {
+      const state = toggle.checked;
+
+      localStorage.setItem(STORAGE_KEY, state);
+
+      if (state) {
+        applyAdState(true);
+      } else {
+        // reload nötig, weil du ja "gelöschte" Elemente sonst nicht zurückbekommst
+        location.reload();
+      }
+    });
+  }
+
+  // Falls Ads nachgeladen werden (optional Safety-Net)
+  const observer = new MutationObserver(() => {
+    const hidden = localStorage.getItem(STORAGE_KEY) === "true";
+    if (hidden) applyAdState(true);
+  });
+
+  observer.observe(document.body, { childList: true, subtree: true });
+})();
 </script>
 </body>
 </html>
