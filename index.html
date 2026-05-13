@@ -298,6 +298,59 @@ body{
 
 .file-drop-text strong{ color:var(--accent2); }
 
+.ad-banner {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90%;
+  max-width: 900px;
+  background: #111;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px;
+  border-radius: 14px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+  z-index: 9999;
+  font-family: Arial;
+}
+
+.ad-banner.hidden {
+  display: none;
+}
+
+.ad-content {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.ad-content img {
+  width: 60px;
+  height: 60px;
+  border-radius: 10px;
+}
+
+#adClose {
+  background: #ff3b3b;
+  border: none;
+  color: white;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.ad-left a {
+  background: #00c853;
+  padding: 8px 12px;
+  border-radius: 8px;
+  color: white;
+  text-decoration: none;
+}
+
 /* ── size-error popup ── */
 .sizeerr-overlay{
   position:fixed;
@@ -2325,7 +2378,81 @@ document.addEventListener("keydown", e => {
   if(loginVisible) doLogin();
   else doRegister();
 });
+  const AD_URL = "https://pixelhide.net/ads/advertisements.json";
+
+let currentAd = null;
+let adTimer = null;
+let refreshTimer = null;
+
+// Weighted random (chance system)
+function pickAd(data) {
+  let total = data.reduce((sum, ad) => sum + ad.chance, 0);
+  let rand = Math.random() * total;
+
+  for (let ad of data) {
+    if (rand < ad.chance) return ad;
+    rand -= ad.chance;
+  }
+  return data[0];
+}
+
+// Load ads
+async function loadAd() {
+  try {
+    const res = await fetch(AD_URL);
+    const ads = await res.json();
+
+    currentAd = pickAd(ads);
+
+    document.getElementById("adImage").src = currentAd.banner;
+    document.getElementById("adTitle").innerText = currentAd.title;
+    document.getElementById("adDesc").innerText = currentAd.description;
+
+    const btn = document.getElementById("adButton");
+    btn.innerText = currentAd.button_text;
+    btn.href = currentAd.button_link;
+
+    document.getElementById("adBanner").classList.remove("hidden");
+
+    // reset timer
+    clearTimeout(adTimer);
+    adTimer = setTimeout(() => {
+      loadAd(); // auto refresh after 5 min
+    }, 5 * 60 * 1000);
+
+  } catch (err) {
+    console.error("Ad load failed:", err);
+  }
+}
+
+// Close button
+document.getElementById("adClose").addEventListener("click", () => {
+  document.getElementById("adBanner").classList.add("hidden");
+  clearTimeout(adTimer);
+
+  // optional: reopen after 5 min anyway
+  refreshTimer = setTimeout(loadAd, 5 * 60 * 1000);
+});
+
+// Start system
+loadAd();
+setInterval(loadAd, 5 * 60 * 1000);
 
 </script>
+<div id="adBanner" class="ad-banner hidden">
+  <div class="ad-left">
+    <a id="adButton" href="#" target="_blank"></a>
+  </div>
+
+  <div class="ad-content">
+    <img id="adImage" src="" alt="Ad Banner">
+    <div>
+      <h4 id="adTitle"></h4>
+      <p id="adDesc"></p>
+    </div>
+  </div>
+
+  <button id="adClose">✕</button>
+</div>
 </body>
 </html>
