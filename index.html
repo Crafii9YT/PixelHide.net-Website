@@ -984,7 +984,69 @@ body{
   50%{ transform:translateY(-10px); }
   100%{ transform:translateY(0px); }
 }
+.ad-toggle-wrap {
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 14px;
+  color: #ccc;
+}
 
+/* Switch Container */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 46px;
+  height: 24px;
+}
+
+/* Hide default checkbox */
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* Track */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-color: #2a2a2a;
+  transition: 0.25s;
+  border-radius: 34px;
+  box-shadow: inset 0 0 6px rgba(0,0,0,0.4);
+}
+
+/* Knob */
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 3px;
+  top: 3px;
+  background-color: #aaa;
+  transition: 0.25s;
+  border-radius: 50%;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+}
+
+/* Active state */
+.switch input:checked + .slider {
+  background-color: var(--accent);
+}
+
+.switch input:checked + .slider:before {
+  transform: translateX(22px);
+  background-color: white;
+}
+
+/* Hover glow */
+.switch:hover .slider {
+  box-shadow: 0 0 10px rgba(0,0,0,0.6), 0 0 8px var(--accent);
+}
 .hero p{
   font-size:1.15rem;
   color:var(--muted);
@@ -1621,9 +1683,13 @@ function copyIP(){
   </div>
 
   <!-- AD TOGGLE -->
-  <div style="margin-top:10px; display:flex; align-items:center; gap:10px;">
-    <label for="adToggle">Werbung ausblenden?</label>
+  <div class="ad-toggle-wrap">
+  <span>Werbung ausblenden?</span>
+
+  <label class="switch">
     <input type="checkbox" id="adToggle">
+    <span class="slider"></span>
+  </label>
   </div>
 
   <div>© 2026 <span style="color:var(--accent)">PixelHide.net</span></div>
