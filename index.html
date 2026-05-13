@@ -2437,25 +2437,26 @@ document.addEventListener("keydown", e => {
   if(loginVisible) doLogin();
   else doRegister();
 });
-  const AD_URL = "https://pixelhide.net/ads/advertisements.json";
 
-let currentAd = null;
+/* ── ADS ── */
+const AD_URL = "https://pixelhide.net/ads/advertisements.json";
+
 let adTimer = null;
-let refreshTimer = null;
+let currentAd = null;
 
-// Weighted random (chance system)
-function pickAd(data) {
-  let total = data.reduce((sum, ad) => sum + ad.chance, 0);
-  let rand = Math.random() * total;
+// weighted pick
+function pickAd(ads) {
+  let total = ads.reduce((a, b) => a + b.chance, 0);
+  let r = Math.random() * total;
 
-  for (let ad of data) {
-    if (rand < ad.chance) return ad;
-    rand -= ad.chance;
+  for (let ad of ads) {
+    if (r < ad.chance) return ad;
+    r -= ad.chance;
   }
-  return data[0];
+  return ads[0];
 }
 
-// Load ads
+// load ad
 async function loadAd() {
   try {
     const res = await fetch(AD_URL);
@@ -2473,45 +2474,33 @@ async function loadAd() {
 
     document.getElementById("adBanner").classList.remove("hidden");
 
-    // reset timer
     clearTimeout(adTimer);
-    adTimer = setTimeout(() => {
-      loadAd(); // auto refresh after 5 min
-    }, 5 * 60 * 1000);
+    adTimer = setTimeout(loadAd, 5 * 60 * 1000);
 
-  } catch (err) {
-    console.error("Ad load failed:", err);
+  } catch (e) {
+    console.error("Ad error", e);
   }
 }
 
-// Close button
+// close
 document.getElementById("adClose").addEventListener("click", () => {
   document.getElementById("adBanner").classList.add("hidden");
   clearTimeout(adTimer);
-
-  // optional: reopen after 5 min anyway
-  refreshTimer = setTimeout(loadAd, 5 * 60 * 1000);
+  setTimeout(loadAd, 5 * 60 * 1000);
 });
 
-// Start system
+// scroll follow effect (smooth floating)
+window.addEventListener("scroll", () => {
+  const banner = document.getElementById("adBanner");
+  if (banner.classList.contains("hidden")) return;
+
+  const offset = window.scrollY * 0.02;
+  banner.style.transform = `translateX(-50%) translateY(${offset}px)`;
+});
+
+// start
 loadAd();
-setInterval(loadAd, 5 * 60 * 1000);
 
 </script>
-<div id="adBanner" class="ad-banner hidden">
-  <div class="ad-left">
-    <a id="adButton" href="#" target="_blank"></a>
-  </div>
-
-  <div class="ad-content">
-    <img id="adImage" src="" alt="Ad Banner">
-    <div>
-      <h4 id="adTitle"></h4>
-      <p id="adDesc"></p>
-    </div>
-  </div>
-
-  <button id="adClose">✕</button>
-</div>
 </body>
 </html>
