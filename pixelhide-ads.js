@@ -3,43 +3,28 @@
   function init() {
 
     const AD_URL = "https://pixelhide.net/ads/advertisements.json";
+    const MAX_ADS = 3;
 
     // ---------- STYLE ----------
     const style = document.createElement("style");
     style.innerHTML = `
-    .ph-ad {
-      position: fixed;
-      top: 50%;
-      left: 50%;
-
-      transform: translate(-50%, -50%);
-
-      width: min(720px, 88vw);
-      max-width: 720px;
-      max-height: 260px;
-
-      border-radius: 16px;
+    .ph-inline-ad {
+      width: min(100%, 950px);
+      margin: 40px auto;
+      border-radius: 18px;
       overflow: hidden;
-
-      z-index: 999999;
-
+      position: relative;
       font-family: Arial, sans-serif;
-
-      box-shadow: 0 25px 80px rgba(0,0,0,0.55);
-
-      transition: opacity 0.25s ease, transform 0.25s ease;
+      box-shadow: 0 15px 50px rgba(0,0,0,0.18);
+      background: #111;
     }
 
-    .ph-ad.hidden {
-      display: none;
-    }
-
-    .ph-bg img {
+    .ph-inline-ad img {
       width: 100%;
-      height: 100%;
-      object-fit: cover;
+      height: auto;
       display: block;
-      filter: brightness(0.55) saturate(1.1);
+      object-fit: cover;
+      max-height: 420px;
     }
 
     .ph-overlay {
@@ -50,13 +35,13 @@
       flex-direction: column;
       justify-content: space-between;
 
-      padding: 14px;
+      padding: 18px;
 
       background: linear-gradient(
         to top,
-        rgba(0,0,0,0.65),
-        rgba(0,0,0,0.2),
-        rgba(0,0,0,0.1)
+        rgba(0,0,0,0.72),
+        rgba(0,0,0,0.25),
+        rgba(0,0,0,0.08)
       );
 
       color: white;
@@ -64,134 +49,191 @@
 
     .ph-close {
       position: absolute;
-      top: 10px;
-      right: 10px;
+      top: 12px;
+      right: 12px;
 
-      width: 34px;
-      height: 34px;
+      width: 36px;
+      height: 36px;
 
-      border-radius: 50%;
       border: none;
+      border-radius: 50%;
 
-      background: rgba(0,0,0,0.6);
+      background: rgba(0,0,0,0.55);
+      backdrop-filter: blur(8px);
+
       color: white;
       cursor: pointer;
+
+      font-size: 15px;
     }
 
-    .ph-text h2 {
+    .ph-content {
+      margin-top: auto;
+    }
+
+    .ph-title {
       margin: 0;
-      font-size: 18px;
+      font-size: 26px;
+      font-weight: bold;
     }
 
-    .ph-text p {
-      margin: 4px 0 0;
-      font-size: 13px;
-      opacity: 0.9;
-      max-width: 70%;
+    .ph-desc {
+      margin-top: 6px;
+      font-size: 15px;
+      opacity: 0.92;
+      max-width: 700px;
+      line-height: 1.4;
     }
 
     .ph-btn {
-      align-self: flex-start;
+      margin-top: 16px;
+      display: inline-block;
 
-      padding: 9px 14px;
+      padding: 11px 18px;
+
+      border-radius: 12px;
 
       background: linear-gradient(135deg,#00c853,#00b0ff);
+
       color: white;
-
-      border-radius: 10px;
-
       text-decoration: none;
       font-weight: bold;
-      font-size: 13px;
+      font-size: 14px;
+    }
+
+    @media (max-width: 700px) {
+
+      .ph-inline-ad {
+        margin: 24px 12px;
+      }
+
+      .ph-title {
+        font-size: 20px;
+      }
+
+      .ph-desc {
+        font-size: 13px;
+      }
+
+      .ph-btn {
+        width: fit-content;
+      }
     }
     `;
     document.head.appendChild(style);
 
-    // ---------- CREATE AD ----------
-    const ad = document.createElement("div");
-    ad.className = "ph-ad hidden";
-
-    ad.innerHTML = `
-      <div class="ph-bg">
-        <img id="ph-img">
-      </div>
-
-      <div class="ph-overlay">
-        <button class="ph-close">✕</button>
-
-        <div class="ph-text">
-          <h2 id="ph-title"></h2>
-          <p id="ph-desc"></p>
-        </div>
-
-        <a class="ph-btn" id="ph-btn" target="_blank"></a>
-      </div>
-    `;
-
-    document.body.appendChild(ad);
-
-    const img = ad.querySelector("#ph-img");
-    const title = ad.querySelector("#ph-title");
-    const desc = ad.querySelector("#ph-desc");
-    const btn = ad.querySelector("#ph-btn");
-    const close = ad.querySelector(".ph-close");
-
-    let timer = null;
-
     // ---------- WEIGHTED PICK ----------
-    function pick(ads) {
+    function pickAd(ads) {
       let total = ads.reduce((a, b) => a + b.chance, 0);
       let r = Math.random() * total;
 
-      for (let a of ads) {
-        if (r < a.chance) return a;
-        r -= a.chance;
+      for (let ad of ads) {
+        if (r < ad.chance) return ad;
+        r -= ad.chance;
       }
+
       return ads[0];
     }
 
-    // ---------- LOAD ----------
-    async function load() {
+    // ---------- CREATE AD ----------
+    function createAd(adData) {
+
+      const ad = document.createElement("div");
+      ad.className = "ph-inline-ad";
+
+      ad.innerHTML = `
+        <img src="${adData.banner}" alt="Advertisement">
+
+        <div class="ph-overlay">
+
+          <button class="ph-close">✕</button>
+
+          <div class="ph-content">
+            <h2 class="ph-title">${adData.title}</h2>
+            <div class="ph-desc">${adData.description}</div>
+
+            <a class="ph-btn"
+               href="${adData.button_link}"
+               target="_blank">
+              ${adData.button_text}
+            </a>
+          </div>
+
+        </div>
+      `;
+
+      ad.querySelector(".ph-close").onclick = () => {
+        ad.remove();
+      };
+
+      return ad;
+    }
+
+    // ---------- INSERT INTO LAYOUT ----------
+    async function loadAds() {
+
       try {
+
         const res = await fetch(AD_URL);
         const ads = await res.json();
 
-        const a = pick(ads);
+        // mögliche Sektionen suchen
+        let sections = [
+          ...document.querySelectorAll("section"),
+          ...document.querySelectorAll("main > div"),
+          ...document.querySelectorAll("article"),
+          ...document.querySelectorAll(".section"),
+          ...document.querySelectorAll(".container")
+        ];
 
-        img.src = a.banner;
-        title.textContent = a.title;
-        desc.textContent = a.description;
-        btn.textContent = a.button_text;
-        btn.href = a.button_link;
+        // fallback
+        if (sections.length === 0) {
+          sections = [...document.body.children];
+        }
 
-        ad.classList.remove("hidden");
+        // nicht zu wenig
+        if (sections.length < 2) return;
 
-        clearTimeout(timer);
-        timer = setTimeout(load, 5 * 60 * 1000);
+        // existierende ads löschen
+        document.querySelectorAll(".ph-inline-ad").forEach(e => e.remove());
+
+        // max ads berechnen
+        const amount = Math.min(
+          MAX_ADS,
+          Math.max(1, Math.floor(sections.length / 4))
+        );
+
+        const usedIndexes = [];
+
+        for (let i = 0; i < amount; i++) {
+
+          let randomIndex;
+
+          do {
+            randomIndex = Math.floor(Math.random() * (sections.length - 1));
+          }
+          while (usedIndexes.includes(randomIndex));
+
+          usedIndexes.push(randomIndex);
+
+          const selectedAd = pickAd(ads);
+
+          const adElement = createAd(selectedAd);
+
+          sections[randomIndex].after(adElement);
+        }
 
       } catch (e) {
-        console.error("Ad load failed", e);
+        console.error("PixelHide Ads Error:", e);
       }
     }
 
-    // ---------- CLOSE ----------
-    close.onclick = () => {
-      ad.classList.add("hidden");
-      clearTimeout(timer);
-      setTimeout(load, 5 * 60 * 1000);
-    };
+    // ---------- START ----------
+    loadAds();
 
-    // ---------- IMPORTANT: FIXED FLOAT (NO BREAKING TRANSFORM) ----------
-    window.addEventListener("scroll", () => {
-      if (ad.classList.contains("hidden")) return;
+    // reload alle 5 min
+    setInterval(loadAds, 5 * 60 * 1000);
 
-      const drift = Math.sin(window.scrollY * 0.002) * 6;
-
-      // ONLY translate Y, KEEP CENTER POSITION SAFE
-      ad.style.transform = `translate(-50%, -50%) translateY(${drift}px)`;
-    });
-
-    load();
   }
 
   // ---------- SAFE INIT ----------
