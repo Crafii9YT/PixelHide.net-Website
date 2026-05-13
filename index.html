@@ -1111,7 +1111,72 @@ body{
   margin-top:60px;
   flex-wrap:wrap;
 }
+.ad-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
 
+.ad-modal.hidden {
+  display: none;
+}
+
+.ad-modal-box {
+  background: #1f1f1f;
+  padding: 20px;
+  border-radius: 14px;
+  width: 320px;
+  color: #ddd;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+  animation: pop 0.2s ease;
+}
+
+@keyframes pop {
+  from { transform: scale(0.9); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.ad-modal-box h3 {
+  margin: 0 0 10px 0;
+  font-size: 16px;
+}
+
+.ad-modal-box p {
+  font-size: 13px;
+  opacity: 0.8;
+  line-height: 1.4;
+}
+
+.ad-modal-actions {
+  margin-top: 15px;
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.ad-modal-actions button {
+  flex: 1;
+  padding: 8px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+#adModal button:first-child {
+  background: #333;
+  color: #fff;
+}
+
+#adModal button:last-child {
+  background: var(--accent);
+  color: #000;
+  font-weight: bold;
+}
 .stat{
   min-width:180px;
   background:rgba(255,255,255,.03);
@@ -1690,7 +1755,23 @@ function copyIP(){
     <input type="checkbox" id="adToggle">
     <span class="slider"></span>
   </label>
+</div>
+
+<!-- MODAL -->
+<div id="adModal" class="ad-modal hidden">
+  <div class="ad-modal-box">
+    <h3>Werbung wirklich ausblenden?</h3>
+    <p>
+      Viele Inhalte auf der Seite werden durch Werbung unterstützt. Wenn du sie deaktivierst,
+      kann das helfen, die Plattform stabil und kostenlos zu halten.
+    </p>
+
+    <div class="ad-modal-actions">
+      <button id="cancelAd">Abbrechen</button>
+      <button id="confirmAd">Trotzdem deaktivieren</button>
+    </div>
   </div>
+</div>
 
   <div>© 2026 <span style="color:var(--accent)">PixelHide.net</span></div>
 </footer>
