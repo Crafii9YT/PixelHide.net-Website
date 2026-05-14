@@ -31,4 +31,12 @@
     "button_text": "Weiter zu roblox.com",
     "button_link": "https://www.roblox.com/games/87066532928823/British-County-Railway"
   }
+  {
+    "title": "Blockfieber",
+    "banner": "https://pixelhide.net/ads/assets/blockfieber.png",
+    "chance": 50,
+    "description": "Der Minecraft-Server deines Vertrauens",
+    "button_text": "Weiter zu blockfieber.ct.ws",
+    "button_link": "https://blockfieber.ct.ws"
+  }
 ]
