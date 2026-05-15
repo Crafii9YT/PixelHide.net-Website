@@ -1,10 +1,9 @@
-# ❌ Website Umzug nicht erfolgreich! ❌
+# 🏗️ Server Umzug 🏗️
 
 ## Liebe Spieler,
 
-Unserer Website bleibt weiterhin auf GitHub, aufgrund von Problemen mit unserem neuen Hosting Provider.
+Morgen um 13 Uhr zieht unser Hoster die Server um. Da wir ein Teil davon sind, werden wir für einige Zeit offline gehen! Der Umzug dauert voraussichtlich ein paar Minuten bis zu einer Stunde.
 
-Die Website ist nun wieder erreichbar für alle.
-Vielen dank für euer Verständnis!
+Vielen dank für euer Verständnis
 - Crafii9
 *Owner - PixelHide.net*
