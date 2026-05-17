@@ -6,7 +6,7 @@
 
   function init() {
 
-    const AD_URL = "https://pixelhide.net/ads/advertisements.json";
+    const AD_URL = "https://www.pixelhide.net/ads/advertisements.json";
 
     const MAX_ADS = 2;
 
