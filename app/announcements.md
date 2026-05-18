@@ -1,9 +1,9 @@
-# ⚠️ Domain Probleme ⚠️ 
+# ✅ Domain Probleme behoben! ✅ 
 
 ## Liebe Spieler,
 
-In den nächsten 24 Stunden kann es vermehrt zu Problemen mit unserer PixelHide.net Domain kommen. Diese versuchen wir beschleunigt zu beheben.
+Das Domain Problem wurde nun behoben und kann wieder zum joinen verwendet werden! Die Website ist nun auch mit https://www.pixelhide.net erreichen.
 
-Vielen dank für euer Verständnis
+Danke für euer Verständnis!
 - Crafii9
 *Owner - PixelHide.net*
