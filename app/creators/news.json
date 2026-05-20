@@ -1,0 +1,22 @@
+{
+  "entries": [
+    {
+      "title": "Mein Projekt",
+      "date": "20.05.2026",
+      "time": "16:42",
+      "description": "Das ist eine Beispielbeschreibung für einen Eintrag."
+    },
+    {
+      "title": "Update veröffentlicht",
+      "date": "20.05.2026",
+      "time": "11:18",
+      "description": "Neue Features und Bugfixes hinzugefügt."
+    },
+    {
+      "title": "Server gestartet",
+      "date": "20.05.2026",
+      "time": "08:03",
+      "description": "Der Hauptserver wurde erfolgreich gestartet."
+    }
+  ]
+}
