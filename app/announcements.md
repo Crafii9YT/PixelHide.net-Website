@@ -1,12 +1,13 @@
-# ⭐ Bewertet PixelHide auf https://laby.net/de/servers/pixelhide ⭐
+# 📺 Reaktion auf das Video von DMB 📺
 
 ## Liebe Spieler,
 
-Wusstet ihr schon dass ihr PixelHide.net auf https://laby.net/de/servers/pixelhide bewerten könnt? Nein? Dann ist jetzt der richtige Moment um uns zu bewerten damit wir einschätzen können wie gut unser Server wirklich ist und ihn so verbessern können.
+Wir haben, wie ein großteil von euch auch, das neue Video von DMB (https://www.youtube.com/watch?v=OgjhdjOB-7Y) gesehen.
 
-▶️ Worauf wartest du noch? https://laby.net/de/servers/pixelhide
+Dort ging es um die negativen Seiten des Servers und die Erfahrung als neuen Spieler.
 
--# https://laby.net/de/servers/pixelhide
-Vielen dank an jeden der uns bewertet!
+Wir haben das Video nicht als Hate Video angesehen sondern als konstruktives Feedback. Da dieses Video eine neue Vorlage der Entwicklung legt, werden wir jetzt alle Systeme überdenken und nochmal neu aufbauen. Dadurch gewährleisten wir das perfekte Spielerlebnis jeden Spielers!
+
+Vielen dank an DMB für das Video da wir so den Server verbessern können.
 - Crafii9
 *Owner - PixelHide.net*
