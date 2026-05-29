@@ -11,6 +11,7 @@
 <meta property="og:image" content="https://pixelhide.net/favicon.png">
 
 <link rel="icon" href="https://pixelhide.net/favicon.png">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5958219245633236" crossorigin="anonymous"></script>
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Inter:wght@300;400;500;700&display=swap" rel="stylesheet">
 
 <style>
@@ -66,7 +67,7 @@ body{
 }
 .bg-glow2{ right:-250px; top:300px; }
 
-/* NAV BAR & BUTTONS */
+/* HEADER & NAVBAR */
 .top-nav {
   max-width: 1300px;
   margin: 25px auto 0;
@@ -93,11 +94,43 @@ body{
   gap:12px;
 }
 
+.btn{
+  padding:11px 24px;
+  border-radius:18px;
+  font-weight:700;
+  cursor:pointer;
+  transition:var(--transition);
+  text-decoration:none;
+  font-size:.88rem;
+  border:1px solid transparent;
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+}
+.btn-primary{
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  color:#050507;
+}
+.btn-primary:hover{
+  transform:translateY(-2px);
+  box-shadow:0 0 30px rgba(167,139,250,.4);
+}
+.btn-secondary{
+  background:rgba(255,255,255,.03);
+  border-color:rgba(255,255,255,.08);
+  color:var(--text);
+  backdrop-filter:blur(16px);
+}
+.btn-secondary:hover{
+  background:rgba(255,255,255,.06);
+  border-color:rgba(255,255,255,.15);
+}
+
 .user-pill{
   padding:11px 20px;
   border-radius:18px;
-  background:linear-gradient(135deg,rgba(167,139,250,.2),rgba(196,181,253,.1));
-  border:1px solid rgba(167,139,250,.35);
+  background:linear-gradient(135deg,rgba(167,139,250,.1),rgba(196,181,253,.05));
+  border:1px solid rgba(167,139,250,.25);
   backdrop-filter:blur(16px);
   color:var(--text);
   display:flex;
@@ -106,16 +139,88 @@ body{
   font-weight:700;
   font-size:.88rem;
 }
-
 .user-pill .avatar{
-  width:30px;
-  height:30px;
-  border-radius:6px;
-  background:#222;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  border: 2px solid var(--accent);
+  width:24px; height:24px;
+  border-radius:4px;
+  background:var(--accent);
+  display:flex; align-items:center; justify-content:center;
+  color:#000; font-size:10px; font-weight:bold;
+}
+
+/* OVERLAYS (LOGIN & REGISTRATION) */
+.overlay{
+  position:fixed; inset:0;
+  background:rgba(4,4,6,.75);
+  backdrop-filter:blur(12px);
+  z-index:100;
+  display:flex; align-items:center; justify-content:center;
+  opacity:0; pointer-events:none;
+  transition:var(--transition);
+  padding:20px;
+}
+.overlay.active{ opacity:1; pointer-events:all; }
+.overlay-card{
+  background:var(--card);
+  border:1px solid rgba(255,255,255,.08);
+  padding:40px; border-radius:var(--radius);
+  width:100%; max-width:440px;
+  position:relative;
+  transform:scale(.95); transition:var(--transition);
+}
+.overlay.active .overlay-card{ transform:scale(1); }
+.overlay-close{
+  position:absolute; top:25px; right:25px;
+  background:none; border:none; color:var(--muted);
+  font-size:1.5rem; cursor:pointer;
+}
+.overlay-close:hover{ color:var(--text); }
+
+/* FORMS & INPUTS */
+.form-title{ font-family:Orbitron,sans-serif; font-size:1.75rem; margin-bottom:8px; }
+.form-desc{ color:var(--muted); font-size:.9rem; margin-bottom:24px; }
+.form-group{ display:flex; flex-direction:column; gap:8px; margin-bottom:16px; width:100%; }
+.form-label{ font-size:.8rem; font-weight:600; color:var(--muted); text-transform:uppercase; letter-spacing:.05em; }
+.form-input, .form-select{
+  padding:14px 16px; border-radius:12px;
+  border:1px solid rgba(255,255,255,.08); background:rgba(255,255,255,.03);
+  color:var(--text); font-size:.95rem; outline:none; width:100%; transition:var(--transition);
+}
+.form-input:focus, .form-select:focus{ border-color:rgba(167,139,250,.5); background:rgba(167,139,250,.05); }
+
+.checkbox-label{ display:flex; align-items:center; gap:10px; font-size:.9rem; color:var(--muted); cursor:pointer; margin-bottom:20px; }
+.checkbox-label input{ accent-color:var(--accent); width:16px; height:16px; }
+
+.form-toggle-text{ text-align:center; font-size:.9rem; color:var(--muted); margin-top:20px; }
+.form-toggle-link{ color:var(--accent); text-decoration:none; font-weight:600; }
+.form-toggle-link:hover{ text-decoration:underline; }
+
+/* NOTIFICATIONS & COOKIES */
+.cookie-banner{
+  position:fixed; bottom:25px; left:25px; right:25px; max-width:400px;
+  background:rgba(13,13,20,.9); border:1px solid rgba(255,255,255,.08);
+  padding:25px; border-radius:var(--radius); backdrop-filter:blur(16px);
+  z-index:90; transform:translateY(150%); transition:var(--transition);
+}
+.cookie-banner.active{ transform:translateY(0); }
+.cookie-text{ font-size:.9rem; color:var(--muted); margin-bottom:16px; line-height:1.5; }
+
+.notification-container{ position:fixed; top:25px; right:25px; z-index:110; display:flex; flex-direction:column; gap:10px; }
+.notification{
+  background:rgba(13,13,20,.9); border:1px solid rgba(255,255,255,.08);
+  padding:16px 24px; border-radius:16px; backdrop-filter:blur(16px);
+  font-weight:600; font-size:.9rem; display:flex; align-items:center; gap:12px;
+  transform:translateX(150%); transition:var(--transition);
+}
+.notification.active{ transform:translateX(0); }
+.notification.success{ border-left:4px solid #10b981; }
+.notification.error{ border-left:4px solid #ef4444; }
+
+/* AD SYSTEM STYLE */
+.ph-inline-ad {
+  max-width: 1300px;
+  margin: 20px auto 0;
+  padding: 0 25px;
+  text-align: center;
 }
 
 /* BANK DASHBOARD STRUCTURE */
@@ -288,37 +393,6 @@ body{
 .tx-value.plus { color: var(--money); }
 .tx-value.minus { color: #ef4444; }
 
-/* FORMS (MOCK ACTIONS) */
-.form-group {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  margin-bottom: 16px;
-}
-
-.form-label {
-  font-size: 0.8rem;
-  font-weight: 600;
-  color: var(--muted);
-  text-transform: uppercase;
-}
-
-.form-input, .form-select {
-  padding: 14px 16px;
-  border-radius: 12px;
-  border: 1px solid rgba(255,255,255,.1);
-  background: rgba(255,255,255,.04);
-  color: var(--text);
-  font-size: .95rem;
-  outline: none;
-  width: 100%;
-}
-
-.form-input:focus, .form-select:focus {
-  border-color: rgba(167,139,250,.5);
-  background: rgba(167,139,250,.06);
-}
-
 .btn-bank {
   width: 100%;
   padding: 15px;
@@ -354,15 +428,18 @@ footer {
 <div class="bg-glow"></div>
 <div class="bg-glow bg-glow2"></div>
 
+<div class="notification-container" id="notifContainer"></div>
+
+<div class="ph-inline-ad">
+  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-5958219245633236" data-ad-slot="YOUR_SLOT_ID" data-ad-format="auto" data-full-width-responsive="true"></ins>
+  <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+</div>
+
 <header class="top-nav">
   <a href="#" class="brand">PixelHide Bank</a>
-  <div class="top-buttons">
-    <div class="user-pill">
-      <div class="avatar">
-        <span style="font-size:10px; color:#fff;">▢_▢</span>
-      </div>
-      <span class="username-text">Steve_Admin</span>
-    </div>
+  <div class="top-buttons" id="navButtons">
+    <button class="btn btn-secondary" onclick="openOverlay('loginOverlay')">Anmelden</button>
+    <button class="btn btn-primary" onclick="openOverlay('registerOverlay')">Registrieren</button>
   </div>
 </header>
 
@@ -515,9 +592,169 @@ footer {
   </div>
 </main>
 
+<div class="overlay" id="loginOverlay">
+  <div class="overlay-card">
+    <button class="overlay-close" onclick="closeOverlay('loginOverlay')">&times;</button>
+    <h2 class="form-title">Willkommen zurück</h2>
+    <p class="form-desc">Melde dich mit deinem PixelHide-Konto an.</p>
+    <form id="loginForm" onsubmit="return false;">
+      <div class="form-group">
+        <label class="form-label">Benutzername</label>
+        <input type="text" class="form-input" id="loginUser" required placeholder="Dein Spielername">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Passwort</label>
+        <input type="password" class="form-input" id="loginPass" required placeholder="••••••••">
+      </div>
+      <label class="checkbox-label">
+        <input type="checkbox" id="loginRemember"> Angemeldet bleiben
+      </label>
+      <button type="submit" class="btn btn-primary" style="width:100%; justify-content:center; padding:14px;">Einloggen</button>
+    </form>
+    <p class="form-toggle-text">Noch kein Konto? <a href="#" class="form-toggle-link" onclick="switchOverlay('loginOverlay', 'registerOverlay')">Registrieren</a></p>
+  </div>
+</div>
+
+<div class="overlay" id="registerOverlay">
+  <div class="overlay-card">
+    <button class="overlay-close" onclick="closeOverlay('registerOverlay')">&times;</button>
+    <h2 class="form-title">Konto erstellen</h2>
+    <p class="form-desc">Erstelle ein Konto für das PixelHide Netzwerk.</p>
+    <form id="registerForm" onsubmit="return false;">
+      <div class="form-group">
+        <label class="form-label">Minecraft Spielername</label>
+        <input type="text" class="form-input" id="regUser" required placeholder="z.B. Steve">
+      </div>
+      <div class="form-group">
+        <label class="form-label">E-Mail-Adresse</label>
+        <input type="email" class="form-input" id="regEmail" required placeholder="name@beispiel.de">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Passwort</label>
+        <input type="password" class="form-input" id="regPass" required placeholder="Mindestens 8 Zeichen">
+      </div>
+      <label class="checkbox-label">
+        <input type="checkbox" required> Ich akzeptiere die Regeln
+      </label>
+      <button type="submit" class="btn btn-primary" style="width:100%; justify-content:center; padding:14px;">Registrieren</button>
+    </form>
+    <p class="form-toggle-text">Bereits registriert? <a href="#" class="form-toggle-link" onclick="switchOverlay('registerOverlay', 'loginOverlay')">Einloggen</a></p>
+  </div>
+</div>
+
+<div class="cookie-banner" id="cookieBanner">
+  <p class="cookie-text">Wir nutzen Cookies, um dein Erlebnis auf PixelHide.net zu verbessern und Werbung zu schalten.</p>
+  <div style="display:flex; gap:10px;">
+    <button class="btn btn-primary" style="padding:8px 16px; font-size:.8rem;" onclick="acceptCookies()">Akzeptieren</button>
+    <button class="btn btn-secondary" style="padding:8px 16px; font-size:.8rem;" onclick="closeCookies()">Ablehnen</button>
+  </div>
+</div>
+
 <footer>
   <p>&copy; 2026 PixelHide.net Netzwerk. Alle Rechte vorbehalten. Dies ist eine Design-Vorschau.</p>
 </footer>
+
+<script>
+const AUTH_KEY = "ph_auth_session";
+const COOKIE_KEY = "ph_cookies_accepted";
+
+function openOverlay(id){
+  document.getElementById(id).classList.add("active");
+}
+function closeOverlay(id){
+  document.getElementById(id).classList.remove("active");
+}
+function switchOverlay(fromId, toId){
+  closeOverlay(fromId);
+  setTimeout(() => openOverlay(toId), 150);
+}
+
+function showNotification(text, type="success"){
+  const container = document.getElementById("notifContainer");
+  const notif = document.createElement("div");
+  notif.className = `notification ${type}`;
+  notif.innerHTML = text;
+  container.appendChild(notif);
+  
+  setTimeout(() => notif.classList.add("active"), 10);
+  setTimeout(() => {
+    notif.classList.remove("active");
+    setTimeout(() => notif.remove(), 250);
+  }, 4000);
+}
+
+// Update UI basierend auf Login-Status
+function updateAuthUIName() {
+  const session = localStorage.getItem(AUTH_KEY);
+  const nav = document.getElementById("navButtons");
+  if(session) {
+    nav.innerHTML = `
+      <div class="user-pill">
+        <div class="avatar">P</div>
+        <span>${session}</span>
+      </div>
+      <button class="btn btn-secondary" style="padding:8px 14px; font-size:0.75rem;" onclick="doLogout()">Abmelden</button>
+    `;
+  } else {
+    nav.innerHTML = `
+      <button class="btn btn-secondary" onclick="openOverlay('loginOverlay')">Anmelden</button>
+      <button class="btn btn-primary" onclick="openOverlay('registerOverlay')">Registrieren</button>
+    `;
+  }
+}
+
+function doLogin(){
+  const user = document.getElementById("loginUser").value.trim();
+  const pass = document.getElementById("loginPass").value;
+  if(!user || !pass) return;
+  
+  // Login-Simulation (Funktioniert lokal)
+  localStorage.setItem(AUTH_KEY, user);
+  closeOverlay("loginOverlay");
+  showNotification(`Willkommen zurück, <b>${user}</b>!`, "success");
+  updateAuthUIName();
+}
+
+function doRegister(){
+  const user = document.getElementById("regUser").value.trim();
+  const email = document.getElementById("regEmail").value.trim();
+  const pass = document.getElementById("regPass").value;
+  if(!user || !email || !pass) return;
+  
+  localStorage.setItem(AUTH_KEY, user);
+  closeOverlay("registerOverlay");
+  showNotification(`Konto für <b>${user}</b> erfolgreich erstellt!`, "success");
+  updateAuthUIName();
+}
+
+function doLogout(){
+  localStorage.removeItem(AUTH_KEY);
+  showNotification("Erfolgreich abgemeldet.");
+  updateAuthUIName();
+}
+
+// Cookie-System
+function acceptCookies(){
+  localStorage.setItem(COOKIE_KEY, "true");
+  closeCookies();
+}
+function closeCookies(){
+  document.getElementById("cookieBanner").classList.remove("active");
+}
+
+// Init beim Laden
+window.addEventListener("DOMContentLoaded", () => {
+  updateAuthUIName();
+  
+  if(!localStorage.getItem(COOKIE_KEY)){
+    setTimeout(() => document.getElementById("cookieBanner").classList.add("active"), 1000);
+  }
+  
+  // Form Submit-Eventlistener binden
+  document.getElementById("loginForm").addEventListener("submit", doLogin);
+  document.getElementById("registerForm").addEventListener("submit", doRegister);
+});
+</script>
 
 </body>
 </html>
