@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>PixelHide.net - Bank Manager</title>
+
+<meta property="og:title" content="PixelHide.net - Bank Manager">
+<meta property="og:description" content="Das ultimative Minecraft Banksystem.">
+<meta property="og:image" content="https://pixelhide.net/favicon.png">
+
+<link rel="icon" href="https://pixelhide.net/favicon.png">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Inter:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --bg:#040406;
+  --card:#0d0d14;
+  --card2:#13131d;
+  --accent:#a78bfa;
+  --accent2:#c4b5fd;
+  --discord:#5865F2;
+  --text:#f5f5f5;
+  --muted:#9ca3af;
+  --zoom:1;
+  --text-size:1;
+  --blur:16px;
+  --radius:24px;
+  --glow-opacity:.12;
+  --card-opacity:.04;
+  --transition:.25s;
+  
+  /* Bank Spezifische Farben */
+  --money:#22c55e;
+  --emerald:#10b981;
+}
+
+*{ margin:0; padding:0; box-sizing:border-box; }
+html{ scroll-behavior:smooth; overflow-x:hidden; }
+
+body{
+  font-family:Inter,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  overflow-x:hidden;
+  font-size:calc(16px * var(--text-size));
+  transition:background var(--transition), color var(--transition);
+}
+
+::-webkit-scrollbar{ width:10px; }
+::-webkit-scrollbar-track{ background:#08080d; }
+::-webkit-scrollbar-thumb{
+  background:linear-gradient(var(--accent),var(--accent2));
+  border-radius:999px;
+}
+
+/* BACKGROUND GLOW */
+.bg-glow{
+  position:fixed;
+  width:700px; height:700px;
+  background:radial-gradient(circle,var(--accent) 0%,transparent 70%);
+  opacity:var(--glow-opacity);
+  filter:blur(100px);
+  z-index:-1;
+}
+.bg-glow2{ right:-250px; top:300px; }
+
+/* NAV BAR & BUTTONS */
+.top-nav {
+  max-width: 1300px;
+  margin: 25px auto 0;
+  padding: 0 25px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.brand {
+  font-family: Orbitron, sans-serif;
+  font-size: 1.5rem;
+  font-weight: 900;
+  color: var(--text);
+  text-decoration: none;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.top-buttons{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+.user-pill{
+  padding:11px 20px;
+  border-radius:18px;
+  background:linear-gradient(135deg,rgba(167,139,250,.2),rgba(196,181,253,.1));
+  border:1px solid rgba(167,139,250,.35);
+  backdrop-filter:blur(16px);
+  color:var(--text);
+  display:flex;
+  align-items:center;
+  gap:10px;
+  font-weight:700;
+  font-size:.88rem;
+}
+
+.user-pill .avatar{
+  width:30px;
+  height:30px;
+  border-radius:6px;
+  background:#222;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border: 2px solid var(--accent);
+}
+
+/* BANK DASHBOARD STRUCTURE */
+.bank-container {
+  max-width: 1300px;
+  margin: auto;
+  padding: 40px 25px;
+}
+
+.bank-header {
+  margin-bottom: 40px;
+}
+
+.bank-header h1 {
+  font-family: Orbitron, sans-serif;
+  font-size: 2.5rem;
+  margin-bottom: 8px;
+}
+
+.bank-header p {
+  color: var(--muted);
+}
+
+/* GRID LAYOUTS */
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 30px;
+}
+
+@media(max-width: 1024px) {
+  .dashboard-grid { grid-template-columns: 1fr; }
+}
+
+.main-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.side-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+/* CARDS BACKGROUND & BLUR */
+.bank-card {
+  background: linear-gradient(145deg, rgba(255,255,255,var(--card-opacity)), rgba(255,255,255,.02));
+  border: 1px solid rgba(255,255,255,.07);
+  border-radius: var(--radius);
+  padding: 30px;
+  backdrop-filter: blur(var(--blur));
+  position: relative;
+  overflow: hidden;
+}
+
+.bank-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at top left, rgba(167,139,250,0.05), transparent 60%);
+  pointer-events: none;
+}
+
+.card-title {
+  font-family: Orbitron, sans-serif;
+  font-size: 1.2rem;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* STATS ROW (KONTEN) */
+.accounts-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 20px;
+}
+
+.account-box {
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(255,255,255,0.05);
+  border-radius: 16px;
+  padding: 20px;
+  transition: var(--transition);
+}
+
+.account-box:hover {
+  border-color: rgba(167,139,250, 0.3);
+  transform: translateY(-2px);
+}
+
+.account-type {
+  font-size: 0.85rem;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 5px;
+}
+
+.account-amount {
+  font-size: 1.8rem;
+  font-weight: 800;
+  font-family: Orbitron, sans-serif;
+}
+
+.amount-money { color: var(--money); }
+.amount-emerald { color: var(--emerald); }
+
+.account-number {
+  font-size: 0.75rem;
+  color: rgba(156,163,175, 0.4);
+  margin-top: 10px;
+  font-family: monospace;
+}
+
+/* TABLES (TRANSAKTIONEN) */
+.transaction-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.transaction-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(255,255,255,0.01);
+  border: 1px solid rgba(255,255,255,0.04);
+  padding: 16px 20px;
+  border-radius: 14px;
+}
+
+.tx-user-info {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.tx-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 4px;
+  background: #222;
+  border: 1px solid rgba(255,255,255,0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tx-details .tx-name {
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+
+.tx-details .tx-meta {
+  font-size: 0.75rem;
+  color: var(--muted);
+  margin-top: 2px;
+}
+
+.tx-value {
+  font-family: Orbitron, sans-serif;
+  font-weight: 700;
+  text-align: right;
+}
+
+.tx-value.plus { color: var(--money); }
+.tx-value.minus { color: #ef4444; }
+
+/* FORMS (MOCK ACTIONS) */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.form-label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--muted);
+  text-transform: uppercase;
+}
+
+.form-input, .form-select {
+  padding: 14px 16px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,.1);
+  background: rgba(255,255,255,.04);
+  color: var(--text);
+  font-size: .95rem;
+  outline: none;
+  width: 100%;
+}
+
+.form-input:focus, .form-select:focus {
+  border-color: rgba(167,139,250,.5);
+  background: rgba(167,139,250,.06);
+}
+
+.btn-bank {
+  width: 100%;
+  padding: 15px;
+  border-radius: 12px;
+  border: none;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  color: #050507;
+  font-size: 1rem;
+  font-weight: 800;
+  cursor: pointer;
+  transition: var(--transition);
+  text-align: center;
+}
+
+.btn-bank:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 30px rgba(167,139,250, 0.4);
+}
+
+/* FOOTER */
+footer {
+  margin-top: 100px;
+  border-top: 1px solid rgba(255,255,255,.06);
+  padding: 40px 25px;
+  text-align: center;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+</style>
+</head>
+<body>
+
+<div class="bg-glow"></div>
+<div class="bg-glow bg-glow2"></div>
+
+<header class="top-nav">
+  <a href="#" class="brand">PixelHide Bank</a>
+  <div class="top-buttons">
+    <div class="user-pill">
+      <div class="avatar">
+        <span style="font-size:10px; color:#fff;">▢_▢</span>
+      </div>
+      <span class="username-text">Steve_Admin</span>
+    </div>
+  </div>
+</header>
+
+<main class="bank-container">
+  
+  <div class="bank-header">
+    <h1>Bank Manager</h1>
+    <p>Übersicht, Konten-Management und Logdateien des Minecraft-Netzwerks</p>
+  </div>
+
+  <div class="dashboard-grid">
+    
+    <div class="main-panel">
+      
+      <div class="bank-card">
+        <div class="card-title">💵 Deine Konten (Hauptkonto)</div>
+        <div class="accounts-row">
+          
+          <div class="account-box">
+            <div class="account-type">Server Dollar</div>
+            <div class="account-amount amount-money">$452.840</div>
+            <div class="account-number">Kto: PH-8294-STEVE</div>
+          </div>
+
+          <div class="account-box">
+            <div class="account-type">Smaragde (Safe)</div>
+            <div class="account-amount amount-emerald">1.250 💎</div>
+            <div class="account-number">Kto: PH-EM-9941</div>
+          </div>
+
+          <div class="account-box">
+            <div class="account-type">Giro-Limit</div>
+            <div class="account-amount" style="color: var(--text);">$50.000</div>
+            <div class="account-number">Max. Überziehung</div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="bank-card">
+        <div class="card-title">📜 Letzte Netzwerk-Transaktionen (Live-Vorschau)</div>
+        <div class="transaction-list">
+          
+          <div class="transaction-item">
+            <div class="tx-user-info">
+              <div class="tx-avatar"><span style="color:#aaa; font-size:10px;">▢</span></div>
+              <div class="tx-details">
+                <div class="tx-name">Alex_123</div>
+                <div class="tx-meta">Überweisung erhalten • Gestern, 18:42</div>
+              </div>
+            </div>
+            <div class="tx-value plus">+$4.500</div>
+          </div>
+
+          <div class="transaction-item">
+            <div class="tx-user-info">
+              <div class="tx-avatar"><span style="color:#aaa; font-size:10px;">▢</span></div>
+              <div class="tx-details">
+                <div class="tx-name">Admin-Shop</div>
+                <div class="tx-meta">Kauf: 64x Diamantblock • Gestern, 14:15</div>
+              </div>
+            </div>
+            <div class="tx-value minus">-$12.800</div>
+          </div>
+
+          <div class="transaction-item">
+            <div class="tx-user-info">
+              <div class="tx-avatar"><span style="color:#aaa; font-size:10px;">▢</span></div>
+              <div class="tx-details">
+                <div class="tx-name">Notch</div>
+                <div class="tx-meta">Smaragd Einzahlung • Vor 2 Tagen</div>
+              </div>
+            </div>
+            <div class="tx-value plus">+120 💎</div>
+          </div>
+
+          <div class="transaction-item">
+            <div class="tx-user-info">
+              <div class="tx-avatar"><span style="color:#aaa; font-size:10px;">▢</span></div>
+              <div class="tx-details">
+                <div class="tx-name">GrieferGamer</div>
+                <div class="tx-meta">Überweisung gesendet • Vor 3 Tagen</div>
+              </div>
+            </div>
+            <div class="tx-value minus">-$1.200</div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+
+    <div class="side-panel">
+      
+      <div class="bank-card">
+        <div class="card-title">💸 Geld senden</div>
+        <form onsubmit="return false;">
+          
+          <div class="form-group">
+            <label class="form-label">Empfänger (Spielername)</label>
+            <input type="text" class="form-input" placeholder="z.B. PlayerHD">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Währung</label>
+            <select class="form-select">
+              <option>Server Dollar ($)</option>
+              <option>Smaragde (💎)</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Betrag</label>
+            <input type="number" class="form-input" placeholder="0">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Verwendungszweck</label>
+            <input type="text" class="form-input" placeholder="z.B. Item-Handel">
+          </div>
+
+          <button class="btn-bank" style="margin-top: 10px;">Überweisung ausführen</button>
+        </form>
+      </div>
+
+      <div class="bank-card">
+        <div class="card-title">📊 Banken-Statistik</div>
+        <div class="form-group" style="margin-bottom:12px;">
+          <div style="display:flex; justify-content:space-between; font-size:0.9rem;">
+            <span style="color:var(--muted)">Im Umlauf gesamt:</span>
+            <span style="font-weight:bold; color:var(--money);">$14.502.900</span>
+          </div>
+        </div>
+        <div class="form-group" style="margin-bottom:12px;">
+          <div style="display:flex; justify-content:space-between; font-size:0.9rem;">
+            <span style="color:var(--muted)">Eingezahlte Smaragde:</span>
+            <span style="font-weight:bold; color:var(--emerald);">84.320💎</span>
+          </div>
+        </div>
+        <div class="form-group" style="margin-bottom:0;">
+          <div style="display:flex; justify-content:space-between; font-size:0.9rem;">
+            <span style="color:var(--muted)">Bank-Sicherheits-Status:</span>
+            <span style="font-weight:bold; color:#22c55e;">Aktiv & Sicher</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</main>
+
+<footer>
+  <p>&copy; 2026 PixelHide.net Netzwerk. Alle Rechte vorbehalten. Dies ist eine Design-Vorschau.</p>
+</footer>
+
+</body>
+</html>
