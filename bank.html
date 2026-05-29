@@ -14,6 +14,9 @@
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5958219245633236" crossorigin="anonymous"></script>
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Inter:wght@300;400;500;700&display=swap" rel="stylesheet">
 
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+
 <style>
 :root{
   --bg:#040406;
@@ -32,7 +35,7 @@
   --card-opacity:.04;
   --transition:.25s;
   
-  /* Bank Spezifische Farben */
+  /* Bank Farben */
   --money:#22c55e;
   --emerald:#10b981;
 }
@@ -67,10 +70,10 @@ body{
 }
 .bg-glow2{ right:-250px; top:300px; }
 
-/* HEADER & NAVBAR FROM ORIGINAL */
+/* NAVBAR & BUTTONS */
 header{
   max-width:1300px; margin:25px auto 0; padding:0 25px;
-  display:flex; justify-content:between; align-items:center;
+  display:flex; justify-content:space-between; align-items:center;
   position:relative; z-index:10;
 }
 .brand{
@@ -79,20 +82,19 @@ header{
   -webkit-background-clip:text; -webkit-text-fill-color:transparent;
   text-decoration:none;
 }
-.nav-right{ display:flex; align-items:center; gap:15px; margin-left:auto;}
+.nav-right{ display:flex; align-items:center; gap:15px; }
 
-/* BUTTONS */
 .btn{
   padding:11px 24px; border-radius:18px; font-weight:700; cursor:pointer;
   transition:var(--transition); text-decoration:none; font-size:.88rem;
   border:1px solid transparent; display:inline-flex; align-items:center; gap:8px;
+  background:none; color:var(--text);
 }
 .btn-primary{ background:linear-gradient(135deg,var(--accent),var(--accent2)); color:#050507; }
 .btn-primary:hover{ transform:translateY(-2px); box-shadow:0 0 30px rgba(167,139,250,.4); }
 .btn-secondary{ background:rgba(255,255,255,.03); border-color:rgba(255,255,255,.08); color:var(--text); backdrop-filter:blur(16px); }
 .btn-secondary:hover{ background:rgba(255,255,255,.06); border-color:rgba(255,255,255,.15); }
 
-/* USER PILL AFTER FIREBASE AUTH */
 .user-pill{
   padding:11px 20px; border-radius:18px;
   background:linear-gradient(135deg,rgba(167,139,250,.1),rgba(196,181,253,.05));
@@ -100,7 +102,7 @@ header{
   color:var(--text); display:flex; align-items:center; gap:10px; font-weight:700; font-size:.88rem;
 }
 
-/* HERO / WELCOME SECTION */
+/* HERO SECTION (FÜR GÄSTE) */
 .hero{
   max-width:800px; margin:120px auto 100px; padding:0 25px; text-align:center;
   position:relative; z-index:1;
@@ -208,8 +210,6 @@ header{
   color: #050507; font-size: 1rem; font-weight: 800; cursor: pointer; transition: var(--transition); text-align: center;
 }
 .btn-bank:hover { transform: translateY(-2px); box-shadow: 0 0 30px rgba(167,139,250, 0.4); }
-
-footer { margin-top: 100px; border-top: 1px solid rgba(255,255,255,.06); padding: 40px 25px; text-align: center; color: var(--muted); font-size: 0.9rem; }
 </style>
 </head>
 <body>
@@ -227,15 +227,15 @@ footer { margin-top: 100px; border-top: 1px solid rgba(255,255,255,.06); padding
 <header>
   <a href="#" class="brand">PixelHide</a>
   <div class="nav-right" id="navAuth">
-    <button class="btn btn-secondary" onclick="openOverlay('loginOverlay')">Anmelden</button>
-    <button class="btn btn-primary" onclick="openOverlay('registerOverlay')">Registrieren</button>
+    <button class="btn btn-secondary" id="btnShowLogin">Anmelden</button>
+    <button class="btn btn-primary" id="btnShowRegister">Registrieren</button>
   </div>
 </header>
 
 <section class="hero" id="heroSection">
   <h1>Das ultimative<br>Minecraft Netzwerk</h1>
   <p>Melde dich an, um Zugriff auf das gesicherte Bank-Dashboard, Kontenlogs und Ingame-Statistiken zu erhalten.</p>
-  <button class="btn btn-primary" onclick="openOverlay('loginOverlay')">Jetzt Anmelden</button>
+  <button class="btn btn-primary" id="heroLoginBtn">Jetzt Anmelden</button>
 </section>
 
 <main class="bank-container" id="bankSection" style="display: none;">
@@ -336,29 +336,29 @@ footer { margin-top: 100px; border-top: 1px solid rgba(255,255,255,.06); padding
   </div>
 </main>
 
-<div class="overlay" id="loginOverlay">
+<div class="overlay" id="authOverlay">
   <div class="overlay-card">
-    <button class="overlay-close" onclick="closeOverlay('loginOverlay')">&times;</button>
-    <h2 class="form-title" id="formTitle">Willkommen zurück</h2>
-    <p class="form-desc" id="formDesc">Melde dich mit deinem PixelHide-Konto an.</p>
+    <button class="overlay-close" id="btnCloseOverlay">&times;</button>
+    <h2 class="form-title" id="authTitle">Willkommen zurück</h2>
+    <p class="form-desc" id="authDesc">Melde dich mit deinem PixelHide-Konto an.</p>
     
-    <form id="loginForm">
+    <form id="authForm">
       <div class="form-group">
         <label class="form-label">E-Mail-Adresse</label>
-        <input type="email" class="form-input" id="loginEmail" required placeholder="name@beispiel.de">
+        <input type="email" class="form-input" id="authEmail" required placeholder="name@beispiel.de">
       </div>
       <div class="form-group">
         <label class="form-label">Passwort</label>
-        <input type="password" class="form-input" id="loginPass" required placeholder="••••••••">
+        <input type="password" class="form-input" id="authPass" required placeholder="••••••••">
       </div>
       <div class="form-group" id="regFields" style="display:none;">
         <label class="form-label">Minecraft Name</label>
         <input type="text" class="form-input" id="regMcName" placeholder="Dein Ingame Name">
       </div>
       <label class="checkbox-label" id="rememberLabel">
-        <input type="checkbox" id="loginRemember"> Angemeldet bleiben
+        <input type="checkbox" id="authRemember"> Angemeldet bleiben
       </label>
-      <button type="submit" class="btn btn-primary" id="submitBtn" style="width:100%; justify-content:center; padding:14px;">Einloggen</button>
+      <button type="submit" class="btn btn-primary" id="authSubmitBtn" style="width:100%; justify-content:center; padding:14px;">Einloggen</button>
     </form>
     
     <p class="form-toggle-text" id="toggleText">Noch kein Konto? <a href="#" class="form-toggle-link" id="toggleLink">Registrieren</a></p>
@@ -368,8 +368,8 @@ footer { margin-top: 100px; border-top: 1px solid rgba(255,255,255,.06); padding
 <div class="cookie-banner" id="cookieBanner">
   <p class="cookie-text">Wir nutzen Cookies, um dein Erlebnis auf PixelHide.net zu verbessern.</p>
   <div style="display:flex; gap:10px;">
-    <button class="btn btn-primary" style="padding:8px 16px; font-size:.8rem;" onclick="acceptCookies()">Akzeptieren</button>
-    <button class="btn btn-secondary" style="padding:8px 16px; font-size:.8rem;" onclick="closeCookies()">Ablehnen</button>
+    <button class="btn btn-primary" style="padding:8px 16px; font-size:.8rem;" id="btnAcceptCookies">Akzeptieren</button>
+    <button class="btn btn-secondary" style="padding:8px 16px; font-size:.8rem;" id="btnCloseCookies">Ablehnen</button>
   </div>
 </div>
 
@@ -383,34 +383,24 @@ footer { margin-top: 100px; border-top: 1px solid rgba(255,255,255,.06); padding
   <p>&copy; 2026 PixelHide.net Netzwerk. Alle Rechte vorbehalten. Bank ist eine Design-Vorschau.</p>
 </footer>
 
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
-
-// Deine Firebase Konfiguration aus der Originaldatei
+<script>
 const firebaseConfig = {
-  apiKey: "AIzaSyAs7...", // (Gekürzt wie im Original)
-  authDomain: "pixelhide-7e50c.firebaseapp.com",
-  projectId: "pixelhide-7e50c",
-  storageBucket: "pixelhide-7e50c.appspot.com",
-  messagingSenderId: "535282431422",
-  appId: "1:535282431422:web:dd8818f8e12cc0a12e3e56"
+  apiKey: "AIzaSyBtxHyCkI1TPdV6uWrhJ6bW4FjIdHVHuGw",
+  authDomain: "pixelhide-app.firebaseapp.com",
+  projectId: "pixelhide-app",
+  storageBucket: "pixelhide-app.firebasestorage.app",
+  messagingSenderId: "469716803908",
+  appId: "1:469716803908:web:4adff338ab4db6b576b711"
 };
 
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db = getFirestore(app);
-
-window.auth = auth;
-window.db = db;
-window.signOutUser = () => signOut(auth);
+// Initialisierung über die Compat API
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
 </script>
 
 <script>
-// UI OVERLAY LOGIC FROM ORIGINAL
-function openOverlay(id){ document.getElementById(id).classList.add("active"); }
-function closeOverlay(id){ document.getElementById(id).classList.remove("active"); }
+function openOverlay() { document.getElementById("authOverlay").classList.add("active"); }
+function closeOverlay() { document.getElementById("authOverlay").classList.remove("active"); }
 
 function showNotification(text, type="success"){
   const container = document.getElementById("notifContainer");
@@ -425,129 +415,135 @@ function showNotification(text, type="success"){
   }, 4000);
 }
 
-// TOGGLE LOGIN / REGISTER FORM MODE
-let isRegisterMode = false;
-document.addEventListener("DOMContentLoaded", () => {
-  const toggleLink = document.getElementById("toggleLink");
-  if(toggleLink) {
-    toggleLink.addEventListener("click", (e) => {
+// Formular-Zustands-Wechsler (Login <-> Register)
+function showLogin() {
+  document.getElementById("authTitle").innerText = "Willkommen zurück";
+  document.getElementById("authDesc").innerText = "Melde dich mit deinem PixelHide-Konto an.";
+  document.getElementById("regFields").style.display = "none";
+  document.getElementById("rememberLabel").style.display = "flex";
+  document.getElementById("authSubmitBtn").innerText = "Einloggen";
+  document.getElementById("toggleText").innerHTML = 'Noch kein Konto? <a href="#" class="form-toggle-link" id="toggleLink">Registrieren</a>';
+  bindToggleLink();
+  openOverlay();
+}
+
+function showRegister() {
+  document.getElementById("authTitle").innerText = "Konto erstellen";
+  document.getElementById("authDesc").innerText = "Registriere dich für das Netzwerk.";
+  document.getElementById("regFields").style.display = "block";
+  document.getElementById("rememberLabel").style.display = "none";
+  document.getElementById("authSubmitBtn").innerText = "Registrieren";
+  document.getElementById("toggleText").innerHTML = 'Bereits registriert? <a href="#" class="form-toggle-link" id="toggleLink">Einloggen</a>';
+  bindToggleLink();
+  openOverlay();
+}
+
+function bindToggleLink() {
+  const link = document.getElementById("toggleLink");
+  if(link) {
+    link.addEventListener("click", (e) => {
       e.preventDefault();
-      isRegisterMode = !isRegisterMode;
-      document.getElementById("formTitle").innerText = isRegisterMode ? "Konto erstellen" : "Willkommen zurück";
-      document.getElementById("formDesc").innerText = isRegisterMode ? "Registriere dich für das Netzwerk." : "Melde dich mit deinem PixelHide-Konto an.";
-      document.getElementById("regFields").style.display = isRegisterMode ? "block" : "none";
-      document.getElementById("rememberLabel").style.display = isRegisterMode ? "none" : "flex";
-      document.getElementById("submitBtn").innerText = isRegisterMode ? "Registrieren" : "Einloggen";
-      document.getElementById("toggleText").innerHTML = isRegisterMode ? 'Bereits registriert? <a href="#" class="form-toggle-link" id="toggleLink">Einloggen</a>' : 'Noch kein Konto? <a href="#" class="form-toggle-link" id="toggleLink">Registrieren</a>';
+      const isRegister = document.getElementById("regFields").style.display === "block";
+      if(isRegister) showLogin(); else showRegister();
     });
   }
-});
+}
 
-// FIREBASE AUTH MONITOR (Hier wird gesteuert was man sieht!)
-setTimeout(() => {
-  if(window.auth) {
-    const { onAuthStateChanged } = FirebaseHtmlAuthModules || window.auth; // Abfangschutz
-    window.auth.onAuthStateChanged(async (user) => {
-      const navAuth = document.getElementById("navAuth");
-      const heroSection = document.getElementById("heroSection");
-      const bankSection = document.getElementById("bankSection");
+// Firebase Auth-Statusüberwachung (Sichtbarkeit steuern)
+auth.onAuthStateChanged((user) => {
+  const navAuth = document.getElementById("navAuth");
+  const heroSection = document.getElementById("heroSection");
+  const bankSection = document.getElementById("bankSection");
 
-      if (user) {
-        // Spieler eingeloggt -> Zeige Bank Dashboard, Verstecke Hero-Begrüßung
-        let displayName = user.email.split("@")[0];
-        try {
-          const docRef = window.db ? doc(window.db, "users", user.uid) : null;
-          if(docRef) {
-            const docSnap = await getDoc(docRef);
-            if (docSnap.exists() && docSnap.data().mcName) displayName = docSnap.data().mcName;
-          }
-        } catch(e){}
-
-        navAuth.innerHTML = `
-          <div class="user-pill">
-            <span>${displayName}</span>
-          </div>
-          <button class="btn btn-secondary" style="padding:8px 14px; font-size:0.75rem;" onclick="signOutUser()">Abmelden</button>
-        `;
-        
-        if(heroSection) heroSection.style.display = "none";
-        if(bankSection) bankSection.style.display = "block";
-      } else {
-        // Gastmodus -> Zeige Standard-Website-Hero, Verstecke Bank
-        navAuth.innerHTML = `
-          <button class="btn btn-secondary" onclick="openOverlay('loginOverlay')">Anmelden</button>
-          <button class="btn btn-primary" onclick="openOverlay('registerOverlay')">Registrieren</button>
-        `;
-        if(heroSection) heroSection.style.display = "block";
-        if(bankSection) bankSection.style.display = "none";
-      }
-    });
-  }
-}, 1000);
-
-// SUBMIT FORMS VIA FIREBASE
-document.getElementById("loginForm").addEventListener("submit", async (e) => {
-  e.preventDefault();
-  const email = document.getElementById("loginEmail").value.trim();
-  const pass = document.getElementById("loginPass").value;
-  
-  if(!window.auth) return;
-  
-  if(isRegisterMode) {
-    // Registrierungs-Logik
-    const mcName = document.getElementById("regMcName").value.trim();
-    try {
-      const { createUserWithEmailAndPassword } = await import("https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js");
-      const { doc, setDoc } = await import("https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js");
-      
-      const userCredential = await createUserWithEmailAndPassword(window.auth, email, pass);
-      if(mcName && window.db) {
-        await setDoc(doc(window.db, "users", userCredential.user.uid), { mcName: mcName, email: email });
-      }
-      showNotification("Konto erfolgreich erstellt!", "success");
-      closeOverlay("loginOverlay");
-    } catch(err) {
-      showNotification("Fehler: " + err.message, "error");
-    }
+  if (user) {
+    // Eingeloggt -> Zeige Bank, verstecke Hero
+    navAuth.innerHTML = `
+      <div class="user-pill">
+        <span>${user.email.split('@')[0]}</span>
+      </div>
+      <button class="btn btn-secondary" style="padding:8px 14px; font-size:0.75rem;" id="btnLogout">Abmelden</button>
+    `;
+    document.getElementById("btnLogout").addEventListener("click", () => auth.signOut());
+    
+    if(heroSection) heroSection.style.display = "none";
+    if(bankSection) bankSection.style.display = "block";
   } else {
-    // Login-Logik
-    try {
-      const { signInWithEmailAndPassword } = await import("https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js");
-      await signInWithEmailAndPassword(window.auth, email, pass);
-      showNotification("Erfolgreich angemeldet!", "success");
-      closeOverlay("loginOverlay");
-    } catch(err) {
-      showNotification("Login fehlgeschlagen. Daten prüfen.", "error");
-    }
+    // Gast -> Zeige Hero, verstecke Bank
+    navAuth.innerHTML = `
+      <button class="btn btn-secondary" id="btnNavLogin">Anmelden</button>
+      <button class="btn btn-primary" id="btnNavRegister">Registrieren</button>
+    `;
+    document.getElementById("btnNavLogin").addEventListener("click", showLogin);
+    document.getElementById("btnNavRegister").addEventListener("click", showRegister);
+    
+    if(heroSection) heroSection.style.display = "block";
+    if(bankSection) bankSection.style.display = "none";
   }
 });
 
-// ORIGINAL ADS COOKIE & HIDE LOGIC
+// Formular-Absendung über Firebase Auth
+document.getElementById("authForm").addEventListener("submit", (e) => {
+  e.preventDefault();
+  const email = document.getElementById("authEmail").value.trim();
+  const pass = document.getElementById("authPass").value;
+  const isRegisterMode = document.getElementById("regFields").style.display === "block";
+
+  if (isRegisterMode) {
+    auth.createUserWithEmailAndPassword(email, pass)
+      .then(() => {
+        showNotification("Registrierung erfolgreich!", "success");
+        closeOverlay();
+      })
+      .catch((err) => showNotification("Fehler: " + err.message, "error"));
+  } else {
+    auth.signInWithEmailAndPassword(email, pass)
+      .then(() => {
+        showNotification("Erfolgreich eingeloggt!", "success");
+        closeOverlay();
+      })
+      .catch((err) => showNotification("Login fehlgeschlagen. Daten prüfen.", "error"));
+  }
+});
+
+// Event-Listener Zuweisung beim Laden
+document.getElementById("btnShowLogin").addEventListener("click", showLogin);
+document.getElementById("btnShowRegister").addEventListener("click", showRegister);
+document.getElementById("heroLoginBtn").addEventListener("click", showLogin);
+document.getElementById("btnCloseOverlay").addEventListener("click", closeOverlay);
+bindToggleLink();
+
+// COOKIES SYSTEM
 const COOKIE_KEY = "ph_cookies_accepted";
-function acceptCookies(){ localStorage.setItem(COOKIE_KEY, "true"); closeCookies(); }
-function closeCookies(){ document.getElementById("cookieBanner").classList.remove("active"); }
-
-window.addEventListener("DOMContentLoaded", () => {
-  if(!localStorage.getItem(COOKIE_KEY)){
-    setTimeout(() => document.getElementById("cookieBanner").classList.add("active"), 1000);
-  }
+document.getElementById("btnAcceptCookies").addEventListener("click", () => {
+  localStorage.setItem(COOKIE_KEY, "true");
+  document.getElementById("cookieBanner").classList.remove("active");
+});
+document.getElementById("btnCloseCookies").addEventListener("click", () => {
+  document.getElementById("cookieBanner").classList.remove("active");
 });
 
-// ADS ABSCHALTUNG AUS ORIGINAL
+if(!localStorage.getItem(COOKIE_KEY)){
+  setTimeout(() => document.getElementById("cookieBanner").classList.add("active"), 1000);
+}
+
+// AD TOGGLE SYSTEM FROM ORIGINAL
 (function () {
   const STORAGE_KEY = "ph_hide_ads";
   const toggle = document.getElementById("adToggle");
+
   function applyAdState(hidden) {
     const ads = document.querySelectorAll(".ph-inline-ad");
-    ads.forEach(el => { if (hidden) { el.remove(); } });
+    ads.forEach(el => { if (hidden) el.remove(); });
   }
+
   const isHidden = localStorage.getItem(STORAGE_KEY) === "true";
   if (toggle) toggle.checked = isHidden;
   if (isHidden) applyAdState(true);
+
   if (toggle) {
     toggle.addEventListener("change", () => {
       localStorage.setItem(STORAGE_KEY, toggle.checked);
-      if (toggle.checked) { applyAdState(true); } else { location.reload(); }
+      if (toggle.checked) applyAdState(true); else location.reload();
     });
   }
 })();
