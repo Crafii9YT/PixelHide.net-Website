@@ -67,132 +67,76 @@ body{
 }
 .bg-glow2{ right:-250px; top:300px; }
 
-/* HEADER & NAVBAR */
-.top-nav {
-  max-width: 1300px;
-  margin: 25px auto 0;
-  padding: 0 25px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+/* HEADER & NAVBAR FROM ORIGINAL */
+header{
+  max-width:1300px; margin:25px auto 0; padding:0 25px;
+  display:flex; justify-content:between; align-items:center;
+  position:relative; z-index:10;
 }
-
-.brand {
-  font-family: Orbitron, sans-serif;
-  font-size: 1.5rem;
-  font-weight: 900;
-  color: var(--text);
-  text-decoration: none;
-  background: linear-gradient(135deg, var(--accent), var(--accent2));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-.top-buttons{
-  display:flex;
-  align-items:center;
-  gap:12px;
-}
-
-.btn{
-  padding:11px 24px;
-  border-radius:18px;
-  font-weight:700;
-  cursor:pointer;
-  transition:var(--transition);
-  text-decoration:none;
-  font-size:.88rem;
-  border:1px solid transparent;
-  display:inline-flex;
-  align-items:center;
-  gap:8px;
-}
-.btn-primary{
+.brand{
+  font-family:Orbitron,sans-serif; font-size:1.5rem; font-weight:900;
   background:linear-gradient(135deg,var(--accent),var(--accent2));
-  color:#050507;
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+  text-decoration:none;
 }
-.btn-primary:hover{
-  transform:translateY(-2px);
-  box-shadow:0 0 30px rgba(167,139,250,.4);
-}
-.btn-secondary{
-  background:rgba(255,255,255,.03);
-  border-color:rgba(255,255,255,.08);
-  color:var(--text);
-  backdrop-filter:blur(16px);
-}
-.btn-secondary:hover{
-  background:rgba(255,255,255,.06);
-  border-color:rgba(255,255,255,.15);
-}
+.nav-right{ display:flex; align-items:center; gap:15px; margin-left:auto;}
 
+/* BUTTONS */
+.btn{
+  padding:11px 24px; border-radius:18px; font-weight:700; cursor:pointer;
+  transition:var(--transition); text-decoration:none; font-size:.88rem;
+  border:1px solid transparent; display:inline-flex; align-items:center; gap:8px;
+}
+.btn-primary{ background:linear-gradient(135deg,var(--accent),var(--accent2)); color:#050507; }
+.btn-primary:hover{ transform:translateY(-2px); box-shadow:0 0 30px rgba(167,139,250,.4); }
+.btn-secondary{ background:rgba(255,255,255,.03); border-color:rgba(255,255,255,.08); color:var(--text); backdrop-filter:blur(16px); }
+.btn-secondary:hover{ background:rgba(255,255,255,.06); border-color:rgba(255,255,255,.15); }
+
+/* USER PILL AFTER FIREBASE AUTH */
 .user-pill{
-  padding:11px 20px;
-  border-radius:18px;
+  padding:11px 20px; border-radius:18px;
   background:linear-gradient(135deg,rgba(167,139,250,.1),rgba(196,181,253,.05));
-  border:1px solid rgba(167,139,250,.25);
-  backdrop-filter:blur(16px);
-  color:var(--text);
-  display:flex;
-  align-items:center;
-  gap:10px;
-  font-weight:700;
-  font-size:.88rem;
-}
-.user-pill .avatar{
-  width:24px; height:24px;
-  border-radius:4px;
-  background:var(--accent);
-  display:flex; align-items:center; justify-content:center;
-  color:#000; font-size:10px; font-weight:bold;
+  border:1px solid rgba(167,139,250,.25); backdrop-filter:blur(16px);
+  color:var(--text); display:flex; align-items:center; gap:10px; font-weight:700; font-size:.88rem;
 }
 
-/* OVERLAYS (LOGIN & REGISTRATION) */
+/* HERO / WELCOME SECTION */
+.hero{
+  max-width:800px; margin:120px auto 100px; padding:0 25px; text-align:center;
+  position:relative; z-index:1;
+}
+.hero h1{ font-family:Orbitron,sans-serif; font-size:3.5rem; font-weight:900; margin-bottom:20px; line-height:1.1; }
+.hero p{ color:var(--muted); font-size:1.15rem; margin-bottom:40px; line-height:1.6; }
+
+/* OVERLAYS & FORMS */
 .overlay{
-  position:fixed; inset:0;
-  background:rgba(4,4,6,.75);
-  backdrop-filter:blur(12px);
-  z-index:100;
-  display:flex; align-items:center; justify-content:center;
-  opacity:0; pointer-events:none;
-  transition:var(--transition);
-  padding:20px;
+  position:fixed; inset:0; background:rgba(4,4,6,.75); backdrop-filter:blur(12px);
+  z-index:100; display:flex; align-items:center; justify-content:center;
+  opacity:0; pointer-events:none; transition:var(--transition); padding:20px;
 }
 .overlay.active{ opacity:1; pointer-events:all; }
 .overlay-card{
-  background:var(--card);
-  border:1px solid rgba(255,255,255,.08);
-  padding:40px; border-radius:var(--radius);
-  width:100%; max-width:440px;
-  position:relative;
-  transform:scale(.95); transition:var(--transition);
+  background:var(--card); border:1px solid rgba(255,255,255,.08);
+  padding:40px; border-radius:var(--radius); width:100%; max-width:440px;
+  position:relative; transform:scale(.95); transition:var(--transition);
 }
 .overlay.active .overlay-card{ transform:scale(1); }
-.overlay-close{
-  position:absolute; top:25px; right:25px;
-  background:none; border:none; color:var(--muted);
-  font-size:1.5rem; cursor:pointer;
-}
+.overlay-close{ position:absolute; top:25px; right:25px; background:none; border:none; color:var(--muted); font-size:1.5rem; cursor:pointer; }
 .overlay-close:hover{ color:var(--text); }
 
-/* FORMS & INPUTS */
 .form-title{ font-family:Orbitron,sans-serif; font-size:1.75rem; margin-bottom:8px; }
 .form-desc{ color:var(--muted); font-size:.9rem; margin-bottom:24px; }
 .form-group{ display:flex; flex-direction:column; gap:8px; margin-bottom:16px; width:100%; }
 .form-label{ font-size:.8rem; font-weight:600; color:var(--muted); text-transform:uppercase; letter-spacing:.05em; }
 .form-input, .form-select{
-  padding:14px 16px; border-radius:12px;
-  border:1px solid rgba(255,255,255,.08); background:rgba(255,255,255,.03);
-  color:var(--text); font-size:.95rem; outline:none; width:100%; transition:var(--transition);
+  padding:14px 16px; border-radius:12px; border:1px solid rgba(255,255,255,.08);
+  background:rgba(255,255,255,.03); color:var(--text); font-size:.95rem; outline:none; width:100%; transition:var(--transition);
 }
 .form-input:focus, .form-select:focus{ border-color:rgba(167,139,250,.5); background:rgba(167,139,250,.05); }
-
 .checkbox-label{ display:flex; align-items:center; gap:10px; font-size:.9rem; color:var(--muted); cursor:pointer; margin-bottom:20px; }
 .checkbox-label input{ accent-color:var(--accent); width:16px; height:16px; }
-
 .form-toggle-text{ text-align:center; font-size:.9rem; color:var(--muted); margin-top:20px; }
 .form-toggle-link{ color:var(--accent); text-decoration:none; font-weight:600; }
-.form-toggle-link:hover{ text-decoration:underline; }
 
 /* NOTIFICATIONS & COOKIES */
 .cookie-banner{
@@ -215,212 +159,57 @@ body{
 .notification.success{ border-left:4px solid #10b981; }
 .notification.error{ border-left:4px solid #ef4444; }
 
-/* AD SYSTEM STYLE */
-.ph-inline-ad {
-  max-width: 1300px;
-  margin: 20px auto 0;
-  padding: 0 25px;
-  text-align: center;
-}
+.ph-inline-ad { max-width: 1300px; margin: 20px auto 0; padding: 0 25px; text-align: center; }
 
 /* BANK DASHBOARD STRUCTURE */
-.bank-container {
-  max-width: 1300px;
-  margin: auto;
-  padding: 40px 25px;
-}
+.bank-container { max-width: 1300px; margin: auto; padding: 40px 25px; }
+.bank-header { margin-bottom: 40px; }
+.bank-header h1 { font-family: Orbitron, sans-serif; font-size: 2.5rem; margin-bottom: 8px; }
+.bank-header p { color: var(--muted); }
 
-.bank-header {
-  margin-bottom: 40px;
-}
+.dashboard-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 30px; }
+@media(max-width: 1024px) { .dashboard-grid { grid-template-columns: 1fr; } }
 
-.bank-header h1 {
-  font-family: Orbitron, sans-serif;
-  font-size: 2.5rem;
-  margin-bottom: 8px;
-}
+.main-panel, .side-panel { display: flex; flex-direction: column; gap: 30px; }
 
-.bank-header p {
-  color: var(--muted);
-}
-
-/* GRID LAYOUTS */
-.dashboard-grid {
-  display: grid;
-  grid-template-columns: 2fr 1fr;
-  gap: 30px;
-}
-
-@media(max-width: 1024px) {
-  .dashboard-grid { grid-template-columns: 1fr; }
-}
-
-.main-panel {
-  display: flex;
-  flex-direction: column;
-  gap: 30px;
-}
-
-.side-panel {
-  display: flex;
-  flex-direction: column;
-  gap: 30px;
-}
-
-/* CARDS BACKGROUND & BLUR */
 .bank-card {
   background: linear-gradient(145deg, rgba(255,255,255,var(--card-opacity)), rgba(255,255,255,.02));
-  border: 1px solid rgba(255,255,255,.07);
-  border-radius: var(--radius);
-  padding: 30px;
-  backdrop-filter: blur(var(--blur));
-  position: relative;
-  overflow: hidden;
+  border: 1px solid rgba(255,255,255,.07); border-radius: var(--radius); padding: 30px;
+  backdrop-filter: blur(var(--blur)); position: relative; overflow: hidden;
 }
-
 .bank-card::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(circle at top left, rgba(167,139,250,0.05), transparent 60%);
-  pointer-events: none;
+  content: ""; position: absolute; inset: 0;
+  background: radial-gradient(circle at top left, rgba(167,139,250,0.05), transparent 60%); pointer-events: none;
 }
+.card-title { font-family: Orbitron, sans-serif; font-size: 1.2rem; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
 
-.card-title {
-  font-family: Orbitron, sans-serif;
-  font-size: 1.2rem;
-  margin-bottom: 20px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-/* STATS ROW (KONTEN) */
-.accounts-row {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 20px;
-}
-
-.account-box {
-  background: rgba(255,255,255,0.02);
-  border: 1px solid rgba(255,255,255,0.05);
-  border-radius: 16px;
-  padding: 20px;
-  transition: var(--transition);
-}
-
-.account-box:hover {
-  border-color: rgba(167,139,250, 0.3);
-  transform: translateY(-2px);
-}
-
-.account-type {
-  font-size: 0.85rem;
-  color: var(--muted);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  margin-bottom: 5px;
-}
-
-.account-amount {
-  font-size: 1.8rem;
-  font-weight: 800;
-  font-family: Orbitron, sans-serif;
-}
-
+.accounts-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; }
+.account-box { background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); border-radius: 16px; padding: 20px; transition: var(--transition); }
+.account-box:hover { border-color: rgba(167,139,250, 0.3); transform: translateY(-2px); }
+.account-type { font-size: 0.85rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 5px; }
+.account-amount { font-size: 1.8rem; font-weight: 800; font-family: Orbitron, sans-serif; }
 .amount-money { color: var(--money); }
 .amount-emerald { color: var(--emerald); }
+.account-number { font-size: 0.75rem; color: rgba(156,163,175, 0.4); margin-top: 10px; font-family: monospace; }
 
-.account-number {
-  font-size: 0.75rem;
-  color: rgba(156,163,175, 0.4);
-  margin-top: 10px;
-  font-family: monospace;
-}
-
-/* TABLES (TRANSAKTIONEN) */
-.transaction-list {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.transaction-item {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background: rgba(255,255,255,0.01);
-  border: 1px solid rgba(255,255,255,0.04);
-  padding: 16px 20px;
-  border-radius: 14px;
-}
-
-.tx-user-info {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-}
-
-.tx-avatar {
-  width: 36px;
-  height: 36px;
-  border-radius: 4px;
-  background: #222;
-  border: 1px solid rgba(255,255,255,0.1);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.tx-details .tx-name {
-  font-weight: 700;
-  font-size: 0.95rem;
-}
-
-.tx-details .tx-meta {
-  font-size: 0.75rem;
-  color: var(--muted);
-  margin-top: 2px;
-}
-
-.tx-value {
-  font-family: Orbitron, sans-serif;
-  font-weight: 700;
-  text-align: right;
-}
-
+.transaction-list { display: flex; flex-direction: column; gap: 12px; }
+.transaction-item { display: flex; align-items: center; justify-content: space-between; background: rgba(255,255,255,0.01); border: 1px solid rgba(255,255,255,0.04); padding: 16px 20px; border-radius: 14px; }
+.tx-user-info { display: flex; align-items: center; gap: 14px; }
+.tx-avatar { width: 36px; height: 36px; border-radius: 4px; background: #222; border: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center; }
+.tx-details .tx-name { font-weight: 700; font-size: 0.95rem; }
+.tx-details .tx-meta { font-size: 0.75rem; color: var(--muted); margin-top: 2px; }
+.tx-value { font-family: Orbitron, sans-serif; font-weight: 700; text-align: right; }
 .tx-value.plus { color: var(--money); }
 .tx-value.minus { color: #ef4444; }
 
 .btn-bank {
-  width: 100%;
-  padding: 15px;
-  border-radius: 12px;
-  border: none;
+  width: 100%; padding: 15px; border-radius: 12px; border: none;
   background: linear-gradient(135deg, var(--accent), var(--accent2));
-  color: #050507;
-  font-size: 1rem;
-  font-weight: 800;
-  cursor: pointer;
-  transition: var(--transition);
-  text-align: center;
+  color: #050507; font-size: 1rem; font-weight: 800; cursor: pointer; transition: var(--transition); text-align: center;
 }
+.btn-bank:hover { transform: translateY(-2px); box-shadow: 0 0 30px rgba(167,139,250, 0.4); }
 
-.btn-bank:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 0 30px rgba(167,139,250, 0.4);
-}
-
-/* FOOTER */
-footer {
-  margin-top: 100px;
-  border-top: 1px solid rgba(255,255,255,.06);
-  padding: 40px 25px;
-  text-align: center;
-  color: var(--muted);
-  font-size: 0.9rem;
-}
+footer { margin-top: 100px; border-top: 1px solid rgba(255,255,255,.06); padding: 40px 25px; text-align: center; color: var(--muted); font-size: 0.9rem; }
 </style>
 </head>
 <body>
@@ -435,54 +224,52 @@ footer {
   <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
 </div>
 
-<header class="top-nav">
-  <a href="#" class="brand">PixelHide Bank</a>
-  <div class="top-buttons" id="navButtons">
+<header>
+  <a href="#" class="brand">PixelHide</a>
+  <div class="nav-right" id="navAuth">
     <button class="btn btn-secondary" onclick="openOverlay('loginOverlay')">Anmelden</button>
     <button class="btn btn-primary" onclick="openOverlay('registerOverlay')">Registrieren</button>
   </div>
 </header>
 
-<main class="bank-container">
-  
+<section class="hero" id="heroSection">
+  <h1>Das ultimative<br>Minecraft Netzwerk</h1>
+  <p>Melde dich an, um Zugriff auf das gesicherte Bank-Dashboard, Kontenlogs und Ingame-Statistiken zu erhalten.</p>
+  <button class="btn btn-primary" onclick="openOverlay('loginOverlay')">Jetzt Anmelden</button>
+</section>
+
+<main class="bank-container" id="bankSection" style="display: none;">
   <div class="bank-header">
     <h1>Bank Manager</h1>
     <p>Übersicht, Konten-Management und Logdateien des Minecraft-Netzwerks</p>
   </div>
 
   <div class="dashboard-grid">
-    
     <div class="main-panel">
-      
       <div class="bank-card">
         <div class="card-title">💵 Deine Konten (Hauptkonto)</div>
         <div class="accounts-row">
-          
           <div class="account-box">
             <div class="account-type">Server Dollar</div>
             <div class="account-amount amount-money">$452.840</div>
             <div class="account-number">Kto: PH-8294-STEVE</div>
           </div>
-
           <div class="account-box">
             <div class="account-type">Smaragde (Safe)</div>
             <div class="account-amount amount-emerald">1.250 💎</div>
             <div class="account-number">Kto: PH-EM-9941</div>
           </div>
-
           <div class="account-box">
             <div class="account-type">Giro-Limit</div>
             <div class="account-amount" style="color: var(--text);">$50.000</div>
             <div class="account-number">Max. Überziehung</div>
           </div>
-
         </div>
       </div>
 
       <div class="bank-card">
         <div class="card-title">📜 Letzte Netzwerk-Transaktionen (Live-Vorschau)</div>
         <div class="transaction-list">
-          
           <div class="transaction-item">
             <div class="tx-user-info">
               <div class="tx-avatar"><span style="color:#aaa; font-size:10px;">▢</span></div>
@@ -493,7 +280,6 @@ footer {
             </div>
             <div class="tx-value plus">+$4.500</div>
           </div>
-
           <div class="transaction-item">
             <div class="tx-user-info">
               <div class="tx-avatar"><span style="color:#aaa; font-size:10px;">▢</span></div>
@@ -504,45 +290,18 @@ footer {
             </div>
             <div class="tx-value minus">-$12.800</div>
           </div>
-
-          <div class="transaction-item">
-            <div class="tx-user-info">
-              <div class="tx-avatar"><span style="color:#aaa; font-size:10px;">▢</span></div>
-              <div class="tx-details">
-                <div class="tx-name">Notch</div>
-                <div class="tx-meta">Smaragd Einzahlung • Vor 2 Tagen</div>
-              </div>
-            </div>
-            <div class="tx-value plus">+120 💎</div>
-          </div>
-
-          <div class="transaction-item">
-            <div class="tx-user-info">
-              <div class="tx-avatar"><span style="color:#aaa; font-size:10px;">▢</span></div>
-              <div class="tx-details">
-                <div class="tx-name">GrieferGamer</div>
-                <div class="tx-meta">Überweisung gesendet • Vor 3 Tagen</div>
-              </div>
-            </div>
-            <div class="tx-value minus">-$1.200</div>
-          </div>
-
         </div>
       </div>
-
     </div>
 
     <div class="side-panel">
-      
       <div class="bank-card">
         <div class="card-title">💸 Geld senden</div>
         <form onsubmit="return false;">
-          
           <div class="form-group">
             <label class="form-label">Empfänger (Spielername)</label>
             <input type="text" class="form-input" placeholder="z.B. PlayerHD">
           </div>
-
           <div class="form-group">
             <label class="form-label">Währung</label>
             <select class="form-select">
@@ -550,17 +309,10 @@ footer {
               <option>Smaragde (💎)</option>
             </select>
           </div>
-
           <div class="form-group">
             <label class="form-label">Betrag</label>
             <input type="number" class="form-input" placeholder="0">
           </div>
-
-          <div class="form-group">
-            <label class="form-label">Verwendungszweck</label>
-            <input type="text" class="form-input" placeholder="z.B. Item-Handel">
-          </div>
-
           <button class="btn-bank" style="margin-top: 10px;">Überweisung ausführen</button>
         </form>
       </div>
@@ -573,101 +325,92 @@ footer {
             <span style="font-weight:bold; color:var(--money);">$14.502.900</span>
           </div>
         </div>
-        <div class="form-group" style="margin-bottom:12px;">
-          <div style="display:flex; justify-content:space-between; font-size:0.9rem;">
-            <span style="color:var(--muted)">Eingezahlte Smaragde:</span>
-            <span style="font-weight:bold; color:var(--emerald);">84.320💎</span>
-          </div>
-        </div>
         <div class="form-group" style="margin-bottom:0;">
           <div style="display:flex; justify-content:space-between; font-size:0.9rem;">
-            <span style="color:var(--muted)">Bank-Sicherheits-Status:</span>
-            <span style="font-weight:bold; color:#22c55e;">Aktiv & Sicher</span>
+            <span style="color:var(--muted)">Sicherheits-Status:</span>
+            <span style="font-weight:bold; color:#22c55e;">Aktiv</span>
           </div>
         </div>
       </div>
-
     </div>
-
   </div>
 </main>
 
 <div class="overlay" id="loginOverlay">
   <div class="overlay-card">
     <button class="overlay-close" onclick="closeOverlay('loginOverlay')">&times;</button>
-    <h2 class="form-title">Willkommen zurück</h2>
-    <p class="form-desc">Melde dich mit deinem PixelHide-Konto an.</p>
-    <form id="loginForm" onsubmit="return false;">
+    <h2 class="form-title" id="formTitle">Willkommen zurück</h2>
+    <p class="form-desc" id="formDesc">Melde dich mit deinem PixelHide-Konto an.</p>
+    
+    <form id="loginForm">
       <div class="form-group">
-        <label class="form-label">Benutzername</label>
-        <input type="text" class="form-input" id="loginUser" required placeholder="Dein Spielername">
+        <label class="form-label">E-Mail-Adresse</label>
+        <input type="email" class="form-input" id="loginEmail" required placeholder="name@beispiel.de">
       </div>
       <div class="form-group">
         <label class="form-label">Passwort</label>
         <input type="password" class="form-input" id="loginPass" required placeholder="••••••••">
       </div>
-      <label class="checkbox-label">
+      <div class="form-group" id="regFields" style="display:none;">
+        <label class="form-label">Minecraft Name</label>
+        <input type="text" class="form-input" id="regMcName" placeholder="Dein Ingame Name">
+      </div>
+      <label class="checkbox-label" id="rememberLabel">
         <input type="checkbox" id="loginRemember"> Angemeldet bleiben
       </label>
-      <button type="submit" class="btn btn-primary" style="width:100%; justify-content:center; padding:14px;">Einloggen</button>
+      <button type="submit" class="btn btn-primary" id="submitBtn" style="width:100%; justify-content:center; padding:14px;">Einloggen</button>
     </form>
-    <p class="form-toggle-text">Noch kein Konto? <a href="#" class="form-toggle-link" onclick="switchOverlay('loginOverlay', 'registerOverlay')">Registrieren</a></p>
-  </div>
-</div>
-
-<div class="overlay" id="registerOverlay">
-  <div class="overlay-card">
-    <button class="overlay-close" onclick="closeOverlay('registerOverlay')">&times;</button>
-    <h2 class="form-title">Konto erstellen</h2>
-    <p class="form-desc">Erstelle ein Konto für das PixelHide Netzwerk.</p>
-    <form id="registerForm" onsubmit="return false;">
-      <div class="form-group">
-        <label class="form-label">Minecraft Spielername</label>
-        <input type="text" class="form-input" id="regUser" required placeholder="z.B. Steve">
-      </div>
-      <div class="form-group">
-        <label class="form-label">E-Mail-Adresse</label>
-        <input type="email" class="form-input" id="regEmail" required placeholder="name@beispiel.de">
-      </div>
-      <div class="form-group">
-        <label class="form-label">Passwort</label>
-        <input type="password" class="form-input" id="regPass" required placeholder="Mindestens 8 Zeichen">
-      </div>
-      <label class="checkbox-label">
-        <input type="checkbox" required> Ich akzeptiere die Regeln
-      </label>
-      <button type="submit" class="btn btn-primary" style="width:100%; justify-content:center; padding:14px;">Registrieren</button>
-    </form>
-    <p class="form-toggle-text">Bereits registriert? <a href="#" class="form-toggle-link" onclick="switchOverlay('registerOverlay', 'loginOverlay')">Einloggen</a></p>
+    
+    <p class="form-toggle-text" id="toggleText">Noch kein Konto? <a href="#" class="form-toggle-link" id="toggleLink">Registrieren</a></p>
   </div>
 </div>
 
 <div class="cookie-banner" id="cookieBanner">
-  <p class="cookie-text">Wir nutzen Cookies, um dein Erlebnis auf PixelHide.net zu verbessern und Werbung zu schalten.</p>
+  <p class="cookie-text">Wir nutzen Cookies, um dein Erlebnis auf PixelHide.net zu verbessern.</p>
   <div style="display:flex; gap:10px;">
     <button class="btn btn-primary" style="padding:8px 16px; font-size:.8rem;" onclick="acceptCookies()">Akzeptieren</button>
     <button class="btn btn-secondary" style="padding:8px 16px; font-size:.8rem;" onclick="closeCookies()">Ablehnen</button>
   </div>
 </div>
 
+<div style="text-align:center; margin: 40px 0;">
+  <label style="cursor:pointer; font-size:0.85rem; color:var(--muted);">
+    <input type="checkbox" id="adToggle" style="accent-color:var(--accent);"> Werbung ausblenden
+  </label>
+</div>
+
 <footer>
-  <p>&copy; 2026 PixelHide.net Netzwerk. Alle Rechte vorbehalten. Dies ist eine Design-Vorschau.</p>
+  <p>&copy; 2026 PixelHide.net Netzwerk. Alle Rechte vorbehalten. Bank ist eine Design-Vorschau.</p>
 </footer>
 
-<script>
-const AUTH_KEY = "ph_auth_session";
-const COOKIE_KEY = "ph_cookies_accepted";
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-function openOverlay(id){
-  document.getElementById(id).classList.add("active");
-}
-function closeOverlay(id){
-  document.getElementById(id).classList.remove("active");
-}
-function switchOverlay(fromId, toId){
-  closeOverlay(fromId);
-  setTimeout(() => openOverlay(toId), 150);
-}
+// Deine Firebase Konfiguration aus der Originaldatei
+const firebaseConfig = {
+  apiKey: "AIzaSyAs7...", // (Gekürzt wie im Original)
+  authDomain: "pixelhide-7e50c.firebaseapp.com",
+  projectId: "pixelhide-7e50c",
+  storageBucket: "pixelhide-7e50c.appspot.com",
+  messagingSenderId: "535282431422",
+  appId: "1:535282431422:web:dd8818f8e12cc0a12e3e56"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+window.auth = auth;
+window.db = db;
+window.signOutUser = () => signOut(auth);
+</script>
+
+<script>
+// UI OVERLAY LOGIC FROM ORIGINAL
+function openOverlay(id){ document.getElementById(id).classList.add("active"); }
+function closeOverlay(id){ document.getElementById(id).classList.remove("active"); }
 
 function showNotification(text, type="success"){
   const container = document.getElementById("notifContainer");
@@ -675,7 +418,6 @@ function showNotification(text, type="success"){
   notif.className = `notification ${type}`;
   notif.innerHTML = text;
   container.appendChild(notif);
-  
   setTimeout(() => notif.classList.add("active"), 10);
   setTimeout(() => {
     notif.classList.remove("active");
@@ -683,77 +425,132 @@ function showNotification(text, type="success"){
   }, 4000);
 }
 
-// Update UI basierend auf Login-Status
-function updateAuthUIName() {
-  const session = localStorage.getItem(AUTH_KEY);
-  const nav = document.getElementById("navButtons");
-  if(session) {
-    nav.innerHTML = `
-      <div class="user-pill">
-        <div class="avatar">P</div>
-        <span>${session}</span>
-      </div>
-      <button class="btn btn-secondary" style="padding:8px 14px; font-size:0.75rem;" onclick="doLogout()">Abmelden</button>
-    `;
-  } else {
-    nav.innerHTML = `
-      <button class="btn btn-secondary" onclick="openOverlay('loginOverlay')">Anmelden</button>
-      <button class="btn btn-primary" onclick="openOverlay('registerOverlay')">Registrieren</button>
-    `;
+// TOGGLE LOGIN / REGISTER FORM MODE
+let isRegisterMode = false;
+document.addEventListener("DOMContentLoaded", () => {
+  const toggleLink = document.getElementById("toggleLink");
+  if(toggleLink) {
+    toggleLink.addEventListener("click", (e) => {
+      e.preventDefault();
+      isRegisterMode = !isRegisterMode;
+      document.getElementById("formTitle").innerText = isRegisterMode ? "Konto erstellen" : "Willkommen zurück";
+      document.getElementById("formDesc").innerText = isRegisterMode ? "Registriere dich für das Netzwerk." : "Melde dich mit deinem PixelHide-Konto an.";
+      document.getElementById("regFields").style.display = isRegisterMode ? "block" : "none";
+      document.getElementById("rememberLabel").style.display = isRegisterMode ? "none" : "flex";
+      document.getElementById("submitBtn").innerText = isRegisterMode ? "Registrieren" : "Einloggen";
+      document.getElementById("toggleText").innerHTML = isRegisterMode ? 'Bereits registriert? <a href="#" class="form-toggle-link" id="toggleLink">Einloggen</a>' : 'Noch kein Konto? <a href="#" class="form-toggle-link" id="toggleLink">Registrieren</a>';
+    });
   }
-}
+});
 
-function doLogin(){
-  const user = document.getElementById("loginUser").value.trim();
+// FIREBASE AUTH MONITOR (Hier wird gesteuert was man sieht!)
+setTimeout(() => {
+  if(window.auth) {
+    const { onAuthStateChanged } = FirebaseHtmlAuthModules || window.auth; // Abfangschutz
+    window.auth.onAuthStateChanged(async (user) => {
+      const navAuth = document.getElementById("navAuth");
+      const heroSection = document.getElementById("heroSection");
+      const bankSection = document.getElementById("bankSection");
+
+      if (user) {
+        // Spieler eingeloggt -> Zeige Bank Dashboard, Verstecke Hero-Begrüßung
+        let displayName = user.email.split("@")[0];
+        try {
+          const docRef = window.db ? doc(window.db, "users", user.uid) : null;
+          if(docRef) {
+            const docSnap = await getDoc(docRef);
+            if (docSnap.exists() && docSnap.data().mcName) displayName = docSnap.data().mcName;
+          }
+        } catch(e){}
+
+        navAuth.innerHTML = `
+          <div class="user-pill">
+            <span>${displayName}</span>
+          </div>
+          <button class="btn btn-secondary" style="padding:8px 14px; font-size:0.75rem;" onclick="signOutUser()">Abmelden</button>
+        `;
+        
+        if(heroSection) heroSection.style.display = "none";
+        if(bankSection) bankSection.style.display = "block";
+      } else {
+        // Gastmodus -> Zeige Standard-Website-Hero, Verstecke Bank
+        navAuth.innerHTML = `
+          <button class="btn btn-secondary" onclick="openOverlay('loginOverlay')">Anmelden</button>
+          <button class="btn btn-primary" onclick="openOverlay('registerOverlay')">Registrieren</button>
+        `;
+        if(heroSection) heroSection.style.display = "block";
+        if(bankSection) bankSection.style.display = "none";
+      }
+    });
+  }
+}, 1000);
+
+// SUBMIT FORMS VIA FIREBASE
+document.getElementById("loginForm").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const email = document.getElementById("loginEmail").value.trim();
   const pass = document.getElementById("loginPass").value;
-  if(!user || !pass) return;
   
-  // Login-Simulation (Funktioniert lokal)
-  localStorage.setItem(AUTH_KEY, user);
-  closeOverlay("loginOverlay");
-  showNotification(`Willkommen zurück, <b>${user}</b>!`, "success");
-  updateAuthUIName();
-}
-
-function doRegister(){
-  const user = document.getElementById("regUser").value.trim();
-  const email = document.getElementById("regEmail").value.trim();
-  const pass = document.getElementById("regPass").value;
-  if(!user || !email || !pass) return;
+  if(!window.auth) return;
   
-  localStorage.setItem(AUTH_KEY, user);
-  closeOverlay("registerOverlay");
-  showNotification(`Konto für <b>${user}</b> erfolgreich erstellt!`, "success");
-  updateAuthUIName();
-}
+  if(isRegisterMode) {
+    // Registrierungs-Logik
+    const mcName = document.getElementById("regMcName").value.trim();
+    try {
+      const { createUserWithEmailAndPassword } = await import("https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js");
+      const { doc, setDoc } = await import("https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js");
+      
+      const userCredential = await createUserWithEmailAndPassword(window.auth, email, pass);
+      if(mcName && window.db) {
+        await setDoc(doc(window.db, "users", userCredential.user.uid), { mcName: mcName, email: email });
+      }
+      showNotification("Konto erfolgreich erstellt!", "success");
+      closeOverlay("loginOverlay");
+    } catch(err) {
+      showNotification("Fehler: " + err.message, "error");
+    }
+  } else {
+    // Login-Logik
+    try {
+      const { signInWithEmailAndPassword } = await import("https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js");
+      await signInWithEmailAndPassword(window.auth, email, pass);
+      showNotification("Erfolgreich angemeldet!", "success");
+      closeOverlay("loginOverlay");
+    } catch(err) {
+      showNotification("Login fehlgeschlagen. Daten prüfen.", "error");
+    }
+  }
+});
 
-function doLogout(){
-  localStorage.removeItem(AUTH_KEY);
-  showNotification("Erfolgreich abgemeldet.");
-  updateAuthUIName();
-}
+// ORIGINAL ADS COOKIE & HIDE LOGIC
+const COOKIE_KEY = "ph_cookies_accepted";
+function acceptCookies(){ localStorage.setItem(COOKIE_KEY, "true"); closeCookies(); }
+function closeCookies(){ document.getElementById("cookieBanner").classList.remove("active"); }
 
-// Cookie-System
-function acceptCookies(){
-  localStorage.setItem(COOKIE_KEY, "true");
-  closeCookies();
-}
-function closeCookies(){
-  document.getElementById("cookieBanner").classList.remove("active");
-}
-
-// Init beim Laden
 window.addEventListener("DOMContentLoaded", () => {
-  updateAuthUIName();
-  
   if(!localStorage.getItem(COOKIE_KEY)){
     setTimeout(() => document.getElementById("cookieBanner").classList.add("active"), 1000);
   }
-  
-  // Form Submit-Eventlistener binden
-  document.getElementById("loginForm").addEventListener("submit", doLogin);
-  document.getElementById("registerForm").addEventListener("submit", doRegister);
 });
+
+// ADS ABSCHALTUNG AUS ORIGINAL
+(function () {
+  const STORAGE_KEY = "ph_hide_ads";
+  const toggle = document.getElementById("adToggle");
+  function applyAdState(hidden) {
+    const ads = document.querySelectorAll(".ph-inline-ad");
+    ads.forEach(el => { if (hidden) { el.remove(); } });
+  }
+  const isHidden = localStorage.getItem(STORAGE_KEY) === "true";
+  if (toggle) toggle.checked = isHidden;
+  if (isHidden) applyAdState(true);
+  if (toggle) {
+    toggle.addEventListener("change", () => {
+      localStorage.setItem(STORAGE_KEY, toggle.checked);
+      if (toggle.checked) { applyAdState(true); } else { location.reload(); }
+    });
+  }
+})();
 </script>
 
 </body>
