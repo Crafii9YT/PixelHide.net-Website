@@ -1145,6 +1145,33 @@ body{
   font-size: 16px;
 }
 
+/* ──────────────────────────────────────
+   GEILE BUTTON-KLICK-ANIMATION (:active)
+────────────────────────────────────── */
+
+/* Basis-Übergang für alle klickbaren Elemente, falls noch nicht definiert */
+.btn, .settings-btn, .login-btn, .user-pill, .auth-submit, .sizeerr-tinypng, .sizeerr-close-btn, .auth-close, .dropdown-item {
+  transition: transform 0.2s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.2s, border-color 0.2s, background-color 0.2s;
+}
+
+/* Der Animationseffekt beim Drücken (Maus runter) */
+.btn:active, 
+.settings-btn:active, 
+.login-btn:active, 
+.user-pill:active, 
+.auth-submit:active, 
+.sizeerr-tinypng:active,
+.sizeerr-close-btn:active,
+.auth-close:active,
+.dropdown-item:active {
+  transform: scale(0.95) !important; /* Macht den Button etwas kleiner */
+}
+
+/* Spezieller Fix für deine Haupt-Buttons (.btn), damit der Hover-Effekt (translateY) überschrieben wird */
+.btn:hover:active {
+  transform: translateY(-2px) scale(0.95) !important;
+}
+
 .ad-modal-box p {
   font-size: 13px;
   opacity: 0.8;
