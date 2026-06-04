@@ -493,66 +493,61 @@ body{
   color:#fca5a5;
 }
 
-/* ──────────────────────────────────────
-   AUTH MODAL OVERLAY
-────────────────────────────────────── */
+/* ────────────────────────────────────── AUTH MODAL OVERLAY ────────────────────────────────────── */
 
-.auth-overlay{
-  position:fixed;
-  inset:0;
-  z-index:99999;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  padding:20px;
-  overflow:hidden;
-  opacity:0;
-  pointer-events:none;
-  transition:opacity .3s;
+/* Der Body-Klass-Fix, um das Scrollen zu verhindern */
+body.modal-open {
+  overflow: hidden !important;
 }
 
-/* center modal vertically when there's room, scroll when not */
-.auth-overlay::after{
-  content:"";
-  display:block;
-  min-height:20px;
+.auth-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  display: flex;
+  align-items: center;     /* Vertikal zentrieren */
+  justify-content: center; /* Horizontal zentrieren */
+  padding: 20px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .3s;
 }
 
-
-.auth-overlay.visible{
-  opacity:1;
-  pointer-events:all;
+.auth-overlay.visible {
+  opacity: 1;
+  pointer-events: all;
 }
 
-.auth-backdrop{
-  position:absolute;
-  inset:0;
-  background:rgba(0,0,0,.75);
-  backdrop-filter:blur(8px);
+.auth-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(8px);
 }
 
-.auth-modal{
-  position:relative;
-  width:100%;
-  max-width:440px;
-  max-height:calc(100dvh - 40px);
-  overflow-y:auto;
-  -webkit-overflow-scrolling:touch;
-  margin:auto;
-  background:rgba(13,13,22,.98);
-  border:1px solid rgba(167,139,250,.2);
-  border-radius:28px;
-  padding:40px 36px 36px;
+.auth-modal {
+  position: relative;
+  width: 100%;
+  max-width: 440px;
+  /* Verhindert, dass das Popup bei kleinen Bildschirmen oben/unten abgeschnitten wird */
+  max-height: calc(100vh - 40px); 
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  background: rgba(13, 13, 22, .98);
+  border: 1px solid rgba(167, 139, 250, .2);
+  border-radius: 28px;
+  padding: 40px 36px 36px;
   box-shadow:
-    0 0 0 1px rgba(255,255,255,.04),
-    0 40px 100px rgba(0,0,0,.8),
-    0 0 80px rgba(167,139,250,.12);
-  transform:translateY(30px) scale(.97);
-  transition:transform .35s cubic-bezier(.22,1,.36,1);
+    0 0 0 1px rgba(255, 255, 255, .04),
+    0 40px 100px rgba(0, 0, 0, .8),
+    0 0 80px rgba(167, 139, 250, .12);
+  /* Schöne Pop-In Animation aus der Mitte */
+  transform: scale(.95);
+  transition: transform .35s cubic-bezier(.22, 1, .36, 1);
 }
 
-.auth-overlay.visible .auth-modal{
-  transform:translateY(0) scale(1);
+.auth-overlay.visible .auth-modal {
+  transform: scale(1);
 }
 
 /* close */
