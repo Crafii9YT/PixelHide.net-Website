@@ -1802,8 +1802,14 @@ function copyIP(){
   document.addEventListener("DOMContentLoaded", function() {
     const toggle = document.getElementById('adToggle');
     if (toggle) {
-      toggle.checked = true;  // Setzt den Haken (Schalter auf AN)
-      toggle.disabled = true; // Verhindert, dass der Nutzer es wieder umstellt
+      toggle.checked = true; // 1. Schalter auf AN setzen
+      
+      // 2. Das Event auslösen, das dem Werbe-Skript sagt: "Hey, ich wurde geklickt!"
+      const event = new Event('change', { bubbles: true });
+      toggle.dispatchEvent(event);
+      
+      // 3. Erst danach sperren, damit nichts mehr geändert werden kann
+      toggle.disabled = true; 
     }
   });
 </script>
