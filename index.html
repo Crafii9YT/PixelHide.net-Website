@@ -1771,7 +1771,7 @@ function copyIP(){
   </div>
 
   <!-- AD TOGGLE -->
-  <div class="ad-toggle-wrap" style="pointer-events: none;">
+  <div class="ad-toggle-wrap">
   <span>Werbung ausblenden?</span>
 
   <label class="switch">
@@ -1799,11 +1799,11 @@ function copyIP(){
   <div>© 2026 <span style="color:var(--accent)">PixelHide.net</span></div>
 </footer>
 <script>
-  window.addEventListener('DOMContentLoaded', (event) => {
+  document.addEventListener("DOMContentLoaded", function() {
     const toggle = document.getElementById('adToggle');
     if (toggle) {
-      toggle.checked = false; // Erzwingt den Zustand 'unchecked'
-      toggle.disabled = true; // Sperrt den Schalter komplett
+      toggle.checked = true;  // Setzt den Haken (Schalter auf AN)
+      toggle.disabled = true; // Verhindert, dass der Nutzer es wieder umstellt
     }
   });
 </script>
