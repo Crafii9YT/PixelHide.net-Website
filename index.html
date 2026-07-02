@@ -1771,11 +1771,11 @@ function copyIP(){
   </div>
 
   <!-- AD TOGGLE -->
-  <div class="ad-toggle-wrap">
+  <div class="ad-toggle-wrap" style="pointer-events: none;">
   <span>Werbung ausblenden?</span>
 
   <label class="switch">
-    <input type="checkbox" id="adToggle" disabled>
+    <input type="checkbox" id="adToggle">
     <span class="slider"></span>
   </label>
 </div>
@@ -1798,6 +1798,15 @@ function copyIP(){
 
   <div>© 2026 <span style="color:var(--accent)">PixelHide.net</span></div>
 </footer>
+<script>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    const toggle = document.getElementById('adToggle');
+    if (toggle) {
+      toggle.checked = false; // Erzwingt den Zustand 'unchecked'
+      toggle.disabled = true; // Sperrt den Schalter komplett
+    }
+  });
+</script>
 <script src="https://pixelhide.net/pixelhide-ads.js"></script>
 <!-- ─── AUTH LOGIC ────────────────────────────────────── -->
 
