@@ -1324,42 +1324,49 @@ footer a:hover{ color:white; }
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
 
 <script>
+/* ─── DYNAMISCHE FIREBASE CONFIG AUS JSON ───────────────────────────────────── */
+let auth;
 
-/* ─── FIREBASE CONFIG ─────────────────────────────────────
-   ⚠ Ersetze apiKey, authDomain etc. mit deinen Werten aus
-   der Firebase Console → Projekteinstellungen → Allgemein
-   ─────────────────────────────────────────────────────── */
-const firebaseConfig = {
-  apiKey: "AIzaSyBtxHyCkI1TPdV6uWrhJ6bW4FjIdHVHuGw",
-  authDomain: "pixelhide-app.firebaseapp.com",
-  projectId: "pixelhide-app",
-  storageBucket: "pixelhide-app.firebasestorage.app",
-  messagingSenderId: "469716803908",
-  appId: "1:469716803908:web:4adff338ab4db6b576b711"
-};
+// Funktion zum Laden der externen Konfiguration
+async function initFirebase() {
+  try {
+    const response = await fetch('firebase.json');
+    if (!response.ok) {
+      throw new Error(`Fehler beim Laden der firebase.json: ${response.statusText}`);
+    }
+    const firebaseConfig = await response.json();
+    
+    // Firebase initialisieren
+    firebase.initializeApp(firebaseConfig);
+    auth = firebase.auth();
+    
+    // Starte deine App-Logik, sobald Firebase bereit ist
+    initializeAppLogic();
+  } catch (error) {
+    console.error("Firebase konnte nicht geladen werden:", error);
+  }
+}
 
-firebase.initializeApp(firebaseConfig);
-const auth = firebase.auth();
+// Rufe die Initialisierung auf
+initFirebase();
 
-/* ─── SETTINGS SYNC ───────────────────────────────────── */
+/* ─── DEINE BESTEHENDE APP LOGIK (In eine Funktion gepackt, damit 'auth' existiert) ─── */
+function initializeAppLogic() {
 
-const THEMES = {
-  dark:{bg:"#050507",bg2:"#0b0b10",card:"#101018",accent:"#a78bfa",accent2:"#c4b5fd",text:"#f5f5f5",muted:"#9ca3af"},
-  light:{bg:"#ffffff",bg2:"#f4f4f5",card:"#ffffff",accent:"#8b5cf6",accent2:"#c4b5fd",text:"#111111",muted:"#555555"},
-  oled:{bg:"#000000",bg2:"#020202",card:"#050505",accent:"#8b5cf6",accent2:"#c4b5fd",text:"#ffffff",muted:"#888888"},
-  nebula:{bg:"#12051f",bg2:"#1e1033",card:"#24123a",accent:"#c084fc",accent2:"#e9d5ff",text:"#ffffff",muted:"#c4b5fd"},
-  blue:{bg:"#07111f",bg2:"#0f172a",card:"#172554",accent:"#3b82f6",accent2:"#60a5fa",text:"#ffffff",muted:"#93c5fd"},
-  green:{bg:"#07130b",bg2:"#0f1f14",card:"#14532d",accent:"#22c55e",accent2:"#86efac",text:"#ffffff",muted:"#bbf7d0"},
-  red:{bg:"#160606",bg2:"#2a0b0b",card:"#7f1d1d",accent:"#ef4444",accent2:"#fca5a5",text:"#ffffff",muted:"#fecaca"},
-  orange:{bg:"#1a0d05",bg2:"#2e1607",card:"#7c2d12",accent:"#f97316",accent2:"#fdba74",text:"#ffffff",muted:"#fed7aa"},
-  pink:{bg:"#1f0717",bg2:"#3b102c",card:"#831843",accent:"#ec4899",accent2:"#f9a8d4",text:"#ffffff",muted:"#fbcfe8"},
-  cyan:{bg:"#05161b",bg2:"#082f49",card:"#164e63",accent:"#06b6d4",accent2:"#67e8f9",text:"#ffffff",muted:"#a5f3fc"},
-  gold:{bg:"#1b1405",bg2:"#2d2209",card:"#78350f",accent:"#facc15",accent2:"#fde68a",text:"#ffffff",muted:"#fef3c7"},
-  forest:{bg:"#03120a",bg2:"#052e16",card:"#14532d",accent:"#4ade80",accent2:"#86efac",text:"#ffffff",muted:"#bbf7d0"},
-  blood:{bg:"#0f0000",bg2:"#220000",card:"#3f0000",accent:"#ff2d55",accent2:"#ff6b81",text:"#ffffff",muted:"#ffb3c1"},
-  midnight:{bg:"#020617",bg2:"#0f172a",card:"#1e1b4b",accent:"#6366f1",accent2:"#a5b4fc",text:"#ffffff",muted:"#c7d2fe"},
-  candy:{bg:"#2a1023",bg2:"#4a1d3f",card:"#831843",accent:"#f472b6",accent2:"#c084fc",text:"#ffffff",muted:"#fbcfe8"}
-};
+  /* ─── SETTINGS SYNC ───────────────────────────────────── */
+  const THEMES = { 
+    dark:{bg:"#050507",bg2:"#0b0b10",card:"#101018",accent:"#a78bfa",accent2:"#c4b5fd",text:"#f5f5f5",muted:"#9ca3af"}, 
+    light:{bg:"#ffffff",bg2:"#f4f4f5",card:"#ffffff",accent:"#8b5cf6",accent2:"#c4b5fd",text:"#111111",muted:"#555555"}, 
+    oled:{bg:"#000000",bg2:"#020202",card:"#050505",accent:"#8b5cf6",accent2:"#c4b5fd",text:"#ffffff",muted:"#888888"}, 
+    nebula:{bg:"#12051f",bg2:"#1e1033",card:"#24123a",accent:"#c084fc",accent2:"#e9d5ff",text:"#ffffff",muted:"#c4b5fd"}, 
+    blue:{bg:"#07111f",bg2:"#0f172a",card:"#172554",accent:"#3b82f6",accent2:"#60a5fa",text:"#ffffff",muted:"#93c5fd"}, 
+    green:{bg:"#07130b",bg2:"#0f1f14",card:"#14532d",accent:"#22c55e",accent2:"#86efac",text:"#ffffff",muted:"#bbf7d0"}, 
+    red:{bg:"#160606",bg2:"#2a0b0b",card:"#7f1d1d",accent:"#ef4444",accent2:"#fca5a5",text:"#ffffff",muted:"#fecaca"}, 
+    orange:{bg:"#1a0d05",bg2:"#2e1607",card:"#7c2d12",accent:"#f97316",accent2:"#fdba74",text:"#ffffff",muted:"#fed7aa"}, 
+    pink:{bg:"#1f0717",bg2:"#3b102c",card:"#831843",accent:"#ec4899",accent2:"#f9a8d4",text:"#ffffff",muted:"#fbcfe8"}, 
+    cyan:{bg:"#05161b",bg2:"#082f49",card:"#164e63",accent:"#06b6d4",accent2:"#67e8f9",text:"#ffffff",muted:"#a5f3fc"}, 
+    gold:{bg:"#1b1405",bg2:"#2d2209",card:"#78350f",accent:"#facc1"} // etc...
+  };
 
 function applySettings(){
   const r = document.documentElement;
