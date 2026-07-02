@@ -567,22 +567,18 @@ footer a:hover{ color:white; }
   <div class="dashboard-layout">
     
     <div class="card profile-card">
-      <div class="profile-avatar-large">P</div>
-      <div class="profile-name">PixelPlayer</div>
-      <div class="profile-email">player@pixelhide.net</div>
+      <div class="profile-avatar-large" id="userAvatar">P</div>
+      <div class="profile-name" id="profileName">Lädt...</div>
+      <div class="profile-email" id="profileEmail">...</div>
       
       <div class="profile-meta-list">
         <div class="profile-meta-item">
           <span class="profile-meta-label">Account-Status</span>
-          <span class="profile-meta-value"><span class="badge-active">Verifiziert</span></span>
+          <span class="profile-meta-value" id="accountStatus"><span class="badge-active">Aktiv</span></span>
         </div>
         <div class="profile-meta-item">
           <span class="profile-meta-label">Mitglied seit</span>
-          <span class="profile-meta-value">14. April 2025</span>
-        </div>
-        <div class="profile-meta-item">
-          <span class="profile-meta-label">2FA Schutz</span>
-          <span class="profile-meta-value" style="color: var(--accent);">Aktiviert</span>
+          <span class="profile-meta-value" id="joinDate">-</span>
         </div>
       </div>
     </div>
@@ -592,7 +588,8 @@ footer a:hover{ color:white; }
       <p style="color: var(--muted); font-size: 0.9rem; margin-bottom: 24px;">Hier siehst du alle Geräte, die aktuell in deinen Account eingeloggt sind. Du kannst verdächtige Sitzungen jederzeit sofort beenden.</p>
       
       <div class="sessions-container" id="sessionsContainer">
-        </div>
+        <p style="color: var(--muted); text-align: center; padding: 20px;">Sitzungen werden geladen...</p>
+      </div>
     </div>
 
   </div>
@@ -604,93 +601,134 @@ footer a:hover{ color:white; }
     <a href="#">Datenschutz</a>
     <a href="#">Regeln</a>
   </div>
-  <p>&copy; 2026 PixelHide.net. Alles im Design-Standard geschützt.</p>
+  <p>&copy; 2026 PixelHide.net. Alle Rechte vorbehalten.</p>
 </footer>
 
 <script>
-// Beispieldaten für die Security Sessions generieren
-let sessions = [
-  {
-    id: "sess_1",
-    device: "Windows PC / Chrome Browser",
-    location: "Berlin, Deutschland",
-    time: "Gerade aktiv",
-    current: true,
-    icon: "💻"
-  },
-  {
-    id: "sess_2",
-    device: "iPhone 15 / Safari Mobile",
-    location: "Hamburg, Deutschland",
-    time: "Letzte Aktivität: Vor 2 Stunden",
-    current: false,
-    icon: "📱"
-  },
-  {
-    id: "sess_3",
-    device: "Linux Server / Minecraft Client",
-    location: "Frankfurt, Deutschland",
-    time: "Letzte Aktivität: Gestern, 21:40 Uhr",
-    current: false,
-    icon: "🎮"
-  },
-  {
-    id: "sess_4",
-    device: "MacOS Device / Firefox",
-    location: "München, Deutschland",
-    time: "Letzte Aktivität: 28. Juni 2026",
-    current: false,
-    icon: "💻"
-  }
-];
+// ─────────────────────────────────────────────────────────────────
+// CONFIGURATION: Passe hier die URLs zu deiner echten API an!
+// ─────────────────────────────────────────────────────────────────
+const API_BASE_URL = "https://api.pixelhide.net/v1"; // Deine API-Domain
 
-function renderSessions() {
-  const container = document.getElementById("sessionsContainer");
-  container.innerHTML = "";
-
-  sessions.forEach(session => {
-    const item = document.createElement("div");
-    item.className = `session-item ${session.current ? 'current' : ''}`;
-    item.id = session.id;
-
-    item.innerHTML = `
-      <div class="session-left">
-        <div class="session-icon">${session.icon}</div>
-        <div class="session-details">
-          <div class="session-device">
-            ${session.device} 
-            ${session.current ? '<span class="badge-active" style="background: rgba(167,139,250,0.15); color: var(--accent2); border-color: rgba(167,139,250,0.3);">Dieses Gerät</span>' : ''}
-          </div>
-          <div class="session-location">${session.location}</div>
-          <div class="session-time">${session.time}</div>
-        </div>
-      </div>
-      <button class="btn-terminate" onclick="terminateSession('${session.id}')">Abmelden</button>
-    `;
-    container.appendChild(item);
-  });
+// Hilfsfunktion für Icons basierend auf dem User-Agent / Gerätetyp
+function getDeviceIcon(os) {
+  if (!os) return "💻";
+  os = os.toLowerCase();
+  if (os.includes("ios") || os.includes("iphone") || os.includes("android")) return "📱";
+  if (os.includes("minecraft") || os.includes("client")) return "🎮";
+  return "💻";
 }
 
-// Funktion zum Abmelden und Entfernen einer Session mit Animation
-function terminateSession(id) {
-  const element = document.getElementById(id);
-  if (element) {
-    element.style.opacity = "0";
-    element.style.transform = "translateX(30px)";
-    element.style.transition = "all 0.3s ease";
+// 1. Echte Account- & Profil-Daten laden
+async function loadUserData() {
+  try {
+    // Falls du Auth-Tokens nutzt, hier im Header mitsenden
+    const response = await fetch(`${API_BASE_URL}/account/profile`, {
+      headers: { 'Authorization': 'Bearer ' + localStorage.getItem('token') }
+    });
+    if (!response.ok) throw new Error('Fehler beim Laden des Profils');
     
-    setTimeout(() => {
-      sessions = sessions.filter(s => s.id !== id);
-      renderSessions();
-    }, 300);
+    const data = await response.json();
+    
+    // Daten ins UI schreiben
+    document.getElementById("profileName").textContent = data.username || "Unbekannt";
+    document.getElementById("profileEmail").textContent = data.email || "";
+    document.getElementById("joinDate").textContent = data.created_at || "-";
+    document.getElementById("userAvatar").textContent = (data.username || "P").charAt(0).toUpperCase();
+    
+    // Update der Top-Bar falls vorhanden
+    const topEmail = document.querySelector(".email-text");
+    if(topEmail) topEmail.textContent = data.username;
+    
+  } catch (error) {
+    console.error("Fehler beim Laden der Account-Daten:", error);
+    // Fallback falls API noch nicht antwortet: Standardtexte lassen
   }
 }
 
-// Initiales Rendern beim Laden der Seite
+// 2. Echte Sessions aus dem Accounting laden
+async function loadSessions() {
+  const container = document.getElementById("sessionsContainer");
+  
+  try {
+    const response = await fetch(`${API_BASE_URL}/account/sessions`, {
+      headers: { 'Authorization': 'Bearer ' + localStorage.getItem('token') }
+    });
+    if (!response.ok) throw new Error('Fehler beim Laden der Sessions');
+    
+    const sessions = await response.json();
+    container.innerHTML = "";
+
+    if (sessions.length === 0) {
+      container.innerHTML = `<p style="color: var(--muted); text-align: center; padding: 20px;">Keine aktiven Sitzungen gefunden.</p>`;
+      return;
+    }
+
+    sessions.forEach(session => {
+      const item = document.createElement("div");
+      // Erkennung ob es die aktuelle Session ist (z.B. über ein 'current'-Flag vom Backend)
+      item.className = `session-item ${session.is_current ? 'current' : ''}`;
+      item.id = `session_${session.id}`;
+
+      // Formatierung des Datums / der Zeit
+      const timeDisplay = session.is_current ? "Gerade aktiv" : `Letzte Aktivität: ${session.last_active}`;
+
+      item.innerHTML = `
+        <div class="session-left">
+          <div class="session-icon">${getDeviceIcon(session.device_os)}</div>
+          <div class="session-details">
+            <div class="session-device">
+              ${session.device_name || 'Unbekanntes Gerät'} 
+              ${session.is_current ? '<span class="badge-active" style="background: rgba(167,139,250,0.15); color: var(--accent2); border-color: rgba(167,139,250,0.3);">Dieses Gerät</span>' : ''}
+            </div>
+            <div class="session-location">${session.ip_address} ${session.location ? '• ' + session.location : ''}</div>
+            <div class="session-time">${timeDisplay}</div>
+          </div>
+        </div>
+        <button class="btn-terminate" onclick="terminateSession('${session.id}')">Abmelden</button>
+      `;
+      container.appendChild(item);
+    });
+  } catch (error) {
+    console.error("Fehler beim Abrufen der Sessions:", error);
+    container.innerHTML = `<p style="color: #fca5a5; text-align: center; padding: 20px;">Sitzungen konnten nicht geladen werden.</p>`;
+  }
+}
+
+// 3. Session im Backend zerstören / abmelden
+async function terminateSession(sessionId) {
+  const element = document.getElementById(`session_${sessionId}`);
+  
+  try {
+    const response = await fetch(`${API_BASE_URL}/account/sessions/${sessionId}`, {
+      method: 'DELETE', // oder 'POST' je nach API-Design
+      headers: { 'Authorization': 'Bearer ' + localStorage.getItem('token') }
+    });
+
+    if (response.ok) {
+      // Erfolgreich im Backend gelöscht -> CSS-Animation auslösen
+      if (element) {
+        element.style.opacity = "0";
+        element.style.transform = "translateX(30px)";
+        element.style.transition = "all 0.3s ease";
+        
+        setTimeout(() => {
+          loadSessions(); // Liste neu laden
+        }, 300);
+      }
+    } else {
+      alert("Sitzung konnte nicht beendet werden. Bitte versuche es später erneut.");
+    }
+  } catch (error) {
+    console.error("Fehler beim Beenden der Sitzung:", error);
+  }
+}
+
+// Beim Laden der Seite direkt die echten Daten anfordern
 window.addEventListener("DOMContentLoaded", () => {
-  renderSessions();
+  loadUserData();
+  loadSessions();
 });
 </script>
-
 </body>
 </html>
