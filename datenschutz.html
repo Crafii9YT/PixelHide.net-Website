@@ -112,4 +112,195 @@
             transition: opacity 0.6s ease, transform 0.6s ease;
         }
 
-        main.
+        /* Wird aktiv sobald geladen */
+        main.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .md-card {
+            background-color: #1C1B1F;
+            border-radius: 12px;
+            padding: 24px;
+            border: 1px solid var(--md-sys-color-surface-variant);
+        }
+
+        h1 {
+            font-size: 24px;
+            font-weight: 400;
+            margin-bottom: 16px;
+            color: var(--md-sys-color-on-surface);
+        }
+
+        h2 {
+            font-size: 18px;
+            font-weight: 500;
+            margin: 20px 0 8px 0;
+            color: var(--md-sys-color-primary);
+        }
+
+        p {
+            font-size: 14px;
+            line-height: 20px;
+            color: var(--md-sys-color-on-surface-variant);
+            margin-bottom: 12px;
+        }
+
+        ul {
+            margin-left: 20px;
+            font-size: 14px;
+            color: var(--md-sys-color-on-surface-variant);
+            line-height: 22px;
+            margin-bottom: 12px;
+        }
+
+        /* --- Material Buttons --- */
+        .md-btn {
+            position: relative;
+            overflow: hidden;
+            height: 40px;
+            padding: 0 24px;
+            border-radius: 20px;
+            border: none;
+            font-family: 'Roboto', sans-serif;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            transition: background-color 0.2s, box-shadow 0.2s;
+        }
+
+        .md-btn.outlined {
+            background: transparent;
+            color: var(--md-sys-color-primary);
+            border: 1px solid var(--md-sys-color-outline);
+        }
+        .md-btn.outlined:hover {
+            background-color: rgba(208, 188, 255, 0.08);
+        }
+
+        .md-btn.small {
+            height: 32px;
+            padding: 0 16px;
+            border-radius: 16px;
+            font-size: 13px;
+            margin-bottom: 20px;
+        }
+
+        /* --- Ripple-Effekt --- */
+        .ripple {
+            position: absolute;
+            border-radius: 50%;
+            pointer-events: none;
+            transform: translate(-50%, -50%) scale(0);
+            transition: transform 0.6s cubic-bezier(0.1, 0.8, 0.3, 1), opacity 0.4s ease;
+            background-color: rgba(208, 188, 255, 0.24);
+        }
+
+        .ripple.holding {
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        .ripple.fading {
+            opacity: 0;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="loader-container">
+        <svg class="spinner" viewBox="0 0 50 50">
+            <circle class="path" cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle>
+        </svg>
+    </div>
+
+    <header>
+        <div class="brand">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H7c0-2.76 2.24-5 5-5s5 2.24 5 5c0 1.04-.42 1.99-1.07 2.75z"/></svg>
+            PixelHide App
+        </div>
+    </header>
+
+    <main id="main-content">
+        <div class="md-card">
+            
+            <a href="https://pixelhide.net" target="_self" class="md-btn outlined small">
+                Zur Website
+            </a>
+
+            <h1>Datenschutzhinweise</h1>
+            <p>Schön, dass du die PixelHide App nutzt. Der Schutz deiner Privatsphäre ist uns extrem wichtig. Hier erfährst du kurz und knapp, was mit Daten passiert.</p>
+            
+            <h2>1. Lokale Verarbeitung</h2>
+            <p>Die PixelHide App ist darauf ausgelegt, deine sensiblen Daten direkt auf deinem Gerät zu verarbeiten. Bilder, Texte oder Dateien, die du in der App versteckst oder verschlüsselst, werden <strong>niemals</strong> ohne deine ausdrückliche Zustimmung auf unsere Server hochgeladen.</p>
+            
+            <h2>2. Analytics & App-Analyse</h2>
+            <p>Um die App stabiler zu machen und Fehler schneller zu finden, nutzen wir anonymisierte Analyse-Tools (Google Analytics). Dabei werden folgende Daten erfasst:</p>
+            <ul>
+                <li>Absturzberichte (Crashlytics), falls die App mal unerwartet schließt.</li>
+                <li>Anonyme Gerätedaten (z. B. welches Android-Modell oder welche Bildschirmgröße du nutzt).</li>
+                <li>Ganz allgemeine Nutzungsmuster (z. B. ob ein Feature oft angeklickt wird), damit wir wissen, was wir verbessern müssen.</li>
+            </ul>
+            <p><strong>Wichtig:</strong> Diese Daten sind komplett anonymisiert. Wir können sie nicht mit deiner Person oder deinem echten Namen verknüpfen.</p>
+
+        </div>
+    </main>
+
+    <script>
+        // --- 1. Sofortige Loader-Ausführung ohne umschließendes Event ---
+        const loader = document.getElementById('loader-container');
+        const content = document.getElementById('main-content');
+
+        setTimeout(() => {
+            if (loader && content) {
+                loader.style.opacity = '0';
+                loader.style.visibility = 'hidden';
+                content.classList.add('visible');
+            }
+        }, 1500); // Exakt 1.5 Sekunden Verzögerung
+
+        // --- 2. Ripple-Effekt ---
+        document.querySelectorAll('.md-btn').forEach(button => {
+            button.addEventListener('mousedown', function(e) {
+                const rect = this.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+
+                const size = Math.max(rect.width, rect.height) * 2.5;
+
+                const ripple = document.createElement('span');
+                ripple.className = 'ripple';
+                ripple.style.width = `${size}px`;
+                ripple.style.height = `${size}px`;
+                ripple.style.left = `${x}px`;
+                ripple.style.top = `${y}px`;
+
+                this.appendChild(ripple);
+
+                requestAnimationFrame(() => {
+                    ripple.classList.add('holding');
+                });
+
+                const fadeOut = () => {
+                    ripple.classList.add('fading');
+                    
+                    ripple.addEventListener('transitionend', (event) => {
+                        if (event.propertyName === 'opacity') {
+                            ripple.remove();
+                        }
+                    });
+
+                    window.removeEventListener('mouseup', fadeOut);
+                    button.removeEventListener('mouseleave', fadeOut);
+                };
+
+                window.addEventListener('mouseup', fadeOut);
+                button.removeEventListener('mouseleave', fadeOut);
+            });
+        });
+    </script>
+</body>
+</html>
