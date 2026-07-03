@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PixelHide - Datenschutzhinweise</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --md-sys-color-primary: #6750A4;
+            --md-sys-color-on-primary: #FFFFFF;
+            --md-sys-color-primary-container: #EADDFF;
+            --md-sys-color-on-primary-container: #21005D;
+            --md-sys-color-surface: #FEF7FF;
+            --md-sys-color-on-surface: #1D1B20;
+            --md-sys-color-surface-variant: #E7E0EC;
+            --md-sys-color-on-surface-variant: #49454F;
+            --md-sys-color-outline: #79747E;
+            --md-sys-color-background: #FAF8FD;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--md-sys-color-background);
+            color: var(--md-sys-color-on-surface);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        /* Top App Bar (Google Style) */
+        header {
+            width: 100%;
+            height: 64px;
+            background-color: var(--md-sys-color-surface);
+            display: flex;
+            align-items: center;
+            padding: 0 16px;
+            box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .brand {
+            font-size: 22px;
+            font-weight: 500;
+            color: var(--md-sys-color-primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* Main Container im App-Style */
+        main {
+            width: 100%;
+            max-width: 600px;
+            padding: 24px 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        /* Material Card für die Inhalte */
+        .md-card {
+            background-color: var(--md-sys-color-surface);
+            border-radius: 12px;
+            padding: 24px;
+            border: 1px solid var(--md-sys-color-surface-variant);
+        }
+
+        h1 {
+            font-size: 24px;
+            font-weight: 400;
+            margin-bottom: 16px;
+            color: var(--md-sys-color-on-surface);
+        }
+
+        h2 {
+            font-size: 18px;
+            font-weight: 500;
+            margin: 20px 0 8px 0;
+            color: var(--md-sys-color-primary);
+        }
+
+        p {
+            font-size: 14px;
+            line-height: 20px;
+            color: var(--md-sys-color-on-surface-variant);
+            margin-bottom: 12px;
+        }
+
+        ul {
+            margin-left: 20px;
+            font-size: 14px;
+            color: var(--md-sys-color-on-surface-variant);
+            line-height: 22px;
+            margin-bottom: 12px;
+        }
+
+        /* --- Die Modernen Material Buttons --- */
+        .btn-container {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            margin-top: 24px;
+        }
+
+        .md-btn {
+            position: relative;
+            overflow: hidden; /* Wichtig für den Ripple */
+            height: 40px;
+            padding: 0 24px;
+            border-radius: 20px;
+            border: none;
+            font-family: 'Roboto', sans-serif;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: box-shadow 0.2s ease;
+        }
+
+        /* Gefüllter Button (Primary) */
+        .md-btn.filled {
+            background-color: var(--md-sys-color-primary);
+            color: var(--md-sys-color-on-primary);
+        }
+        .md-btn.filled:hover {
+            box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+        }
+
+        /* Text Button */
+        .md-btn.text {
+            background: transparent;
+            color: var(--md-sys-color-primary);
+        }
+        .md-btn.text:hover {
+            background-color: rgba(103, 80, 164, 0.08);
+        }
+
+        /* --- Der präzise Ripple-Effekt --- */
+        .ripple {
+            position: absolute;
+            border-radius: 50%;
+            pointer-events: none;
+            transform: translate(-50%, -50%) scale(0);
+            transition: transform 0.45s cubic-bezier(0.1, 0.8, 0.3, 1), opacity 0.35s ease;
+            background-color: rgba(255, 255, 255, 0.35);
+        }
+
+        /* Ripple-Farbe für Text-Buttons anpassen */
+        .md-btn.text .ripple {
+            background-color: rgba(103, 80, 164, 0.2);
+        }
+
+        .ripple.holding {
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        .ripple.fading {
+            opacity: 0;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="brand">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H7c0-2.76 2.24-5 5-5s5 2.24 5 5c0 1.04-.42 1.99-1.07 2.75z"/></svg>
+            PixelHide
+        </div>
+    </header>
+
+    <main>
+        <div class="md-card">
+            <h1>Datenschutzhinweise</h1>
+            <p>Schön, dass du PixelHide nutzt. Der Schutz deiner Privatsphäre ist uns extrem wichtig. Hier erfährst du kurz und knapp, was mit Daten passiert.</p>
+            
+            <h2>1. Lokale Verarbeitung</h2>
+            <p>PixelHide ist darauf ausgelegt, deine sensiblen Daten direkt auf deinem Gerät zu verarbeiten. Bilder, Texte oder Dateien, die du in der App versteckst oder verschlüsselst, werden <strong>niemals</strong> ohne deine Zustimmung auf unsere Server hochgeladen.</p>
+            
+            <h2>2. Analytics & App-Analyse</h2>
+            <p>Um die App stabiler zu machen und Fehler schneller zu finden, nutzen wir anonymisierte Analyse-Tools (Analytics). Dabei werden folgende Daten erfasst:</p>
+            <ul>
+                <li>Absturzberichte (Crashlytics), falls die App mal unerwartet schließt.</li>
+                <li>Anonyme Gerätedaten (z. B. welches Android-Modell oder welche Bildschirmgröße du nutzt).</li>
+                <li>Ganz allgemeine Nutzungsmuster (z. B. ob ein Feature oft angeklickt wird), damit wir wissen, was wir verbessern müssen.</li>
+            </ul>
+            <p><strong>Wichtig:</strong> Diese Daten sind komplett anonymisiert. Wir können sie nicht mit deiner Person oder deinem echten Namen verknüpfen.</p>
+            
+            <h2>3. Deine Rechte</h2>
+            <p>Du kannst die Erfassung von Analytics-Daten jederzeit in den Einstellungen der App komplett deaktivieren. Wenn du Fragen hast, kannst du uns jederzeit über den Support erreichen.</p>
+
+            <div class="btn-container">
+                <button class="md-btn text">Mehr Infos</button>
+                <button class="md-btn filled">Verstanden</button>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        document.querySelectorAll('.md-btn').forEach(button => {
+            button.addEventListener('mousedown', function(e) {
+                // Koordinaten des Klicks berechnen
+                const rect = this.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+
+                // Größe des Ripples bestimmen (muss den ganzen Button abdecken)
+                const size = Math.max(rect.width, rect.height) * 2.5;
+
+                // Ripple Element erstellen
+                const ripple = document.createElement('span');
+                ripple.className = 'ripple';
+                ripple.style.width = `${size}px`;
+                ripple.style.height = `${size}px`;
+                ripple.style.left = `${x}px`;
+                ripple.style.top = `${y}px`;
+
+                this.appendChild(ripple);
+
+                // Trick, um die CSS-Transition direkt danach zu triggern
+                requestAnimationFrame(() => {
+                    ripple.classList.add('holding');
+                });
+
+                // Funktion fürs Ausfaden definieren
+                const fadeOut = () => {
+                    ripple.classList.add('fading');
+                    
+                    // Sobald das Ausfaden (Opacity) fertig ist, das Element löschen
+                    ripple.addEventListener('transitionend', (event) => {
+                        if (event.propertyName === 'opacity') {
+                            ripple.remove();
+                        }
+                    });
+
+                    // Event-Listener wieder aufräumen
+                    window.removeEventListener('mouseup', fadeOut);
+                    button.removeEventListener('mouseleave', fadeOut);
+                };
+
+                // Sobald die Maus losgelassen wird ODER den Button verlässt -> Ausfaden starten
+                window.addEventListener('mouseup', fadeOut);
+                button.addEventListener('mouseleave', fadeOut);
+            });
+        });
+    </script>
+</body>
+</html>
