@@ -295,7 +295,7 @@ body{
   line-height:1.6;
 }
 
-/* BUTTONS (Wieder vergrößert) */
+/* BUTTONS */
 
 .btn-row{
   margin-top:45px;
@@ -315,7 +315,7 @@ body{
 
   text-decoration:none;
 
-  padding:18px 36px; /* Schön groß und präsent */
+  padding:18px 36px;
 
   border-radius:18px;
 
@@ -663,7 +663,55 @@ footer{
   color:var(--muted);
 }
 
-/* RIPPLE (Kompakter & Etwas Schneller) */
+/* TOAST */
+
+#copy-toast{
+  position:fixed;
+
+  left:25px;
+  bottom:-120px;
+
+  background:
+  linear-gradient(
+  135deg,
+  var(--accent),
+  var(--accent2));
+
+  color:#050507;
+
+  padding:18px 25px;
+
+  border-radius:18px;
+
+  display:flex;
+  align-items:center;
+
+  gap:14px;
+
+  font-weight:700;
+
+  opacity:0;
+
+  transition:.5s cubic-bezier(.68,-0.55,.27,1.55);
+
+  z-index:9999;
+}
+
+#copy-toast.show{
+  bottom:25px;
+  opacity:1;
+}
+
+#close-toast{
+  border:none;
+  background:none;
+
+  font-size:1.2rem;
+
+  cursor:pointer;
+}
+
+/* RIPPLE EFFECT STYLE */
 
 .ripple{
   position:absolute;
@@ -676,11 +724,9 @@ footer{
 
   pointer-events:none;
   
-  /* Auf 1.8 Sekunden gesetzt, bricht am Ende geschmeidig ab */
   transition: transform 1.8s cubic-bezier(0.1, 0.8, 0.2, 1), opacity 0.4s ease;
 }
 
-/* Skaliert jetzt exakt so, dass es den Button knapp ausfüllt (nicht mehr riesig) */
 .ripple.held {
   transform: scale(1.15);
 }
@@ -827,7 +873,7 @@ footer{
     </h2>
 
     <p>
-      Entwickelt für die PixelHide Community damit jeder immer und überall informiert ist!
+      Ententwickelt für die PixelHide Community damit jeder immer und überall informiert ist!
     </p>
 
   </div>
@@ -1009,7 +1055,7 @@ footer{
     <div class="btn-row">
 
       <a
-      href="https://github.com/Crafii9YT/PixelHideApp_Releases/releases/download/AppReleases/PixelHideApp.apk"
+      href="https://pixelhide-cdn.ct.ws/app/pixelhide_app_beta.apk"
       class="btn btn-primary">
 
         Herunterladen
@@ -1078,19 +1124,33 @@ footer{
 
 </footer>
 
+<div id="copy-toast">
+
+  <span>
+    Die Datei wird heruntergeladen...
+  </span>
+
+  <button id="close-toast">
+    ×
+  </button>
+
+</div>
+
 <script>
 
-document.querySelectorAll(".btn").forEach(btn => {
-  btn.addEventListener("click", e => {
-    e.preventDefault();
-  });
+/* CLOSE TOAST BOX */
+document.getElementById("close-toast").onclick = () => {
+  document.getElementById("copy-toast").classList.remove("show");
+};
 
+/* BUTTON LOGIC: RIPPLE EFFECT & LINK EXECUTION */
+document.querySelectorAll(".btn").forEach(btn => {
+  
   btn.addEventListener("mousedown", e => {
     const rect = btn.getBoundingClientRect();
     const ripple = document.createElement("span");
     ripple.className = "ripple";
 
-    // Verwende die Diagonale/maximale Button-Dimension als Grundgröße
     const size = Math.max(rect.width, rect.height) * 2;
     ripple.style.width = ripple.style.height = size + "px";
 
@@ -1103,18 +1163,56 @@ document.querySelectorAll(".btn").forEach(btn => {
       ripple.classList.add("held");
     });
 
-    const removeRipple = () => {
+    // Markiert, dass die Maus auf diesem Button gedrückt wurde
+    btn.dataset.mouseDownInside = "true";
+
+    const removeRipple = (triggeredByMouseUp) => {
       ripple.classList.add("fade-out");
+      
+      // Falls der User losgelassen hat, wird die eigentliche Link-Aktion ausgeführt
+      if (triggeredByMouseUp && btn.dataset.mouseDownInside === "true") {
+        btn.dataset.mouseDownInside = "false";
+        
+        // Zeigt Toast bei Download-Buttons an
+        if (btn.classList.contains("btn-primary")) {
+          const toast = document.getElementById("copy-toast");
+          if (toast) {
+            toast.classList.add("show");
+            setTimeout(() => { toast.classList.remove("show"); }, 3500);
+          }
+        }
+        
+        // Kurzer Delay, damit der Ripple-Effekt noch visuell wirkt, bevor gesprungen/geladen wird
+        setTimeout(() => {
+          const target = btn.getAttribute("target");
+          const href = btn.getAttribute("href");
+          
+          if (href && href !== "#") {
+            if (target === "_blank") {
+              window.open(href, "_blank");
+            } else {
+              window.location.href = href;
+            }
+          }
+        }, 150);
+      }
+
       setTimeout(() => {
         ripple.remove();
       }, 400);
 
-      window.removeEventListener("mouseup", removeRipple);
-      btn.removeEventListener("mouseleave", removeRipple);
+      window.removeEventListener("mouseup", handleGlobalMouseUp);
+      btn.removeEventListener("mouseleave", handleMouseLeave);
     };
 
-    window.addEventListener("mouseup", removeRipple);
-    btn.addEventListener("mouseleave", removeRipple);
+    const handleGlobalMouseUp = () => removeRipple(true);
+    const handleMouseLeave = () => {
+      btn.dataset.mouseDownInside = "false"; // Verlassen -> Keine Link-Ausführung
+      removeRipple(false);
+    };
+
+    window.addEventListener("mouseup", handleGlobalMouseUp);
+    btn.addEventListener("mouseleave", handleMouseLeave);
   });
 });
 
