@@ -295,13 +295,14 @@ body{
   line-height:1.6;
 }
 
-/* BUTTONS */
+/* BUTTONS (Wieder vergrößert) */
 
 .btn-row{
   margin-top:45px;
 
   display:flex;
   justify-content:center;
+  align-items:center;
   flex-wrap:wrap;
 
   gap:18px;
@@ -314,19 +315,23 @@ body{
 
   text-decoration:none;
 
-  padding:18px 35px;
+  padding:18px 36px; /* Schön groß und präsent */
 
-  border-radius:20px;
+  border-radius:18px;
 
   font-weight:700;
+  font-size:1.05rem;
 
   transition:.25s;
 
-  display:flex;
+  display:inline-flex;
   align-items:center;
   justify-content:center;
 
   gap:12px;
+  
+  cursor: pointer;
+  user-select: none;
 }
 
 .btn::before{
@@ -368,7 +373,7 @@ body{
   color:#050507;
 
   box-shadow:
-  0 0 35px rgba(167,139,250,.3);
+  0 0 35px rgba(167,139,250,.25);
 }
 
 .btn-outline{
@@ -658,55 +663,7 @@ footer{
   color:var(--muted);
 }
 
-/* TOAST */
-
-#copy-toast{
-  position:fixed;
-
-  left:25px;
-  bottom:-120px;
-
-  background:
-  linear-gradient(
-  135deg,
-  var(--accent),
-  var(--accent2));
-
-  color:#050507;
-
-  padding:18px 25px;
-
-  border-radius:18px;
-
-  display:flex;
-  align-items:center;
-
-  gap:14px;
-
-  font-weight:700;
-
-  opacity:0;
-
-  transition:.5s cubic-bezier(.68,-0.55,.27,1.55);
-
-  z-index:9999;
-}
-
-#copy-toast.show{
-  bottom:25px;
-  opacity:1;
-}
-
-#close-toast{
-  border:none;
-  background:none;
-
-  font-size:1.2rem;
-
-  cursor:pointer;
-}
-
-/* RIPPLE */
+/* RIPPLE (Kompakter & Etwas Schneller) */
 
 .ripple{
   position:absolute;
@@ -715,18 +672,21 @@ footer{
 
   transform:scale(0);
 
-  background:rgba(255,255,255,.25);
+  background:rgba(255,255,255,.28);
 
-  animation:ripple .65s linear;
+  pointer-events:none;
+  
+  /* Auf 1.8 Sekunden gesetzt, bricht am Ende geschmeidig ab */
+  transition: transform 1.8s cubic-bezier(0.1, 0.8, 0.2, 1), opacity 0.4s ease;
 }
 
-@keyframes ripple{
+/* Skaliert jetzt exakt so, dass es den Button knapp ausfüllt (nicht mehr riesig) */
+.ripple.held {
+  transform: scale(1.15);
+}
 
-  to{
-    transform:scale(4);
-    opacity:0;
-  }
-
+.ripple.fade-out {
+  opacity: 0;
 }
 
 /* MOBILE */
@@ -743,11 +703,12 @@ footer{
   }
 
   .btn{
-    width:100%;
+    width:auto;
+    min-width: 220px;
   }
 
   .btn-row{
-    flex-direction:column;
+    flex-direction: row;
   }
 
   .join-steps{
@@ -827,7 +788,7 @@ footer{
         </div>
 
         <div class="step-text">
-          Alle Geräte die Android 11 - 16 installiert haben, können die App nutzen!
+          Alle Geräte die Android 11 bis 16 installiert haben, können die App nutzen!
         </div>
       </div>
 
@@ -1048,7 +1009,7 @@ footer{
     <div class="btn-row">
 
       <a
-      href="https://pixelhide-cdn.ct.ws/app/pixelhide_app_beta.apk"
+      href="https://github.com/Crafii9YT/PixelHideApp_Releases/releases/download/AppReleases/PixelHideApp.apk"
       class="btn btn-primary">
 
         Herunterladen
@@ -1070,7 +1031,6 @@ footer{
       <div class="ip-box">
 
         <div class="ip">
-          1
         </div>
 
         <div class="ip-small">
@@ -1118,84 +1078,44 @@ footer{
 
 </footer>
 
-<div id="copy-toast">
-
-  <span>
-    Die Datei wird heruntergeladen...
-  </span>
-
-  <button id="close-toast">
-    ×
-  </button>
-
-</div>
-
 <script>
 
-/* DOWNLOAD */
-
-document.querySelectorAll(".btn-primary").forEach(btn=>{
-
-  btn.addEventListener("click",()=>{
-
-    const toast =
-    document.getElementById("copy-toast");
-
-    toast.classList.add("show");
-
-    setTimeout(()=>{
-
-      toast.classList.remove("show");
-
-    },3500);
-
+document.querySelectorAll(".btn").forEach(btn => {
+  btn.addEventListener("click", e => {
+    e.preventDefault();
   });
 
-});
-
-/* CLOSE */
-
-document.getElementById("close-toast").onclick = ()=>{
-
-  document
-  .getElementById("copy-toast")
-  .classList
-  .remove("show");
-
-};
-
-/* RIPPLE */
-
-document.querySelectorAll(".btn").forEach(btn=>{
-
-  btn.addEventListener("click",e=>{
-
+  btn.addEventListener("mousedown", e => {
     const rect = btn.getBoundingClientRect();
-
-    const ripple =
-    document.createElement("span");
-
+    const ripple = document.createElement("span");
     ripple.className = "ripple";
 
-    const size =
-    Math.max(rect.width,rect.height);
+    // Verwende die Diagonale/maximale Button-Dimension als Grundgröße
+    const size = Math.max(rect.width, rect.height) * 2;
+    ripple.style.width = ripple.style.height = size + "px";
 
-    ripple.style.width =
-    ripple.style.height =
-    size + "px";
-
-    ripple.style.left =
-    (e.clientX - rect.left - size / 2) + "px";
-
-    ripple.style.top =
-    (e.clientY - rect.top - size / 2) + "px";
+    ripple.style.left = (e.clientX - rect.left - size / 2) + "px";
+    ripple.style.top = (e.clientY - rect.top - size / 2) + "px";
 
     btn.appendChild(ripple);
 
-    setTimeout(()=>ripple.remove(),650);
+    requestAnimationFrame(() => {
+      ripple.classList.add("held");
+    });
 
+    const removeRipple = () => {
+      ripple.classList.add("fade-out");
+      setTimeout(() => {
+        ripple.remove();
+      }, 400);
+
+      window.removeEventListener("mouseup", removeRipple);
+      btn.removeEventListener("mouseleave", removeRipple);
+    };
+
+    window.addEventListener("mouseup", removeRipple);
+    btn.addEventListener("mouseleave", removeRipple);
   });
-
 });
 
 </script>
