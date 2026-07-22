@@ -1281,11 +1281,50 @@ section{
 .server-ip{ font-size:2rem; font-weight:800; color:var(--accent2); }
 .copy-btn{ border:none; cursor:pointer; }
 
-footer{
-  margin-top:100px;
-  border-top:1px solid rgba(255,255,255,.06);
-  padding:50px 25px;
-  text-align:center;
+footer {
+  position: relative;
+  /* Leicht hellerer Hintergrund als der Rest der Seite */
+  background: #0d0d16; 
+  
+  /* Gradlinige Oberkante ohne Abrundung */
+  border-top: 1px solid rgba(167, 139, 250, 0.25); 
+  border-radius: 0;
+
+  /* Etwas weniger Abstand nach oben, da das Bild weiter unten sitzt */
+  margin-top: 200px; 
+
+  /* Platz oben im Footer für den Text */
+  padding: 260px 25px 60px; 
+  text-align: center;
+}
+
+/* ── RIESIGES FOOTER-BILD (Weiter nach unten verschoben) ── */
+.footer-peaking-img {
+  position: absolute;
+  
+  /* ──── HIER SCHIEBST DU DAS BILD WEITER NACH UNTEN ──── */
+  top: -200px; /* Kleinere negative Zahl = Bild wandert weiter nach unten! */
+  
+  left: 50%;
+  transform: translateX(-50%);
+  
+  width: 1200px; 
+  max-width: 95vw; 
+  height: auto;
+  
+  pointer-events: none;
+  filter: drop-shadow(0 -10px 25px rgba(0, 0, 0, 0.6));
+  z-index: 5;
+}
+  
+  /* ──── HIER ÄNDERST DU DIE GRÖSSE ──── */
+  width: 800px; /* <── DIESEN WERT ERHÖHEN ODER VERRINGERN */
+  
+  max-width: 95vw; /* Verhindert horizontales Scrollen auf kleineren Bildschirmen */
+  height: auto;
+  pointer-events: none;
+  filter: drop-shadow(0 25px 40px rgba(0, 0, 0, 0.8));
+  z-index: 5;
 }
 
 footer .footer-links{ margin-bottom:25px; }
@@ -1742,6 +1781,7 @@ function copyIP(){
 <!-- ─── FOOTER ────────────────────────────────────────── -->
 
 <footer>
+  <img src="https://pixelhide.net/assets/images/footer2.png" alt="Footer Logo" class="footer-peaking-img">
   <div class="footer-links">
     <a href="/join.html">Jetzt beitreten</a>
     <a href="https://discord.pixelhide.net">Discord</a>
