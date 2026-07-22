@@ -1256,6 +1256,20 @@ section{
   filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.5));
 }
 
+.footer-center-logo {
+  text-align: center;
+  /* Mit margin-top schiebst du das Logo in den leeren Bereich nach oben */
+  margin-top: 25px;    
+  margin-bottom: 20px; 
+}
+
+.footer-center-logo img {
+  /* Höhe etwas erhöht, damit es präsenter, aber nicht zu wuchtig ist */
+  height: 80px; 
+  width: auto;
+  display: inline-block;
+}
+
 .video-wrapper{
   position:relative;
   border-radius:var(--radius);
@@ -1294,7 +1308,7 @@ footer {
   margin-top: 200px; 
 
   /* Platz oben im Footer für den Text */
-  padding: 260px 25px 60px; 
+  padding: 25px 25px 60px; 
   text-align: center;
 }
 
@@ -1771,7 +1785,7 @@ function copyIP(){
     <p>Dein Bild ist größer als <strong>10 MB</strong>.<br>Komprimiere es zuerst und versuche es erneut.</p>
     <div class="sizeerr-actions">
       <a class="sizeerr-tinypng" href="https://tinypng.com/" target="_blank" rel="noopener">
-        🐼 TinyPNG öffnen
+        Komprimieren
       </a>
       <button class="sizeerr-close-btn" onclick="closeSizeErr()">Schließen</button>
     </div>
@@ -1782,6 +1796,11 @@ function copyIP(){
 
 <footer>
   <img src="https://pixelhide.net/assets/images/footer2.png" alt="Footer Logo" class="footer-peaking-img">
+  
+  <div class="footer-center-logo">
+    <img src="https://pixelhide.net/pixelhidenet.png" alt="PixelHide Logo">
+  </div>
+
   <div class="footer-links">
     <a href="/join.html">Jetzt beitreten</a>
     <a href="https://discord.pixelhide.net">Discord</a>
@@ -1792,31 +1811,29 @@ function copyIP(){
     <a href="/version-support.html">Versionen</a>
   </div>
 
-  <!-- AD TOGGLE -->
   <div class="ad-toggle-wrap">
-  <span>Werbung ausblenden?</span>
+    <span>Werbung ausblenden?</span>
 
-  <label class="switch">
-    <input type="checkbox" id="adToggle">
-    <span class="slider"></span>
-  </label>
-</div>
+    <label class="switch">
+      <input type="checkbox" id="adToggle">
+      <span class="slider"></span>
+    </label>
+  </div>
 
-<!-- MODAL -->
-<div id="adModal" class="ad-modal hidden">
-  <div class="ad-modal-box">
-    <h3>Werbung wirklich ausblenden?</h3>
-    <p>
-      Viele Inhalte auf der Seite werden durch Werbung unterstützt. Wenn du sie deaktivierst,
-      kann das helfen, die Plattform stabil und kostenlos zu halten.
-    </p>
+  <div id="adModal" class="ad-modal hidden">
+    <div class="ad-modal-box">
+      <h3>Werbung wirklich ausblenden?</h3>
+      <p>
+        Viele Inhalte auf der Seite werden durch Werbung unterstützt. Wenn du sie deaktivierst,
+        kann das helfen, die Plattform stabil und kostenlos zu halten.
+      </p>
 
-    <div class="ad-modal-actions">
-      <button id="cancelAd">Abbrechen</button>
-      <button id="confirmAd">Trotzdem deaktivieren</button>
+      <div class="ad-modal-actions">
+        <button id="cancelAd">Abbrechen</button>
+        <button id="confirmAd">Trotzdem deaktivieren</button>
+      </div>
     </div>
   </div>
-</div>
 
   <div>© 2026 <span style="color:var(--accent)">PixelHide.net</span></div>
 </footer>
@@ -2594,6 +2611,7 @@ document.addEventListener("keydown", e => {
   observer.observe(document.body, { childList: true, subtree: true });
 })();
 </script>
+
 
 
 </body></html>
