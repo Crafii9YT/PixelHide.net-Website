@@ -1238,14 +1238,15 @@ section{
   gap:28px;
 }
 
-.card{
-  position:relative;
-  background:linear-gradient(145deg,rgba(255,255,255,var(--card-opacity)),rgba(255,255,255,.02));
-  border:1px solid rgba(255,255,255,.07);
-  border-radius:var(--radius);
-  padding:35px;
-  overflow:hidden;
-  transition:var(--transition);
+.card {
+  position: relative;
+  background: linear-gradient(145deg, rgba(255,255,255,var(--card-opacity)), rgba(255,255,255,.02));
+  border: 1px solid rgba(255,255,255,.07);
+  border-radius: var(--radius);
+  padding: 35px;
+  overflow: visible !important; /* Wichtig: Ermöglicht das Herausragen nach oben */
+  transition: var(--transition);
+  margin-top: 60px; /* Platz nach oben schaffen, damit das Bild nicht andere Elemente überdeckt */
 }
 
 .card::before{
@@ -1268,6 +1269,18 @@ section{
 .card h3{ font-size:1.5rem; margin-bottom:12px; }
 .card p{ color:var(--muted); line-height:1.7; }
 .card .btn{ margin-top:22px; }
+
+.peaking-img {
+  position: absolute;
+  top: -80px; /* Schiebt das Bild weit nach OBEN aus der Karte heraus */
+  left: 50%;
+  transform: translateX(-50%);
+  width: 140px; /* Deutlich vergrößert (vorher meist ~50-80px) */
+  height: auto;
+  z-index: 10; /* Garantiert, dass es immer über der Karte liegt */
+  pointer-events: none; /* Verhindert Klick-Probleme über dem Bild */
+  filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.5)); /* Schöner Schatten-Effekt */
+}
 
 .video-wrapper{
   position:relative;
@@ -1627,15 +1640,10 @@ function copyIP(){
       <p>Erstelle deine Stadt und baue dein eigenes Imperium.</p>
     </div>
     <div class="card">
+      <img src="https://pixelhide.net/assets/images/peaking.png" class="peaking-img" alt="Peaking Image">
       <div class="card-icon">🔥</div>
       <h3>Events</h3>
       <p>Regelmäßige Community Events mit coolen Rewards.</p>
-    </div>
-    <div class="card">
-      <div class="card-icon">🌍</div>
-      <h3>Custom Welten</h3>
-      <p>Erstelle deine eigenen Welten direkt auf PixelHide.</p>
-      <a href="/custom-welten.html" class="btn btn-primary">Welt erstellen</a>
     </div>
   </div>
   <div class="status">
