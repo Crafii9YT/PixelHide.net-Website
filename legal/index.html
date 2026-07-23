@@ -31,68 +31,70 @@
             border: 1px solid #2d2d2d;
             border-radius: 8px;
             overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
         }
 
-        /* Header */
+        /* Titel-Leiste */
         .explorer-header {
-            padding: 10px 14px;
+            padding: 12px 16px;
+            background-color: #1a1a1a;
             border-bottom: 1px solid #2d2d2d;
             display: flex;
             align-items: center;
-            gap: 10px;
+            justify-content: space-between;
         }
 
-        .nav-buttons {
+        .window-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #f0f0f0;
+            letter-spacing: 0.3px;
+        }
+
+        .header-actions {
             display: flex;
-            gap: 2px;
+            align-items: center;
+            gap: 6px;
         }
 
         .nav-btn {
-            width: 28px;
-            height: 28px;
+            width: 30px;
+            height: 30px;
             display: flex;
             align-items: center;
             justify-content: center;
-            border-radius: 4px;
+            border-radius: 50%;
             cursor: pointer;
-            font-size: 14px;
+            font-size: 15px;
             color: #a0a0a0;
             position: relative;
             overflow: hidden;
+            transition: background 0.15s, color 0.15s, opacity 0.2s;
         }
 
         .nav-btn:hover {
-            background-color: #2a2a2a;
+            background-color: #2c2c2c;
             color: #fff;
         }
 
+        /* Ausgegrauter & Deaktivierter Zustand */
         .nav-btn.disabled {
             opacity: 0.25;
-            cursor: default;
+            cursor: not-allowed;
             pointer-events: none;
-        }
-
-        .path-box {
-            background-color: #141414;
-            border: 1px solid #2d2d2d;
-            padding: 4px 10px;
-            border-radius: 4px;
-            flex-grow: 1;
-            font-size: 12px;
-            color: #a0a0a0;
         }
 
         /* Container für Dateien & Loader */
         .file-container {
             padding: 6px;
-            min-height: 180px;
+            min-height: 200px;
             position: relative;
         }
 
         .list-header {
             display: grid;
             grid-template-columns: 1fr 100px;
-            padding: 6px 12px;
+            padding: 8px 12px;
             font-size: 11px;
             color: #707070;
             text-transform: uppercase;
@@ -110,13 +112,13 @@
             display: grid;
             grid-template-columns: 1fr 100px;
             align-items: center;
-            padding: 10px 12px;
+            padding: 12px;
             color: #d4d4d4;
             text-decoration: none;
-            font-size: 13px;
-            border-radius: 4px;
+            font-size: 13.5px;
+            border-radius: 6px;
             overflow: hidden;
-            transition: background 0.1s;
+            transition: background 0.15s;
             cursor: pointer;
         }
 
@@ -127,14 +129,14 @@
         .file-info {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
             z-index: 2;
             pointer-events: none;
         }
 
         .file-icon {
-            width: 16px;
-            height: 16px;
+            width: 18px;
+            height: 18px;
             fill: #80bfff;
         }
 
@@ -149,11 +151,11 @@
         .ripple-element {
             position: absolute;
             border-radius: 50%;
-            background-color: rgba(255, 255, 255, 0.35);
+            background-color: rgba(255, 255, 255, 0.22);
             transform: scale(0);
             pointer-events: none;
             z-index: 1;
-            transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.3s;
+            transition: transform 0.65s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.35s ease;
             opacity: 1;
         }
 
@@ -187,6 +189,7 @@
             pointer-events: auto;
         }
 
+        /* Spinner mit 1.8s Animation */
         .google-spinner {
             width: 32px;
             height: 32px;
@@ -198,7 +201,7 @@
             stroke-dasharray: 90, 150;
             stroke-dashoffset: 0;
             stroke-linecap: round;
-            animation: dash 1.4s ease-in-out infinite;
+            animation: dash 1.4s cubic-bezier(0.4, 0, 0.2, 1) infinite;
         }
 
         @keyframes rotate {
@@ -235,18 +238,16 @@
 
     <div class="explorer-window">
         <div class="explorer-header">
-            <div class="nav-buttons">
-                <div class="nav-btn disabled">←</div>
-                <div class="nav-btn disabled">→</div>
-                <div class="nav-btn ripple-target" id="reload-btn" title="Neu laden">↻</div>
+            <span class="window-title">Rechtliches</span>
+            <div class="header-actions">
+                <div class="nav-btn ripple-target circle-ripple" id="reload-btn" title="Neu laden">↻</div>
             </div>
-            <div class="path-box">Container &gt; Legal</div>
         </div>
 
         <div class="file-container">
             <div class="loader-container" id="loader">
                 <svg class="google-spinner" viewBox="0 0 50 50">
-                    <circle cx="25" cy="25" r="20" fill="none" stroke-width="4"></circle>
+                    <circle cx="25" cy="25" r="20" fill="none" stroke-width="4.5"></circle>
                 </svg>
             </div>
 
@@ -281,7 +282,7 @@
     </div>
 
     <script>
-        // Ripple Effekt für alle Interaktions-Buttons
+        // Dynamische Ripple-Logik
         document.querySelectorAll('.ripple-target').forEach(button => {
             let activeRipple = null;
 
@@ -289,17 +290,33 @@
                 if (activeRipple) activeRipple.remove();
 
                 const rect = this.getBoundingClientRect();
-                const diameter = Math.max(rect.width, rect.height) * 2.5;
+                const isCenterRipple = this.classList.contains('circle-ripple');
+                
+                let clickX, clickY, diameter;
+
+                if (isCenterRipple) {
+                    clickX = rect.width / 2;
+                    clickY = rect.height / 2;
+                    diameter = Math.max(rect.width, rect.height);
+                } else {
+                    clickX = e.clientX - rect.left;
+                    clickY = e.clientY - rect.top;
+
+                    const distTL = Math.hypot(clickX, clickY);
+                    const distTR = Math.hypot(rect.width - clickX, clickY);
+                    const distBL = Math.hypot(clickX, rect.height - clickY);
+                    const distBR = Math.hypot(rect.width - clickX, rect.height - clickY);
+
+                    diameter = Math.max(distTL, distTR, distBL, distBR) * 2;
+                }
 
                 activeRipple = document.createElement('span');
                 activeRipple.className = 'ripple-element';
                 activeRipple.style.width = `${diameter}px`;
                 activeRipple.style.height = `${diameter}px`;
 
-                const x = e.clientX - rect.left - (diameter / 2);
-                const y = e.clientY - rect.top - (diameter / 2);
-                activeRipple.style.left = `${x}px`;
-                activeRipple.style.top = `${y}px`;
+                activeRipple.style.left = `${clickX - (diameter / 2)}px`;
+                activeRipple.style.top = `${clickY - (diameter / 2)}px`;
 
                 this.appendChild(activeRipple);
 
@@ -314,33 +331,37 @@
                 activeRipple = null;
 
                 rippleToFade.classList.add('fade-out');
-                setTimeout(() => rippleToFade.remove(), 300);
+                setTimeout(() => rippleToFade.remove(), 350);
             };
 
             button.addEventListener('mouseup', finishRipple);
             button.addEventListener('mouseleave', finishRipple);
         });
 
-        // Klick-Logik für den Reload-Button
+        // Reload-Button Logik (mit Deaktivierung)
         const reloadBtn = document.getElementById('reload-btn');
         const loader = document.getElementById('loader');
         const contentArea = document.getElementById('content-area');
         let isLoading = false;
 
         reloadBtn.addEventListener('click', function() {
-            if (isLoading) return; // Doppel-Klicks während des Ladens verhindern
+            if (isLoading) return;
             isLoading = true;
 
-            // Inhalt ausblenden & Spinner anzeigen
+            // Button ausgrauen und unklickbar machen
+            reloadBtn.classList.add('disabled');
+
             contentArea.classList.add('hidden');
             loader.classList.add('active');
 
-            // Zufällige Ladezeit zwischen 500ms (0.5s) und 3000ms (3s)
-            const randomDelay = Math.floor(Math.random() * 2500) + 500;
+            const randomDelay = Math.floor(Math.random() * 2000) + 400;
 
             setTimeout(() => {
                 loader.classList.remove('active');
                 contentArea.classList.remove('hidden');
+                
+                // Button wieder aktivieren
+                reloadBtn.classList.remove('disabled');
                 isLoading = false;
             }, randomDelay);
         });
