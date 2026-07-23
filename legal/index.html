@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Datei-Explorer</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            user-select: none;
+        }
+
+        body {
+            background-color: #121212;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            color: #e3e3e3;
+        }
+
+        /* Hauptfenster */
+        .explorer-window {
+            width: 100%;
+            max-width: 700px;
+            background-color: #1e1e1e;
+            border: 1px solid #2d2d2d;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        /* Header */
+        .explorer-header {
+            padding: 10px 14px;
+            border-bottom: 1px solid #2d2d2d;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 2px;
+        }
+
+        .nav-btn {
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            color: #a0a0a0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-btn:hover {
+            background-color: #2a2a2a;
+            color: #fff;
+        }
+
+        .nav-btn.disabled {
+            opacity: 0.25;
+            cursor: default;
+            pointer-events: none;
+        }
+
+        .path-box {
+            background-color: #141414;
+            border: 1px solid #2d2d2d;
+            padding: 4px 10px;
+            border-radius: 4px;
+            flex-grow: 1;
+            font-size: 12px;
+            color: #a0a0a0;
+        }
+
+        /* Container für Dateien & Loader */
+        .file-container {
+            padding: 6px;
+            min-height: 180px;
+            position: relative;
+        }
+
+        .list-header {
+            display: grid;
+            grid-template-columns: 1fr 100px;
+            padding: 6px 12px;
+            font-size: 11px;
+            color: #707070;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 1px solid #262626;
+        }
+
+        .file-list {
+            list-style: none;
+            margin-top: 4px;
+        }
+
+        .file-item {
+            position: relative;
+            display: grid;
+            grid-template-columns: 1fr 100px;
+            align-items: center;
+            padding: 10px 12px;
+            color: #d4d4d4;
+            text-decoration: none;
+            font-size: 13px;
+            border-radius: 4px;
+            overflow: hidden;
+            transition: background 0.1s;
+            cursor: pointer;
+        }
+
+        .file-item:hover {
+            background-color: #282828;
+        }
+
+        .file-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        .file-icon {
+            width: 16px;
+            height: 16px;
+            fill: #80bfff;
+        }
+
+        .file-type {
+            font-size: 11px;
+            color: #707070;
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        /* Ripple Effect Element */
+        .ripple-element {
+            position: absolute;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.35);
+            transform: scale(0);
+            pointer-events: none;
+            z-index: 1;
+            transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.3s;
+            opacity: 1;
+        }
+
+        .ripple-element.expand {
+            transform: scale(1);
+        }
+
+        .ripple-element.fade-out {
+            opacity: 0;
+        }
+
+        /* Google Loader Overlay */
+        .loader-container {
+            display: flex;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #1e1e1e;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s ease;
+        }
+
+        .loader-container.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .google-spinner {
+            width: 32px;
+            height: 32px;
+            animation: rotate 1.8s linear infinite;
+        }
+
+        .google-spinner circle {
+            stroke: #4285f4;
+            stroke-dasharray: 90, 150;
+            stroke-dashoffset: 0;
+            stroke-linecap: round;
+            animation: dash 1.4s ease-in-out infinite;
+        }
+
+        @keyframes rotate {
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes dash {
+            0% {
+                stroke-dasharray: 1, 150;
+                stroke-dashoffset: 0;
+            }
+            50% {
+                stroke-dasharray: 90, 150;
+                stroke-dashoffset: -35;
+            }
+            100% {
+                stroke-dasharray: 90, 150;
+                stroke-dashoffset: -124;
+            }
+        }
+
+        /* Inhaltszustand während des Ladens */
+        #content-area {
+            transition: opacity 0.2s ease;
+        }
+
+        #content-area.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="explorer-window">
+        <div class="explorer-header">
+            <div class="nav-buttons">
+                <div class="nav-btn disabled">←</div>
+                <div class="nav-btn disabled">→</div>
+                <div class="nav-btn ripple-target" id="reload-btn" title="Neu laden">↻</div>
+            </div>
+            <div class="path-box">Container &gt; Legal</div>
+        </div>
+
+        <div class="file-container">
+            <div class="loader-container" id="loader">
+                <svg class="google-spinner" viewBox="0 0 50 50">
+                    <circle cx="25" cy="25" r="20" fill="none" stroke-width="4"></circle>
+                </svg>
+            </div>
+
+            <div id="content-area">
+                <div class="list-header">
+                    <span>Name</span>
+                    <span>Typ</span>
+                </div>
+
+                <ul class="file-list">
+                    <li>
+                        <a href="impressum.html" class="file-item ripple-target">
+                            <div class="file-info">
+                                <svg class="file-icon" viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
+                                <span>impressum.html</span>
+                            </div>
+                            <span class="file-type">HTML-Datei</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="datenschutz.html" class="file-item ripple-target">
+                            <div class="file-info">
+                                <svg class="file-icon" viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
+                                <span>datenschutz.html</span>
+                            </div>
+                            <span class="file-type">HTML-Datei</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="agb.html" class="file-item ripple-target">
+                            <div class="file-info">
+                                <svg class="file-icon" viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
+                                <span>agb.html</span>
+                            </div>
+                            <span class="file-type">HTML-Datei</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Ripple Effekt für alle Interaktions-Buttons
+        document.querySelectorAll('.ripple-target').forEach(button => {
+            let activeRipple = null;
+
+            button.addEventListener('mousedown', function(e) {
+                if (activeRipple) activeRipple.remove();
+
+                const rect = this.getBoundingClientRect();
+                const diameter = Math.max(rect.width, rect.height) * 2.5;
+
+                activeRipple = document.createElement('span');
+                activeRipple.className = 'ripple-element';
+                activeRipple.style.width = `${diameter}px`;
+                activeRipple.style.height = `${diameter}px`;
+
+                const x = e.clientX - rect.left - (diameter / 2);
+                const y = e.clientY - rect.top - (diameter / 2);
+                activeRipple.style.left = `${x}px`;
+                activeRipple.style.top = `${y}px`;
+
+                this.appendChild(activeRipple);
+
+                requestAnimationFrame(() => {
+                    if (activeRipple) activeRipple.classList.add('expand');
+                });
+            });
+
+            const finishRipple = () => {
+                if (!activeRipple) return;
+                const rippleToFade = activeRipple;
+                activeRipple = null;
+
+                rippleToFade.classList.add('fade-out');
+                setTimeout(() => rippleToFade.remove(), 300);
+            };
+
+            button.addEventListener('mouseup', finishRipple);
+            button.addEventListener('mouseleave', finishRipple);
+        });
+
+        // Klick-Logik für den Reload-Button
+        const reloadBtn = document.getElementById('reload-btn');
+        const loader = document.getElementById('loader');
+        const contentArea = document.getElementById('content-area');
+        let isLoading = false;
+
+        reloadBtn.addEventListener('click', function() {
+            if (isLoading) return; // Doppel-Klicks während des Ladens verhindern
+            isLoading = true;
+
+            // Inhalt ausblenden & Spinner anzeigen
+            contentArea.classList.add('hidden');
+            loader.classList.add('active');
+
+            // Zufällige Ladezeit zwischen 500ms (0.5s) und 3000ms (3s)
+            const randomDelay = Math.floor(Math.random() * 2500) + 500;
+
+            setTimeout(() => {
+                loader.classList.remove('active');
+                contentArea.classList.remove('hidden');
+                isLoading = false;
+            }, randomDelay);
+        });
+
+        // Dateilinks
+        document.querySelectorAll('.file-item').forEach(item => {
+            item.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetUrl = this.getAttribute('href');
+                setTimeout(() => {
+                    window.location.href = targetUrl;
+                }, 250);
+            });
+        });
+    </script>
+
+</body>
+</html>
