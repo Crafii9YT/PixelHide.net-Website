@@ -1,0 +1,9 @@
+RewriteEngine On
+
+# Leitet Aufrufe mit .html auf die saubere URL um (z. B. für SEO)
+RewriteCond %{THE_REQUEST} ^[A-Z]{3,}\s([^.]+)\.html\sHTTP [NC]
+RewriteRule ^ %1 [R=301,L]
+
+# Lädt im Hintergrund die .html-Datei, wenn die URL ohne Endung aufgerufen wird
+RewriteCond %{REQUEST_FILENAME}.html -f
+RewriteRule ^(.*)$ $1.html [NC,L]
