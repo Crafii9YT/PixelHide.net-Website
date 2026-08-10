@@ -1,86 +1,2617 @@
-<!DOCTYPE html>
-<html lang="de">
-<head>
+<html lang="de"><head>
 <meta charset="UTF-8">
-<title>Nicht verfügbar | PixelHide.net</title>
-<link rel="icon" type="image/png" href="https://pixelhide.net/favicon-error.png">
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>PixelHide.net</title>
+
+<meta property="og:title" content="PixelHide.net">
+<meta property="og:description" content="Das ultimative Minecraft Netzwerk.">
+<meta property="og:image" content="https://pixelhide.net/favicon.png">
+
+<link rel="icon" href="https://pixelhide.net/favicon.png">
+<script src="https://www.theredstonee.de/widget/tickets.js" data-key="pk_live_ae63dbd92da3dedf6fbe6bef9348ee7271e0bbb5" async=""></script>
+<script async="" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5958219245633236" crossorigin="anonymous"></script>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&amp;family=Inter:wght@300;400;500;700&amp;display=swap" rel="stylesheet">
+
 <style>
-:root {
-  --primary:#a78bfa;
-  --primary-glow:#c4b5fd;
-  --secondary:#050507;
-  --card:#0b0b12;
-  --text:#e5e7eb;
+
+:root{
+  --bg:#040406;
+  --card:#0d0d14;
+  --card2:#13131d;
+  --accent:#a78bfa;
+  --accent2:#c4b5fd;
+  --discord:#5865F2;
+  --text:#f5f5f5;
+  --muted:#9ca3af;
+  --zoom:1;
+  --text-size:1;
+  --blur:16px;
+  --radius:24px;
+  --glow-opacity:.12;
+  --card-opacity:.04;
+  --transition:.25s;
 }
-*{box-sizing:border-box;}
-body {
-  margin:0;
-  font-family:'Inter',sans-serif;
-  background:#050507;
+
+*{ margin:0; padding:0; box-sizing:border-box; }
+html{ scroll-behavior:smooth; overflow-x:hidden; }
+
+body{
+  font-family:Inter,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  overflow-x:hidden;
+  transform:scale(var(--zoom));
+  transform-origin:top center;
+  font-size:calc(16px * var(--text-size));
+  transition:background var(--transition), color var(--transition);
+}
+
+.no-animations *{
+  animation:none !important;
+  transition:none !important;
+  scroll-behavior:auto !important;
+}
+
+::-webkit-scrollbar{ width:10px; }
+::-webkit-scrollbar-track{ background:#08080d; }
+::-webkit-scrollbar-thumb{
+  background:linear-gradient(var(--accent),var(--accent2));
+  border-radius:999px;
+}
+
+/* ──────────────────────────────────────
+   TOP-RIGHT BUTTONS
+────────────────────────────────────── */
+
+.top-buttons{
+  position:fixed;
+  top:25px;
+  right:25px;
+  z-index:9999;
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+.settings-btn,
+.login-btn{
+  padding:14px 22px;
+  border-radius:18px;
+  background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.08);
+  backdrop-filter:blur(16px);
+  color:var(--text);
+  text-decoration:none;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  font-weight:700;
+  font-family:Inter,sans-serif;
+  cursor:pointer;
+  transition:var(--transition);
+  font-size:1rem;
+  white-space:nowrap;
+}
+
+.settings-btn:hover,
+.login-btn:hover{
+  transform:translateY(-4px);
+  border-color:rgba(167,139,250,.35);
+  box-shadow:0 0 20px rgba(167,139,250,.15);
+}
+
+.settings-btn svg{ transition:transform .5s ease; }
+.settings-btn:hover svg{ transform:rotate(90deg); }
+
+/* user pill */
+.user-pill{
+  position:relative;
+  padding:11px 20px;
+  border-radius:18px;
+  background:linear-gradient(135deg,rgba(167,139,250,.2),rgba(196,181,253,.1));
+  border:1px solid rgba(167,139,250,.35);
+  backdrop-filter:blur(16px);
   color:var(--text);
   display:flex;
   align-items:center;
+  gap:10px;
+  font-weight:700;
+  font-family:Inter,sans-serif;
+  cursor:pointer;
+  transition:var(--transition);
+  font-size:.88rem;
+  user-select:none;
+  max-width:220px;
+}
+
+.user-pill:hover{
+  transform:translateY(-4px);
+  border-color:rgba(167,139,250,.6);
+  box-shadow:0 0 25px rgba(167,139,250,.25);
+}
+
+.user-pill .avatar{
+  width:30px;
+  height:30px;
+  border-radius:50%;
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  display:flex;
+  align-items:center;
   justify-content:center;
-  height:100vh;
-  text-align:center;
+  font-size:.8rem;
+  font-weight:900;
+  color:#111;
+  flex-shrink:0;
   overflow:hidden;
 }
-.hero {
-  position:relative;
+
+.user-pill .avatar img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  border-radius:50%;
+}
+
+/* dropdown header avatar */
+.dropdown-avatar{
+  width:48px;
+  height:48px;
+  border-radius:50%;
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:1.3rem;
+  font-weight:900;
+  color:#111;
+  flex-shrink:0;
+  overflow:hidden;
+  margin-bottom:10px;
+  box-shadow:0 0 20px rgba(167,139,250,.3);
+}
+
+.dropdown-avatar img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  border-radius:50%;
+}
+
+/* acc settings avatar preview */
+.avatar-preview-wrap{
   display:flex;
   flex-direction:column;
   align-items:center;
+  gap:14px;
+  margin-bottom:22px;
+}
+
+.avatar-preview{
+  width:80px;
+  height:80px;
+  border-radius:50%;
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  display:flex;
+  align-items:center;
   justify-content:center;
+  font-size:2rem;
+  font-weight:900;
+  color:#111;
+  overflow:hidden;
+  box-shadow:0 0 30px rgba(167,139,250,.35);
+  position:relative;
+  cursor:pointer;
+  transition:.2s;
 }
-.hero img {
-  width:300px;
-  max-width:80%;
-  margin-bottom:20px;
-  filter:drop-shadow(0 0 50px rgba(167,139,250,0.9));
+
+.avatar-preview:hover .avatar-overlay{ opacity:1; }
+
+.avatar-preview img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  border-radius:50%;
 }
-h1 {
-  font-family:'Orbitron',sans-serif;
-  font-size:5rem;
-  margin:0 0 10px 0;
-  color:var(--primary);
-}
-p {
-  font-size:1.2rem;
-  margin:0 0 20px 0;
-}
-.btn {
-  padding:14px 28px;
-  font-size:1rem;
-  border-radius:12px;
-  font-weight:600;
-  text-decoration:none;
-  color:#050507;
-  background:linear-gradient(135deg,var(--primary),var(--primary-glow));
-  box-shadow:0 10px 30px rgba(167,139,250,0.45);
-  transition:all .25s ease;
-}
-.btn:hover {
-  transform:translateY(-2px) scale(1.03);
-  box-shadow:0 18px 50px rgba(167,139,250,0.6);
-}
-footer {
+
+.avatar-overlay{
   position:absolute;
-  bottom:20px;
+  inset:0;
+  background:rgba(0,0,0,.5);
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  opacity:0;
+  transition:.2s;
+  font-size:.75rem;
+  font-weight:700;
+  color:#fff;
+  text-align:center;
+  padding:6px;
+}
+
+/* avatar source tabs */
+.avatar-tabs{
+  display:flex;
+  background:rgba(255,255,255,.04);
+  border:1px solid rgba(255,255,255,.07);
+  border-radius:10px;
+  padding:3px;
+  gap:3px;
+  width:100%;
+  margin-bottom:14px;
+}
+
+.avatar-tab{
+  flex:1;
+  padding:8px 6px;
+  text-align:center;
+  border-radius:7px;
+  cursor:pointer;
+  font-size:.8rem;
+  font-weight:600;
+  color:var(--muted);
+  transition:.2s;
+  user-select:none;
+}
+
+.avatar-tab.active{
+  background:rgba(167,139,250,.2);
+  color:var(--accent2);
+}
+
+/* file drop zone */
+.file-drop{
+  border:2px dashed rgba(167,139,250,.25);
+  border-radius:14px;
+  padding:22px 16px;
+  text-align:center;
+  cursor:pointer;
+  transition:.2s;
+  position:relative;
+}
+
+.file-drop:hover,
+.file-drop.dragover{
+  border-color:rgba(167,139,250,.6);
+  background:rgba(167,139,250,.06);
+}
+
+.file-drop input[type="file"]{
+  position:absolute;
+  inset:0;
+  opacity:0;
+  cursor:pointer;
+  width:100%;
+  height:100%;
+}
+
+.file-drop-icon{ font-size:1.8rem; margin-bottom:6px; }
+
+.file-drop-text{
+  font-size:.84rem;
+  color:var(--muted);
+  line-height:1.5;
+}
+
+.file-drop-text strong{ color:var(--accent2); }
+
+/* ── size-error popup ── */
+.sizeerr-overlay{
+  position:fixed;
+  inset:0;
+  z-index:200000;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+  opacity:0;
+  pointer-events:none;
+  transition:opacity .25s;
+}
+
+.sizeerr-overlay.visible{ opacity:1; pointer-events:all; }
+
+.sizeerr-overlay .auth-backdrop{
+  position:absolute;
+  inset:0;
+  background:rgba(0,0,0,.7);
+  backdrop-filter:blur(6px);
+}
+
+.sizeerr-box{
+  position:relative;
+  background:rgba(13,13,22,.98);
+  border:1px solid rgba(239,68,68,.3);
+  border-radius:22px;
+  padding:32px 28px 26px;
+  max-width:360px;
   width:100%;
   text-align:center;
-  font-size:0.85rem;
-  color:var(--text);
+  box-shadow:0 0 60px rgba(239,68,68,.15), 0 30px 80px rgba(0,0,0,.7);
+  transform:scale(.95);
+  transition:transform .3s cubic-bezier(.22,1,.36,1);
 }
+
+.sizeerr-overlay.visible .sizeerr-box{ transform:scale(1); }
+
+.sizeerr-icon{ font-size:2.4rem; margin-bottom:12px; }
+
+.sizeerr-box h3{
+  font-size:1.1rem;
+  margin-bottom:8px;
+}
+
+.sizeerr-box p{
+  font-size:.85rem;
+  color:var(--muted);
+  line-height:1.6;
+  margin-bottom:20px;
+}
+
+.sizeerr-actions{
+  display:flex;
+  gap:10px;
+  justify-content:center;
+  flex-wrap:wrap;
+}
+
+.sizeerr-tinypng{
+  padding:11px 20px;
+  border-radius:10px;
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  color:#111;
+  font-weight:700;
+  font-size:.88rem;
+  text-decoration:none;
+  transition:.2s;
+  display:inline-flex;
+  align-items:center;
+  gap:7px;
+}
+
+.sizeerr-tinypng:hover{ transform:translateY(-2px); box-shadow:0 0 20px rgba(167,139,250,.35); }
+
+.sizeerr-close-btn{
+  padding:11px 20px;
+  border-radius:10px;
+  background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.1);
+  color:var(--muted);
+  font-weight:600;
+  font-size:.88rem;
+  cursor:pointer;
+  transition:.2s;
+}
+
+.sizeerr-close-btn:hover{ background:rgba(255,255,255,.1); color:var(--text); }
+
+.user-pill .email-text{
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+
+.user-pill .chevron{
+  margin-left:auto;
+  transition:transform .25s;
+  flex-shrink:0;
+  opacity:.6;
+}
+
+.user-pill.open .chevron{ transform:rotate(180deg); }
+
+/* dropdown */
+.user-dropdown{
+  position:absolute;
+  top:calc(100% + 12px);
+  right:0;
+  min-width:180px;
+  background:rgba(13,13,20,.95);
+  border:1px solid rgba(167,139,250,.2);
+  border-radius:16px;
+  backdrop-filter:blur(24px);
+  box-shadow:0 20px 60px rgba(0,0,0,.7), 0 0 40px rgba(167,139,250,.1);
+  overflow:hidden;
+  opacity:0;
+  pointer-events:none;
+  transform:translateY(-8px) scale(.97);
+  transform-origin:top right;
+  transition:opacity .2s, transform .2s;
+}
+
+.user-dropdown.visible{
+  opacity:1;
+  pointer-events:all;
+  transform:translateY(0) scale(1);
+}
+
+.dropdown-header{
+  padding:16px 18px 12px;
+  border-bottom:1px solid rgba(255,255,255,.06);
+}
+
+.dropdown-username{
+  font-size:1rem;
+  font-weight:700;
+  color:var(--text);
+  margin-bottom:4px;
+  word-break:break-all;
+}
+
+.dropdown-email{
+  font-size:.75rem;
+  color:var(--muted);
+  word-break:break-all;
+  cursor:pointer;
+  display:inline-block;
+  transition:filter .3s;
+  user-select:none;
+}
+
+.dropdown-email.blurred{
+  filter:blur(5px);
+}
+
+.dropdown-email-hint{
+  font-size:.68rem;
+  color:rgba(156,163,175,.45);
+  margin-top:2px;
+  display:none;
+}
+
+.dropdown-email.blurred + .dropdown-email-hint{ display:block; }
+
+.dropdown-divider{
+  height:1px;
+  background:rgba(255,255,255,.06);
+  margin:0;
+}
+
+.dropdown-item{
+  padding:13px 18px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  cursor:pointer;
+  font-size:.9rem;
+  color:var(--text);
+  transition:.18s;
+}
+
+.dropdown-item:hover{
+  background:rgba(255,255,255,.06);
+  color:var(--accent2);
+}
+
+.dropdown-item.danger:hover{
+  background:rgba(239,68,68,.1);
+  color:#fca5a5;
+}
+
+/* ────────────────────────────────────── AUTH MODAL OVERLAY ────────────────────────────────────── */
+
+body.modal-open {
+  overflow: hidden !important;
+}
+
+.auth-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .3s;
+}
+
+.auth-overlay.visible {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.auth-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(8px);
+}
+
+.auth-modal {
+  position: relative;
+  width: 100%;
+  max-width: 440px;
+  max-height: calc(100vh - 40px); 
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  background: rgba(13, 13, 22, .98);
+  border: 1px solid rgba(167, 139, 250, .2);
+  border-radius: 28px;
+  padding: 40px 36px 36px;
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, .04),
+    0 40px 100px rgba(0, 0, 0, .8),
+    0 0 80px rgba(167, 139, 250, .12);
+  transform: scale(.95);
+  transition: transform .35s cubic-bezier(.22, 1, .36, 1);
+}
+
+.auth-overlay.visible .auth-modal {
+  transform: scale(1);
+}
+
+.auth-close{
+  position:absolute;
+  top:18px;
+  right:18px;
+  width:36px;
+  height:36px;
+  border-radius:50%;
+  border:1px solid rgba(255,255,255,.08);
+  background:rgba(255,255,255,.04);
+  color:var(--muted);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+  font-size:1.1rem;
+  transition:.2s;
+}
+.auth-close:hover{ background:rgba(255,255,255,.1); color:var(--text); }
+
+.auth-logo{
+  text-align:center;
+  margin-bottom:28px;
+}
+
+.auth-logo .icon{
+  width:52px;
+  height:52px;
+  border-radius:16px;
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  font-size:1.6rem;
+  margin-bottom:14px;
+  box-shadow:0 0 30px rgba(167,139,250,.35);
+}
+
+.auth-logo h2{
+  font-family:Orbitron,sans-serif;
+  font-size:1.4rem;
+  color:var(--text);
+  margin-bottom:4px;
+}
+
+.auth-logo p{
+  font-size:.85rem;
+  color:var(--muted);
+}
+
+.auth-tabs{
+  display:flex;
+  background:rgba(255,255,255,.04);
+  border:1px solid rgba(255,255,255,.07);
+  border-radius:14px;
+  padding:4px;
+  margin-bottom:28px;
+  gap:4px;
+}
+
+.auth-tab{
+  flex:1;
+  padding:10px;
+  text-align:center;
+  border-radius:10px;
+  cursor:pointer;
+  font-size:.88rem;
+  font-weight:600;
+  color:var(--muted);
+  transition:.2s;
+  user-select:none;
+}
+
+.auth-tab.active{
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  color:#111;
+  box-shadow:0 0 20px rgba(167,139,250,.3);
+}
+
+.auth-form{ display:flex; flex-direction:column; gap:16px; }
+
+.form-group{ display:flex; flex-direction:column; gap:7px; }
+
+.form-label{
+  font-size:.8rem;
+  font-weight:600;
+  color:var(--muted);
+  letter-spacing:.03em;
+  text-transform:uppercase;
+}
+
+.form-input{
+  padding:14px 16px;
+  border-radius:12px;
+  border:1px solid rgba(255,255,255,.1);
+  background:rgba(255,255,255,.04);
+  color:var(--text);
+  font-size:.95rem;
+  font-family:Inter,sans-serif;
+  outline:none;
+  transition:.2s;
+}
+
+.form-input:focus{
+  border-color:rgba(167,139,250,.5);
+  background:rgba(167,139,250,.06);
+  box-shadow:0 0 0 3px rgba(167,139,250,.12);
+}
+
+.form-input::placeholder{ color:rgba(156,163,175,.5); }
+
+.input-wrap{
+  position:relative;
+  display:flex;
+}
+
+.input-wrap .form-input{ width:100%; padding-right:46px; }
+
+.pw-toggle{
+  position:absolute;
+  right:14px;
+  top:50%;
+  transform:translateY(-50%);
+  background:none;
+  border:none;
+  color:var(--muted);
+  cursor:pointer;
+  padding:4px;
+  display:flex;
+  align-items:center;
+  transition:.2s;
+}
+.pw-toggle:hover{ color:var(--accent); }
+
+.remember-row{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  cursor:pointer;
+  user-select:none;
+}
+
+.remember-row input[type="checkbox"]{
+  appearance:none;
+  width:18px;
+  height:18px;
+  border-radius:6px;
+  border:1.5px solid rgba(255,255,255,.15);
+  background:rgba(255,255,255,.04);
+  cursor:pointer;
+  position:relative;
+  transition:.2s;
+  flex-shrink:0;
+}
+
+.remember-row input[type="checkbox"]:checked{
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  border-color:transparent;
+}
+
+.remember-row input[type="checkbox"]:checked::after{
+  content:"";
+  position:absolute;
+  left:4px;
+  top:2px;
+  width:6px;
+  height:9px;
+  border:2px solid #111;
+  border-top:none;
+  border-left:none;
+  transform:rotate(45deg);
+}
+
+.remember-label{
+  font-size:.88rem;
+  color:var(--muted);
+}
+
+.auth-error{
+  padding:11px 14px;
+  background:rgba(239,68,68,.1);
+  border:1px solid rgba(239,68,68,.25);
+  border-radius:10px;
+  color:#fca5a5;
+  font-size:.84rem;
+  display:none;
+}
+
+.auth-error.show{ display:block; }
+
+.auth-submit{
+  padding:15px;
+  border-radius:12px;
+  border:none;
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  color:#111;
+  font-size:1rem;
+  font-weight:800;
+  font-family:Inter,sans-serif;
+  cursor:pointer;
+  position:relative;
+  overflow:hidden;
+  transition:.25s;
+  margin-top:4px;
+}
+
+.auth-submit:hover{
+  transform:translateY(-2px);
+  box-shadow:0 0 30px rgba(167,139,250,.4);
+}
+
+.auth-submit:active{ transform:translateY(0); }
+
+.auth-submit:disabled{
+  opacity:.6;
+  cursor:not-allowed;
+  transform:none;
+}
+
+.auth-submit .spinner{
+  display:none;
+  width:18px;
+  height:18px;
+  border:2.5px solid rgba(0,0,0,.3);
+  border-top-color:#111;
+  border-radius:50%;
+  animation:spin .7s linear infinite;
+  margin:0 auto;
+}
+
+.auth-submit.loading .btn-text{ display:none; }
+.auth-submit.loading .spinner{ display:block; }
+
+@keyframes spin{ to{ transform:rotate(360deg); } }
+
+.auth-divider{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  color:rgba(255,255,255,.15);
+  font-size:.78rem;
+  margin:2px 0;
+}
+.auth-divider::before,
+.auth-divider::after{
+  content:"";
+  flex:1;
+  height:1px;
+  background:rgba(255,255,255,.08);
+}
+
+.auth-success{
+  text-align:center;
+  padding:20px 0 10px;
+  display:none;
+}
+.auth-success.show{ display:block; }
+.auth-success .check{
+  font-size:2.8rem;
+  margin-bottom:12px;
+}
+.auth-success h3{
+  font-size:1.2rem;
+  margin-bottom:6px;
+}
+.auth-success p{ color:var(--muted); font-size:.88rem; }
+
+/* ──────────────────────────────────────
+   ACCOUNT SETTINGS MODAL
+────────────────────────────────────── */
+
+.accsettings-overlay{
+  position:fixed;
+  inset:0;
+  z-index:100000;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+  overflow:hidden;
+  opacity:0;
+  pointer-events:none;
+  transition:opacity .3s;
+}
+
+.accsettings-overlay.visible{
+  opacity:1;
+  pointer-events:all;
+}
+
+.accsettings-overlay .auth-backdrop{
+  position:absolute;
+  inset:0;
+  background:rgba(0,0,0,.8);
+  backdrop-filter:blur(8px);
+}
+
+.accsettings-modal{
+  position:relative;
+  width:100%;
+  max-width:400px;
+  max-height:calc(100dvh - 40px);
+  overflow-y:auto;
+  background:rgba(13,13,22,.98);
+  border:1px solid rgba(167,139,250,.2);
+  border-radius:28px;
+  padding:36px 32px 32px;
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,.04),
+    0 40px 100px rgba(0,0,0,.85),
+    0 0 80px rgba(167,139,250,.12);
+  transform:translateY(24px) scale(.97);
+  transition:transform .35s cubic-bezier(.22,1,.36,1);
+}
+
+.accsettings-overlay.visible .accsettings-modal{
+  transform:translateY(0) scale(1);
+}
+
+.accsettings-title{
+  font-family:Orbitron,sans-serif;
+  font-size:1.15rem;
+  margin-bottom:6px;
+}
+
+.accsettings-sub{
+  font-size:.82rem;
+  color:var(--muted);
+  margin-bottom:24px;
+}
+
+.accsettings-success{
+  padding:10px 14px;
+  background:rgba(34,197,94,.1);
+  border:1px solid rgba(34,197,94,.25);
+  border-radius:10px;
+  color:#86efac;
+  font-size:.84rem;
+  display:none;
+  margin-bottom:14px;
+}
+
+.accsettings-success.show{ display:block; }
+
+.bg-glow{
+  position:fixed;
+  width:700px; height:700px;
+  background:radial-gradient(circle,var(--accent) 0%,transparent 70%);
+  opacity:var(--glow-opacity);
+  filter:blur(100px);
+  z-index:-1;
+  animation:floatGlow 12s ease-in-out infinite;
+}
+.bg-glow2{ right:-250px; top:300px; animation-delay:4s; }
+@keyframes floatGlow{
+  0%{ transform:translateY(0px) translateX(0px); }
+  50%{ transform:translateY(-50px) translateX(40px); }
+  100%{ transform:translateY(0px) translateX(0px); }
+}
+
+/* ──────────────────────────────────────
+   HERO
+────────────────────────────────────── */
+
+.hero{
+  position:relative;
+  min-height:100vh;
+  background:
+    linear-gradient(rgba(0,0,0,.45),rgba(4,4,6,.95)),
+    url("https://pixelhide.net/Banner.png") center/cover no-repeat;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+  overflow:hidden;
+}
+
+.hero::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:radial-gradient(circle at center,rgba(167,139,250,.2),transparent 60%);
+  animation:pulse 6s infinite;
+}
+
+@keyframes pulse{
+  0%{ opacity:.4; transform:scale(1); }
+  50%{ opacity:.8; transform:scale(1.1); }
+  100%{ opacity:.4; transform:scale(1); }
+}
+
+.hero-content{
+  position:relative;
+  z-index:2;
+  width:100%;
+  max-width:1000px;
+  padding:30px;
+  animation:heroEnter 1.2s ease;
+}
+
+@keyframes heroEnter{
+  from{ opacity:0; transform:translateY(50px); }
+  to{ opacity:1; transform:translateY(0); }
+}
+
+.logo{
+  width:620px;
+  max-width:95%;
+  margin-bottom:25px;
+  filter:drop-shadow(0 0 20px rgba(167,139,250,.6)) drop-shadow(0 0 80px rgba(167,139,250,.5));
+  animation:floatLogo 5s ease-in-out infinite;
+}
+
+@keyframes floatLogo{
+  0%{ transform:translateY(0px); }
+  50%{ transform:translateY(-10px); }
+  100%{ transform:translateY(0px); }
+}
+.ad-toggle-wrap {
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 14px;
+  color: #ccc;
+}
+
+/* Switch Container */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 46px;
+  height: 24px;
+}
+
+/* Hide default checkbox */
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* Track */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-color: #2a2a2a;
+  transition: 0.25s;
+  border-radius: 34px;
+  box-shadow: inset 0 0 6px rgba(0,0,0,0.4);
+}
+
+/* Knob */
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 3px;
+  top: 3px;
+  background-color: #aaa;
+  transition: 0.25s;
+  border-radius: 50%;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+}
+
+/* Active state */
+.switch input:checked + .slider {
+  background-color: var(--accent);
+}
+
+.switch input:checked + .slider:before {
+  transform: translateX(22px);
+  background-color: white;
+}
+
+/* Hover glow */
+.switch:hover .slider {
+  box-shadow: 0 0 10px rgba(0,0,0,0.6), 0 0 8px var(--accent);
+}
+.hero p{
+  font-size:1.15rem;
+  color:var(--muted);
+  max-width:750px;
+  margin:auto;
+  line-height:1.7;
+}
+
+.btn-row{
+  display:flex;
+  justify-content:center;
+  gap:18px;
+  flex-wrap:wrap;
+  margin-top:40px;
+}
+
+.btn{
+  position:relative;
+  padding:17px 32px;
+  border-radius:10px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:12px;
+  text-decoration:none;
+  font-weight:700;
+  overflow:hidden;
+  transition:var(--transition);
+  backdrop-filter:blur(var(--blur));
+}
+
+.btn::before{
+  content:"";
+  position:absolute;
+  top:0; left:-120%;
+  width:100%; height:100%;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.25),transparent);
+  transition:.6s;
+}
+.btn:hover::before{ left:120%; }
+.btn:hover{ transform:translateY(-4px) scale(1.03); }
+
+.btn-primary{
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  color:#050507;
+  box-shadow:0 0 20px rgba(167,139,250,.35),0 0 60px rgba(167,139,250,.2);
+}
+
+.btn-discord{
+  background:rgba(88,101,242,.15);
+  border:1px solid rgba(88,101,242,.4);
+  color:white;
+  box-shadow:0 0 25px rgba(88,101,242,.2);
+}
+
+.btn img{ width:22px; height:22px; }
+
+.stats{
+  display:flex;
+  justify-content:center;
+  gap:25px;
+  margin-top:60px;
+  flex-wrap:wrap;
+}
+.ad-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.ad-modal.hidden {
+  display: none;
+}
+
+.ad-modal-box {
+  background: #1f1f1f;
+  padding: 20px;
+  border-radius: 14px;
+  width: 320px;
+  color: #ddd;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+  animation: pop 0.2s ease;
+}
+
+@keyframes pop {
+  from { transform: scale(0.9); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.ad-modal-box h3 {
+  margin: 0 0 10px 0;
+  font-size: 16px;
+}
+
+/* ──────────────────────────────────────
+   BUTTON-KLICK-ANIMATION (:active)
+────────────────────────────────────── */
+
+.btn, .settings-btn, .login-btn, .user-pill, .auth-submit, .sizeerr-tinypng, .sizeerr-close-btn, .auth-close, .dropdown-item {
+  transition: transform 0.2s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.2s, border-color 0.2s, background-color 0.2s;
+}
+
+.btn:active, 
+.settings-btn:active, 
+.login-btn:active, 
+.user-pill:active, 
+.auth-submit:active, 
+.sizeerr-tinypng:active,
+.sizeerr-close-btn:active,
+.auth-close:active,
+.dropdown-item:active {
+  transform: scale(0.95) !important;
+}
+
+.btn:hover:active {
+  transform: translateY(-2px) scale(0.95) !important;
+}
+
+.ad-modal-box p {
+  font-size: 13px;
+  opacity: 0.8;
+  line-height: 1.4;
+}
+
+.ad-modal-actions {
+  margin-top: 15px;
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.ad-modal-actions button {
+  flex: 1;
+  padding: 8px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+#adModal button:first-child {
+  background: #333;
+  color: #fff;
+}
+
+#adModal button:last-child {
+  background: var(--accent);
+  color: #000;
+  font-weight: bold;
+}
+.stat{
+  min-width:180px;
+  background:rgba(255,255,255,.03);
+  border:1px solid rgba(255,255,255,.06);
+  padding:22px;
+  border-radius:var(--radius);
+  backdrop-filter:blur(var(--blur));
+  transition:var(--transition);
+}
+.stat:hover{ transform:translateY(-5px); border-color:rgba(167,139,250,.4); }
+.stat h2{ font-size:2rem; color:var(--accent2); margin-bottom:6px; }
+.stat p{ color:var(--muted); }
+
+/* SECTIONS */
+
+section{
+  max-width:1300px;
+  margin:auto;
+  padding:110px 25px;
+}
+
+.section-title{
+  text-align:center;
+  margin-bottom:60px;
+}
+.section-title h2{
+  font-size:3rem;
+  font-family:Orbitron;
+  margin-bottom:15px;
+}
+.section-title p{ color:var(--muted); }
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  gap:28px;
+}
+
+/* ── KARTEN ANPASSUNG (KEIN GRADIENT, KEINE HOVER-BEWEGUNG) ── */
+.card {
+  position: relative;
+  background: rgba(255, 255, 255, var(--card-opacity)); /* Einfarbige Fläche statt linear-gradient */
+  border: 1px solid rgba(255,255,255,.07);
+  border-radius: var(--radius);
+  padding: 35px;
+  overflow: visible !important; /* Wichtig für das herausragende Peaking Image */
+  transition: border-color var(--transition), box-shadow var(--transition);
+  margin-top: 10px;
+}
+
+/* Entfernt den inneren Radial-Glow beim Hover */
+.card::before {
+  display: none;
+}
+
+/* Beim Hover: Nur saubere Lila-Outline & Glow, KEINE Bewegung/Anheben */
+.card:hover {
+  border-color: rgba(167, 139, 250, .6);
+  box-shadow: 0 0 30px rgba(167, 139, 250, .25);
+}
+
+.card-icon{ font-size:3rem; margin-bottom:18px; }
+.card h3{ font-size:1.5rem; margin-bottom:12px; }
+.card p{ color:var(--muted); line-height:1.7; }
+.card .btn{ margin-top:22px; }
+
+.peaking-img {
+  position: absolute;
+  top: -150px; /* Schiebt das Bild weit nach OBEN heraus */
+  left: 50%;
+  transform: translateX(-50%);
+  width: 250px;
+  height: auto;
+  z-index: 10;
+  pointer-events: none;
+  filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.5));
+}
+
+.footer-center-logo {
+  text-align: center;
+  /* Mit margin-top schiebst du das Logo in den leeren Bereich nach oben */
+  margin-top: 25px;    
+  margin-bottom: 20px; 
+}
+
+.footer-center-logo img {
+  /* Höhe etwas erhöht, damit es präsenter, aber nicht zu wuchtig ist */
+  height: 80px; 
+  width: auto;
+  display: inline-block;
+}
+
+.video-wrapper{
+  position:relative;
+  border-radius:var(--radius);
+  overflow:hidden;
+  box-shadow:0 0 40px rgba(167,139,250,.12),0 0 120px rgba(167,139,250,.08);
+}
+
+.video{ width:100%; aspect-ratio:16/9; border:none; }
+
+.status{
+  margin-top:50px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:20px;
+  flex-wrap:wrap;
+  background:rgba(255,255,255,.03);
+  border:1px solid rgba(255,255,255,.08);
+  padding:25px;
+  border-radius:var(--radius);
+}
+
+.server-ip{ font-size:2rem; font-weight:800; color:var(--accent2); }
+.copy-btn{ border:none; cursor:pointer; }
+
+footer {
+  position: relative;
+  /* Leicht hellerer Hintergrund als der Rest der Seite */
+  background: #0d0d16; 
+  
+  /* Gradlinige Oberkante ohne Abrundung */
+  border-top: 1px solid rgba(167, 139, 250, 0.25); 
+  border-radius: 0;
+
+  /* Etwas weniger Abstand nach oben, da das Bild weiter unten sitzt */
+  margin-top: 200px; 
+
+  /* Platz oben im Footer für den Text */
+  padding: 25px 25px 60px; 
+  text-align: center;
+}
+
+/* ── RIESIGES FOOTER-BILD (Weiter nach unten verschoben) ── */
+.footer-peaking-img {
+  position: absolute;
+  
+  /* ──── HIER SCHIEBST DU DAS BILD WEITER NACH UNTEN ──── */
+  top: -200px; /* Kleinere negative Zahl = Bild wandert weiter nach unten! */
+  
+  left: 50%;
+  transform: translateX(-50%);
+  
+  width: 1200px; 
+  max-width: 95vw; 
+  height: auto;
+  
+  pointer-events: none;
+  filter: drop-shadow(0 -10px 25px rgba(0, 0, 0, 0.6));
+  z-index: 5;
+}
+  
+  /* ──── HIER ÄNDERST DU DIE GRÖSSE ──── */
+  width: 800px; /* <── DIESEN WERT ERHÖHEN ODER VERRINGERN */
+  
+  max-width: 95vw; /* Verhindert horizontales Scrollen auf kleineren Bildschirmen */
+  height: auto;
+  pointer-events: none;
+  filter: drop-shadow(0 25px 40px rgba(0, 0, 0, 0.8));
+  z-index: 5;
+}
+
+footer .footer-links{ margin-bottom:25px; }
+footer a{ color:var(--accent); text-decoration:none; margin:0 12px; }
+footer a:hover{ color:white; }
+
+@media(max-width:768px){
+  .hero h1{ font-size:2.5rem; }
+  .section-title h2{ font-size:2.2rem; }
+  .logo{ width:330px; }
+  .stats{ flex-direction:column; align-items:center; }
+  .status{ flex-direction:column; text-align:center; }
+  .server-ip{ font-size:1.4rem; }
+  .top-buttons{ top:15px; right:15px; gap:8px; }
+  .settings-btn, .login-btn{ padding:11px 16px; font-size:.85rem; }
+  .auth-modal{ padding:28px 22px 26px; }
+}
+
 </style>
+
+<!-- Firebase SDK (compat v9 via CDN) -->
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+
+<script>
+
+/* ─── FIREBASE CONFIG ─────────────────────────────────────
+   ⚠ Ersetze apiKey, authDomain etc. mit deinen Werten aus
+   der Firebase Console → Projekteinstellungen → Allgemein
+   ─────────────────────────────────────────────────────── */
+const firebaseConfig = {
+  apiKey: "AIzaSyBtxHyCkI1TPdV6uWrhJ6bW4FjIdHVHuGw",
+  authDomain: "pixelhide-app.firebaseapp.com",
+  projectId: "pixelhide-app",
+  storageBucket: "pixelhide-app.firebasestorage.app",
+  messagingSenderId: "469716803908",
+  appId: "1:469716803908:web:4adff338ab4db6b576b711"
+};
+
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+
+/* ─── SETTINGS SYNC ───────────────────────────────────── */
+
+const THEMES = {
+  dark:{bg:"#050507",bg2:"#0b0b10",card:"#101018",accent:"#a78bfa",accent2:"#c4b5fd",text:"#f5f5f5",muted:"#9ca3af"},
+  light:{bg:"#ffffff",bg2:"#f4f4f5",card:"#ffffff",accent:"#8b5cf6",accent2:"#c4b5fd",text:"#111111",muted:"#555555"},
+  oled:{bg:"#000000",bg2:"#020202",card:"#050505",accent:"#8b5cf6",accent2:"#c4b5fd",text:"#ffffff",muted:"#888888"},
+  nebula:{bg:"#12051f",bg2:"#1e1033",card:"#24123a",accent:"#c084fc",accent2:"#e9d5ff",text:"#ffffff",muted:"#c4b5fd"},
+  blue:{bg:"#07111f",bg2:"#0f172a",card:"#172554",accent:"#3b82f6",accent2:"#60a5fa",text:"#ffffff",muted:"#93c5fd"},
+  green:{bg:"#07130b",bg2:"#0f1f14",card:"#14532d",accent:"#22c55e",accent2:"#86efac",text:"#ffffff",muted:"#bbf7d0"},
+  red:{bg:"#160606",bg2:"#2a0b0b",card:"#7f1d1d",accent:"#ef4444",accent2:"#fca5a5",text:"#ffffff",muted:"#fecaca"},
+  orange:{bg:"#1a0d05",bg2:"#2e1607",card:"#7c2d12",accent:"#f97316",accent2:"#fdba74",text:"#ffffff",muted:"#fed7aa"},
+  pink:{bg:"#1f0717",bg2:"#3b102c",card:"#831843",accent:"#ec4899",accent2:"#f9a8d4",text:"#ffffff",muted:"#fbcfe8"},
+  cyan:{bg:"#05161b",bg2:"#082f49",card:"#164e63",accent:"#06b6d4",accent2:"#67e8f9",text:"#ffffff",muted:"#a5f3fc"},
+  gold:{bg:"#1b1405",bg2:"#2d2209",card:"#78350f",accent:"#facc15",accent2:"#fde68a",text:"#ffffff",muted:"#fef3c7"},
+  forest:{bg:"#03120a",bg2:"#052e16",card:"#14532d",accent:"#4ade80",accent2:"#86efac",text:"#ffffff",muted:"#bbf7d0"},
+  blood:{bg:"#0f0000",bg2:"#220000",card:"#3f0000",accent:"#ff2d55",accent2:"#ff6b81",text:"#ffffff",muted:"#ffb3c1"},
+  midnight:{bg:"#020617",bg2:"#0f172a",card:"#1e1b4b",accent:"#6366f1",accent2:"#a5b4fc",text:"#ffffff",muted:"#c7d2fe"},
+  candy:{bg:"#2a1023",bg2:"#4a1d3f",card:"#831843",accent:"#f472b6",accent2:"#c084fc",text:"#ffffff",muted:"#fbcfe8"}
+};
+
+function applySettings(){
+  const r = document.documentElement;
+  const ls = localStorage;
+  const themeName = ls.getItem("theme") || "dark";
+  const t = THEMES[themeName] || THEMES.dark;
+  r.style.setProperty("--bg",      t.bg);
+  r.style.setProperty("--bg2",     t.bg2 || t.bg);
+  r.style.setProperty("--card",    t.card);
+  r.style.setProperty("--accent",  t.accent);
+  r.style.setProperty("--accent2", t.accent2);
+  r.style.setProperty("--text",    t.text);
+  r.style.setProperty("--muted",   t.muted);
+  r.style.setProperty("--zoom", ls.getItem("zoom") || "1");
+  r.style.setProperty("--text-size", ls.getItem("textSize") || "1");
+  r.style.setProperty("--blur", (ls.getItem("blur") || "16") + "px");
+  r.style.setProperty("--radius", ls.getItem("rounded") === "false" ? "0px" : "24px");
+  r.style.setProperty("--glow-opacity", ls.getItem("glow") === "false" ? "0" : ".12");
+  r.style.setProperty("--card-opacity", ls.getItem("transparent") === "false" ? ".18" : ".04");
+  r.style.setProperty("--transition", ls.getItem("transitions") === "false" ? "0s" : ".25s");
+  if(ls.getItem("animations") === "false") document.body.classList.add("no-animations");
+  else document.body.classList.remove("no-animations");
+}
+
+applySettings();
+window.addEventListener("storage", applySettings);
+
+function copyIP(){
+  navigator.clipboard.writeText("pixelhide.net");
+  const btn = document.getElementById("copyBtn");
+  btn.innerHTML = "Kopiert!";
+  setTimeout(()=>{ btn.innerHTML = "IP kopieren"; }, 2000);
+}
+
+</script>
 </head>
-<script src="https://uptime.betterstack.com/widgets/announcement.js" data-id="208286" async="async" type="text/javascript"></script>
 <body>
-<div class="hero">
-  <img src="https://pixelhide.net/pixelhidenet.png" alt="PixelHide.net Logo">
-  <h1>Nicht verfügbar!</h1>
-  <p>Die Website ist aktuell nicht verfügbar.</p>
+
+<!-- ─── TOP BUTTONS ──────────────────────────────────── -->
+
+<div class="top-buttons">
+
+  <!-- shown when NOT logged in -->
+  <button class="login-btn" id="loginBtn" onclick="openAuth()">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+      <circle cx="12" cy="7" r="4"></circle>
+    </svg>
+    Anmelden
+  </button>
+
+  <!-- shown when logged in -->
+  <div class="user-pill" id="userPill" style="display:none" onclick="toggleDropdown()">
+    <div class="avatar" id="userAvatar">?</div>
+    <span class="email-text" id="userUsername">–</span>
+    <svg class="chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="6 9 12 15 18 9"></polyline>
+    </svg>
+    <div class="user-dropdown" id="userDropdown">
+      <div class="dropdown-header">
+        <div class="dropdown-avatar" id="dropdownAvatar">?</div>
+        <div class="dropdown-username" id="dropdownUsername">–</div>
+        <span class="dropdown-email blurred" id="dropdownEmail" onclick="toggleEmailBlur(event)"></span>
+        <div class="dropdown-email-hint">Klicken zum Anzeigen</div>
+      </div>
+      <div class="dropdown-item" onclick="openAccSettings()">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="3"></circle>
+          <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+        </svg>
+        Einstellungen
+      </div>
+      <div class="dropdown-divider"></div>
+      <div class="dropdown-item danger" onclick="doSignOut()">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+          <polyline points="16 17 21 12 16 7"></polyline>
+          <line x1="21" y1="12" x2="9" y2="12"></line>
+        </svg>
+        Abmelden
+      </div>
+    </div>
+  </div>
+
+  <a href="/settings.html" class="settings-btn">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="3"></circle>
+      <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+    </svg>
+    Settings
+  </a>
 </div>
-<footer>© 2026 <span>PixelHide.net</span> · Nicht in Verbindung mit Mojang AB.</footer>
-</body>
-</html>
+
+<!-- ─── AUTH MODAL ───────────────────────────────────── -->
+
+<div class="auth-overlay" id="authOverlay">
+  <div class="auth-backdrop" onclick="closeAuth()"></div>
+  <div class="auth-modal">
+
+    <button class="auth-close" onclick="closeAuth()">✕</button>
+
+    <div class="auth-logo">
+      <div class="icon">⛏</div>
+      <h2>PixelHide.net</h2>
+      <p id="authSubtitle">Melde dich an oder erstelle ein Konto</p>
+    </div>
+
+    <!-- TABS -->
+    <div class="auth-tabs">
+      <div class="auth-tab active" id="tabLogin" onclick="switchTab('login')">Anmelden</div>
+      <div class="auth-tab" id="tabRegister" onclick="switchTab('register')">Registrieren</div>
+    </div>
+
+    <!-- LOGIN FORM -->
+    <div id="loginForm">
+      <div class="auth-form">
+        <div class="auth-error" id="loginError"></div>
+
+        <div class="form-group">
+          <label class="form-label">E-Mail</label>
+          <input class="form-input" id="loginEmail" type="email" placeholder="deine@email.de" autocomplete="email">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Passwort</label>
+          <div class="input-wrap">
+            <input class="form-input" id="loginPw" type="password" placeholder="••••••••" autocomplete="current-password">
+            <button class="pw-toggle" type="button" onclick="togglePw('loginPw',this)" tabindex="-1">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                <circle cx="12" cy="12" r="3"></circle>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <label class="remember-row">
+          <input type="checkbox" id="rememberMe" checked="">
+          <span class="remember-label">Angemeldet bleiben</span>
+        </label>
+
+        <button class="auth-submit" id="loginSubmit" onclick="doLogin()">
+          <span class="btn-text">Anmelden</span>
+          <div class="spinner"></div>
+        </button>
+      </div>
+    </div>
+
+    <!-- REGISTER FORM -->
+    <div id="registerForm" style="display:none">
+      <div class="auth-form">
+        <div class="auth-error" id="registerError"></div>
+
+        <div class="auth-success" id="registerSuccess">
+          <div class="check">🎉</div>
+          <h3>Willkommen!</h3>
+          <p>Dein Konto wurde erstellt. Du bist jetzt angemeldet.</p>
+        </div>
+
+        <div id="registerFields">
+          <div class="auth-form">
+            <div class="form-group">
+              <label class="form-label">Username</label>
+              <input class="form-input" id="regUsername" type="text" placeholder="Dein Anzeigename" autocomplete="off" maxlength="32">
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">E-Mail</label>
+              <input class="form-input" id="regEmail" type="email" placeholder="deine@email.de" autocomplete="email">
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Passwort</label>
+              <div class="input-wrap">
+                <input class="form-input" id="regPw" type="password" placeholder="Mindestens 6 Zeichen" autocomplete="new-password">
+                <button class="pw-toggle" type="button" onclick="togglePw('regPw',this)" tabindex="-1">
+                  <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                    <circle cx="12" cy="12" r="3"></circle>
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Passwort bestätigen</label>
+              <div class="input-wrap">
+                <input class="form-input" id="regPw2" type="password" placeholder="••••••••" autocomplete="new-password">
+                <button class="pw-toggle" type="button" onclick="togglePw('regPw2',this)" tabindex="-1">
+                  <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                    <circle cx="12" cy="12" r="3"></circle>
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            <button class="auth-submit" id="regSubmit" onclick="doRegister()">
+              <span class="btn-text">Konto erstellen</span>
+              <div class="spinner"></div>
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ─── BACKGROUND GLOWS ─────────────────────────────── -->
+
+<div class="bg-glow"></div>
+<div class="bg-glow bg-glow2"></div>
+
+<!-- ─── HERO ─────────────────────────────────────────── -->
+
+<div class="hero">
+  <div class="hero-content">
+    <img class="logo" src="https://pixelhide.net/pixelhidenet.png">
+    <p>Spiele mit deinen Freunden, Überlebe, Farme oder Baue! Alles ist möglich auf PixelHide.net!</p>
+    <div class="btn-row">
+      <a href="/join.html" class="btn btn-primary">Jetzt beitreten</a>
+      <a href="https://discord.pixelhide.net" class="btn btn-discord">
+        <img src="https://pixelhide.net/assets/icons/discord.png">
+        Discord
+      </a>
+    </div>
+    <div class="stats">
+      <div class="stat"><h2>24/7</h2><p>Online Server</p></div>
+      <div class="stat"><h2>1.13 – 1.21.11</h2><p>Version Support</p></div>
+      <div class="stat"><h2>Über 5</h2><p>Aktive Teammitglieder</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- ─── TRAILER ───────────────────────────────────────── -->
+
+<section>
+  <div class="section-title">
+    <h2>Trailer</h2>
+    <p>Erlebe PixelHide in Aktion.</p>
+  </div>
+  <div class="video-wrapper">
+    <iframe class="video" src="https://www.youtube-nocookie.com/embed/LFdXT-xSR8M" allowfullscreen=""></iframe>
+  </div>
+</section>
+
+<!-- ─── FEATURES ─────────────────────────────────────── -->
+
+<section>
+  <div class="section-title">
+    <h2>Features</h2>
+    <p>Mehr als nur ein Minecraft Server.</p>
+  </div>
+  <div class="grid">
+    <div class="card">
+      <div class="card-icon">⚔️</div>
+      <h3>Minigames</h3>
+      <p>Bedwars, Skywars, Build Battle und weitere einzigartige Modi.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">🏙️</div>
+      <h3>CityBuild</h3>
+      <p>Erstelle deine Stadt und baue dein eigenes Imperium.</p>
+    </div>
+    <div class="card">
+      <img src="https://pixelhide.net/assets/images/peaking.png" class="peaking-img" alt="Peaking Image">
+      <div class="card-icon">🔥</div>
+      <h3>Events</h3>
+      <p>Regelmäßige Community Events mit coolen Rewards.</p>
+    </div>
+  </div>
+  <div class="status">
+    <div>
+      <div class="server-ip">pixelhide.net</div>
+      <div style="color:var(--muted)">Minecraft Server IP</div>
+    </div>
+    <button class="btn btn-primary copy-btn" id="copyBtn" onclick="copyIP()">IP kopieren</button>
+  </div>
+</section>
+
+<!-- ─── COMMUNITY ─────────────────────────────────────── -->
+
+<section>
+  <div class="section-title">
+    <h2>Community</h2>
+    <p>Werde Teil von PixelHide.</p>
+  </div>
+  <div class="grid">
+    <div class="card">
+      <div class="card-icon">👥</div>
+      <h3>Team</h3>
+      <p>Bewirb dich und unterstütze das Netzwerk als Teammitglied.</p>
+      <a href="/team.html" class="btn btn-primary">Mehr erfahren</a>
+    </div>
+    <div class="card">
+      <div class="card-icon">💬</div>
+      <h3>Support</h3>
+      <p>Hilfe direkt über unseren Discord Support erhalten.</p>
+      <a href="https://discord.pixelhide.net" class="btn btn-discord">
+        <img src="https://pixelhide.net/assets/icons/discord.png">
+        Support öffnen
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ─── ACCOUNT SETTINGS MODAL ───────────────────────── -->
+
+<div class="accsettings-overlay" id="accSettingsOverlay">
+  <div class="auth-backdrop" onclick="closeAccSettings()"></div>
+  <div class="accsettings-modal">
+    <button class="auth-close" onclick="closeAccSettings()">✕</button>
+
+    <div class="accsettings-title">Account-Einstellungen</div>
+    <div class="accsettings-sub">Profilbild und Username anpassen.</div>
+
+    <!-- Avatar preview -->
+    <div class="avatar-preview-wrap">
+      <div class="avatar-preview" id="accAvatarPreview" onclick="document.getElementById('fileTabBtn').click(); document.getElementById('fileInput').click()">
+        <span id="accAvatarLetter">?</span>
+        <div class="avatar-overlay">Ändern</div>
+      </div>
+    </div>
+
+    <!-- Source tabs -->
+    <div class="avatar-tabs">
+      <div class="avatar-tab active" id="fileTabBtn" onclick="switchAvatarTab('file')">📁 Datei hochladen</div>
+      <div class="avatar-tab" id="urlTabBtn" onclick="switchAvatarTab('url')">🔗 URL verwenden</div>
+    </div>
+
+    <!-- File upload panel -->
+    <div id="avatarFilePanel">
+      <div class="file-drop" id="fileDrop">
+        <input type="file" id="fileInput" accept="image/*" onchange="handleFileSelect(this)">
+        <div class="file-drop-icon">🖼️</div>
+        <div class="file-drop-text">
+          <strong>Klicken oder Bild reinziehen</strong><br>
+          PNG, JPG, GIF, WebP · max. <strong>10 MB</strong>
+        </div>
+      </div>
+    </div>
+
+    <!-- URL panel -->
+    <div id="avatarUrlPanel" style="display:none">
+      <div class="form-group">
+        <label class="form-label">Bild-URL</label>
+        <input class="form-input" id="avatarUrlInput" type="url" placeholder="https://example.com/avatar.png">
+      </div>
+      <button class="auth-submit" style="margin-top:10px" onclick="applyAvatarUrl()">
+        <span class="btn-text">URL übernehmen</span>
+        <div class="spinner"></div>
+      </button>
+    </div>
+
+    <div style="height:1px;background:rgba(255,255,255,.07);margin:22px 0"></div>
+
+    <!-- Username -->
+    <div class="auth-error" id="accSettingsError" style="margin-bottom:12px"></div>
+    <div class="accsettings-success" id="accSettingsSuccess"></div>
+
+    <div class="auth-form">
+      <div class="form-group">
+        <label class="form-label">Username</label>
+        <input class="form-input" id="newUsername" type="text" placeholder="Dein Username" autocomplete="off" maxlength="32">
+      </div>
+      <button class="auth-submit" id="accSettingsSubmit" onclick="doChangeUsername()">
+        <span class="btn-text">Speichern</span>
+        <div class="spinner"></div>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ─── FILE SIZE ERROR POPUP ─────────────────────────── -->
+
+<div class="sizeerr-overlay" id="sizeErrOverlay">
+  <div class="auth-backdrop" onclick="closeSizeErr()"></div>
+  <div class="sizeerr-box">
+    <div class="sizeerr-icon">⚠️</div>
+    <h3>Datei zu groß</h3>
+    <p>Dein Bild ist größer als <strong>10 MB</strong>.<br>Komprimiere es zuerst und versuche es erneut.</p>
+    <div class="sizeerr-actions">
+      <a class="sizeerr-tinypng" href="https://tinypng.com/" target="_blank" rel="noopener">
+        Komprimieren
+      </a>
+      <button class="sizeerr-close-btn" onclick="closeSizeErr()">Schließen</button>
+    </div>
+  </div>
+</div>
+
+<!-- ─── FOOTER ────────────────────────────────────────── -->
+
+<footer>
+  <img src="https://pixelhide.net/assets/images/footer2.png" alt="Footer Logo" class="footer-peaking-img">
+  
+  <div class="footer-center-logo">
+    <img src="https://pixelhide.net/pixelhidenet.png" alt="PixelHide Logo">
+  </div>
+
+  <div class="footer-links">
+    <a href="/join.html">Jetzt beitreten</a>
+    <a href="https://discord.pixelhide.net">Discord</a>
+    <a href="/team.html">Team</a>
+    <a href="/bewerben.html">Bewerben</a>
+    <a href="/support.html">Support</a>
+    <a href="/custom-welten.html">Custom Welten</a>
+    <a href="/version-support.html">Versionen</a>
+  </div>
+
+  <div class="ad-toggle-wrap">
+    <span>Werbung ausblenden?</span>
+
+    <label class="switch">
+      <input type="checkbox" id="adToggle">
+      <span class="slider"></span>
+    </label>
+  </div>
+
+  <div id="adModal" class="ad-modal hidden">
+    <div class="ad-modal-box">
+      <h3>Werbung wirklich ausblenden?</h3>
+      <p>
+        Viele Inhalte auf der Seite werden durch Werbung unterstützt. Wenn du sie deaktivierst,
+        kann das helfen, die Plattform stabil und kostenlos zu halten.
+      </p>
+
+      <div class="ad-modal-actions">
+        <button id="cancelAd">Abbrechen</button>
+        <button id="confirmAd">Trotzdem deaktivieren</button>
+      </div>
+    </div>
+  </div>
+
+  <div>© 2026 <span style="color:var(--accent)">PixelHide.net</span></div>
+</footer>
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const toggle = document.getElementById('adToggle');
+    if (toggle) {
+      toggle.checked = true; // 1. Schalter auf AN setzen
+      
+      // 2. Das Event auslösen, das dem Werbe-Skript sagt: "Hey, ich wurde geklickt!"
+      const event = new Event('change', { bubbles: true });
+      toggle.dispatchEvent(event);
+      
+      // 3. Erst danach sperren, damit nichts mehr geändert werden kann
+      toggle.disabled = true; 
+    }
+  });
+</script>
+<script src="https://pixelhide.net/pixelhide-ads.js"></script>
+<!-- ─── AUTH LOGIC ────────────────────────────────────── -->
+
+<script>
+
+/* ── Avatar storage key per user ── */
+const AVATAR_KEY = uid => `pixelhide_avatar_${uid}`;
+
+/* ── Apply avatar src to all avatar elements ── */
+function applyAvatarEverywhere(src, letter){
+  const els = {
+    pill:     document.getElementById("userAvatar"),
+    dropdown: document.getElementById("dropdownAvatar"),
+    preview:  document.getElementById("accAvatarPreview"),
+  };
+
+  if(src){
+    const makeImg = () => {
+      const img = document.createElement("img");
+      img.src = src;
+      img.alt = "Avatar";
+      return img;
+    };
+    /* pill */
+    els.pill.innerHTML = "";
+    els.pill.appendChild(makeImg());
+    /* dropdown */
+    els.dropdown.innerHTML = "";
+    els.dropdown.appendChild(makeImg());
+    /* preview */
+    const prev = els.preview;
+    const overlay = prev.querySelector(".avatar-overlay");
+    prev.innerHTML = "";
+    prev.appendChild(makeImg());
+    const ov = document.createElement("div");
+    ov.className = "avatar-overlay";
+    ov.textContent = "Ändern";
+    prev.appendChild(ov);
+  } else {
+    els.pill.innerHTML     = letter;
+    els.dropdown.innerHTML = letter;
+    document.getElementById("accAvatarLetter").textContent = letter;
+  }
+}
+
+/* ── Load saved avatar from localStorage ── */
+function loadAvatar(uid, letter){
+  try {
+    const raw = localStorage.getItem(AVATAR_KEY(uid));
+    if(raw) applyAvatarEverywhere(raw, letter);
+    else     applyAvatarEverywhere(null, letter);
+  } catch(e){
+    applyAvatarEverywhere(null, letter);
+  }
+}
+
+/* ── Avatar tab switch ── */
+function switchAvatarTab(tab){
+  const isFile = tab === "file";
+  document.getElementById("fileTabBtn").classList.toggle("active",  isFile);
+  document.getElementById("urlTabBtn").classList.toggle("active",  !isFile);
+  document.getElementById("avatarFilePanel").style.display = isFile ? "" : "none";
+  document.getElementById("avatarUrlPanel").style.display  = isFile ? "none" : "";
+}
+
+/* ── File select / drag-drop ── */
+function handleFileSelect(input){
+  const file = input.files[0];
+  if(!file) return;
+  processImageFile(file);
+}
+
+const dropZone = () => document.getElementById("fileDrop");
+
+document.addEventListener("DOMContentLoaded", () => {
+  const dz = dropZone();
+  if(!dz) return;
+  dz.addEventListener("dragover", e => { e.preventDefault(); dz.classList.add("dragover"); });
+  dz.addEventListener("dragleave", () => dz.classList.remove("dragover"));
+  dz.addEventListener("drop", e => {
+    e.preventDefault();
+    dz.classList.remove("dragover");
+    const file = e.dataTransfer.files[0];
+    if(file) processImageFile(file);
+  });
+});
+
+function processImageFile(file){
+  const MAX = 10 * 1024 * 1024; // 10 MB
+  if(file.size > MAX){ openSizeErr(); return; }
+
+  const reader = new FileReader();
+  reader.onload = e => {
+    const src = e.target.result;
+    saveAndApplyAvatar(src);
+  };
+  reader.readAsDataURL(file);
+}
+
+/* ── URL avatar ── */
+function applyAvatarUrl(){
+  const url = document.getElementById("avatarUrlInput").value.trim();
+  if(!url){ showAccErr("Bitte eine URL eingeben."); return; }
+  try { new URL(url); } catch{ showAccErr("Ungültige URL."); return; }
+
+  /* quick load check */
+  const img = new Image();
+  img.onload  = () => saveAndApplyAvatar(url);
+  img.onerror = () => showAccErr("Bild konnte nicht geladen werden. Bitte URL prüfen.");
+  img.src = url;
+}
+
+/* ── Save avatar to localStorage and update UI ── */
+function saveAndApplyAvatar(src){
+  const user = auth.currentUser;
+  if(!user) return;
+  try {
+    localStorage.setItem(AVATAR_KEY(user.uid), src);
+  } catch(e){
+    showAccErr("Speichern fehlgeschlagen – localStorage voll? Bitte Bild komprimieren.");
+    return;
+  }
+  const letter = getDisplayName(user).charAt(0).toUpperCase();
+  applyAvatarEverywhere(src, letter);
+  showAccSuccess("✓ Profilbild gespeichert!");
+}
+
+/* ── Size error popup ── */
+function openSizeErr(){
+  document.getElementById("sizeErrOverlay").classList.add("visible");
+}
+function closeSizeErr(){
+  document.getElementById("sizeErrOverlay").classList.remove("visible");
+}
+
+/* ── Persistence toggle ── */
+function getPersistence(){
+  return document.getElementById("rememberMe")?.checked
+    ? firebase.auth.Auth.Persistence.LOCAL
+    : firebase.auth.Auth.Persistence.SESSION;
+}
+
+/* ── Auth state ── */
+auth.onAuthStateChanged(user => {
+  if(user) showUserPill(user);
+  else     showLoginBtn();
+});
+
+function getDisplayName(user){
+  return user.displayName || user.email.split("@")[0];
+}
+
+function showUserPill(user){
+  document.getElementById("loginBtn").style.display = "none";
+  const pill = document.getElementById("userPill");
+  pill.style.display = "flex";
+
+  const name   = getDisplayName(user);
+  const letter = name.charAt(0).toUpperCase();
+  document.getElementById("userUsername").textContent     = name;
+  document.getElementById("dropdownUsername").textContent = name;
+  document.getElementById("dropdownEmail").textContent    = user.email;
+
+  /* reset email blur */
+  document.getElementById("dropdownEmail").classList.add("blurred");
+
+  /* load avatar */
+  loadAvatar(user.uid, letter);
+}
+
+function showLoginBtn(){
+  document.getElementById("loginBtn").style.display = "";
+  document.getElementById("userPill").style.display = "none";
+  document.getElementById("userDropdown").classList.remove("visible");
+  document.getElementById("userPill").classList.remove("open");
+}
+
+/* ── Blurred email toggle ── */
+function toggleEmailBlur(e){
+  e.stopPropagation();
+  document.getElementById("dropdownEmail").classList.toggle("blurred");
+}
+
+/* ── Dropdown ── */
+function toggleDropdown(){
+  const pill = document.getElementById("userPill");
+  const dd   = document.getElementById("userDropdown");
+  const open = dd.classList.toggle("visible");
+  pill.classList.toggle("open", open);
+}
+
+document.addEventListener("click", e => {
+  const pill = document.getElementById("userPill");
+  if(pill && !pill.contains(e.target)){
+    document.getElementById("userDropdown").classList.remove("visible");
+    pill.classList.remove("open");
+  }
+});
+
+/* ── Sign out ── */
+async function doSignOut(){
+  await auth.signOut();
+}
+
+/* ── Auth modal ── */
+function openAuth(){
+  document.getElementById("authOverlay").classList.add("visible");
+  document.body.style.overflow = "hidden";
+  setTimeout(() => document.getElementById("loginEmail").focus(), 350);
+}
+
+function closeAuth(){
+  document.getElementById("authOverlay").classList.remove("visible");
+  document.body.style.overflow = "";
+}
+
+/* ── Account Settings modal ── */
+function openAccSettings(){
+  document.getElementById("userDropdown").classList.remove("visible");
+  document.getElementById("userPill").classList.remove("open");
+
+  const user = auth.currentUser;
+  if(user){
+    document.getElementById("newUsername").value = getDisplayName(user);
+
+    /* sync preview avatar */
+    const letter = getDisplayName(user).charAt(0).toUpperCase();
+    document.getElementById("accAvatarLetter").textContent = letter;
+    try {
+      const src = localStorage.getItem(AVATAR_KEY(user.uid));
+      const prev = document.getElementById("accAvatarPreview");
+      const ov   = prev.querySelector(".avatar-overlay") ||
+                   (() => { const d = document.createElement("div"); d.className="avatar-overlay"; d.textContent="Ändern"; return d; })();
+      if(src){
+        prev.innerHTML = "";
+        const img = document.createElement("img"); img.src = src; img.alt="Avatar";
+        prev.appendChild(img);
+        prev.appendChild(ov);
+      } else {
+        const span = document.createElement("span"); span.id="accAvatarLetter"; span.textContent=letter;
+        prev.innerHTML = "";
+        prev.appendChild(span);
+        prev.appendChild(ov);
+      }
+    } catch(e){}
+  }
+
+  /* reset UI state */
+  clearAccState();
+  switchAvatarTab("file");
+  document.getElementById("avatarUrlInput").value = "";
+
+  document.getElementById("accSettingsOverlay").classList.add("visible");
+  document.body.style.overflow = "hidden";
+  setTimeout(() => document.getElementById("newUsername").focus(), 320);
+}
+
+function closeAccSettings(){
+  document.getElementById("accSettingsOverlay").classList.remove("visible");
+  document.body.style.overflow = "";
+}
+
+function clearAccState(){
+  const e = document.getElementById("accSettingsError");
+  e.classList.remove("show"); e.textContent = "";
+  const s = document.getElementById("accSettingsSuccess");
+  s.classList.remove("show"); s.textContent = "";
+}
+
+function showAccErr(msg){
+  const e = document.getElementById("accSettingsError");
+  e.textContent = msg; e.classList.add("show");
+  const s = document.getElementById("accSettingsSuccess");
+  s.classList.remove("show");
+}
+
+function showAccSuccess(msg){
+  const s = document.getElementById("accSettingsSuccess");
+  s.textContent = msg; s.classList.add("show");
+  const e = document.getElementById("accSettingsError");
+  e.classList.remove("show");
+}
+
+/* ── Change username ── */
+async function doChangeUsername(){
+  const newName = document.getElementById("newUsername").value.trim();
+  const btn     = document.getElementById("accSettingsSubmit");
+  clearAccState();
+
+  if(!newName){ showAccErr("Bitte einen Username eingeben."); return; }
+  if(newName.length < 3){ showAccErr("Username muss mindestens 3 Zeichen haben."); return; }
+
+  btn.disabled = true;
+  btn.classList.add("loading");
+
+  try {
+    await auth.currentUser.updateProfile({ displayName: newName });
+    showAccSuccess("✓ Username erfolgreich geändert!");
+    document.getElementById("userUsername").textContent     = newName;
+    document.getElementById("dropdownUsername").textContent = newName;
+    document.getElementById("userAvatar").innerHTML !== "" &&
+      (document.getElementById("userAvatar").textContent = newName.charAt(0).toUpperCase());
+    setTimeout(closeAccSettings, 1600);
+  } catch(err){
+    showAccErr("Fehler beim Speichern. Bitte versuche es erneut.");
+  } finally {
+    btn.disabled = false;
+    btn.classList.remove("loading");
+  }
+}
+
+/* ── Escape closes any open modal ── */
+document.addEventListener("keydown", e => {
+  if(e.key !== "Escape") return;
+  closeAuth();
+  closeAccSettings();
+  closeSizeErr();
+});
+
+/* ── Tabs ── */
+function switchTab(tab){
+  const isLogin = tab === "login";
+  document.getElementById("tabLogin").classList.toggle("active", isLogin);
+  document.getElementById("tabRegister").classList.toggle("active", !isLogin);
+  document.getElementById("loginForm").style.display    = isLogin ? "" : "none";
+  document.getElementById("registerForm").style.display = isLogin ? "none" : "";
+  clearErrors();
+}
+
+function clearErrors(){
+  ["loginError","registerError"].forEach(id => {
+    const el = document.getElementById(id);
+    el.classList.remove("show"); el.textContent = "";
+  });
+}
+
+/* ── Password toggle ── */
+function togglePw(inputId, btn){
+  const inp = document.getElementById(inputId);
+  const isText = inp.type === "text";
+  inp.type = isText ? "password" : "text";
+  btn.style.color = isText ? "" : "var(--accent)";
+}
+
+/* ── Firebase error messages (DE) ── */
+function firebaseErrDE(code){
+  const map = {
+    "auth/invalid-email":          "Ungültige E-Mail-Adresse.",
+    "auth/user-not-found":         "Kein Konto mit dieser E-Mail gefunden.",
+    "auth/wrong-password":         "Falsches Passwort.",
+    "auth/email-already-in-use":   "Diese E-Mail wird bereits verwendet.",
+    "auth/weak-password":          "Passwort muss mindestens 6 Zeichen haben.",
+    "auth/too-many-requests":      "Zu viele Versuche. Bitte später versuchen.",
+    "auth/network-request-failed": "Netzwerkfehler. Bitte Verbindung prüfen.",
+    "auth/invalid-credential":     "E-Mail oder Passwort falsch.",
+    "auth/user-disabled":          "Dieses Konto wurde deaktiviert. Bitte kontaktiere den Support.",
+  };
+  return map[code] || "Ein Fehler ist aufgetreten. Bitte versuche es erneut.";
+}
+
+function showErr(id, msg){
+  const el = document.getElementById(id);
+  el.textContent = msg; el.classList.add("show");
+}
+
+/* ── Login ── */
+async function doLogin(){
+  clearErrors();
+  const email = document.getElementById("loginEmail").value.trim();
+  const pw    = document.getElementById("loginPw").value;
+  const btn   = document.getElementById("loginSubmit");
+
+  if(!email || !pw){ showErr("loginError", "Bitte E-Mail und Passwort eingeben."); return; }
+
+  btn.disabled = true; btn.classList.add("loading");
+  try {
+    await auth.setPersistence(getPersistence());
+    await auth.signInWithEmailAndPassword(email, pw);
+    closeAuth();
+  } catch(err){
+    showErr("loginError", firebaseErrDE(err.code));
+  } finally {
+    btn.disabled = false; btn.classList.remove("loading");
+  }
+}
+
+/* ── Register ── */
+async function doRegister(){
+  clearErrors();
+  const username = document.getElementById("regUsername").value.trim();
+  const email    = document.getElementById("regEmail").value.trim();
+  const pw       = document.getElementById("regPw").value;
+  const pw2      = document.getElementById("regPw2").value;
+  const btn      = document.getElementById("regSubmit");
+
+  if(!username || !email || !pw || !pw2){ showErr("registerError","Bitte alle Felder ausfüllen."); return; }
+  if(username.length < 3){ showErr("registerError","Username muss mindestens 3 Zeichen haben."); return; }
+  if(pw !== pw2){ showErr("registerError","Passwörter stimmen nicht überein."); return; }
+  if(pw.length < 6){ showErr("registerError","Passwort muss mindestens 6 Zeichen haben."); return; }
+
+  btn.disabled = true; btn.classList.add("loading");
+  try {
+    await auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
+    const cred = await auth.createUserWithEmailAndPassword(email, pw);
+    await cred.user.updateProfile({ displayName: username });
+    document.getElementById("registerFields").style.display = "none";
+    document.getElementById("registerSuccess").classList.add("show");
+    setTimeout(closeAuth, 2200);
+  } catch(err){
+    showErr("registerError", firebaseErrDE(err.code));
+    btn.disabled = false; btn.classList.remove("loading");
+  }
+}
+
+/* ── Enter key ── */
+document.addEventListener("keydown", e => {
+  if(e.key !== "Enter") return;
+  if(document.getElementById("accSettingsOverlay").classList.contains("visible")){ doChangeUsername(); return; }
+  const overlay = document.getElementById("authOverlay");
+  if(!overlay.classList.contains("visible")) return;
+  const loginVisible = document.getElementById("loginForm").style.display !== "none";
+  if(loginVisible) doLogin(); else doRegister();
+});
+
+/* ── Auth state ── */
+auth.onAuthStateChanged(user => {
+  if(user){
+    showUserPill(user);
+  } else {
+    showLoginBtn();
+  }
+});
+
+function getDisplayName(user){
+  return user.displayName || user.email.split("@")[0];
+}
+
+function showUserPill(user){
+  document.getElementById("loginBtn").style.display = "none";
+  const pill = document.getElementById("userPill");
+  pill.style.display = "flex";
+
+  const name = getDisplayName(user);
+  document.getElementById("userUsername").textContent    = name;
+  document.getElementById("dropdownUsername").textContent = name;
+  document.getElementById("dropdownEmail").textContent   = user.email;
+  document.getElementById("userAvatar").textContent      = name.charAt(0).toUpperCase();
+
+  /* reset email blur on each login */
+  document.getElementById("dropdownEmail").classList.add("blurred");
+}
+
+function showLoginBtn(){
+  document.getElementById("loginBtn").style.display = "";
+  document.getElementById("userPill").style.display = "none";
+  document.getElementById("userDropdown").classList.remove("visible");
+  document.getElementById("userPill").classList.remove("open");
+}
+
+/* ── Blurred email toggle ── */
+function toggleEmailBlur(e){
+  e.stopPropagation();
+  document.getElementById("dropdownEmail").classList.toggle("blurred");
+}
+
+/* ── Dropdown ── */
+function toggleDropdown(){
+  const pill = document.getElementById("userPill");
+  const dd   = document.getElementById("userDropdown");
+  const open = dd.classList.toggle("visible");
+  pill.classList.toggle("open", open);
+}
+
+document.addEventListener("click", e => {
+  const pill = document.getElementById("userPill");
+  if(pill && !pill.contains(e.target)){
+    document.getElementById("userDropdown").classList.remove("visible");
+    pill.classList.remove("open");
+  }
+});
+
+/* ── Sign out ── */
+async function doSignOut(){
+  await auth.signOut();
+}
+
+/* ── Auth modal ── */
+function openAuth(){
+  document.getElementById("authOverlay").classList.add("visible");
+  document.body.style.overflow = "hidden";
+  setTimeout(() => document.getElementById("loginEmail").focus(), 350);
+}
+
+function closeAuth(){
+  document.getElementById("authOverlay").classList.remove("visible");
+  document.body.style.overflow = "";
+}
+
+/* ── Account Settings modal ── */
+function openAccSettings(){
+  /* close dropdown first */
+  document.getElementById("userDropdown").classList.remove("visible");
+  document.getElementById("userPill").classList.remove("open");
+
+  /* prefill with current username */
+  const user = auth.currentUser;
+  if(user) document.getElementById("newUsername").value = getDisplayName(user);
+
+  /* reset state */
+  const errEl = document.getElementById("accSettingsError");
+  errEl.classList.remove("show"); errEl.textContent = "";
+  document.getElementById("accSettingsSuccess").classList.remove("show");
+
+  document.getElementById("accSettingsOverlay").classList.add("visible");
+  document.body.style.overflow = "hidden";
+  setTimeout(() => document.getElementById("newUsername").focus(), 320);
+}
+
+function closeAccSettings(){
+  document.getElementById("accSettingsOverlay").classList.remove("visible");
+  document.body.style.overflow = "";
+}
+
+/* ── Change username ── */
+async function doChangeUsername(){
+  const newName = document.getElementById("newUsername").value.trim();
+  const btn     = document.getElementById("accSettingsSubmit");
+  const errEl   = document.getElementById("accSettingsError");
+  const sucEl   = document.getElementById("accSettingsSuccess");
+
+  errEl.classList.remove("show"); errEl.textContent = "";
+  sucEl.classList.remove("show");
+
+  if(!newName){
+    errEl.textContent = "Bitte einen Username eingeben.";
+    errEl.classList.add("show");
+    return;
+  }
+  if(newName.length < 3){
+    errEl.textContent = "Username muss mindestens 3 Zeichen haben.";
+    errEl.classList.add("show");
+    return;
+  }
+
+  btn.disabled = true;
+  btn.classList.add("loading");
+
+  try {
+    await auth.currentUser.updateProfile({ displayName: newName });
+    sucEl.classList.add("show");
+    /* update pill live */
+    document.getElementById("userUsername").textContent     = newName;
+    document.getElementById("dropdownUsername").textContent = newName;
+    document.getElementById("userAvatar").textContent       = newName.charAt(0).toUpperCase();
+    setTimeout(closeAccSettings, 1600);
+  } catch(err){
+    errEl.textContent = "Fehler beim Speichern. Bitte versuche es erneut.";
+    errEl.classList.add("show");
+  } finally {
+    btn.disabled = false;
+    btn.classList.remove("loading");
+  }
+}
+
+/* ── Escape closes any open modal ── */
+document.addEventListener("keydown", e => {
+  if(e.key !== "Escape") return;
+  closeAuth();
+  closeAccSettings();
+});
+
+/* ── Tabs ── */
+function switchTab(tab){
+  const isLogin = tab === "login";
+  document.getElementById("tabLogin").classList.toggle("active", isLogin);
+  document.getElementById("tabRegister").classList.toggle("active", !isLogin);
+  document.getElementById("loginForm").style.display    = isLogin ? "" : "none";
+  document.getElementById("registerForm").style.display = isLogin ? "none" : "";
+  clearErrors();
+}
+
+function clearErrors(){
+  ["loginError","registerError"].forEach(id => {
+    const el = document.getElementById(id);
+    el.classList.remove("show");
+    el.textContent = "";
+  });
+}
+
+/* ── Password toggle ── */
+function togglePw(inputId, btn){
+  const inp = document.getElementById(inputId);
+  const isText = inp.type === "text";
+  inp.type = isText ? "password" : "text";
+  btn.style.color = isText ? "" : "var(--accent)";
+}
+
+/* ── Error messages (DE) ── */
+function firebaseErrDE(code){
+  const map = {
+    "auth/invalid-email":          "Ungültige E-Mail-Adresse.",
+    "auth/user-not-found":         "Kein Konto mit dieser E-Mail gefunden.",
+    "auth/wrong-password":         "Falsches Passwort.",
+    "auth/email-already-in-use":   "Diese E-Mail wird bereits verwendet.",
+    "auth/weak-password":          "Passwort muss mindestens 6 Zeichen haben.",
+    "auth/too-many-requests":      "Zu viele Versuche. Bitte später versuchen.",
+    "auth/network-request-failed": "Netzwerkfehler. Bitte Verbindung prüfen.",
+    "auth/invalid-credential":     "E-Mail oder Passwort falsch.",
+    "auth/user-disabled":          "Dieses Konto wurde deaktiviert. Bitte kontaktiere den Support.",
+  };
+  return map[code] || "Ein Fehler ist aufgetreten. Bitte versuche es erneut.";
+}
+
+function showErr(id, msg){
+  const el = document.getElementById(id);
+  el.textContent = msg;
+  el.classList.add("show");
+}
+
+/* ── Login ── */
+async function doLogin(){
+  clearErrors();
+  const email = document.getElementById("loginEmail").value.trim();
+  const pw    = document.getElementById("loginPw").value;
+  const btn   = document.getElementById("loginSubmit");
+
+  if(!email || !pw){
+    showErr("loginError", "Bitte E-Mail und Passwort eingeben.");
+    return;
+  }
+
+  btn.disabled = true;
+  btn.classList.add("loading");
+
+  try {
+    await auth.setPersistence(getPersistence());
+    await auth.signInWithEmailAndPassword(email, pw);
+    closeAuth();
+  } catch(err){
+    showErr("loginError", firebaseErrDE(err.code));
+  } finally {
+    btn.disabled = false;
+    btn.classList.remove("loading");
+  }
+}
+
+/* ── Register ── */
+async function doRegister(){
+  clearErrors();
+  const username = document.getElementById("regUsername").value.trim();
+  const email    = document.getElementById("regEmail").value.trim();
+  const pw       = document.getElementById("regPw").value;
+  const pw2      = document.getElementById("regPw2").value;
+  const btn      = document.getElementById("regSubmit");
+
+  if(!username || !email || !pw || !pw2){
+    showErr("registerError", "Bitte alle Felder ausfüllen.");
+    return;
+  }
+  if(username.length < 3){
+    showErr("registerError", "Username muss mindestens 3 Zeichen haben.");
+    return;
+  }
+  if(pw !== pw2){
+    showErr("registerError", "Passwörter stimmen nicht überein.");
+    return;
+  }
+  if(pw.length < 6){
+    showErr("registerError", "Passwort muss mindestens 6 Zeichen haben.");
+    return;
+  }
+
+  btn.disabled = true;
+  btn.classList.add("loading");
+
+  try {
+    await auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
+    const cred = await auth.createUserWithEmailAndPassword(email, pw);
+    await cred.user.updateProfile({ displayName: username });
+
+    document.getElementById("registerFields").style.display = "none";
+    document.getElementById("registerSuccess").classList.add("show");
+    setTimeout(closeAuth, 2200);
+  } catch(err){
+    showErr("registerError", firebaseErrDE(err.code));
+    btn.disabled = false;
+    btn.classList.remove("loading");
+  }
+}
+
+/* ── Enter key to submit ── */
+document.addEventListener("keydown", e => {
+  if(e.key !== "Enter") return;
+
+  if(document.getElementById("accSettingsOverlay").classList.contains("visible")){
+    doChangeUsername();
+    return;
+  }
+
+  const overlay = document.getElementById("authOverlay");
+  if(!overlay.classList.contains("visible")) return;
+  const loginVisible = document.getElementById("loginForm").style.display !== "none";
+  if(loginVisible) doLogin();
+  else doRegister();
+});
+</script>
+<script>
+(function () {
+  const STORAGE_KEY = "ph_hide_ads";
+
+  const toggle = document.getElementById("adToggle");
+
+  function applyAdState(hidden) {
+    const ads = document.querySelectorAll(".ph-inline-ad");
+
+    ads.forEach(el => {
+      if (hidden) {
+        el.remove(); // komplett löschen
+      } else {
+        el.style.display = ""; // falls wieder sichtbar gemacht wird
+      }
+    });
+  }
+
+  // Initial state (Standard: AUS = false)
+  const saved = localStorage.getItem(STORAGE_KEY);
+  const isHidden = saved === "true";
+
+  // Toggle UI setzen
+  if (toggle) toggle.checked = isHidden;
+
+  // Direkt anwenden beim Laden
+  if (isHidden) applyAdState(true);
+
+  // Listener
+  if (toggle) {
+    toggle.addEventListener("change", () => {
+      const state = toggle.checked;
+
+      localStorage.setItem(STORAGE_KEY, state);
+
+      if (state) {
+        applyAdState(true);
+      } else {
+        // reload nötig, weil du ja "gelöschte" Elemente sonst nicht zurückbekommst
+        location.reload();
+      }
+    });
+  }
+
+  // Falls Ads nachgeladen werden (optional Safety-Net)
+  const observer = new MutationObserver(() => {
+    const hidden = localStorage.getItem(STORAGE_KEY) === "true";
+    if (hidden) applyAdState(true);
+  });
+
+  observer.observe(document.body, { childList: true, subtree: true });
+})();
+</script>
+
+
+
+</body></html>
