@@ -1,48 +1,28 @@
--- FIRECRAFT BROWSER (Optimiert & Bereinigt)
+-- FIRECRAFT BROWSER (Echter HTTP & URL-Modus)
 -- CC:Tweaked
 
 local W, H = term.getSize()
 
 --------------------------------------------------
--- SETTINGS
+-- SETTINGS & STATE
 --------------------------------------------------
 
 local settings = {
     theme = 1,
-    sounds = true,
-    animations = true
 }
 
 local themes = {
-    {
-        name = "Fire",
-        bg = colors.black,
-        fg = colors.white,
-        accent = colors.orange,
-        header = colors.red,
-        button = colors.gray,
-        selected = colors.orange
-    },
-    {
-        name = "Ocean",
-        bg = colors.black,
-        fg = colors.white,
-        accent = colors.cyan,
-        header = colors.blue,
-        button = colors.gray,
-        selected = colors.cyan
-    }
+    { name = "Fire", bg = colors.black, fg = colors.white, accent = colors.orange, header = colors.red, button = colors.gray, selected = colors.orange },
+    { name = "Ocean", bg = colors.black, fg = colors.white, accent = colors.cyan, header = colors.blue, button = colors.gray, selected = colors.cyan }
 }
-
---------------------------------------------------
--- STATE
---------------------------------------------------
 
 local currentURL = "firecraft://newtab"
 local history = {}
-local historyIndex = 0
 local buttons = {}
 local selectedButton = 1
+
+-- Speichert den Rohtext oder geparsten Inhalt von echten Webseiten
+local pageContent = {}
 
 --------------------------------------------------
 -- HELPERS
@@ -66,9 +46,7 @@ local function line(y, color)
 end
 
 local function center(y, text, color)
-    if #text > W then
-        text = text:sub(1, W)
-    end
+    if #text > W then text = text:sub(1, W) end
     local x = math.floor((W - #text) / 2) + 1
     if x < 1 then x = 1 end
     term.setCursorPos(x, y)
@@ -84,7 +62,7 @@ local function drawHeader()
     line(1, T().header)
     term.setTextColor(colors.white)
     term.setCursorPos(2, 1)
-    write("FIRECRAFT BROWSER")
+    write("FIRECRAFT WEB")
 end
 
 local function drawAddress()
@@ -114,6 +92,7 @@ end
 
 local function drawButtons(y)
     for i, b in ipairs(buttons) do
+        if y >= H - 1 then break end
         local selected = (i == selectedButton)
         local prefix = selected and "> " or "  "
         local content = prefix .. "[ " .. b.text .. " ]"
@@ -141,17 +120,16 @@ local function drawFooter()
     line(H, colors.gray)
     term.setTextColor(colors.white)
     term.setCursorPos(2, H)
-    write("UP/DOWN: Select | ENTER: Open | Q: Quit")
+    write("UP/DN: Select | ENTER: Open | L: Type URL | Q: Quit")
 end
 
 --------------------------------------------------
--- NAVIGATION
+-- NAVIGATION & HTTP LOADER
 --------------------------------------------------
 
 local function navigate(url)
     if url == currentURL then return end
     table.insert(history, currentURL)
-    historyIndex = #history
     currentURL = url
     selectedButton = 1
 end
@@ -164,6 +142,88 @@ local function back()
     end
 end
 
+-- Holt echte Webseiten-Daten über HTTP
+local function fetchWebPage(url)
+    clearButtons()
+    clear()
+    drawHeader()
+    drawAddress()
+
+    center(5, "Lade Webseite...", T().accent)
+    term.setCursorPos(3, 7)
+    term.setTextColor(colors.lightGray)
+    write("Verbinde mit: " .. url)
+
+    -- HTTP-Anfrage an die echte URL senden
+    local ok, response = pcall(http.get, url)
+
+    if ok and response then
+        local html = response.readAll()
+        response.close()
+
+        clear()
+        drawHeader()
+        drawAddress()
+
+        term.setCursorPos(3, 5)
+        term.setTextColor(T().accent)
+        write("Verbunden: " .. url)
+
+        -- Einfache Extraktion von Text / Titeln aus dem HTML
+        local y = 7
+        term.setCursorPos(3, y)
+        term.setTextColor(colors.white)
+        write("Seiteninhalt (Text-Modus):")
+        
+        -- Zeige Ausschnitt des rohen Textes bereinigt an
+        y = y + 2
+        for lineText in html:gmatch("[^\r\n]+") do
+            if y < H - 5 and #lineText < W - 4 then
+                term.setCursorPos(3, y)
+                term.setTextColor(colors.lightGray)
+                write(lineText:sub(1, W - 4))
+                y = y + 1
+            end
+        end
+
+        -- Extrahiere gefundene Links (<a href="...">) als interaktive Buttons
+        for link in html:gmatch('href="([^"]+)"') do
+            if link:match("^http") and #buttons < 3 then
+                local btnName = link:sub(1, 25)
+                addButton("Link: " .. btnName, function()
+                    navigate(link)
+                end)
+            end
+        end
+
+    else
+        clear()
+        drawHeader()
+        drawAddress()
+        center(7, "FEHLER: Verbindung fehlgeschlagen!", colors.red)
+        center(9, "Entweder ungültige URL oder HTTP ist")
+        center(10, "in der Server-Config gesperrt.")
+    end
+
+    addButton("Zurück", function() back() end)
+    addButton("Neue URL eingeben", function() 
+        -- Direktes URL-Prompt aufrufen
+        term.setCursorPos(3, H - 2)
+        term.setTextColor(colors.white)
+        write("URL: ")
+        local input = read()
+        if input ~= "" then
+            if not input:match("^https?://") then
+                input = "https://" .. input
+            end
+            navigate(input)
+        end
+    end)
+
+    drawButtons(H - 4)
+    drawFooter()
+end
+
 --------------------------------------------------
 -- PAGES
 --------------------------------------------------
@@ -174,61 +234,28 @@ local function newTab()
     drawHeader()
     drawAddress()
 
-    center(6, "FIRECRAFT START", T().accent)
-    center(8, "Waehle eine Option:")
+    center(6, "FIRECRAFT BROWSER", T().accent)
+    center(8, "Gib eine echte Internet-Adresse ein oder")
+    center(9, "wähle eine Beispiel-Seite:")
 
-    addButton("Suche starten", function()
-        clear()
-        drawHeader()
-        term.setCursorPos(3, 6)
+    addButton("URL frei eingeben (Taste L)", function()
+        term.setCursorPos(3, 12)
         term.setTextColor(colors.white)
-        write("Suchbegriff: ")
-        local query = read()
-        if query ~= "" then
-            navigate("firecraft://search/" .. query)
+        write("Ziel-URL: https://")
+        local url = read()
+        if url ~= "" then
+            navigate("https://" .. url)
         end
     end)
 
-    addButton("Roblox (Interaktiv)", function()
-        navigate("firecraft://site/Roblox")
-    end)
-
-    addButton("Wikipedia (Offline-Modus)", function()
-        navigate("firecraft://site/Wikipedia")
+    addButton("Beispiel: example.com", function()
+        navigate("https://example.com")
     end)
 
     addButton("Einstellungen", function()
         navigate("firecraft://settings")
     end)
 
-    drawButtons(11)
-    drawFooter()
-end
-
-local function sitePage(name)
-    clearButton = {}
-    clear()
-    drawHeader()
-    drawAddress()
-
-    center(5, name:upper(), T().accent)
-    
-    if name == "Roblox" then
-        center(7, "--- ROBLOX HUB ---")
-        center(9, "Wilkommen bei Roblox in CC:Tweaked!")
-        
-        addButton("Spiele-Liste anzeigen", function()
-            print("Lade Spiele...")
-            os.sleep(1)
-        end)
-    elseif name == "Wikipedia" then
-        center(7, "--- WIKIPEDIA ---")
-        center(9, "Die freie Enzyklopaedie (Text-Modus).")
-    else
-        center(7, "Webseite nicht verfuegbar.")
-    end
-
-    addButton("Zurueck", function() back() end)
     drawButtons(13)
     drawFooter()
 end
@@ -245,7 +272,7 @@ local function settingsPage()
         settings.theme = settings.theme % #themes + 1
     end)
 
-    addButton("Zurueck zum Start", function()
+    addButton("Zurück zum Start", function()
         navigate("firecraft://newtab")
     end)
 
@@ -262,9 +289,8 @@ local function render()
         newTab()
     elseif currentURL == "firecraft://settings" then
         settingsPage()
-    elseif currentURL:match("^firecraft://site/(.*)") then
-        local name = currentURL:match("^firecraft://site/(.*)")
-        sitePage(name)
+    elseif currentURL:match("^https?://") then
+        fetchWebPage(currentURL)
     else
         newTab()
     end
@@ -295,6 +321,21 @@ while true do
         local button = buttons[selectedButton]
         if button and button.action then
             button.action()
+            render()
+        end
+    elseif key == keys.l then
+        -- Schnelltaste 'L' zum direkten Eintippen einer URL
+        clear()
+        drawHeader()
+        term.setCursorPos(3, 6)
+        term.setTextColor(colors.white)
+        write("Ganze URL eingeben: ")
+        local customUrl = read()
+        if customUrl ~= "" then
+            if not customUrl:match("^https?://") then
+                customUrl = "https://" .. customUrl
+            end
+            navigate(customUrl)
             render()
         end
     elseif key == keys.q then
