@@ -2,8 +2,8 @@
     FIRECRAFT
     Offline fictional web browser for CC:Tweaked
 
-    No real websites.
-    No HTTP.
+    No real Internet.
+    No HTTP requests.
     Everything is built into this program.
 ]]
 
@@ -29,6 +29,7 @@ local themes = {
         button = colors.gray,
         selected = colors.orange
     },
+
     {
         name = "Ocean",
         bg = colors.black,
@@ -38,6 +39,7 @@ local themes = {
         button = colors.gray,
         selected = colors.cyan
     },
+
     {
         name = "Purple",
         bg = colors.black,
@@ -47,6 +49,7 @@ local themes = {
         button = colors.gray,
         selected = colors.purple
     },
+
     {
         name = "Green",
         bg = colors.black,
@@ -71,12 +74,16 @@ local buttons = {}
 local selectedButton = 1
 
 --------------------------------------------------
--- HELPERS
+-- THEME
 --------------------------------------------------
 
 local function getTheme()
     return themes[settings.theme]
 end
+
+--------------------------------------------------
+-- SCREEN
+--------------------------------------------------
 
 local function clear()
     term.setBackgroundColor(getTheme().bg)
@@ -98,14 +105,12 @@ local function center(y, text, color)
 
     local x = math.floor((W - #text) / 2) + 1
 
-    term.setCursorPos(x, y)
-
-    if color then
-        term.setTextColor(color)
-    else
-        term.setTextColor(getTheme().fg)
+    if x < 1 then
+        x = 1
     end
 
+    term.setCursorPos(x, y)
+    term.setTextColor(color or getTheme().fg)
     write(text)
 end
 
@@ -117,13 +122,16 @@ local function drawHeader()
     fillLine(1, getTheme().header)
 
     term.setTextColor(colors.white)
+
     term.setCursorPos(2, 1)
     write("FIRECRAFT")
 
     local status = "OFFLINE"
 
-    term.setCursorPos(W - #status - 1, 1)
-    write(status)
+    if W > #status + 4 then
+        term.setCursorPos(W - #status - 1, 1)
+        write(status)
+    end
 
     term.setBackgroundColor(getTheme().bg)
 end
@@ -133,18 +141,26 @@ end
 --------------------------------------------------
 
 local function drawAddress()
+    local text = "http://" .. currentPage
+    local width = W - 4
+
+    if #text > width then
+        text = text:sub(1, width)
+    end
+
     term.setBackgroundColor(colors.gray)
     term.setTextColor(colors.white)
 
     term.setCursorPos(2, 3)
+    write("[ " .. text)
 
-    local text = "[ http://" .. currentPage .. " ]"
+    local used = #text + 4
 
-    if #text > W - 2 then
-        text = text:sub(1, W - 2)
+    if used < W - 1 then
+        write(string.rep(" ", W - 1 - used))
     end
 
-    write(text)
+    write("]")
 
     term.setBackgroundColor(getTheme().bg)
 end
@@ -155,7 +171,6 @@ end
 
 local function clearButtons()
     buttons = {}
-    selectedButton = 1
 end
 
 local function addButton(text, action)
@@ -166,7 +181,14 @@ local function addButton(text, action)
 end
 
 local function drawButton(y, text, selected)
-    local prefix = selected and "> " or "  "
+    local prefix
+
+    if selected then
+        prefix = "> "
+    else
+        prefix = "  "
+    end
+
     local content = prefix .. "[ " .. text .. " ]"
 
     if #content > W - 4 then
@@ -183,9 +205,14 @@ local function drawButton(y, text, selected)
         term.setTextColor(colors.white)
     end
 
-    write(string.rep(" ", W - 5))
-    term.setCursorPos(3, y)
-    write(content)
+    local empty = W - 5
+
+    if #content < empty then
+        write(content)
+        write(string.rep(" ", empty - #content))
+    else
+        write(content)
+    end
 
     term.setBackgroundColor(getTheme().bg)
 end
@@ -193,8 +220,8 @@ end
 local function drawButtons(startY)
     local y = startY
 
-    for i, button in ipairs(buttons) do
-        drawButton(y, button.text, i == selectedButton)
+    for i, b in ipairs(buttons) do
+        drawButton(y, b.text, i == selectedButton)
         y = y + 2
     end
 end
@@ -204,16 +231,23 @@ end
 --------------------------------------------------
 
 local function drawFooter()
+    if H < 2 then
+        return
+    end
+
     fillLine(H, colors.gray)
 
     term.setTextColor(colors.white)
 
     term.setCursorPos(2, H)
-    write("UP/DOWN Select")
+    write("UP/DOWN: Select")
 
-    local enter = "ENTER Open"
-    term.setCursorPos(W - #enter - 1, H)
-    write(enter)
+    local text = "ENTER: Open"
+
+    if W > #text + 20 then
+        term.setCursorPos(W - #text - 1, H)
+        write(text)
+    end
 end
 
 --------------------------------------------------
@@ -221,31 +255,37 @@ end
 --------------------------------------------------
 
 local function navigate(page)
-    if page ~= currentPage then
-
-        if historyIndex < #history then
-            for i = #history, historyIndex + 1, -1 do
-                table.remove(history, i)
-            end
-        end
-
-        table.insert(history, currentPage)
-
-        historyIndex = #history
-
-        currentPage = page
+    if page == currentPage then
+        return
     end
+
+    if historyIndex < #history then
+        for i = #history, historyIndex + 1, -1 do
+            table.remove(history, i)
+        end
+    end
+
+    table.insert(history, currentPage)
+
+    historyIndex = #history
+
+    currentPage = page
+
+    -- New page = first button selected
+    selectedButton = 1
 end
 
 local function goBack()
     if historyIndex > 0 then
         currentPage = history[historyIndex]
         historyIndex = historyIndex - 1
+
+        selectedButton = 1
     end
 end
 
 --------------------------------------------------
--- HOME PAGE
+-- HOME
 --------------------------------------------------
 
 local function pageHome()
@@ -256,6 +296,7 @@ local function pageHome()
     drawAddress()
 
     center(6, "FIRECRAFT WEB", getTheme().accent)
+
     center(8, "Welcome to the fictional Internet.")
     center(9, "Everything here is completely offline.")
 
@@ -280,7 +321,7 @@ local function pageHome()
 end
 
 --------------------------------------------------
--- SEARCH PAGE
+-- SEARCH
 --------------------------------------------------
 
 local function pageSearch()
@@ -293,7 +334,7 @@ local function pageSearch()
     center(6, "FIRECRAFT SEARCH", getTheme().accent)
 
     center(8, "Search the fictional FireCraft Web.")
-    center(9, "No real Internet connection is used.")
+    center(9, "There is no real Internet connection.")
 
     addButton("Enter Search", function()
 
@@ -333,9 +374,12 @@ local function pageSearch()
         write("This is a fictional search result.")
 
         term.setCursorPos(3, 15)
-        write("There are no real websites here.")
+        write("No real websites are accessed.")
 
-        sleep(2)
+        term.setCursorPos(3, 17)
+        write("Press any key to return.")
+
+        os.pullEvent("key")
 
         pageSearch()
     end)
@@ -349,7 +393,7 @@ local function pageSearch()
 end
 
 --------------------------------------------------
--- DOCUMENTATION PAGE
+-- DOCUMENTATION
 --------------------------------------------------
 
 local function pageDocs()
@@ -389,8 +433,6 @@ local function pageDocs()
     term.setCursorPos(5, 17)
     write("about.firecraft.org")
 
-    term.setTextColor(colors.white)
-
     addButton("FireCraft Home", function()
         navigate("firecraft.org")
     end)
@@ -400,7 +442,7 @@ local function pageDocs()
 end
 
 --------------------------------------------------
--- ABOUT PAGE
+-- ABOUT
 --------------------------------------------------
 
 local function pageAbout()
@@ -428,7 +470,7 @@ local function pageAbout()
 end
 
 --------------------------------------------------
--- SETTINGS PAGE
+-- SETTINGS
 --------------------------------------------------
 
 local function pageSettings()
@@ -447,6 +489,8 @@ local function pageSettings()
         if settings.theme > #themes then
             settings.theme = 1
         end
+
+        selectedButton = 1
 
         pageSettings()
     end)
@@ -480,7 +524,7 @@ local function pageSettings()
 end
 
 --------------------------------------------------
--- 404 PAGE
+-- 404
 --------------------------------------------------
 
 local function page404()
@@ -506,7 +550,7 @@ local function page404()
 end
 
 --------------------------------------------------
--- RENDER CURRENT PAGE
+-- RENDER
 --------------------------------------------------
 
 local function render()
@@ -528,6 +572,16 @@ local function render()
     else
         page404()
     end
+
+    -- Safety check.
+    -- This makes sure the selected button always exists.
+    if #buttons == 0 then
+        selectedButton = 1
+    elseif selectedButton < 1 then
+        selectedButton = 1
+    elseif selectedButton > #buttons then
+        selectedButton = #buttons
+    end
 end
 
 --------------------------------------------------
@@ -537,14 +591,19 @@ end
 render()
 
 while true do
-    local event, key = os.pullEvent()
+
+    local event, key = os.pullEvent("key")
 
     if event == "key" then
 
+        --------------------------------------------------
         -- UP
+        --------------------------------------------------
+
         if key == keys.up then
 
             if #buttons > 0 then
+
                 selectedButton = selectedButton - 1
 
                 if selectedButton < 1 then
@@ -554,10 +613,14 @@ while true do
                 render()
             end
 
+        --------------------------------------------------
         -- DOWN
+        --------------------------------------------------
+
         elseif key == keys.down then
 
             if #buttons > 0 then
+
                 selectedButton = selectedButton + 1
 
                 if selectedButton > #buttons then
@@ -567,26 +630,33 @@ while true do
                 render()
             end
 
+        --------------------------------------------------
         -- ENTER
+        --------------------------------------------------
+
         elseif key == keys.enter then
 
-            if buttons[selectedButton] then
-                local action = buttons[selectedButton].action
+            local selected = buttons[selectedButton]
 
-                if action then
-                    action()
-                end
-
-                render()
+            if selected and selected.action then
+                selected.action()
             end
 
+            render()
+
+        --------------------------------------------------
         -- BACK
+        --------------------------------------------------
+
         elseif key == keys.b then
 
             goBack()
             render()
 
+        --------------------------------------------------
         -- QUIT
+        --------------------------------------------------
+
         elseif key == keys.q then
 
             clear()
