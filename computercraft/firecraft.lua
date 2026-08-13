@@ -1,10 +1,23 @@
 --[[
-    FireCraft Browser
-    Offline fake web browser for CC:Tweaked
-    No real internet access.
+    FIRECRAFT
+    Offline fictional web browser for CC:Tweaked
+
+    No real websites.
+    No HTTP.
+    Everything is built into this program.
 ]]
 
-local w, h = term.getSize()
+local W, H = term.getSize()
+
+--------------------------------------------------
+-- SETTINGS
+--------------------------------------------------
+
+local settings = {
+    theme = 1,
+    sounds = true,
+    animations = true
+}
 
 local themes = {
     {
@@ -33,140 +46,218 @@ local themes = {
         header = colors.purple,
         button = colors.gray,
         selected = colors.purple
+    },
+    {
+        name = "Green",
+        bg = colors.black,
+        fg = colors.white,
+        accent = colors.lime,
+        header = colors.green,
+        button = colors.gray,
+        selected = colors.lime
     }
 }
 
-local settings = {
-    theme = 1,
-    sounds = true,
-    animations = true
-}
-
-local history = {}
-local historyPos = 0
+--------------------------------------------------
+-- BROWSER STATE
+--------------------------------------------------
 
 local currentPage = "firecraft.org"
-local currentButtons = {}
+
+local history = {}
+local historyIndex = 0
+
+local buttons = {}
 local selectedButton = 1
 
-local function theme()
+--------------------------------------------------
+-- HELPERS
+--------------------------------------------------
+
+local function getTheme()
     return themes[settings.theme]
 end
 
 local function clear()
-    term.setBackgroundColor(theme().bg)
-    term.setTextColor(theme().fg)
+    term.setBackgroundColor(getTheme().bg)
+    term.setTextColor(getTheme().fg)
     term.clear()
     term.setCursorPos(1, 1)
 end
 
+local function fillLine(y, color)
+    term.setBackgroundColor(color)
+    term.setCursorPos(1, y)
+    write(string.rep(" ", W))
+end
+
 local function center(y, text, color)
-    term.setCursorPos(math.max(1, math.floor((w - #text) / 2) + 1), y)
+    if #text > W then
+        text = text:sub(1, W)
+    end
+
+    local x = math.floor((W - #text) / 2) + 1
+
+    term.setCursorPos(x, y)
+
     if color then
         term.setTextColor(color)
+    else
+        term.setTextColor(getTheme().fg)
     end
+
     write(text)
 end
 
-local function line(y, color)
-    term.setBackgroundColor(color or theme().header)
-    term.setCursorPos(1, y)
-    write(string.rep(" ", w))
-end
+--------------------------------------------------
+-- HEADER
+--------------------------------------------------
 
-local function header()
-    term.setBackgroundColor(theme().header)
+local function drawHeader()
+    fillLine(1, getTheme().header)
+
     term.setTextColor(colors.white)
-
-    term.setCursorPos(1, 1)
-    write(string.rep(" ", w))
-
     term.setCursorPos(2, 1)
-    write("🔥 FIRECRAFT")
+    write("FIRECRAFT")
 
-    term.setCursorPos(math.max(1, w - 13), 1)
-    write("OFFLINE WEB")
+    local status = "OFFLINE"
 
-    term.setBackgroundColor(theme().bg)
+    term.setCursorPos(W - #status - 1, 1)
+    write(status)
+
+    term.setBackgroundColor(getTheme().bg)
 end
 
-local function addressBar()
+--------------------------------------------------
+-- ADDRESS BAR
+--------------------------------------------------
+
+local function drawAddress()
     term.setBackgroundColor(colors.gray)
     term.setTextColor(colors.white)
 
     term.setCursorPos(2, 3)
-    write(string.rep(" ", w - 2))
 
-    term.setCursorPos(3, 3)
-    write("🌐 " .. currentPage)
+    local text = "[ http://" .. currentPage .. " ]"
 
-    term.setBackgroundColor(theme().bg)
-end
-
-local function button(y, text, selected)
-    local color = selected and theme().selected or theme().button
-
-    term.setBackgroundColor(color)
-    term.setTextColor(selected and colors.black or colors.white)
-
-    term.setCursorPos(3, y)
-
-    local display = "[ " .. text .. " ]"
-
-    if #display > w - 4 then
-        display = display:sub(1, w - 4)
+    if #text > W - 2 then
+        text = text:sub(1, W - 2)
     end
 
-    write(display)
-    term.setBackgroundColor(theme().bg)
+    write(text)
+
+    term.setBackgroundColor(getTheme().bg)
+end
+
+--------------------------------------------------
+-- BUTTON SYSTEM
+--------------------------------------------------
+
+local function clearButtons()
+    buttons = {}
+    selectedButton = 1
 end
 
 local function addButton(text, action)
-    table.insert(currentButtons, {
+    table.insert(buttons, {
         text = text,
         action = action
     })
 end
 
-local function resetButtons()
-    currentButtons = {}
-    selectedButton = 1
+local function drawButton(y, text, selected)
+    local prefix = selected and "> " or "  "
+    local content = prefix .. "[ " .. text .. " ]"
+
+    if #content > W - 4 then
+        content = content:sub(1, W - 4)
+    end
+
+    term.setCursorPos(3, y)
+
+    if selected then
+        term.setBackgroundColor(getTheme().selected)
+        term.setTextColor(colors.black)
+    else
+        term.setBackgroundColor(getTheme().button)
+        term.setTextColor(colors.white)
+    end
+
+    write(string.rep(" ", W - 5))
+    term.setCursorPos(3, y)
+    write(content)
+
+    term.setBackgroundColor(getTheme().bg)
 end
 
-local function navigate(domain)
-    if domain ~= currentPage then
-        if historyPos < #history then
-            for i = #history, historyPos + 1, -1 do
+local function drawButtons(startY)
+    local y = startY
+
+    for i, button in ipairs(buttons) do
+        drawButton(y, button.text, i == selectedButton)
+        y = y + 2
+    end
+end
+
+--------------------------------------------------
+-- FOOTER
+--------------------------------------------------
+
+local function drawFooter()
+    fillLine(H, colors.gray)
+
+    term.setTextColor(colors.white)
+
+    term.setCursorPos(2, H)
+    write("UP/DOWN Select")
+
+    local enter = "ENTER Open"
+    term.setCursorPos(W - #enter - 1, H)
+    write(enter)
+end
+
+--------------------------------------------------
+-- NAVIGATION
+--------------------------------------------------
+
+local function navigate(page)
+    if page ~= currentPage then
+
+        if historyIndex < #history then
+            for i = #history, historyIndex + 1, -1 do
                 table.remove(history, i)
             end
         end
 
         table.insert(history, currentPage)
-        historyPos = #history
-    end
 
-    currentPage = domain
-end
+        historyIndex = #history
 
-local function back()
-    if #history > 0 and historyPos > 0 then
-        currentPage = history[historyPos]
-        historyPos = historyPos - 1
+        currentPage = page
     end
 end
 
-local function firecraftHome()
+local function goBack()
+    if historyIndex > 0 then
+        currentPage = history[historyIndex]
+        historyIndex = historyIndex - 1
+    end
+end
+
+--------------------------------------------------
+-- HOME PAGE
+--------------------------------------------------
+
+local function pageHome()
+    clearButtons()
+
     clear()
-    header()
-    addressBar()
+    drawHeader()
+    drawAddress()
 
-    term.setTextColor(theme().accent)
-    center(6, "WELCOME TO FIRECRAFT")
-
-    term.setTextColor(colors.white)
-    center(8, "The completely fake internet.")
-
-    center(9, "100% offline. 0% real websites.")
+    center(6, "FIRECRAFT WEB", getTheme().accent)
+    center(8, "Welcome to the fictional Internet.")
+    center(9, "Everything here is completely offline.")
 
     addButton("Search the FireCraft Web", function()
         navigate("search.firecraft.org")
@@ -176,7 +267,7 @@ local function firecraftHome()
         navigate("settings.firecraft.org")
     end)
 
-    addButton("FireCraft Docs", function()
+    addButton("FireCraft Documentation", function()
         navigate("docs.firecraft.org")
     end)
 
@@ -184,258 +275,289 @@ local function firecraftHome()
         navigate("about.firecraft.org")
     end)
 
-    local y = 12
-
-    for i, b in ipairs(currentButtons) do
-        button(y, b.text, i == selectedButton)
-        y = y + 2
-    end
-
-    term.setTextColor(colors.lightGray)
-    center(h - 2, "↑ ↓ auswählen   ENTER öffnen   B zurück")
+    drawButtons(12)
+    drawFooter()
 end
 
-local function searchPage()
+--------------------------------------------------
+-- SEARCH PAGE
+--------------------------------------------------
+
+local function pageSearch()
+    clearButtons()
+
     clear()
-    header()
-    addressBar()
+    drawHeader()
+    drawAddress()
 
-    term.setTextColor(theme().accent)
-    center(6, "FIRECRAFT SEARCH")
+    center(6, "FIRECRAFT SEARCH", getTheme().accent)
 
-    term.setTextColor(colors.white)
-    center(8, "Search the fictional FireCraft Web")
+    center(8, "Search the fictional FireCraft Web.")
+    center(9, "No real Internet connection is used.")
 
-    addButton("Search for something", function()
-        term.clear()
-        term.setCursorPos(3, 7)
+    addButton("Enter Search", function()
+
+        clear()
+
+        drawHeader()
+
+        term.setCursorPos(3, 6)
         term.setTextColor(colors.white)
 
-        write("Search: ")
+        write("Search query: ")
+
         local query = read()
 
-        navigate("search.firecraft.org")
-        searchPage()
+        clear()
+        drawHeader()
+        drawAddress()
+
+        center(6, "SEARCH RESULTS", getTheme().accent)
+
+        term.setCursorPos(3, 8)
+        term.setTextColor(colors.white)
+
+        write("Results for: " .. query)
+
+        term.setCursorPos(3, 10)
+        write("--------------------------------")
 
         term.setCursorPos(3, 12)
-        term.setTextColor(theme().accent)
-        write("Results for: " .. query)
+        term.setTextColor(getTheme().accent)
+
+        write("[ FireCraft Web ]")
 
         term.setCursorPos(3, 14)
         term.setTextColor(colors.white)
-        write("No real results found.")
+
+        write("This is a fictional search result.")
 
         term.setCursorPos(3, 15)
-        write("This is the FireCraft offline web.")
+        write("There are no real websites here.")
+
+        sleep(2)
+
+        pageSearch()
     end)
 
     addButton("FireCraft Home", function()
         navigate("firecraft.org")
     end)
 
-    local y = 11
-
-    for i, b in ipairs(currentButtons) do
-        button(y, b.text, i == selectedButton)
-        y = y + 2
-    end
-
-    term.setTextColor(colors.lightGray)
-    center(h - 2, "↑ ↓ auswählen   ENTER öffnen   B zurück")
+    drawButtons(12)
+    drawFooter()
 end
 
-local function docsPage()
-    clear()
-    header()
-    addressBar()
+--------------------------------------------------
+-- DOCUMENTATION PAGE
+--------------------------------------------------
 
-    term.setTextColor(theme().accent)
-    center(6, "FIRECRAFT DOCUMENTATION")
+local function pageDocs()
+    clearButtons()
+
+    clear()
+    drawHeader()
+    drawAddress()
+
+    center(6, "FIRECRAFT DOCUMENTATION", getTheme().accent)
 
     term.setTextColor(colors.white)
 
     term.setCursorPos(3, 8)
-    write("Welcome to the FireCraft documentation.")
+    write("FireCraft is an offline browser")
 
-    term.setCursorPos(3, 10)
-    write("FireCraft is a fictional offline browser")
+    term.setCursorPos(3, 9)
+    write("created for ComputerCraft.")
 
     term.setCursorPos(3, 11)
-    write("built entirely inside ComputerCraft.")
-
-    term.setCursorPos(3, 13)
     write("Available domains:")
 
-    term.setCursorPos(5, 15)
+    term.setTextColor(getTheme().accent)
+
+    term.setCursorPos(5, 13)
     write("firecraft.org")
 
-    term.setCursorPos(5, 16)
+    term.setCursorPos(5, 14)
     write("search.firecraft.org")
 
-    term.setCursorPos(5, 17)
+    term.setCursorPos(5, 15)
     write("docs.firecraft.org")
 
-    term.setCursorPos(5, 18)
+    term.setCursorPos(5, 16)
     write("settings.firecraft.org")
 
-    term.setCursorPos(5, 19)
+    term.setCursorPos(5, 17)
     write("about.firecraft.org")
+
+    term.setTextColor(colors.white)
 
     addButton("FireCraft Home", function()
         navigate("firecraft.org")
     end)
 
-    button(22, currentButtons[1].text, true)
-
-    term.setTextColor(colors.lightGray)
-    center(h - 2, "ENTER öffnen   B zurück")
+    drawButtons(20)
+    drawFooter()
 end
 
-local function aboutPage()
+--------------------------------------------------
+-- ABOUT PAGE
+--------------------------------------------------
+
+local function pageAbout()
+    clearButtons()
+
     clear()
-    header()
-    addressBar()
+    drawHeader()
+    drawAddress()
 
-    term.setTextColor(theme().accent)
-    center(6, "ABOUT FIRECRAFT")
-
-    term.setTextColor(colors.white)
+    center(6, "ABOUT FIRECRAFT", getTheme().accent)
 
     center(8, "FireCraft Browser")
     center(10, "Version 1.0")
     center(12, "Made for ComputerCraft")
-    center(14, "No real websites.")
-    center(15, "No real internet.")
-    center(17, "Just a tiny fictional web.")
+    center(14, "No real websites")
+    center(15, "No real Internet")
+    center(17, "Just a fictional offline web")
 
     addButton("FireCraft Home", function()
         navigate("firecraft.org")
     end)
 
-    button(20, currentButtons[1].text, true)
-
-    term.setTextColor(colors.lightGray)
-    center(h - 2, "ENTER öffnen   B zurück")
+    drawButtons(20)
+    drawFooter()
 end
 
-local function settingsPage()
+--------------------------------------------------
+-- SETTINGS PAGE
+--------------------------------------------------
+
+local function pageSettings()
+    clearButtons()
+
     clear()
-    header()
-    addressBar()
+    drawHeader()
+    drawAddress()
 
-    term.setTextColor(theme().accent)
-    center(6, "FIRECRAFT SETTINGS")
+    center(6, "FIRECRAFT SETTINGS", getTheme().accent)
 
-    addButton("Theme: " .. theme().name, function()
+    addButton("Theme: " .. getTheme().name, function()
+
         settings.theme = settings.theme + 1
 
         if settings.theme > #themes then
             settings.theme = 1
         end
 
-        settingsPage()
+        pageSettings()
     end)
 
-    addButton("Sounds: " .. (settings.sounds and "ON" or "OFF"), function()
-        settings.sounds = not settings.sounds
-        settingsPage()
-    end)
+    addButton(
+        "Sounds: " .. (settings.sounds and "ON" or "OFF"),
+        function()
 
-    addButton("Animations: " .. (settings.animations and "ON" or "OFF"), function()
-        settings.animations = not settings.animations
-        settingsPage()
-    end)
+            settings.sounds = not settings.sounds
+
+            pageSettings()
+        end
+    )
+
+    addButton(
+        "Animations: " .. (settings.animations and "ON" or "OFF"),
+        function()
+
+            settings.animations = not settings.animations
+
+            pageSettings()
+        end
+    )
 
     addButton("Back to FireCraft", function()
         navigate("firecraft.org")
     end)
 
-    local y = 9
-
-    for i, b in ipairs(currentButtons) do
-        button(y, b.text, i == selectedButton)
-        y = y + 2
-    end
-
-    term.setTextColor(colors.lightGray)
-    center(h - 2, "↑ ↓ auswählen   ENTER ändern   B zurück")
+    drawButtons(10)
+    drawFooter()
 end
 
-local function unknownPage()
+--------------------------------------------------
+-- 404 PAGE
+--------------------------------------------------
+
+local function page404()
+    clearButtons()
+
     clear()
-    header()
-    addressBar()
+    drawHeader()
+    drawAddress()
 
-    term.setTextColor(colors.red)
-    center(7, "404 - DOMAIN NOT FOUND")
+    center(7, "404", colors.red)
 
-    term.setTextColor(colors.white)
-    center(9, "This domain does not exist")
+    center(9, "DOMAIN NOT FOUND")
 
-    center(10, "in the FireCraft Web.")
+    center(11, "This domain does not exist")
+    center(12, "in the FireCraft Web.")
 
     addButton("FireCraft Home", function()
         navigate("firecraft.org")
     end)
 
-    button(13, currentButtons[1].text, true)
-
-    term.setTextColor(colors.lightGray)
-    center(h - 2, "ENTER öffnen   B zurück")
+    drawButtons(15)
+    drawFooter()
 end
+
+--------------------------------------------------
+-- RENDER CURRENT PAGE
+--------------------------------------------------
 
 local function render()
-    resetButtons()
-
     if currentPage == "firecraft.org" then
-        firecraftHome()
+        pageHome()
 
     elseif currentPage == "search.firecraft.org" then
-        searchPage()
+        pageSearch()
 
     elseif currentPage == "docs.firecraft.org" then
-        docsPage()
+        pageDocs()
 
     elseif currentPage == "settings.firecraft.org" then
-        settingsPage()
+        pageSettings()
 
     elseif currentPage == "about.firecraft.org" then
-        aboutPage()
+        pageAbout()
 
     else
-        unknownPage()
+        page404()
     end
 end
 
-local function runButton()
-    local b = currentButtons[selectedButton]
-
-    if b and b.action then
-        b.action()
-    end
-end
+--------------------------------------------------
+-- START
+--------------------------------------------------
 
 render()
 
 while true do
+
     local event, key = os.pullEvent("key")
 
     if key == keys.up then
-        if #currentButtons > 0 then
+
+        if #buttons > 0 then
             selectedButton = selectedButton - 1
 
             if selectedButton < 1 then
-                selectedButton = #currentButtons
+                selectedButton = #buttons
             end
 
             render()
         end
 
     elseif key == keys.down then
-        if #currentButtons > 0 then
+
+        if #buttons > 0 then
             selectedButton = selectedButton + 1
 
-            if selectedButton > #currentButtons then
+            if selectedButton > #buttons then
                 selectedButton = 1
             end
 
@@ -443,16 +565,30 @@ while true do
         end
 
     elseif key == keys.enter then
-        runButton()
-        render()
+
+        if buttons[selectedButton] then
+            buttons[selectedButton].action()
+            render()
+        end
 
     elseif key == keys.b then
-        back()
+
+        goBack()
         render()
 
     elseif key == keys.q then
+
         clear()
-        print("FireCraft closed.")
+
+        term.setTextColor(colors.white)
+
+        center(math.floor(H / 2), "FIRECRAFT CLOSED")
+
+        sleep(1)
+
+        term.clear()
+        term.setCursorPos(1, 1)
+
         break
     end
 end
