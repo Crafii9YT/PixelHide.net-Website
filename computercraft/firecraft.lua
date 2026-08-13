@@ -1,57 +1,9 @@
+--==================================================
 -- FIRECRAFT BROWSER
--- CC:Tweaked
--- ASCII only
+-- Single-file CC:Tweaked browser
+--==================================================
 
 local W, H = term.getSize()
-
---------------------------------------------------
--- SETTINGS
---------------------------------------------------
-
-local settings = {
-    theme = 1,
-    sounds = true,
-    animations = true
-}
-
-local themes = {
-    {
-        name = "Fire",
-        bg = colors.black,
-        fg = colors.white,
-        accent = colors.orange,
-        header = colors.red,
-        button = colors.gray,
-        selected = colors.orange
-    },
-    {
-        name = "Ocean",
-        bg = colors.black,
-        fg = colors.white,
-        accent = colors.cyan,
-        header = colors.blue,
-        button = colors.gray,
-        selected = colors.cyan
-    },
-    {
-        name = "Purple",
-        bg = colors.black,
-        fg = colors.white,
-        accent = colors.purple,
-        header = colors.purple,
-        button = colors.gray,
-        selected = colors.purple
-    },
-    {
-        name = "Green",
-        bg = colors.black,
-        fg = colors.white,
-        accent = colors.lime,
-        header = colors.green,
-        button = colors.gray,
-        selected = colors.lime
-    }
-}
 
 --------------------------------------------------
 -- STATE
@@ -59,588 +11,909 @@ local themes = {
 
 local currentURL = "firecraft://newtab"
 
+local page = {
+    url = currentURL,
+    title = "New Tab",
+    nodes = {}
+}
+
 local history = {}
-local historyIndex = 0
+local historyPos = 0
 
-local buttons = {}
-local selectedButton = 1
+local controls = {}
+local selected = 1
+
+local scroll = 0
+
+local inputValues = {}
 
 --------------------------------------------------
--- HELPERS
+-- COLORS
 --------------------------------------------------
 
-local function T()
-    return themes[settings.theme]
-end
+local COLORS = {
+    background = colors.black,
+    foreground = colors.white,
+    header = colors.blue,
+    address = colors.gray,
+    link = colors.cyan,
+    selected = colors.yellow,
+    muted = colors.lightGray,
+    error = colors.red
+}
+
+--------------------------------------------------
+-- SCREEN
+--------------------------------------------------
 
 local function clear()
-    term.setBackgroundColor(T().bg)
-    term.setTextColor(T().fg)
+    term.setBackgroundColor(COLORS.background)
+    term.setTextColor(COLORS.foreground)
+
     term.clear()
     term.setCursorPos(1, 1)
 end
 
-local function line(y, color)
-    term.setBackgroundColor(color)
-    term.setCursorPos(1, y)
-    write(string.rep(" ", W))
-end
-
-local function center(y, text, color)
-    if #text > W then
-        text = text:sub(1, W)
-    end
-
-    local x = math.floor((W - #text) / 2) + 1
-
-    if x < 1 then
-        x = 1
-    end
-
-    term.setCursorPos(x, y)
-    term.setTextColor(color or T().fg)
-    write(text)
-end
-
 --------------------------------------------------
--- TOP BAR
+-- URL ENCODE
 --------------------------------------------------
 
-local function drawHeader()
-    line(1, T().header)
+local function urlEncode(text)
+    text = tostring(text)
 
-    term.setTextColor(colors.white)
-
-    term.setCursorPos(2, 1)
-    write("FIRECRAFT")
-
-    local controls = "[-] [X]"
-
-    if W > #controls + 15 then
-        term.setCursorPos(W - #controls - 1, 1)
-        write(controls)
-    end
-
-    term.setBackgroundColor(T().bg)
-end
-
---------------------------------------------------
--- ADDRESS BAR
---------------------------------------------------
-
-local function drawAddress()
-    local width = W - 4
-
-    local text = currentURL
-
-    if #text > width - 4 then
-        text = text:sub(1, width - 4)
-    end
-
-    local bar = "[ " .. text .. " ]"
-
-    term.setCursorPos(2, 3)
-
-    term.setBackgroundColor(colors.gray)
-    term.setTextColor(colors.white)
-
-    write(bar)
-
-    if #bar < width then
-        write(string.rep(" ", width - #bar))
-    end
-
-    term.setBackgroundColor(T().bg)
-end
-
---------------------------------------------------
--- BUTTONS
---------------------------------------------------
-
-local function clearButtons()
-    buttons = {}
-end
-
-local function addButton(text, action)
-    table.insert(buttons, {
-        text = text,
-        action = action
-    })
-end
-
-local function drawButton(y, text, selected)
-    local prefix = selected and "> " or "  "
-
-    local content = prefix .. "[ " .. text .. " ]"
-
-    if #content > W - 6 then
-        content = content:sub(1, W - 6)
-    end
-
-    term.setCursorPos(3, y)
-
-    if selected then
-        term.setBackgroundColor(T().selected)
-        term.setTextColor(colors.black)
-    else
-        term.setBackgroundColor(T().button)
-        term.setTextColor(colors.white)
-    end
-
-    write(content)
-
-    local remaining = W - 5 - #content
-
-    if remaining > 0 then
-        write(string.rep(" ", remaining))
-    end
-
-    term.setBackgroundColor(T().bg)
-end
-
-local function drawButtons(y)
-    for i, b in ipairs(buttons) do
-        drawButton(y, b.text, i == selectedButton)
-        y = y + 2
-    end
-end
-
---------------------------------------------------
--- FOOTER
---------------------------------------------------
-
-local function drawFooter()
-    line(H, colors.gray)
-
-    term.setTextColor(colors.white)
-
-    term.setCursorPos(2, H)
-    write("UP/DOWN  Select")
-
-    local text = "ENTER  Open"
-
-    if W > #text + 20 then
-        term.setCursorPos(W - #text - 1, H)
-        write(text)
-    end
-end
-
---------------------------------------------------
--- NAVIGATION
---------------------------------------------------
-
-local function navigate(url)
-    if url == currentURL then
-        return
-    end
-
-    if historyIndex < #history then
-        for i = #history, historyIndex + 1, -1 do
-            table.remove(history, i)
-        end
-    end
-
-    table.insert(history, currentURL)
-
-    historyIndex = #history
-
-    currentURL = url
-    selectedButton = 1
-end
-
-local function back()
-    if historyIndex > 0 then
-        currentURL = history[historyIndex]
-        historyIndex = historyIndex - 1
-        selectedButton = 1
-    end
-end
-
---------------------------------------------------
--- SEARCH DATA
---------------------------------------------------
-
-local sites = {
-    {
-        name = "Minecraft",
-        url = "https://www.minecraft.net",
-        description = "Official Minecraft website."
-    },
-
-    {
-        name = "YouTube",
-        url = "https://www.youtube.com",
-        description = "Videos, channels and live streams."
-    },
-
-    {
-        name = "Wikipedia",
-        url = "https://www.wikipedia.org",
-        description = "The free encyclopedia."
-    },
-
-    {
-        name = "GitHub",
-        url = "https://github.com",
-        description = "Development and code hosting."
-    },
-
-    {
-        name = "Roblox",
-        url = "https://www.roblox.com",
-        description = "Online games and experiences."
-    },
-
-    {
-        name = "Mozilla Firefox",
-        url = "https://www.mozilla.org/firefox",
-        description = "Firefox web browser."
-    },
-
-    {
-        name = "Google",
-        url = "https://www.google.com",
-        description = "Search and online services."
-    },
-
-    {
-        name = "Microsoft",
-        url = "https://www.microsoft.com",
-        description = "Technology and software."
-    }
-}
-
---------------------------------------------------
--- URL ENCODING
---------------------------------------------------
-
-local function encode(text)
+    text = text:gsub("%%", "%%25")
     text = text:gsub(" ", "%%20")
-    text = text:gsub("?", "%%3F")
+    text = text:gsub("\n", "%%0A")
     text = text:gsub("&", "%%26")
+    text = text:gsub("?", "%%3F")
     text = text:gsub("=", "%%3D")
+    text = text:gsub("#", "%%23")
+
     return text
 end
 
-local function decode(text)
+--------------------------------------------------
+-- URL DECODE
+--------------------------------------------------
+
+local function urlDecode(text)
     text = text:gsub("%%20", " ")
-    text = text:gsub("%%3F", "?")
+    text = text:gsub("%%0A", "\n")
     text = text:gsub("%%26", "&")
+    text = text:gsub("%%3F", "?")
     text = text:gsub("%%3D", "=")
+    text = text:gsub("%%23", "#")
+
     return text
 end
 
-local function getQuery()
-    local query = currentURL:match("^http://firecraft%.org/search%?=(.*)$")
+--------------------------------------------------
+-- HTML ENTITIES
+--------------------------------------------------
 
-    if query then
-        return decode(query)
+local function decodeHTML(text)
+
+    text = text:gsub("&nbsp;", " ")
+    text = text:gsub("&amp;", "&")
+    text = text:gsub("&lt;", "<")
+    text = text:gsub("&gt;", ">")
+    text = text:gsub("&quot;", '"')
+    text = text:gsub("&#39;", "'")
+
+    return text
+end
+
+--------------------------------------------------
+-- HTML ATTRIBUTES
+--------------------------------------------------
+
+local function parseAttributes(raw)
+
+    local attrs = {}
+
+    for key, quote, value in raw:gmatch(
+        "([%w_:%-]+)%s*=%s*([\"'])(.-)%2"
+    ) do
+
+        attrs[key:lower()] = value
     end
 
-    return ""
+    return attrs
+end
+
+--------------------------------------------------
+-- HTML PARSER
+--------------------------------------------------
+
+local function parseHTML(html, url)
+
+    local nodes = {}
+
+    --------------------------------------------------
+    -- Remove scripts/styles
+    --------------------------------------------------
+
+    html = html:gsub(
+        "<script.-</script>",
+        ""
+    )
+
+    html = html:gsub(
+        "<style.-</style>",
+        ""
+    )
+
+    html = html:gsub(
+        "<noscript.-</noscript>",
+        ""
+    )
+
+    --------------------------------------------------
+    -- Remove comments
+    --------------------------------------------------
+
+    html = html:gsub(
+        "<!%-%-.-%-%->",
+        ""
+    )
+
+    local pos = 1
+
+    local activeControl = nil
+
+    while true do
+
+        local s, e, closing, tag, raw =
+            html:find(
+                "<%s*(/?)%s*([%w]+)(.-)>",
+                pos
+            )
+
+        if not s then
+
+            local text =
+                html:sub(pos)
+
+            text = decodeHTML(text)
+
+            text =
+                text:gsub("%s+", " ")
+
+            if text:match("%S") then
+
+                text =
+                    text:match("^%s*(.-)%s*$")
+
+                if activeControl then
+
+                    activeControl.text =
+                        activeControl.text
+                        .. text
+
+                else
+
+                    table.insert(
+                        nodes,
+                        {
+                            type = "text",
+                            text = text
+                        }
+                    )
+                end
+            end
+
+            break
+        end
+
+        --------------------------------------------------
+        -- Text before tag
+        --------------------------------------------------
+
+        local text =
+            html:sub(pos, s - 1)
+
+        text = decodeHTML(text)
+        text = text:gsub("%s+", " ")
+
+        if text:match("%S") then
+
+            text =
+                text:match("^%s*(.-)%s*$")
+
+            if activeControl then
+
+                activeControl.text =
+                    activeControl.text
+                    .. text
+
+            else
+
+                table.insert(
+                    nodes,
+                    {
+                        type = "text",
+                        text = text
+                    }
+                )
+            end
+        end
+
+        --------------------------------------------------
+        -- TAG
+        --------------------------------------------------
+
+        local tagName =
+            tag:lower()
+
+        local isClosing =
+            closing == "/"
+
+        if not isClosing then
+
+            local attrs =
+                parseAttributes(raw)
+
+            --------------------------------------------------
+            -- HEADINGS
+            --------------------------------------------------
+
+            if tagName == "h1"
+                or tagName == "h2"
+                or tagName == "h3"
+                or tagName == "h4"
+                or tagName == "h5"
+                or tagName == "h6" then
+
+                table.insert(
+                    nodes,
+                    {
+                        type = "heading",
+                        level =
+                            tonumber(
+                                tagName:sub(2)
+                            ),
+                        text = ""
+                    }
+                )
+
+                activeControl =
+                    nodes[#nodes]
+
+            --------------------------------------------------
+            -- PARAGRAPHS
+            --------------------------------------------------
+
+            elseif tagName == "p"
+                or tagName == "div"
+                or tagName == "section"
+                or tagName == "article"
+                or tagName == "main"
+                or tagName == "header"
+                or tagName == "footer" then
+
+                table.insert(
+                    nodes,
+                    {
+                        type = "break"
+                    }
+                )
+
+                activeControl = nil
+
+            --------------------------------------------------
+            -- LINE BREAK
+            --------------------------------------------------
+
+            elseif tagName == "br" then
+
+                table.insert(
+                    nodes,
+                    {
+                        type = "break"
+                    }
+                )
+
+                activeControl = nil
+
+            --------------------------------------------------
+            -- HORIZONTAL LINE
+            --------------------------------------------------
+
+            elseif tagName == "hr" then
+
+                table.insert(
+                    nodes,
+                    {
+                        type = "line"
+                    }
+                )
+
+                activeControl = nil
+
+            --------------------------------------------------
+            -- LINKS
+            --------------------------------------------------
+
+            elseif tagName == "a" then
+
+                local node = {
+                    type = "link",
+                    href = attrs.href or "#",
+                    text = ""
+                }
+
+                table.insert(
+                    nodes,
+                    node
+                )
+
+                activeControl = node
+
+            --------------------------------------------------
+            -- BUTTON
+            --------------------------------------------------
+
+            elseif tagName == "button" then
+
+                local node = {
+                    type = "button",
+                    text = "",
+                    href =
+                        attrs.formaction
+                        or attrs.href
+                }
+
+                table.insert(
+                    nodes,
+                    node
+                )
+
+                activeControl = node
+
+            --------------------------------------------------
+            -- INPUT
+            --------------------------------------------------
+
+            elseif tagName == "input" then
+
+                local id =
+                    attrs.id
+                    or (
+                        "input_"
+                        .. tostring(#nodes + 1)
+                    )
+
+                table.insert(
+                    nodes,
+                    {
+                        type = "input",
+
+                        id = id,
+
+                        name =
+                            attrs.name
+                            or id,
+
+                        placeholder =
+                            attrs.placeholder
+                            or "",
+
+                        value =
+                            attrs.value
+                            or "",
+
+                        inputType =
+                            attrs.type
+                            or "text",
+
+                        formAction =
+                            attrs.formaction
+                    }
+                )
+
+                activeControl = nil
+
+            --------------------------------------------------
+            -- TEXTAREA
+            --------------------------------------------------
+
+            elseif tagName == "textarea" then
+
+                local id =
+                    attrs.id
+                    or (
+                        "textarea_"
+                        .. tostring(#nodes + 1)
+                    )
+
+                table.insert(
+                    nodes,
+                    {
+                        type = "input",
+
+                        id = id,
+
+                        name =
+                            attrs.name
+                            or id,
+
+                        placeholder =
+                            attrs.placeholder
+                            or "",
+
+                        value = "",
+
+                        inputType =
+                            "textarea"
+                    }
+                )
+
+                activeControl = nil
+
+            --------------------------------------------------
+            -- IMAGE
+            --------------------------------------------------
+
+            elseif tagName == "img" then
+
+                table.insert(
+                    nodes,
+                    {
+                        type = "image",
+
+                        src =
+                            attrs.src
+                            or "",
+
+                        alt =
+                            attrs.alt
+                            or "[image]"
+                    }
+                )
+
+                activeControl = nil
+
+            --------------------------------------------------
+            -- LIST
+            --------------------------------------------------
+
+            elseif tagName == "li" then
+
+                table.insert(
+                    nodes,
+                    {
+                        type = "text",
+                        text = "* "
+                    }
+                )
+
+            end
+
+        else
+
+            --------------------------------------------------
+            -- CLOSE TAG
+            --------------------------------------------------
+
+            if tagName == "a"
+                or tagName == "button"
+                or tagName == "h1"
+                or tagName == "h2"
+                or tagName == "h3"
+                or tagName == "h4"
+                or tagName == "h5"
+                or tagName == "h6" then
+
+                activeControl = nil
+            end
+
+            if tagName == "p"
+                or tagName == "div"
+                or tagName == "section"
+                or tagName == "article"
+                or tagName == "main" then
+
+                table.insert(
+                    nodes,
+                    {
+                        type = "break"
+                    }
+                )
+
+                activeControl = nil
+            end
+        end
+
+        pos = e + 1
+    end
+
+    return {
+        url = url,
+        title = url,
+        nodes = nodes
+    }
+end
+
+--------------------------------------------------
+-- HTTP
+--------------------------------------------------
+
+local function httpGet(url)
+
+    if not http then
+        return nil, "HTTP is disabled"
+    end
+
+    if not url:match("^https?://") then
+        return nil, "Unsupported URL"
+    end
+
+    local ok, response =
+        pcall(
+            http.get,
+            url,
+            {
+                ["User-Agent"] =
+                    "FireCraft/2.0"
+            }
+        )
+
+    if not ok or not response then
+        return nil, "Connection failed"
+    end
+
+    local body =
+        response.readAll()
+
+    local headers = {}
+
+    if response.getResponseHeaders then
+        headers =
+            response.getResponseHeaders()
+    end
+
+    response.close()
+
+    return {
+        body = body,
+        headers = headers
+    }
 end
 
 --------------------------------------------------
 -- NEW TAB
 --------------------------------------------------
 
-local function newTab()
-    clearButtons()
+local function createNewTab()
 
-    clear()
-    drawHeader()
-    drawAddress()
+    return {
+        url = "firecraft://newtab",
 
-    center(6, "FIRECRAFT", T().accent)
+        title = "New Tab",
 
-    center(8, "What are you looking for?")
+        nodes = {
 
-    addButton("Search", function()
+            {
+                type = "heading",
+                text = "FIRECRAFT"
+            },
 
-        clear()
-        drawHeader()
+            {
+                type = "text",
+                text = "Search or enter a web address."
+            },
 
-        term.setCursorPos(3, 6)
-        term.setTextColor(colors.white)
+            {
+                type = "break"
+            },
 
-        write("Search: ")
+            {
+                type = "input",
 
-        local query = read()
+                id = "address",
 
-        if query ~= "" then
-            navigate(
-                "http://firecraft.org/search?="
-                .. encode(query)
-            )
-        end
-    end)
+                name = "address",
 
-    addButton("Settings", function()
-        navigate("firecraft://settings")
-    end)
+                placeholder =
+                    "https://example.com"
+            },
 
-    addButton("About FireCraft", function()
-        navigate("firecraft://about")
-    end)
+            {
+                type = "button",
 
-    drawButtons(11)
-    drawFooter()
-end
+                text = "Go",
 
---------------------------------------------------
--- SEARCH RESULTS
---------------------------------------------------
+                action = "address"
+            },
 
-local function searchPage()
-    clearButtons()
+            {
+                type = "break"
+            },
 
-    local query = getQuery()
+            {
+                type = "link",
 
-    clear()
-    drawHeader()
-    drawAddress()
+                text = "Settings",
 
-    center(5, "SEARCH", T().accent)
-
-    term.setCursorPos(3, 7)
-    term.setTextColor(colors.white)
-
-    write("Results for: " .. query)
-
-    local results = {}
-
-    local q = query:lower()
-
-    for _, site in ipairs(sites) do
-
-        if q == ""
-            or site.name:lower():find(q, 1, true)
-            or site.url:lower():find(q, 1, true)
-            or site.description:lower():find(q, 1, true) then
-
-            table.insert(results, site)
-        end
-    end
-
-    local y = 9
-
-    for i, site in ipairs(results) do
-
-        if y >= H - 7 then
-            break
-        end
-
-        term.setCursorPos(3, y)
-        term.setTextColor(T().accent)
-
-        write(site.name)
-
-        term.setCursorPos(3, y + 1)
-        term.setTextColor(colors.lightGray)
-
-        write(site.url)
-
-        term.setCursorPos(3, y + 2)
-        term.setTextColor(colors.white)
-
-        write(site.description)
-
-        addButton("Open " .. site.name, function()
-            navigate("firecraft://site/" .. site.name)
-        end)
-
-        y = y + 4
-    end
-
-    if #results == 0 then
-        term.setCursorPos(3, 10)
-        term.setTextColor(colors.lightGray)
-        write("No results found.")
-    end
-
-    addButton("New Search", function()
-
-        clear()
-
-        drawHeader()
-
-        term.setCursorPos(3, 6)
-        term.setTextColor(colors.white)
-
-        write("Search: ")
-
-        local newQuery = read()
-
-        if newQuery ~= "" then
-            navigate(
-                "http://firecraft.org/search?="
-                .. encode(newQuery)
-            )
-        end
-    end)
-
-    addButton("New Tab", function()
-        navigate("firecraft://newtab")
-    end)
-
-    local buttonY = H - (#buttons * 2) - 1
-
-    if buttonY < 9 then
-        buttonY = 9
-    end
-
-    drawButtons(buttonY)
-    drawFooter()
-end
-
---------------------------------------------------
--- SITE PAGE
---------------------------------------------------
-
-local function sitePage(name)
-    clearButtons()
-
-    local selected
-
-    for _, site in ipairs(sites) do
-        if site.name == name then
-            selected = site
-            break
-        end
-    end
-
-    if not selected then
-        navigate("firecraft://newtab")
-        return
-    end
-
-    clear()
-    drawHeader()
-
-    currentURL = selected.url
-
-    drawAddress()
-
-    center(6, selected.name, T().accent)
-
-    center(8, selected.description)
-
-    term.setCursorPos(3, 11)
-    term.setTextColor(T().accent)
-
-    write(selected.url)
-
-    term.setCursorPos(3, 13)
-    term.setTextColor(colors.white)
-
-    write("Welcome to " .. selected.name .. ".")
-
-    term.setCursorPos(3, 15)
-    write("This page is available in FireCraft.")
-
-    addButton("Back", function()
-        back()
-    end)
-
-    addButton("New Tab", function()
-        navigate("firecraft://newtab")
-    end)
-
-    drawButtons(19)
-    drawFooter()
+                href =
+                    "firecraft://settings"
+            }
+        }
+    }
 end
 
 --------------------------------------------------
 -- SETTINGS
 --------------------------------------------------
 
-local function settingsPage()
-    clearButtons()
+local function createSettings()
 
-    clear()
-    drawHeader()
-    drawAddress()
+    return {
+        url = "firecraft://settings",
 
-    center(6, "SETTINGS", T().accent)
+        title = "Settings",
 
-    addButton("Theme: " .. T().name, function()
+        nodes = {
 
-        settings.theme = settings.theme + 1
+            {
+                type = "heading",
 
-        if settings.theme > #themes then
-            settings.theme = 1
-        end
+                text =
+                    "FireCraft Settings"
+            },
 
-        selectedButton = 1
-    end)
+            {
+                type = "break"
+            },
 
-    addButton(
-        "Sounds: " .. (settings.sounds and "ON" or "OFF"),
-        function()
-            settings.sounds = not settings.sounds
-        end
-    )
+            {
+                type = "text",
 
-    addButton(
-        "Animations: " .. (settings.animations and "ON" or "OFF"),
-        function()
-            settings.animations = not settings.animations
-        end
-    )
+                text =
+                    "HTTP browsing is enabled through CC:Tweaked."
+            },
 
-    addButton("New Tab", function()
-        navigate("firecraft://newtab")
-    end)
+            {
+                type = "break"
+            },
 
-    drawButtons(10)
-    drawFooter()
+            {
+                type = "link",
+
+                text = "New Tab",
+
+                href =
+                    "firecraft://newtab"
+            }
+        }
+    }
 end
 
 --------------------------------------------------
--- ABOUT
+-- NAVIGATE
 --------------------------------------------------
 
-local function aboutPage()
-    clearButtons()
+local function navigate(url, saveHistory)
 
-    clear()
-    drawHeader()
-    drawAddress()
+    if not url or url == "" then
+        return
+    end
 
-    center(6, "ABOUT FIRECRAFT", T().accent)
+    --------------------------------------------------
+    -- Relative links
+    --------------------------------------------------
 
-    center(8, "FireCraft Browser")
-    center(10, "Version 1.0")
-    center(12, "ComputerCraft Edition")
+    if url:sub(1, 1) == "/" then
 
-    addButton("New Tab", function()
-        navigate("firecraft://newtab")
-    end)
+        local base =
+            currentURL:match(
+                "^(https?://[^/]+)"
+            )
 
-    drawButtons(16)
-    drawFooter()
+        if base then
+            url = base .. url
+        end
+
+    elseif not url:match("^%a+://") then
+
+        if currentURL:match("^https?://") then
+
+            local base =
+                currentURL:match(
+                    "^(https?://[^/]+)"
+                )
+
+            url =
+                base
+                .. "/"
+                .. url
+        end
+    end
+
+    --------------------------------------------------
+    -- History
+    --------------------------------------------------
+
+    if saveHistory ~= false
+        and currentURL then
+
+        if historyPos < #history then
+
+            for i = #history,
+                historyPos + 1,
+                -1 do
+
+                table.remove(
+                    history,
+                    i
+                )
+            end
+        end
+
+        table.insert(
+            history,
+            currentURL
+        )
+
+        historyPos =
+            #history
+    end
+
+    currentURL = url
+
+    selected = 1
+    scroll = 0
+
+    inputValues = {}
+
+    --------------------------------------------------
+    -- INTERNAL PAGES
+    --------------------------------------------------
+
+    if url == "firecraft://newtab" then
+
+        page =
+            createNewTab()
+
+        return
+    end
+
+    if url == "firecraft://settings" then
+
+        page =
+            createSettings()
+
+        return
+    end
+
+    --------------------------------------------------
+    -- INTERNET
+    --------------------------------------------------
+
+    local result, err =
+        httpGet(url)
+
+    if not result then
+
+        page = {
+
+            url = url,
+
+            title = "Error",
+
+            nodes = {
+
+                {
+                    type = "heading",
+
+                    text =
+                        "Unable to load page"
+                },
+
+                {
+                    type = "text",
+
+                    text =
+                        url
+                },
+
+                {
+                    type = "break"
+                },
+
+                {
+                    type = "text",
+
+                    text =
+                        err
+                        or
+                        "Connection failed."
+                },
+
+                {
+                    type = "break"
+                },
+
+                {
+                    type = "link",
+
+                    text =
+                        "New Tab",
+
+                    href =
+                        "firecraft://newtab"
+                }
+            }
+        }
+
+        return
+    end
+
+    --------------------------------------------------
+    -- PARSE
+    --------------------------------------------------
+
+    page =
+        parseHTML(
+            result.body,
+            url
+        )
 end
 
 --------------------------------------------------
--- 404
+-- WRAP
 --------------------------------------------------
 
-local function notFound()
-    clearButtons()
+local function wrap(text, width)
 
-    clear()
-    drawHeader()
-    drawAddress()
+    local lines = {}
 
-    center(7, "404", colors.red)
-    center(9, "PAGE NOT FOUND")
+    if width < 1 then
+        return lines
+    end
 
-    addButton("New Tab", function()
-        navigate("firecraft://newtab")
-    end)
+    while #text > width do
 
-    drawButtons(13)
-    drawFooter()
+        local part =
+            text:sub(1, width)
+
+        local cut =
+            part:match(
+                "^.*()%s"
+            )
+
+        if not cut then
+            cut = width
+        end
+
+        table.insert(
+            lines,
+            text:sub(
+                1,
+                cut
+            ):gsub(
+                "%s+$",
+                ""
+            )
+        )
+
+        text =
+            text:sub(
+                cut + 1
+            ):gsub(
+                "^%s+",
+                ""
+            )
+    end
+
+    if #text > 0 then
+        table.insert(
+            lines,
+            text
+        )
+    end
+
+    return lines
 end
 
 --------------------------------------------------
@@ -649,99 +922,950 @@ end
 
 local function render()
 
-    if currentURL == "firecraft://newtab" then
+    clear()
 
-        newTab()
+    --------------------------------------------------
+    -- HEADER
+    --------------------------------------------------
 
-    elseif currentURL == "firecraft://settings" then
+    term.setBackgroundColor(
+        COLORS.header
+    )
 
-        settingsPage()
+    term.setTextColor(
+        colors.white
+    )
 
-    elseif currentURL == "firecraft://about" then
+    term.setCursorPos(1, 1)
 
-        aboutPage()
+    write(" FIRECRAFT")
 
-    elseif currentURL:match("^http://firecraft%.org/search%?=") then
+    if W >= 28 then
 
-        searchPage()
+        term.setCursorPos(
+            W - 19,
+            1
+        )
 
-    elseif currentURL:match("^firecraft://site/") then
-
-        local name = currentURL:match("^firecraft://site/(.*)$")
-
-        sitePage(name)
-
-    else
-
-        notFound()
+        write(
+            "[B] Back  [Q] Quit"
+        )
     end
 
-    if #buttons == 0 then
-        selectedButton = 1
-    elseif selectedButton < 1 then
-        selectedButton = 1
-    elseif selectedButton > #buttons then
-        selectedButton = #buttons
+    --------------------------------------------------
+    -- ADDRESS
+    --------------------------------------------------
+
+    term.setBackgroundColor(
+        COLORS.address
+    )
+
+    term.setCursorPos(
+        1,
+        2
+    )
+
+    write(
+        string.rep(
+            " ",
+            W
+        )
+    )
+
+    term.setCursorPos(
+        2,
+        2
+    )
+
+    local address =
+        currentURL
+
+    if #address > W - 3 then
+
+        address =
+            address:sub(
+                1,
+                W - 3
+            )
+    end
+
+    write(address)
+
+    term.setBackgroundColor(
+        COLORS.background
+    )
+
+    --------------------------------------------------
+    -- CONTENT
+    --------------------------------------------------
+
+    controls = {}
+
+    local y = 4
+
+    local contentWidth =
+        math.max(
+            10,
+            W - 4
+        )
+
+    local function screenY()
+        return y - scroll
+    end
+
+    local function addControl(c)
+
+        c.id =
+            #controls + 1
+
+        table.insert(
+            controls,
+            c
+        )
+
+        return c.id
+    end
+
+    for _, node in ipairs(page.nodes) do
+
+        --------------------------------------------------
+        -- BREAK
+        --------------------------------------------------
+
+        if node.type == "break" then
+
+            y = y + 1
+
+        --------------------------------------------------
+        -- LINE
+        --------------------------------------------------
+
+        elseif node.type == "line" then
+
+            y = y + 1
+
+            local sy =
+                screenY()
+
+            if sy >= 4
+                and sy < H then
+
+                term.setCursorPos(
+                    2,
+                    sy
+                )
+
+                term.setTextColor(
+                    colors.gray
+                )
+
+                write(
+                    string.rep(
+                        "-",
+                        contentWidth
+                    )
+                )
+            end
+
+        --------------------------------------------------
+        -- TEXT
+        --------------------------------------------------
+
+        elseif node.type == "text" then
+
+            local lines =
+                wrap(
+                    node.text,
+                    contentWidth
+                )
+
+            for _, text in ipairs(lines) do
+
+                y = y + 1
+
+                local sy =
+                    screenY()
+
+                if sy >= 4
+                    and sy < H then
+
+                    term.setCursorPos(
+                        2,
+                        sy
+                    )
+
+                    term.setTextColor(
+                        COLORS.foreground
+                    )
+
+                    write(text)
+                end
+            end
+
+        --------------------------------------------------
+        -- HEADING
+        --------------------------------------------------
+
+        elseif node.type == "heading" then
+
+            local lines =
+                wrap(
+                    node.text,
+                    contentWidth
+                )
+
+            y = y + 1
+
+            for _, text in ipairs(lines) do
+
+                local sy =
+                    screenY()
+
+                if sy >= 4
+                    and sy < H then
+
+                    term.setCursorPos(
+                        2,
+                        sy
+                    )
+
+                    term.setTextColor(
+                        COLORS.selected
+                    )
+
+                    write(text)
+                end
+
+                y = y + 1
+            end
+
+        --------------------------------------------------
+        -- LINK
+        --------------------------------------------------
+
+        elseif node.type == "link" then
+
+            y = y + 1
+
+            local id =
+                addControl({
+                    type = "link",
+                    href = node.href
+                })
+
+            local sy =
+                screenY()
+
+            if sy >= 4
+                and sy < H then
+
+                term.setCursorPos(
+                    2,
+                    sy
+                )
+
+                if selected == id then
+
+                    term.setTextColor(
+                        COLORS.selected
+                    )
+
+                    write("> ")
+
+                else
+
+                    term.setTextColor(
+                        COLORS.link
+                    )
+
+                    write("  ")
+                end
+
+                local text =
+                    node.text
+
+                if text == "" then
+                    text =
+                        node.href
+                end
+
+                write(
+                    "[ "
+                    .. text
+                    .. " ]"
+                )
+            end
+
+        --------------------------------------------------
+        -- BUTTON
+        --------------------------------------------------
+
+        elseif node.type == "button" then
+
+            y = y + 1
+
+            local id =
+                addControl({
+                    type = "button",
+
+                    href =
+                        node.href,
+
+                    action =
+                        node.action
+                })
+
+            local sy =
+                screenY()
+
+            if sy >= 4
+                and sy < H then
+
+                term.setCursorPos(
+                    2,
+                    sy
+                )
+
+                if selected == id then
+
+                    term.setTextColor(
+                        COLORS.selected
+                    )
+
+                    write("> ")
+
+                else
+
+                    term.setTextColor(
+                        COLORS.foreground
+                    )
+
+                    write("  ")
+                end
+
+                local text =
+                    node.text
+
+                if text == "" then
+                    text = "Button"
+                end
+
+                write(
+                    "[ "
+                    .. text
+                    .. " ]"
+                )
+            end
+
+        --------------------------------------------------
+        -- INPUT
+        --------------------------------------------------
+
+        elseif node.type == "input" then
+
+            y = y + 2
+
+            local id =
+                addControl({
+                    type = "input",
+
+                    inputId =
+                        node.id,
+
+                    name =
+                        node.name,
+
+                    formAction =
+                        node.formAction
+                })
+
+            local sy =
+                screenY()
+
+            if sy >= 4
+                and sy < H then
+
+                term.setCursorPos(
+                    2,
+                    sy - 1
+                )
+
+                if selected == id then
+
+                    term.setTextColor(
+                        COLORS.selected
+                    )
+
+                    write("> ")
+
+                else
+
+                    term.setTextColor(
+                        COLORS.foreground
+                    )
+
+                    write("  ")
+                end
+
+                write(
+                    node.placeholder
+                    ~= ""
+                    and node.placeholder
+                    or node.name
+                    or "Input"
+                )
+
+                term.setCursorPos(
+                    2,
+                    sy
+                )
+
+                term.setBackgroundColor(
+                    colors.white
+                )
+
+                term.setTextColor(
+                    colors.black
+                )
+
+                local value =
+                    inputValues[node.id]
+                    or node.value
+                    or ""
+
+                local max =
+                    math.max(
+                        5,
+                        contentWidth - 5
+                    )
+
+                value =
+                    value:sub(
+                        1,
+                        max
+                    )
+
+                write(
+                    "[ "
+                    .. value
+                )
+
+                local remaining =
+                    max - #value
+
+                if remaining > 0 then
+
+                    write(
+                        string.rep(
+                            " ",
+                            remaining
+                        )
+                    )
+                end
+
+                write(" ]")
+
+                term.setBackgroundColor(
+                    colors.black
+                )
+            end
+
+        --------------------------------------------------
+        -- IMAGE
+        --------------------------------------------------
+
+        elseif node.type == "image" then
+
+            y = y + 1
+
+            local sy =
+                screenY()
+
+            if sy >= 4
+                and sy < H then
+
+                term.setCursorPos(
+                    2,
+                    sy
+                )
+
+                term.setTextColor(
+                    COLORS.muted
+                )
+
+                write(
+                    "[ "
+                    .. node.alt
+                    .. " ]"
+                )
+            end
+        end
+    end
+
+    --------------------------------------------------
+    -- FOOTER
+    --------------------------------------------------
+
+    term.setBackgroundColor(
+        COLORS.address
+    )
+
+    term.setTextColor(
+        colors.white
+    )
+
+    term.setCursorPos(
+        1,
+        H
+    )
+
+    write(
+        string.rep(
+            " ",
+            W
+        )
+    )
+
+    term.setCursorPos(
+        2,
+        H
+    )
+
+    write(
+        "UP/DOWN Select  ENTER Open"
+    )
+
+    term.setBackgroundColor(
+        COLORS.background
+    )
+
+    --------------------------------------------------
+    -- SELECTED CONTROL SAFETY
+    --------------------------------------------------
+
+    if #controls == 0 then
+
+        selected = 1
+
+    elseif selected < 1 then
+
+        selected = 1
+
+    elseif selected > #controls then
+
+        selected = #controls
     end
 end
+
+--------------------------------------------------
+-- ACTIVATE
+--------------------------------------------------
+
+local function activate(control)
+
+    if not control then
+        return
+    end
+
+    --------------------------------------------------
+    -- LINK
+    --------------------------------------------------
+
+    if control.type == "link" then
+
+        local url =
+            control.href
+
+        if url == "#" then
+            return
+        end
+
+        --------------------------------------------------
+        -- Relative URL
+        --------------------------------------------------
+
+        if url:sub(1, 1) == "/" then
+
+            local base =
+                currentURL:match(
+                    "^(https?://[^/]+)"
+                )
+
+            if base then
+                url =
+                    base
+                    .. url
+            end
+
+        elseif not url:match(
+            "^%a+://"
+        ) then
+
+            if currentURL:match(
+                "^https?://"
+            ) then
+
+                local base =
+                    currentURL:match(
+                        "^(https?://[^/]+)"
+                    )
+
+                url =
+                    base
+                    .. "/"
+                    .. url
+            end
+        end
+
+        navigate(url)
+
+        return
+    end
+
+    --------------------------------------------------
+    -- BUTTON
+    --------------------------------------------------
+
+    if control.type == "button" then
+
+        if control.action == "address" then
+
+            local value =
+                inputValues.address
+                or ""
+
+            if value ~= "" then
+
+                if not value:match(
+                    "^%a+://"
+                ) then
+
+                    value =
+                        "https://"
+                        .. value
+                end
+
+                navigate(value)
+            end
+
+            return
+        end
+
+        if control.href then
+
+            navigate(
+                control.href
+            )
+
+            return
+        end
+    end
+
+    --------------------------------------------------
+    -- INPUT
+    --------------------------------------------------
+
+    if control.type == "input" then
+
+        local old =
+            inputValues[
+                control.inputId
+            ]
+            or ""
+
+        clear()
+
+        term.setBackgroundColor(
+            COLORS.header
+        )
+
+        term.setTextColor(
+            colors.white
+        )
+
+        term.setCursorPos(
+            1,
+            1
+        )
+
+        write(
+            " FIRECRAFT"
+        )
+
+        term.setBackgroundColor(
+            colors.black
+        )
+
+        term.setCursorPos(
+            2,
+            5
+        )
+
+        term.setTextColor(
+            colors.white
+        )
+
+        write(
+            "Enter text:"
+        )
+
+        term.setCursorPos(
+            2,
+            7
+        )
+
+        term.setBackgroundColor(
+            colors.white
+        )
+
+        term.setTextColor(
+            colors.black
+        )
+
+        local value =
+            read(
+                "*",
+                nil,
+                nil,
+                old
+            )
+
+        if control.inputType ~= "password" then
+            inputValues[
+                control.inputId
+            ] = value
+        else
+            inputValues[
+                control.inputId
+            ] = value
+        end
+
+        term.setBackgroundColor(
+            colors.black
+        )
+
+        --------------------------------------------------
+        -- Address input
+        --------------------------------------------------
+
+        if control.inputId ==
+            "address" then
+
+            if value ~= "" then
+
+                if not value:match(
+                    "^%a+://"
+                ) then
+
+                    value =
+                        "https://"
+                        .. value
+                end
+
+                navigate(value)
+            end
+
+            return
+        end
+
+        --------------------------------------------------
+        -- Form action
+        --------------------------------------------------
+
+        if control.formAction
+            and control.formAction ~= "" then
+
+            local target =
+                control.formAction
+
+            if not target:match(
+                "^%a+://"
+            ) then
+
+                local base =
+                    currentURL:match(
+                        "^(https?://[^/]+)"
+                    )
+
+                if base then
+                    target =
+                        base
+                        .. "/"
+                        .. target
+                end
+            end
+
+            local separator = "?"
+
+            if target:find(
+                "?",
+                1,
+                true
+            ) then
+
+                separator = "&"
+            end
+
+            target =
+                target
+                .. separator
+                .. (
+                    control.name
+                    or "q"
+                )
+                .. "="
+                .. urlEncode(value)
+
+            navigate(target)
+
+            return
+        end
+    end
+end
+
+--------------------------------------------------
+-- BACK
+--------------------------------------------------
+
+local function goBack()
+
+    if historyPos <= 0 then
+        return
+    end
+
+    local previous =
+        history[historyPos]
+
+    historyPos =
+        historyPos - 1
+
+    navigate(
+        previous,
+        false
+    )
+end
+
+--------------------------------------------------
+-- START
+--------------------------------------------------
+
+navigate(
+    "firecraft://newtab",
+    false
+)
 
 --------------------------------------------------
 -- MAIN LOOP
 --------------------------------------------------
 
-render()
-
 while true do
 
-    local event, key = os.pullEvent("key")
+    render()
+
+    local event, key =
+        os.pullEvent("key")
+
+    --------------------------------------------------
+    -- UP
+    --------------------------------------------------
 
     if key == keys.up then
 
-        if #buttons > 0 then
+        if #controls > 0 then
 
-            selectedButton = selectedButton - 1
+            selected =
+                selected - 1
 
-            if selectedButton < 1 then
-                selectedButton = #buttons
+            if selected < 1 then
+                selected =
+                    #controls
             end
-
-            render()
         end
+
+    --------------------------------------------------
+    -- DOWN
+    --------------------------------------------------
 
     elseif key == keys.down then
 
-        if #buttons > 0 then
+        if #controls > 0 then
 
-            selectedButton = selectedButton + 1
+            selected =
+                selected + 1
 
-            if selectedButton > #buttons then
-                selectedButton = 1
+            if selected > #controls then
+                selected = 1
             end
-
-            render()
         end
+
+    --------------------------------------------------
+    -- ENTER
+    --------------------------------------------------
 
     elseif key == keys.enter then
 
-        local button = buttons[selectedButton]
+        activate(
+            controls[selected]
+        )
 
-        if button and button.action then
-            button.action()
-        end
-
-        render()
+    --------------------------------------------------
+    -- BACK
+    --------------------------------------------------
 
     elseif key == keys.b then
 
-        back()
-        render()
+        goBack()
+
+    --------------------------------------------------
+    -- SCROLL
+    --------------------------------------------------
+
+    elseif key == keys.pageUp then
+
+        scroll =
+            math.max(
+                0,
+                scroll - (H - 5)
+            )
+
+    elseif key == keys.pageDown then
+
+        scroll =
+            scroll + (H - 5)
+
+    elseif key == keys.left then
+
+        scroll =
+            math.max(
+                0,
+                scroll - 3
+            )
+
+    elseif key == keys.right then
+
+        scroll =
+            scroll + 3
+
+    --------------------------------------------------
+    -- QUIT
+    --------------------------------------------------
 
     elseif key == keys.q then
 
-        term.setBackgroundColor(colors.black)
-        term.setTextColor(colors.white)
+        term.setBackgroundColor(
+            colors.black
+        )
+
+        term.setTextColor(
+            colors.white
+        )
+
         term.clear()
-        term.setCursorPos(1, 1)
+
+        term.setCursorPos(
+            1,
+            1
+        )
 
         break
     end
