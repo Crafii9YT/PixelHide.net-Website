@@ -1,748 +1,284 @@
--- FIRECRAFT BROWSER
--- CC:Tweaked
--- ASCII only
+--[[
+    FAKE WINDOWS 11 CRASH LOOP
+    Für CC:Tweaked / ComputerCraft
 
-local W, H = term.getSize()
+    Ablauf:
+    BSOD -> 0% bis 100% -> Bootscreen -> BSOD -> ...
+]]
 
---------------------------------------------------
--- SETTINGS
---------------------------------------------------
+math.randomseed(os.epoch("utc"))
 
-local settings = {
-    theme = 1,
-    sounds = true,
-    animations = true
-}
-
-local themes = {
-    {
-        name = "Fire",
-        bg = colors.black,
-        fg = colors.white,
-        accent = colors.orange,
-        header = colors.red,
-        button = colors.gray,
-        selected = colors.orange
-    },
-    {
-        name = "Ocean",
-        bg = colors.black,
-        fg = colors.white,
-        accent = colors.cyan,
-        header = colors.blue,
-        button = colors.gray,
-        selected = colors.cyan
-    },
-    {
-        name = "Purple",
-        bg = colors.black,
-        fg = colors.white,
-        accent = colors.purple,
-        header = colors.purple,
-        button = colors.gray,
-        selected = colors.purple
-    },
-    {
-        name = "Green",
-        bg = colors.black,
-        fg = colors.white,
-        accent = colors.lime,
-        header = colors.green,
-        button = colors.gray,
-        selected = colors.lime
-    }
-}
-
---------------------------------------------------
--- STATE
---------------------------------------------------
-
-local currentURL = "firecraft://newtab"
-
-local history = {}
-local historyIndex = 0
-
-local buttons = {}
-local selectedButton = 1
-
---------------------------------------------------
--- HELPERS
---------------------------------------------------
-
-local function T()
-    return themes[settings.theme]
-end
-
-local function clear()
-    term.setBackgroundColor(T().bg)
-    term.setTextColor(T().fg)
-    term.clear()
-    term.setCursorPos(1, 1)
-end
-
-local function line(y, color)
-    term.setBackgroundColor(color)
-    term.setCursorPos(1, y)
-    write(string.rep(" ", W))
-end
-
-local function center(y, text, color)
-    if #text > W then
-        text = text:sub(1, W)
-    end
-
-    local x = math.floor((W - #text) / 2) + 1
+local function centerText(y, text)
+    local w, h = term.getSize()
+    local x = math.floor((w - #text) / 2) + 1
 
     if x < 1 then
         x = 1
     end
 
     term.setCursorPos(x, y)
-    term.setTextColor(color or T().fg)
-    write(text)
+    term.write(text)
+end
+
+local function clear()
+    term.setCursorPos(1, 1)
+    term.clear()
 end
 
 --------------------------------------------------
--- TOP BAR
+-- WINDOWS BSOD
 --------------------------------------------------
 
-local function drawHeader()
-    line(1, T().header)
-
+local function blueScreen()
+    term.setBackgroundColor(colors.blue)
     term.setTextColor(colors.white)
+    clear()
 
-    term.setCursorPos(2, 1)
-    write("FIRECRAFT")
+    local w, h = term.getSize()
 
-    local controls = "[-] [X]"
+    -- trauriges Gesicht
+    term.setCursorPos(2, 2)
+    term.write(":(")
 
-    if W > #controls + 15 then
-        term.setCursorPos(W - #controls - 1, 1)
-        write(controls)
-    end
+    -- Haupttext
+    term.setCursorPos(2, 4)
+    term.write("Your PC ran into a problem and needs to restart.")
 
-    term.setBackgroundColor(T().bg)
-end
+    term.setCursorPos(2, 5)
+    term.write("We're just collecting some error info.")
 
---------------------------------------------------
--- ADDRESS BAR
---------------------------------------------------
+    -- Fortschritt
+    local progress = 0
 
-local function drawAddress()
-    local width = W - 4
+    -- Zufällige Gesamtdauer:
+    -- 120 bis 180 Sekunden
+    local totalTime = math.random(120, 180)
 
-    local text = currentURL
+    local startTime = os.epoch("utc") / 1000
 
-    if #text > width - 4 then
-        text = text:sub(1, width - 4)
-    end
-
-    local bar = "[ " .. text .. " ]"
-
-    term.setCursorPos(2, 3)
-
-    term.setBackgroundColor(colors.gray)
-    term.setTextColor(colors.white)
-
-    write(bar)
-
-    if #bar < width then
-        write(string.rep(" ", width - #bar))
-    end
-
-    term.setBackgroundColor(T().bg)
-end
-
---------------------------------------------------
--- BUTTONS
---------------------------------------------------
-
-local function clearButtons()
-    buttons = {}
-end
-
-local function addButton(text, action)
-    table.insert(buttons, {
-        text = text,
-        action = action
-    })
-end
-
-local function drawButton(y, text, selected)
-    local prefix = selected and "> " or "  "
-
-    local content = prefix .. "[ " .. text .. " ]"
-
-    if #content > W - 6 then
-        content = content:sub(1, W - 6)
-    end
-
-    term.setCursorPos(3, y)
-
-    if selected then
-        term.setBackgroundColor(T().selected)
-        term.setTextColor(colors.black)
-    else
-        term.setBackgroundColor(T().button)
-        term.setTextColor(colors.white)
-    end
-
-    write(content)
-
-    local remaining = W - 5 - #content
-
-    if remaining > 0 then
-        write(string.rep(" ", remaining))
-    end
-
-    term.setBackgroundColor(T().bg)
-end
-
-local function drawButtons(y)
-    for i, b in ipairs(buttons) do
-        drawButton(y, b.text, i == selectedButton)
-        y = y + 2
-    end
-end
-
---------------------------------------------------
--- FOOTER
---------------------------------------------------
-
-local function drawFooter()
-    line(H, colors.gray)
-
-    term.setTextColor(colors.white)
-
-    term.setCursorPos(2, H)
-    write("UP/DOWN  Select")
-
-    local text = "ENTER  Open"
-
-    if W > #text + 20 then
-        term.setCursorPos(W - #text - 1, H)
-        write(text)
-    end
-end
-
---------------------------------------------------
--- NAVIGATION
---------------------------------------------------
-
-local function navigate(url)
-    if url == currentURL then
-        return
-    end
-
-    if historyIndex < #history then
-        for i = #history, historyIndex + 1, -1 do
-            table.remove(history, i)
-        end
-    end
-
-    table.insert(history, currentURL)
-
-    historyIndex = #history
-
-    currentURL = url
-    selectedButton = 1
-end
-
-local function back()
-    if historyIndex > 0 then
-        currentURL = history[historyIndex]
-        historyIndex = historyIndex - 1
-        selectedButton = 1
-    end
-end
-
---------------------------------------------------
--- SEARCH DATA
---------------------------------------------------
-
-local sites = {
-    {
-        name = "Minecraft",
-        url = "https://www.minecraft.net",
-        description = "Official Minecraft website."
-    },
-
-    {
-        name = "YouTube",
-        url = "https://www.youtube.com",
-        description = "Videos, channels and live streams."
-    },
-
-    {
-        name = "Wikipedia",
-        url = "https://www.wikipedia.org",
-        description = "The free encyclopedia."
-    },
-
-    {
-        name = "GitHub",
-        url = "https://github.com",
-        description = "Development and code hosting."
-    },
-
-    {
-        name = "Roblox",
-        url = "https://www.roblox.com",
-        description = "Online games and experiences."
-    },
-
-    {
-        name = "Mozilla Firefox",
-        url = "https://www.mozilla.org/firefox",
-        description = "Firefox web browser."
-    },
-
-    {
-        name = "Google",
-        url = "https://www.google.com",
-        description = "Search and online services."
-    },
-
-    {
-        name = "Microsoft",
-        url = "https://www.microsoft.com",
-        description = "Technology and software."
+    -- Einige Fake-Fehlerdaten
+    local stopCodes = {
+        "CRITICAL_PROCESS_DIED",
+        "SYSTEM_SERVICE_EXCEPTION",
+        "IRQL_NOT_LESS_OR_EQUAL",
+        "PAGE_FAULT_IN_NONPAGED_AREA",
+        "KERNEL_SECURITY_CHECK_FAILURE",
+        "MEMORY_MANAGEMENT",
+        "SYSTEM_THREAD_EXCEPTION_NOT_HANDLED"
     }
-}
 
---------------------------------------------------
--- URL ENCODING
---------------------------------------------------
+    local stopCode = stopCodes[math.random(#stopCodes)]
 
-local function encode(text)
-    text = text:gsub(" ", "%%20")
-    text = text:gsub("?", "%%3F")
-    text = text:gsub("&", "%%26")
-    text = text:gsub("=", "%%3D")
-    return text
-end
+    -- Infos unten
+    local function drawStatic()
+        local _, height = term.getSize()
 
-local function decode(text)
-    text = text:gsub("%%20", " ")
-    text = text:gsub("%%3F", "?")
-    text = text:gsub("%%26", "&")
-    text = text:gsub("%%3D", "=")
-    return text
-end
+        term.setCursorPos(2, math.min(9, height - 8))
+        term.write("For more information about this issue and possible fixes,")
 
-local function getQuery()
-    local query = currentURL:match("^http://firecraft%.org/search%?=(.*)$")
+        term.setCursorPos(2, math.min(10, height - 7))
+        term.write("visit https://windows.com/stopcode")
 
-    if query then
-        return decode(query)
+        term.setCursorPos(2, math.min(12, height - 5))
+        term.write("If you call a support person, give them this info:")
+
+        term.setCursorPos(2, math.min(14, height - 3))
+        term.write("Stop code: " .. stopCode)
+
+        term.setCursorPos(2, math.min(16, height - 1))
+        term.write("Collecting error info...")
     end
 
-    return ""
-end
+    drawStatic()
 
---------------------------------------------------
--- NEW TAB
---------------------------------------------------
+    --------------------------------------------------
+    -- PROGRESS
+    --------------------------------------------------
 
-local function newTab()
-    clearButtons()
+    while progress < 100 do
 
-    clear()
-    drawHeader()
-    drawAddress()
+        -- Zufälliges normales Intervall
+        local delay = math.random(1, 15)
 
-    center(6, "FIRECRAFT", T().accent)
+        sleep(delay)
 
-    center(8, "What are you looking for?")
+        -- Aktuelle vergangene Zeit
+        local elapsed = (os.epoch("utc") / 1000) - startTime
 
-    addButton("Search", function()
+        -- Wenn wir zu langsam sind:
+        -- Progress etwas schneller erhöhen.
+        local expectedProgress = math.floor((elapsed / totalTime) * 100)
 
-        clear()
-        drawHeader()
-
-        term.setCursorPos(3, 6)
-        term.setTextColor(colors.white)
-
-        write("Search: ")
-
-        local query = read()
-
-        if query ~= "" then
-            navigate(
-                "http://firecraft.org/search?="
-                .. encode(query)
-            )
+        if expectedProgress > progress then
+            progress = expectedProgress
+        else
+            progress = progress + 1
         end
-    end)
 
-    addButton("Settings", function()
-        navigate("firecraft://settings")
-    end)
+        if progress > 100 then
+            progress = 100
+        end
 
-    addButton("About FireCraft", function()
-        navigate("firecraft://about")
-    end)
+        -- Fortschritt anzeigen
+        local _, height = term.getSize()
 
-    drawButtons(11)
-    drawFooter()
+        local progressY = math.min(7, height - 9)
+
+        term.setCursorPos(2, progressY)
+
+        -- Alte Zeile löschen
+        term.clearLine()
+
+        term.write(tostring(progress) .. "% complete")
+
+        -- Kleine wechselnde Statusmeldung
+        local statuses = {
+            "Collecting error information...",
+            "Collecting memory dump...",
+            "Analyzing system files...",
+            "Checking system integrity...",
+            "Preparing diagnostic information...",
+            "Writing crash information...",
+            "Contacting Windows diagnostic service..."
+        }
+
+        local status = statuses[math.random(#statuses)]
+
+        local statusY = math.min(16, height - 1)
+
+        term.setCursorPos(2, statusY)
+        term.clearLine()
+        term.write(status)
+    end
+
+    --------------------------------------------------
+    -- 100%
+    --------------------------------------------------
+
+    term.setCursorPos(2, 7)
+    term.clearLine()
+    term.write("100% complete")
+
+    term.setCursorPos(2, 16)
+    term.clearLine()
+    term.write("Crash information collected.")
+
+    sleep(2)
 end
 
+
 --------------------------------------------------
--- SEARCH RESULTS
+-- FAKE WINDOWS BOOT SCREEN
 --------------------------------------------------
 
-local function searchPage()
-    clearButtons()
-
-    local query = getQuery()
-
-    clear()
-    drawHeader()
-    drawAddress()
-
-    center(5, "SEARCH", T().accent)
-
-    term.setCursorPos(3, 7)
+local function bootScreen()
+    term.setBackgroundColor(colors.black)
     term.setTextColor(colors.white)
-
-    write("Results for: " .. query)
-
-    local results = {}
-
-    local q = query:lower()
-
-    for _, site in ipairs(sites) do
-
-        if q == ""
-            or site.name:lower():find(q, 1, true)
-            or site.url:lower():find(q, 1, true)
-            or site.description:lower():find(q, 1, true) then
-
-            table.insert(results, site)
-        end
-    end
-
-    local y = 9
-
-    for i, site in ipairs(results) do
-
-        if y >= H - 7 then
-            break
-        end
-
-        term.setCursorPos(3, y)
-        term.setTextColor(T().accent)
-
-        write(site.name)
-
-        term.setCursorPos(3, y + 1)
-        term.setTextColor(colors.lightGray)
-
-        write(site.url)
-
-        term.setCursorPos(3, y + 2)
-        term.setTextColor(colors.white)
-
-        write(site.description)
-
-        addButton("Open " .. site.name, function()
-            navigate("firecraft://site/" .. site.name)
-        end)
-
-        y = y + 4
-    end
-
-    if #results == 0 then
-        term.setCursorPos(3, 10)
-        term.setTextColor(colors.lightGray)
-        write("No results found.")
-    end
-
-    addButton("New Search", function()
-
-        clear()
-
-        drawHeader()
-
-        term.setCursorPos(3, 6)
-        term.setTextColor(colors.white)
-
-        write("Search: ")
-
-        local newQuery = read()
-
-        if newQuery ~= "" then
-            navigate(
-                "http://firecraft.org/search?="
-                .. encode(newQuery)
-            )
-        end
-    end)
-
-    addButton("New Tab", function()
-        navigate("firecraft://newtab")
-    end)
-
-    local buttonY = H - (#buttons * 2) - 1
-
-    if buttonY < 9 then
-        buttonY = 9
-    end
-
-    drawButtons(buttonY)
-    drawFooter()
-end
-
---------------------------------------------------
--- SITE PAGE
---------------------------------------------------
-
-local function sitePage(name)
-    clearButtons()
-
-    local selected
-
-    for _, site in ipairs(sites) do
-        if site.name == name then
-            selected = site
-            break
-        end
-    end
-
-    if not selected then
-        navigate("firecraft://newtab")
-        return
-    end
-
     clear()
-    drawHeader()
 
-    currentURL = selected.url
+    local w, h = term.getSize()
 
-    drawAddress()
+    --------------------------------------------------
+    -- Windows Logo
+    --------------------------------------------------
 
-    center(6, selected.name, T().accent)
+    local logo = {
+        "███  ███",
+        "███  ███",
+        "███  ███",
+        "███  ███"
+    }
 
-    center(8, selected.description)
+    local startY = math.floor(h / 2) - 4
 
-    term.setCursorPos(3, 11)
-    term.setTextColor(T().accent)
+    for i, line in ipairs(logo) do
+        local x = math.floor((w - #line) / 2) + 1
 
-    write(selected.url)
+        if x < 1 then
+            x = 1
+        end
 
-    term.setCursorPos(3, 13)
+        term.setCursorPos(x, startY + i)
+        term.write(line)
+    end
+
+    --------------------------------------------------
+    -- Windows Text
+    --------------------------------------------------
+
+    local textY = startY + 6
+
+    if textY <= h then
+        centerText(textY, "Windows")
+    end
+
+    --------------------------------------------------
+    -- Loading animation
+    --------------------------------------------------
+
+    local spinner = {
+        "◐",
+        "◓",
+        "◑",
+        "◒"
+    }
+
+    -- 4 bis 10 Sekunden Bootzeit
+    local bootTime = math.random(4, 10)
+
+    local start = os.epoch("utc") / 1000
+    local index = 1
+
+    while (os.epoch("utc") / 1000) - start < bootTime do
+
+        local elapsed = (os.epoch("utc") / 1000) - start
+
+        local remaining = math.max(0, bootTime - elapsed)
+
+        local spinnerY = h - 3
+
+        term.setCursorPos(1, spinnerY)
+        term.clearLine()
+
+        centerText(
+            spinnerY,
+            spinner[index] .. "  Starting Windows..."
+        )
+
+        index = index + 1
+
+        if index > #spinner then
+            index = 1
+        end
+
+        sleep(0.25)
+    end
+
+    --------------------------------------------------
+    -- Fake loading transition
+    --------------------------------------------------
+
+    term.setBackgroundColor(colors.black)
     term.setTextColor(colors.white)
-
-    write("Welcome to " .. selected.name .. ".")
-
-    term.setCursorPos(3, 15)
-    write("This page is available in FireCraft.")
-
-    addButton("Back", function()
-        back()
-    end)
-
-    addButton("New Tab", function()
-        navigate("firecraft://newtab")
-    end)
-
-    drawButtons(19)
-    drawFooter()
-end
-
---------------------------------------------------
--- SETTINGS
---------------------------------------------------
-
-local function settingsPage()
-    clearButtons()
-
     clear()
-    drawHeader()
-    drawAddress()
 
-    center(6, "SETTINGS", T().accent)
+    centerText(math.floor(h / 2), "Welcome")
 
-    addButton("Theme: " .. T().name, function()
+    sleep(1)
 
-        settings.theme = settings.theme + 1
+    --------------------------------------------------
+    -- UND JETZT WIEDER CRASH
+    --------------------------------------------------
 
-        if settings.theme > #themes then
-            settings.theme = 1
-        end
-
-        selectedButton = 1
-    end)
-
-    addButton(
-        "Sounds: " .. (settings.sounds and "ON" or "OFF"),
-        function()
-            settings.sounds = not settings.sounds
-        end
-    )
-
-    addButton(
-        "Animations: " .. (settings.animations and "ON" or "OFF"),
-        function()
-            settings.animations = not settings.animations
-        end
-    )
-
-    addButton("New Tab", function()
-        navigate("firecraft://newtab")
-    end)
-
-    drawButtons(10)
-    drawFooter()
+    blueScreen()
 end
 
---------------------------------------------------
--- ABOUT
---------------------------------------------------
-
-local function aboutPage()
-    clearButtons()
-
-    clear()
-    drawHeader()
-    drawAddress()
-
-    center(6, "ABOUT FIRECRAFT", T().accent)
-
-    center(8, "FireCraft Browser")
-    center(10, "Version 1.0")
-    center(12, "ComputerCraft Edition")
-
-    addButton("New Tab", function()
-        navigate("firecraft://newtab")
-    end)
-
-    drawButtons(16)
-    drawFooter()
-end
 
 --------------------------------------------------
--- 404
+-- START
 --------------------------------------------------
-
-local function notFound()
-    clearButtons()
-
-    clear()
-    drawHeader()
-    drawAddress()
-
-    center(7, "404", colors.red)
-    center(9, "PAGE NOT FOUND")
-
-    addButton("New Tab", function()
-        navigate("firecraft://newtab")
-    end)
-
-    drawButtons(13)
-    drawFooter()
-end
-
---------------------------------------------------
--- RENDER
---------------------------------------------------
-
-local function render()
-
-    if currentURL == "firecraft://newtab" then
-
-        newTab()
-
-    elseif currentURL == "firecraft://settings" then
-
-        settingsPage()
-
-    elseif currentURL == "firecraft://about" then
-
-        aboutPage()
-
-    elseif currentURL:match("^http://firecraft%.org/search%?=") then
-
-        searchPage()
-
-    elseif currentURL:match("^firecraft://site/") then
-
-        local name = currentURL:match("^firecraft://site/(.*)$")
-
-        sitePage(name)
-
-    else
-
-        notFound()
-    end
-
-    if #buttons == 0 then
-        selectedButton = 1
-    elseif selectedButton < 1 then
-        selectedButton = 1
-    elseif selectedButton > #buttons then
-        selectedButton = #buttons
-    end
-end
-
---------------------------------------------------
--- MAIN LOOP
---------------------------------------------------
-
-render()
 
 while true do
-
-    local event, key = os.pullEvent("key")
-
-    if key == keys.up then
-
-        if #buttons > 0 then
-
-            selectedButton = selectedButton - 1
-
-            if selectedButton < 1 then
-                selectedButton = #buttons
-            end
-
-            render()
-        end
-
-    elseif key == keys.down then
-
-        if #buttons > 0 then
-
-            selectedButton = selectedButton + 1
-
-            if selectedButton > #buttons then
-                selectedButton = 1
-            end
-
-            render()
-        end
-
-    elseif key == keys.enter then
-
-        local button = buttons[selectedButton]
-
-        if button and button.action then
-            button.action()
-        end
-
-        render()
-
-    elseif key == keys.b then
-
-        back()
-        render()
-
-    elseif key == keys.q then
-
-        term.setBackgroundColor(colors.black)
-        term.setTextColor(colors.white)
-        term.clear()
-        term.setCursorPos(1, 1)
-
-        break
-    end
+    blueScreen()
+    bootScreen()
 end
