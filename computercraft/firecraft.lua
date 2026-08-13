@@ -1,4 +1,4 @@
--- FIRECRAFT BROWSER (Echter HTTP & URL-Modus)
+-- FIRECRAFT BROWSER (Advanced HTML & Scrolling Edition)
 -- CC:Tweaked
 
 local W, H = term.getSize()
@@ -21,8 +21,10 @@ local history = {}
 local buttons = {}
 local selectedButton = 1
 
--- Speichert den Rohtext oder geparsten Inhalt von echten Webseiten
-local pageContent = {}
+-- Für das Scrollen von langen Seiten
+local scrollOffset = 0
+local parsedLines = {}
+local parsedButtons = {}
 
 --------------------------------------------------
 -- HELPERS
@@ -62,7 +64,7 @@ local function drawHeader()
     line(1, T().header)
     term.setTextColor(colors.white)
     term.setCursorPos(2, 1)
-    write("FIRECRAFT WEB")
+    write("FIRECRAFT WEB BROWSER")
 end
 
 local function drawAddress()
@@ -82,69 +84,84 @@ local function drawAddress()
     term.setBackgroundColor(T().bg)
 end
 
-local function clearButtons()
-    buttons = {}
-end
-
-local function addButton(text, action)
-    table.insert(buttons, { text = text, action = action })
-end
-
-local function drawButtons(y)
-    for i, b in ipairs(buttons) do
-        if y >= H - 1 then break end
-        local selected = (i == selectedButton)
-        local prefix = selected and "> " or "  "
-        local content = prefix .. "[ " .. b.text .. " ]"
-        
-        term.setCursorPos(3, y)
-        if selected then
-            term.setBackgroundColor(T().selected)
-            term.setTextColor(colors.black)
-        else
-            term.setBackgroundColor(T().button)
-            term.setTextColor(colors.white)
-        end
-        write(content)
-        
-        local remaining = W - 2 - #content
-        if remaining > 0 then
-            write(string.rep(" ", remaining))
-        end
-        term.setBackgroundColor(T().bg)
-        y = y + 2
-    end
-end
-
 local function drawFooter()
     line(H, colors.gray)
     term.setTextColor(colors.white)
     term.setCursorPos(2, H)
-    write("UP/DN: Select | ENTER: Open | L: Type URL | Q: Quit")
+    write("UP/DN: Select | I/K: Scroll | ENTER: Open | L: URL | Q: Quit")
 end
 
 --------------------------------------------------
--- NAVIGATION & HTTP LOADER
+-- HTML PARSER (Wandelt HTML in lesbaren Text & Buttons)
 --------------------------------------------------
 
-local function navigate(url)
-    if url == currentURL then return end
-    table.insert(history, currentURL)
-    currentURL = url
-    selectedButton = 1
-end
+local function parseHTML(html)
+    parsedLines = {}
+    parsedButtons = {}
 
-local function back()
-    if #history > 0 then
-        currentURL = history[#history]
-        table.remove(history, #history)
-        selectedButton = 1
+    -- 1. Finde alle <button>...</button> Elemente und mache Buttons daraus
+    for btnText in html:gmatch("<button[^>]*>(.-)</button>") do
+        -- HTML Tags im Button-Text bereinigen
+        local cleanBtn = btnText:gsub("<[^>]+>", ""):match("^%s*(.-)%s*$")
+        if cleanBtn ~= "" then
+            table.insert(parsedButtons, {
+                text = cleanBtn,
+                action = function()
+                    -- Standard-Aktion: Zeige Info oder Suche
+                    currentURL = "firecraft://action/" .. cleanBtn
+                end
+            })
+        end
+    end
+
+    -- 2. Finde alle Links <a href="...">...</a>
+    for href, linkText in html:gmatch('<a[^>]*href="([^"]+)"[^>]*>(.-)</a>') do
+        local cleanText = linkText:gsub("<[^>]+>", ""):match("^%s*(.-)%s*$")
+        if cleanText ~= "" and href:match("^https?://") then
+            table.insert(parsedButtons, {
+                text = cleanText:sub(1, 15) .. " ->",
+                action = function()
+                    currentURL = href
+                end
+            })
+        end
+    end
+
+    -- Falls keine Buttons im HTML waren, Standard-Buttons hinzufügen
+    if #parsedButtons == 0 then
+        table.insert(parsedButtons, { text = "Zurück", action = function() 
+            if #history > 0 then
+                currentURL = history[#history]
+                table.remove(history, #history)
+            end
+        end })
+        table.insert(parsedButtons, { text = "Neue Startseite", action = function() currentURL = "firecraft://newtab" end })
+    end
+
+    -- 3. HTML-Text bereinigen für die Anzeige
+    -- Entferne Skripte, Styles und Tags
+    local body = html:match("<body[^>]*>(.-)</body>") or html
+    body = body:gsub("<script[^>]*>.-</script>", "")
+    body = body:gsub("<style[^>]*>.-</style>", "")
+    
+    for textLine in body:gmatch("[^\r\n]+") do
+        local cleanLine = textLine:gsub("<[^>]+>", ""):match("^%s*(.-)%s*$")
+        if cleanLine and cleanLine ~= "" then
+            -- Zeilenumbruch für die Terminal-Breite erzwingen
+            while #cleanLine > W - 4 do
+                table.insert(parsedLines, cleanLine:sub(1, W - 4))
+                cleanLine = cleanLine:sub(W - 3)
+            end
+            table.insert(parsedLines, cleanLine)
+        end
     end
 end
 
--- Holt echte Webseiten-Daten über HTTP
+--------------------------------------------------
+-- HTTP LOADER
+--------------------------------------------------
+
 local function fetchWebPage(url)
-    clearButtons()
     clear()
     drawHeader()
     drawAddress()
@@ -152,191 +169,167 @@ local function fetchWebPage(url)
     center(5, "Lade Webseite...", T().accent)
     term.setCursorPos(3, 7)
     term.setTextColor(colors.lightGray)
-    write("Verbinde mit: " .. url)
+    write("Ziel: " .. url)
 
-    -- HTTP-Anfrage an die echte URL senden
     local ok, response = pcall(http.get, url)
 
     if ok and response then
         local html = response.readAll()
         response.close()
-
-        clear()
-        drawHeader()
-        drawAddress()
-
-        term.setCursorPos(3, 5)
-        term.setTextColor(T().accent)
-        write("Verbunden: " .. url)
-
-        -- Einfache Extraktion von Text / Titeln aus dem HTML
-        local y = 7
-        term.setCursorPos(3, y)
-        term.setTextColor(colors.white)
-        write("Seiteninhalt (Text-Modus):")
-        
-        -- Zeige Ausschnitt des rohen Textes bereinigt an
-        y = y + 2
-        for lineText in html:gmatch("[^\r\n]+") do
-            if y < H - 5 and #lineText < W - 4 then
-                term.setCursorPos(3, y)
-                term.setTextColor(colors.lightGray)
-                write(lineText:sub(1, W - 4))
-                y = y + 1
-            end
-        end
-
-        -- Extrahiere gefundene Links (<a href="...">) als interaktive Buttons
-        for link in html:gmatch('href="([^"]+)"') do
-            if link:match("^http") and #buttons < 3 then
-                local btnName = link:sub(1, 25)
-                addButton("Link: " .. btnName, function()
-                    navigate(link)
-                end)
-            end
-        end
-
+        parseHTML(html)
     else
-        clear()
-        drawHeader()
-        drawAddress()
-        center(7, "FEHLER: Verbindung fehlgeschlagen!", colors.red)
-        center(9, "Entweder ungültige URL oder HTTP ist")
-        center(10, "in der Server-Config gesperrt.")
+        parsedLines = {
+            "FEHLER: Konnte keine Verbindung herstellen.",
+            "Entweder ist die URL ungültig, die Seite offline,",
+            "oder HTTP ist in der Server-Konfiguration gesperrt."
+        }
+        parsedButtons = {
+            { text = "Zurück", action = function() currentURL = "firecraft://newtab" end }
+        }
     end
 
-    addButton("Zurück", function() back() end)
-    addButton("Neue URL eingeben", function() 
-        -- Direktes URL-Prompt aufrufen
-        term.setCursorPos(3, H - 2)
-        term.setTextColor(colors.white)
-        write("URL: ")
-        local input = read()
-        if input ~= "" then
-            if not input:match("^https?://") then
-                input = "https://" .. input
-            end
-            navigate(input)
-        end
-    end)
-
-    drawButtons(H - 4)
-    drawFooter()
+    scrollOffset = 0
+    selectedButton = 1
 end
 
 --------------------------------------------------
--- PAGES
+-- RENDER ENGINE
 --------------------------------------------------
 
-local function newTab()
-    clearButtons()
+local function renderPage()
     clear()
     drawHeader()
     drawAddress()
 
-    center(6, "FIRECRAFT BROWSER", T().accent)
-    center(8, "Gib eine echte Internet-Adresse ein oder")
-    center(9, "wähle eine Beispiel-Seite:")
-
-    addButton("URL frei eingeben (Taste L)", function()
-        term.setCursorPos(3, 12)
-        term.setTextColor(colors.white)
-        write("Ziel-URL: https://")
-        local url = read()
-        if url ~= "" then
-            navigate("https://" .. url)
+    -- Wenn eine echte URL geladen werden soll
+    if currentURL:match("^https?://") then
+        if #parsedLines == 0 and #parsedButtons == 0 then
+            fetchWebPage(currentURL)
         end
-    end)
+    end
 
-    addButton("Beispiel: example.com", function()
-        navigate("https://example.com")
-    end)
-
-    addButton("Einstellungen", function()
-        navigate("firecraft://settings")
-    end)
-
-    drawButtons(13)
-    drawFooter()
-end
-
-local function settingsPage()
-    clearButtons()
-    clear()
-    drawHeader()
-    drawAddress()
-
-    center(6, "EINSTELLUNGEN", T().accent)
-
-    addButton("Theme wechseln", function()
-        settings.theme = settings.theme % #themes + 1
-    end)
-
-    addButton("Zurück zum Start", function()
-        navigate("firecraft://newtab")
-    end)
-
-    drawButtons(10)
-    drawFooter()
-end
-
---------------------------------------------------
--- RENDER & MAIN LOOP
---------------------------------------------------
-
-local function render()
+    -- Startseite
     if currentURL == "firecraft://newtab" then
-        newTab()
-    elseif currentURL == "firecraft://settings" then
-        settingsPage()
-    elseif currentURL:match("^https?://") then
-        fetchWebPage(currentURL)
-    else
-        newTab()
+        parsedLines = {
+            "Willkommen bei FireCraft Web!",
+            "",
+            "Gib eine beliebige Adresse ein (Taste L)",
+            "oder wähle eine Beispiel-Webseite aus:"
+        }
+        parsedButtons = {
+            { text = "Beispiel: Example.com", action = function() 
+                table.insert(history, currentURL)
+                currentURL = "https://example.com"
+                parsedLines = {} 
+            end },
+            { text = "Beispiel: Info-Seite", action = function() 
+                table.insert(history, currentURL)
+                currentURL = "https://info.cern.ch"
+                parsedLines = {} 
+            end }
+        }
     end
 
-    if #buttons > 0 and selectedButton > #buttons then
-        selectedButton = #buttons
+    -- Zeichne den Webseiten-Inhalt mit Scroll-Offset (Bereich: Zeile 5 bis H-7)
+    local maxDisplayLines = H - 12
+    local startY = 5
+
+    for i = 1, maxDisplayLines do
+        local lineIdx = i + scrollOffset
+        if parsedLines[lineIdx] then
+            term.setCursorPos(3, startY + i - 1)
+            term.setTextColor(colors.white)
+            write(parsedLines[lineIdx])
+        end
     end
+
+    -- Zeichne interaktive Buttons am unteren Bildschirmrand
+    local btnY = H - 6
+    for i, b in ipairs(parsedButtons) do
+        if btnY < H - 1 then
+            local selected = (i == selectedButton)
+            local prefix = selected and "> " or "  "
+            local content = prefix .. "[ " .. b.text .. " ]"
+
+            term.setCursorPos(3, btnY)
+            if selected then
+                term.setBackgroundColor(T().selected)
+                term.setTextColor(colors.black)
+            else
+                term.setBackgroundColor(T().button)
+                term.setTextColor(colors.white)
+            end
+            write(content)
+
+            local rem = W - 2 - #content
+            if rem > 0 then write(string.rep(" ", rem)) end
+            term.setBackgroundColor(T().bg)
+            btnY = btnY + 2
+        end
+    end
+
+    drawFooter()
 end
 
-render()
+--------------------------------------------------
+-- MAIN LOOP
+--------------------------------------------------
+
+renderPage()
 
 while true do
     local event, key = os.pullEvent("key")
 
     if key == keys.up then
-        if #buttons > 0 then
+        if #parsedButtons > 0 then
             selectedButton = selectedButton - 1
-            if selectedButton < 1 then selectedButton = #buttons end
-            render()
+            if selectedButton < 1 then selectedButton = #parsedButtons end
+            renderPage()
         end
     elseif key == keys.down then
-        if #buttons > 0 then
+        if #parsedButtons > 0 then
             selectedButton = selectedButton + 1
-            if selectedButton > #buttons then selectedButton = 1 end
-            render()
+            if selectedButton > #parsedButtons then selectedButton = 1 end
+            renderPage()
+        end
+    elseif key == keys.i then
+        -- Scrollen nach oben
+        if scrollOffset > 0 then
+            scrollOffset = scrollOffset - 1
+            renderPage()
+        end
+    elseif key == keys.k then
+        -- Scrollen nach unten
+        if scrollOffset < #parsedLines - 5 then
+            scrollOffset = scrollOffset + 1
+            renderPage()
         end
     elseif key == keys.enter then
-        local button = buttons[selectedButton]
+        local button = parsedButtons[selectedButton]
         if button and button.action then
+            table.insert(history, currentURL)
             button.action()
-            render()
+            renderPage()
         end
     elseif key == keys.l then
-        -- Schnelltaste 'L' zum direkten Eintippen einer URL
+        -- URL frei eingeben
         clear()
         drawHeader()
         term.setCursorPos(3, 6)
         term.setTextColor(colors.white)
-        write("Ganze URL eingeben: ")
+        write("URL eingeben (z.B. https://example.com): ")
+        term.setCursorPos(3, 8)
+        write("-> ")
         local customUrl = read()
         if customUrl ~= "" then
             if not customUrl:match("^https?://") then
                 customUrl = "https://" .. customUrl
             end
-            navigate(customUrl)
-            render()
+            table.insert(history, currentURL)
+            currentURL = customUrl
+            parsedLines = {}
+            parsedButtons = {}
+            renderPage()
         end
     elseif key == keys.q then
         term.setBackgroundColor(colors.black)
