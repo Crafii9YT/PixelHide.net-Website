@@ -537,58 +537,71 @@ end
 render()
 
 while true do
+    local event, key = os.pullEvent()
 
-    local event, key = os.pullEvent("key")
+    if event == "key" then
 
-    if key == keys.up then
+        -- UP
+        if key == keys.up then
 
-        if #buttons > 0 then
-            selectedButton = selectedButton - 1
+            if #buttons > 0 then
+                selectedButton = selectedButton - 1
 
-            if selectedButton < 1 then
-                selectedButton = #buttons
+                if selectedButton < 1 then
+                    selectedButton = #buttons
+                end
+
+                render()
             end
 
-            render()
-        end
+        -- DOWN
+        elseif key == keys.down then
 
-    elseif key == keys.down then
+            if #buttons > 0 then
+                selectedButton = selectedButton + 1
 
-        if #buttons > 0 then
-            selectedButton = selectedButton + 1
+                if selectedButton > #buttons then
+                    selectedButton = 1
+                end
 
-            if selectedButton > #buttons then
-                selectedButton = 1
+                render()
             end
 
+        -- ENTER
+        elseif key == keys.enter then
+
+            if buttons[selectedButton] then
+                local action = buttons[selectedButton].action
+
+                if action then
+                    action()
+                end
+
+                render()
+            end
+
+        -- BACK
+        elseif key == keys.b then
+
+            goBack()
             render()
+
+        -- QUIT
+        elseif key == keys.q then
+
+            clear()
+
+            center(
+                math.floor(H / 2),
+                "FIRECRAFT CLOSED"
+            )
+
+            sleep(1)
+
+            term.clear()
+            term.setCursorPos(1, 1)
+
+            break
         end
-
-    elseif key == keys.enter then
-
-        if buttons[selectedButton] then
-            buttons[selectedButton].action()
-            render()
-        end
-
-    elseif key == keys.b then
-
-        goBack()
-        render()
-
-    elseif key == keys.q then
-
-        clear()
-
-        term.setTextColor(colors.white)
-
-        center(math.floor(H / 2), "FIRECRAFT CLOSED")
-
-        sleep(1)
-
-        term.clear()
-        term.setCursorPos(1, 1)
-
-        break
     end
 end
