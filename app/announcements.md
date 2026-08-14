@@ -1,18 +1,22 @@
-# 🆙 Es geht hoch! 🆙 
+# 🫵 Wir suchen dich! 🫵 
 
-## Hey liebe Spieler,
+## Du wolltest schon immer mitwirken?
 
-Wir sind aktuell in Wartungsarbeiten, wie eventuell ein paar von euch schon gemerkt haben. Hiermit möchte ich euch darauf hinweisen, dass wir den CityBuild auf die Minecraft-Version 26.1.2 upgraden.
+➡️ Dann ist jetzt der **richtige Moment**!
 
-Dies wird einige neue Blöcke hinzufügen und die Verfügbarkeit auf neueren Versionen ermöglichen. Dazu gibt es auch die Features der 26.1.2 dann endlich auf PixelHide.
+Wir suchen aktiv Teammitglieder im Bereich Entwicklung!
 
-Der Shop in der App kann in der Zeit nicht verfügbar sein, sowie der Minecraft Login.
+↪ **Wie bewerbe ich mich?**
 
-Alle Daten wurden gespeichert und aufbewahrt sodass (wenn etwas schiefgehen sollte), eure Daten sicher wiederhergestellt werden können.
+Öffne den Bewerbungs-Kanal (https://discord.com/channels/1432310028647534594/1499078746194448634) auf unseren Discord Server (https://discord.pixelhide.net/).
 
-Sollte das Upgrade aufgrund Technischer Probleme nicht funktionieren, werden wir weiterhin (bis auf weiteres) auf der 1.21.10 bleiben.
+Klicke auf "Bewerben" in der gewünschten Kategorie.
 
-Weitere Informationen findet ihr auf unserer Status-Seite (https://status.pixelhide.net/).
+Fülle das Formular ab und sende es.
 
-Vielen dank für euer Verständnis.
+✅ Fertig!
+
+**Nun wartest du bis du eine Antwort erhälst.**
+
+Viel spaß weiterhin auf PixelHide.net!
 - Crafii9
