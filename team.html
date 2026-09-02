@@ -67,7 +67,7 @@
 
 
         /* =========================================================
-           BACKGROUND GRID
+           BACKGROUND
         ========================================================= */
 
         body::before {
@@ -91,17 +91,14 @@
 
             background-size: 55px 55px;
 
-            mask-image: linear-gradient(
-                to bottom,
-                black,
-                transparent 90%
-            );
+            mask-image:
+                linear-gradient(
+                    to bottom,
+                    black,
+                    transparent 90%
+                );
         }
 
-
-        /* =========================================================
-           AMBIENT LIGHT
-        ========================================================= */
 
         .ambient {
             position: fixed;
@@ -111,7 +108,8 @@
 
             border-radius: 50%;
 
-            background: rgba(167,139,250,.055);
+            background:
+                rgba(167,139,250,.055);
 
             filter: blur(120px);
 
@@ -140,13 +138,18 @@
 
             z-index: 10;
 
-            width: min(1280px, calc(100% - 48px));
+            width:
+                min(
+                    1280px,
+                    calc(100% - 48px)
+                );
 
             margin: 0 auto;
 
             padding: 28px 0;
 
             display: flex;
+
             align-items: center;
             justify-content: space-between;
 
@@ -163,6 +166,7 @@
 
         .brand {
             display: flex;
+
             align-items: center;
 
             gap: 11px;
@@ -218,21 +222,28 @@
 
             z-index: 5;
 
-            width: min(1280px, calc(100% - 48px));
+            width:
+                min(
+                    1280px,
+                    calc(100% - 48px)
+                );
 
-            min-height: calc(100vh - 100px);
+            min-height:
+                calc(100vh - 100px);
 
             margin: 0 auto;
 
             display: grid;
 
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns:
+                1fr 1fr;
 
             align-items: center;
 
             gap: 90px;
 
-            padding: 45px 0 80px;
+            padding:
+                45px 0 80px;
         }
 
 
@@ -246,6 +257,7 @@
             min-height: 580px;
 
             display: flex;
+
             align-items: center;
             justify-content: center;
 
@@ -268,11 +280,16 @@
 
             border-radius: 50%;
 
-            border: 1px solid rgba(167,139,250,.10);
+            border:
+                1px solid
+                rgba(167,139,250,.10);
 
             box-shadow:
-                0 0 100px rgba(167,139,250,.07),
-                inset 0 0 100px rgba(167,139,250,.025);
+                0 0 100px
+                rgba(167,139,250,.07),
+
+                inset 0 0 100px
+                rgba(167,139,250,.025);
         }
 
 
@@ -284,7 +301,9 @@
 
             border-radius: 50%;
 
-            border: 1px solid rgba(255,255,255,.055);
+            border:
+                1px solid
+                rgba(255,255,255,.055);
         }
 
 
@@ -297,7 +316,9 @@
 
             border-radius: 50%;
 
-            border: 1px dashed rgba(167,139,250,.055);
+            border:
+                1px dashed
+                rgba(167,139,250,.055);
 
             transform: rotate(15deg);
         }
@@ -312,6 +333,7 @@
             height: 390px;
 
             display: flex;
+
             align-items: center;
             justify-content: center;
         }
@@ -327,7 +349,8 @@
 
             border-radius: 50%;
 
-            background: rgba(167,139,250,.11);
+            background:
+                rgba(167,139,250,.11);
 
             filter: blur(75px);
 
@@ -368,6 +391,7 @@
 
         .eyebrow {
             display: flex;
+
             align-items: center;
 
             gap: 10px;
@@ -400,7 +424,8 @@
             width: 28px;
             height: 1px;
 
-            background: var(--purple);
+            background:
+                var(--purple);
 
             transform-origin: left;
 
@@ -418,9 +443,16 @@
         ========================================================= */
 
         h1 {
-            font-family: "Space Grotesk", sans-serif;
+            font-family:
+                "Space Grotesk",
+                sans-serif;
 
-            font-size: clamp(58px, 7vw, 94px);
+            font-size:
+                clamp(
+                    58px,
+                    7vw,
+                    94px
+                );
 
             line-height: .92;
 
@@ -484,6 +516,7 @@
             position: relative;
 
             display: flex;
+
             align-items: center;
             justify-content: space-between;
 
@@ -491,9 +524,12 @@
 
             padding: 17px 18px;
 
-            background: rgba(255,255,255,.025);
+            background:
+                rgba(255,255,255,.025);
 
-            border: 1px solid rgba(255,255,255,.08);
+            border:
+                1px solid
+                rgba(255,255,255,.08);
 
             border-radius: 14px;
 
@@ -512,6 +548,7 @@
 
         .destination-left {
             display: flex;
+
             align-items: center;
 
             gap: 13px;
@@ -525,12 +562,16 @@
             border-radius: 11px;
 
             display: flex;
+
             align-items: center;
             justify-content: center;
 
-            background: rgba(167,139,250,.08);
+            background:
+                rgba(167,139,250,.08);
 
-            border: 1px solid rgba(167,139,250,.13);
+            border:
+                1px solid
+                rgba(167,139,250,.13);
         }
 
 
@@ -562,12 +603,26 @@
 
 
         /* =========================================================
+           ALL BUTTONS
+        ========================================================= */
+
+        .ripple-target {
+            position: relative;
+
+            overflow: hidden;
+
+            isolation: isolate;
+
+            -webkit-tap-highlight-color:
+                transparent;
+        }
+
+
+        /* =========================================================
            DISCORD BUTTON
         ========================================================= */
 
         .discord-button {
-            position: relative;
-
             display: inline-flex;
 
             align-items: center;
@@ -578,11 +633,10 @@
 
             padding: 0 17px;
 
-            overflow: hidden;
-
             border-radius: 10px;
 
-            background: var(--purple);
+            background:
+                var(--purple);
 
             border: none;
 
@@ -594,85 +648,61 @@
             text-decoration: none;
 
             cursor: pointer;
-
-            isolation: isolate;
-
-            -webkit-tap-highlight-color: transparent;
-
-            /* WICHTIG:
-               keinerlei Hover-Animation
-               keinerlei Transform
-            */
         }
 
 
         .discord-button span {
             position: relative;
 
-            z-index: 3;
+            z-index: 2;
 
             pointer-events: none;
         }
 
 
         /* =========================================================
-           RIPPLE
+           RIPPLE — EXAKT WIE DEIN BEISPIEL
         ========================================================= */
 
-        .ripple {
+        .ripple-element {
             position: absolute;
-
-            display: block;
 
             border-radius: 50%;
 
-            background: rgba(255,255,255,.38);
-
-            pointer-events: none;
-
-            z-index: 2;
+            background-color:
+                rgba(255,255,255,.22);
 
             transform: scale(0);
 
-            opacity: 1;
+            pointer-events: none;
 
-            /*
-             * Der Ripple liegt absolut IM Button.
-             * Er beeinflusst dadurch niemals dessen Größe.
-             */
-        }
+            z-index: 1;
 
-
-        .ripple.animate {
-            animation:
-                rippleExpand
+            transition:
+                transform
                 .65s
-                cubic-bezier(.2,.8,.2,1)
-                forwards;
+                cubic-bezier(.4,0,.2,1),
+
+                opacity
+                .35s
+                ease;
+
+            opacity: 1;
         }
 
 
-        @keyframes rippleExpand {
+        .ripple-element.expand {
+            transform: scale(1);
+        }
 
-            0% {
-                transform: scale(0);
-                opacity: .4;
-            }
 
-            65% {
-                opacity: .18;
-            }
-
-            100% {
-                transform: scale(1);
-                opacity: 0;
-            }
-
+        .ripple-element.fade-out {
+            opacity: 0;
         }
 
 
         /* =========================================================
-           COUNTDOWN
+           REDIRECT INFO
         ========================================================= */
 
         .redirect-info {
@@ -704,14 +734,15 @@
 
             font-weight: 600;
 
-            font-variant-numeric: tabular-nums;
+            font-variant-numeric:
+                tabular-nums;
 
             text-align: center;
         }
 
 
         /* =========================================================
-           DISABLE REDIRECT BUTTON
+           DISABLE BUTTON
         ========================================================= */
 
         .disable-redirect {
@@ -728,9 +759,12 @@
 
             border-radius: 7px;
 
-            border: 1px solid rgba(255,255,255,.07);
+            border:
+                1px solid
+                rgba(255,255,255,.07);
 
-            background: rgba(255,255,255,.025);
+            background:
+                rgba(255,255,255,.025);
 
             color: #696473;
 
@@ -741,20 +775,24 @@
 
             cursor: pointer;
 
-            /*
-             * Keine Hover-Effekte.
-             */
+            opacity: 0;
+
+            animation:
+                fadeUp
+                .8s
+                cubic-bezier(.16,1,.3,1)
+                1.08s
+                forwards;
         }
 
 
-        .disable-redirect.disabled {
-            color: #a8a2b5;
+        /*
+         * Nach dem Deaktivieren verschwinden beide
+         * zusammen.
+         */
 
-            border-color:
-                rgba(167,139,250,.15);
-
-            background:
-                rgba(167,139,250,.05);
+        .redirect-disabled {
+            display: none;
         }
 
 
@@ -764,6 +802,7 @@
 
         .old-path {
             display: flex;
+
             align-items: center;
 
             gap: 9px;
@@ -772,7 +811,9 @@
 
             color: #575362;
 
-            font-family: "Space Grotesk", sans-serif;
+            font-family:
+                "Space Grotesk",
+                sans-serif;
 
             font-size: 11px;
 
@@ -784,7 +825,7 @@
                 fadeUp
                 .8s
                 cubic-bezier(.16,1,.3,1)
-                1.05s
+                1.15s
                 forwards;
         }
 
@@ -797,7 +838,8 @@
 
             border-radius: 50%;
 
-            background: #55505e;
+            background:
+                #55505e;
         }
 
 
@@ -810,11 +852,16 @@
 
             z-index: 5;
 
-            width: min(1280px, calc(100% - 48px));
+            width:
+                min(
+                    1280px,
+                    calc(100% - 48px)
+                );
 
             margin: 0 auto;
 
-            padding: 0 0 25px;
+            padding:
+                0 0 25px;
 
             display: flex;
 
@@ -830,7 +877,7 @@
                 fadeUp
                 .8s
                 cubic-bezier(.16,1,.3,1)
-                1.15s
+                1.2s
                 forwards;
         }
 
@@ -843,19 +890,23 @@
 
 
         /* =========================================================
-           ENTRANCE ANIMATIONS
+           OPENING ANIMATIONS
         ========================================================= */
 
         @keyframes fadeDown {
 
             from {
                 opacity: 0;
-                transform: translateY(-20px);
+
+                transform:
+                    translateY(-20px);
             }
 
             to {
                 opacity: 1;
-                transform: translateY(0);
+
+                transform:
+                    translateY(0);
             }
 
         }
@@ -865,12 +916,16 @@
 
             from {
                 opacity: 0;
-                transform: translateY(22px);
+
+                transform:
+                    translateY(22px);
             }
 
             to {
                 opacity: 1;
-                transform: translateY(0);
+
+                transform:
+                    translateY(0);
             }
 
         }
@@ -925,11 +980,13 @@
         @keyframes lineGrow {
 
             from {
-                transform: scaleX(0);
+                transform:
+                    scaleX(0);
             }
 
             to {
-                transform: scaleX(1);
+                transform:
+                    scaleX(1);
             }
 
         }
@@ -1087,7 +1144,10 @@
 
     <nav class="nav">
 
-        <a href="/" class="brand">
+        <a
+            href="/"
+            class="brand"
+        >
 
             <img
                 src="https://pixelhide.net/favicon.png"
@@ -1115,10 +1175,6 @@
     <main class="wrapper">
 
 
-        <!-- =====================================================
-             LOGO
-        ====================================================== -->
-
         <section class="visual">
 
             <div class="ring-outer"></div>
@@ -1137,10 +1193,6 @@
 
         </section>
 
-
-        <!-- =====================================================
-             CONTENT
-        ====================================================== -->
 
         <section class="content">
 
@@ -1195,7 +1247,7 @@
 
                 <a
                     href="https://discord.pixelhide.net"
-                    class="discord-button"
+                    class="discord-button ripple-target"
                     id="discordButton"
                 >
 
@@ -1213,7 +1265,10 @@
                  COUNTDOWN
             ================================================== -->
 
-            <div class="redirect-info">
+            <div
+                class="redirect-info"
+                id="redirectInfo"
+            >
 
                 Du wirst automatisch weitergeleitet in
 
@@ -1227,13 +1282,13 @@
 
 
             <!-- =================================================
-                 DISABLE BUTTON
+                 DISABLE
             ================================================== -->
 
             <button
-                class="disable-redirect"
-                id="disableRedirect"
                 type="button"
+                id="disableRedirect"
+                class="disable-redirect ripple-target"
             >
                 Automatische Weiterleitung deaktivieren
             </button>
@@ -1269,137 +1324,196 @@
     <script>
 
         /* =========================================================
-           ELEMENTS
+           RIPPLE — 1:1 DEIN SYSTEM
         ========================================================= */
 
-        const button =
-            document.getElementById("discordButton");
+        document
+            .querySelectorAll(".ripple-target")
+            .forEach(button => {
 
-        const countdown =
-            document.getElementById("countdown");
-
-        const disableButton =
-            document.getElementById("disableRedirect");
+                let activeRipple = null;
 
 
-        /* =========================================================
-           RIPPLE
-        ========================================================= */
+                button.addEventListener(
+                    "mousedown",
+                    function(e) {
 
-        let navigating = false;
-
-
-        button.addEventListener(
-            "pointerdown",
-            function(event) {
-
-                if (navigating) {
-                    return;
-                }
+                        if (activeRipple) {
+                            activeRipple.remove();
+                        }
 
 
-                const rect =
-                    button.getBoundingClientRect();
+                        const rect =
+                            this.getBoundingClientRect();
 
 
-                const x =
-                    event.clientX - rect.left;
+                        const clickX =
+                            e.clientX -
+                            rect.left;
 
 
-                const y =
-                    event.clientY - rect.top;
+                        const clickY =
+                            e.clientY -
+                            rect.top;
 
 
-                /*
-                 * Größter Abstand zu einer Ecke.
-                 * Dadurch reicht der Ripple immer bis
-                 * zum kompletten Rand des Buttons.
-                 */
+                        const distTL =
+                            Math.hypot(
+                                clickX,
+                                clickY
+                            );
 
-                const radius =
-                    Math.max(
-                        Math.hypot(
-                            x,
-                            y
-                        ),
 
-                        Math.hypot(
-                            rect.width - x,
-                            y
-                        ),
+                        const distTR =
+                            Math.hypot(
+                                rect.width -
+                                clickX,
+                                clickY
+                            );
 
-                        Math.hypot(
-                            x,
-                            rect.height - y
-                        ),
 
-                        Math.hypot(
-                            rect.width - x,
-                            rect.height - y
-                        )
+                        const distBL =
+                            Math.hypot(
+                                clickX,
+                                rect.height -
+                                clickY
+                            );
+
+
+                        const distBR =
+                            Math.hypot(
+                                rect.width -
+                                clickX,
+                                rect.height -
+                                clickY
+                            );
+
+
+                        const diameter =
+                            Math.max(
+                                distTL,
+                                distTR,
+                                distBL,
+                                distBR
+                            ) * 2;
+
+
+                        activeRipple =
+                            document.createElement(
+                                "span"
+                            );
+
+
+                        activeRipple.className =
+                            "ripple-element";
+
+
+                        activeRipple.style.width =
+                            `${diameter}px`;
+
+
+                        activeRipple.style.height =
+                            `${diameter}px`;
+
+
+                        activeRipple.style.left =
+                            `${clickX -
+                            diameter / 2}px`;
+
+
+                        activeRipple.style.top =
+                            `${clickY -
+                            diameter / 2}px`;
+
+
+                        this.appendChild(
+                            activeRipple
+                        );
+
+
+                        requestAnimationFrame(
+                            () => {
+
+                                if (
+                                    activeRipple
+                                ) {
+
+                                    activeRipple
+                                        .classList
+                                        .add(
+                                            "expand"
+                                        );
+
+                                }
+
+                            }
+                        );
+
+                    }
+                );
+
+
+                const finishRipple = () => {
+
+                    if (!activeRipple) {
+                        return;
+                    }
+
+
+                    const rippleToFade =
+                        activeRipple;
+
+
+                    activeRipple = null;
+
+
+                    rippleToFade
+                        .classList
+                        .add(
+                            "fade-out"
+                        );
+
+
+                    setTimeout(
+                        () => {
+
+                            rippleToFade.remove();
+
+                        },
+                        350
                     );
 
-
-                const ripple =
-                    document.createElement("span");
+                };
 
 
-                ripple.className =
-                    "ripple";
-
-
-                const diameter =
-                    radius * 2;
-
-
-                ripple.style.width =
-                    diameter + "px";
-
-
-                ripple.style.height =
-                    diameter + "px";
-
-
-                ripple.style.left =
-                    (x - radius) + "px";
-
-
-                ripple.style.top =
-                    (y - radius) + "px";
-
-
-                button.appendChild(ripple);
-
-
-                /*
-                 * Browser zwingend dazu bringen,
-                 * die Anfangsposition zu rendern.
-                 */
-
-                void ripple.offsetWidth;
-
-
-                ripple.classList.add(
-                    "animate"
+                button.addEventListener(
+                    "mouseup",
+                    finishRipple
                 );
 
 
-                setTimeout(
-                    () => {
-                        ripple.remove();
-                    },
-                    700
+                button.addEventListener(
+                    "mouseleave",
+                    finishRipple
                 );
 
-            }
-        );
+            });
 
 
         /* =========================================================
            DISCORD BUTTON
         ========================================================= */
 
-        button.addEventListener(
+        const discordButton =
+            document.getElementById(
+                "discordButton"
+            );
+
+
+        let navigating = false;
+
+
+        discordButton.addEventListener(
             "click",
             function(event) {
 
@@ -1413,10 +1527,6 @@
 
                 navigating = true;
 
-
-                /*
-                 * Ripple kurz sichtbar lassen.
-                 */
 
                 setTimeout(
                     () => {
@@ -1436,9 +1546,27 @@
            COUNTDOWN
         ========================================================= */
 
-        let secondsLeft = 30;
+        const countdown =
+            document.getElementById(
+                "countdown"
+            );
+
+
+        const redirectInfo =
+            document.getElementById(
+                "redirectInfo"
+            );
+
+
+        const disableRedirect =
+            document.getElementById(
+                "disableRedirect"
+            );
+
 
         let redirectEnabled = true;
+
+        let secondsLeft = 30;
 
 
         countdown.textContent =
@@ -1448,6 +1576,12 @@
         const countdownInterval =
             window.setInterval(
                 () => {
+
+                    /*
+                     * ABSOLUTER Schutz:
+                     * Wenn deaktiviert wurde,
+                     * darf hier NICHTS mehr passieren.
+                     */
 
                     if (!redirectEnabled) {
                         return;
@@ -1463,13 +1597,24 @@
 
                     if (secondsLeft <= 0) {
 
+                        /*
+                         * Vor der Weiterleitung
+                         * nochmal prüfen.
+                         */
+
+                        if (!redirectEnabled) {
+                            return;
+                        }
+
+
                         window.clearInterval(
                             countdownInterval
                         );
 
 
-                        window.location.href =
-                            "https://discord.pixelhide.net";
+                        window.location.assign(
+                            "https://discord.pixelhide.net"
+                        );
 
                     }
 
@@ -1482,7 +1627,7 @@
            DISABLE AUTO REDIRECT
         ========================================================= */
 
-        disableButton.addEventListener(
+        disableRedirect.addEventListener(
             "click",
             function() {
 
@@ -1491,25 +1636,32 @@
                 }
 
 
+                /*
+                 * ZUERST deaktivieren.
+                 * Damit kann der Countdown
+                 * garantiert nicht mehr redirecten.
+                 */
+
                 redirectEnabled = false;
 
+
+                /*
+                 * Interval wirklich stoppen.
+                 */
 
                 window.clearInterval(
                     countdownInterval
                 );
 
 
-                countdown.textContent =
-                    "—";
+                /*
+                 * Countdown + Button
+                 * komplett entfernen.
+                 */
 
+                redirectInfo.remove();
 
-                disableButton.textContent =
-                    "Automatische Weiterleitung deaktiviert";
-
-
-                disableButton.classList.add(
-                    "disabled"
-                );
+                disableRedirect.remove();
 
             }
         );
