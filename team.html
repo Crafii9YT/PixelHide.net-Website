@@ -25,9 +25,6 @@
 
             --text: #f4f2ff;
             --muted: #9995a8;
-
-            --mx: 50%;
-            --my: 50%;
         }
 
 
@@ -50,18 +47,13 @@
 
             background:
                 radial-gradient(
-                    circle at var(--mx) var(--my),
-                    rgba(167,139,250,.09),
-                    transparent 24%
-                ),
-                radial-gradient(
                     circle at 18% 45%,
-                    rgba(167,139,250,.08),
+                    rgba(167,139,250,.075),
                     transparent 32%
                 ),
                 radial-gradient(
                     circle at 86% 12%,
-                    rgba(167,139,250,.055),
+                    rgba(167,139,250,.05),
                     transparent 28%
                 ),
                 var(--black);
@@ -99,14 +91,6 @@
 
             background-size: 55px 55px;
 
-            transform:
-                translate(
-                    calc((var(--mx) - 50%) * .018),
-                    calc((var(--my) - 50%) * .018)
-                );
-
-            transition: transform .25s ease-out;
-
             mask-image: linear-gradient(
                 to bottom,
                 black,
@@ -116,45 +100,7 @@
 
 
         /* =========================================================
-           MOUSE GLOW
-        ========================================================= */
-
-        .mouse-glow {
-            position: fixed;
-
-            width: 420px;
-            height: 420px;
-
-            left: 0;
-            top: 0;
-
-            border-radius: 50%;
-
-            pointer-events: none;
-
-            background:
-                radial-gradient(
-                    circle,
-                    rgba(167,139,250,.075) 0%,
-                    rgba(167,139,250,.025) 35%,
-                    transparent 70%
-                );
-
-            transform:
-                translate3d(
-                    -50%,
-                    -50%,
-                    0
-                );
-
-            z-index: 0;
-
-            will-change: transform;
-        }
-
-
-        /* =========================================================
-           AMBIENT LIGHTS
+           AMBIENT LIGHT
         ========================================================= */
 
         .ambient {
@@ -165,14 +111,11 @@
 
             border-radius: 50%;
 
-            background: rgba(167,139,250,.065);
+            background: rgba(167,139,250,.055);
 
             filter: blur(120px);
 
             pointer-events: none;
-
-            transition:
-                transform 1.2s cubic-bezier(.16,1,.3,1);
         }
 
 
@@ -314,10 +257,6 @@
                 cubic-bezier(.16,1,.3,1)
                 .15s
                 forwards;
-
-            transform-style: preserve-3d;
-
-            will-change: transform;
         }
 
 
@@ -334,11 +273,6 @@
             box-shadow:
                 0 0 100px rgba(167,139,250,.07),
                 inset 0 0 100px rgba(167,139,250,.025);
-
-            transform-style: preserve-3d;
-
-            transition:
-                transform .15s cubic-bezier(.16,1,.3,1);
         }
 
 
@@ -351,9 +285,6 @@
             border-radius: 50%;
 
             border: 1px solid rgba(255,255,255,.055);
-
-            transition:
-                transform .2s cubic-bezier(.16,1,.3,1);
         }
 
 
@@ -383,13 +314,6 @@
             display: flex;
             align-items: center;
             justify-content: center;
-
-            transform-style: preserve-3d;
-
-            transition:
-                transform .12s cubic-bezier(.16,1,.3,1);
-
-            will-change: transform;
         }
 
 
@@ -408,10 +332,6 @@
             filter: blur(75px);
 
             z-index: -1;
-
-            transition:
-                transform .4s ease,
-                opacity .4s ease;
         }
 
 
@@ -443,11 +363,6 @@
 
         .content {
             max-width: 590px;
-
-            will-change: transform;
-
-            transition:
-                transform .2s cubic-bezier(.16,1,.3,1);
         }
 
 
@@ -592,8 +507,6 @@
                 cubic-bezier(.16,1,.3,1)
                 .9s
                 forwards;
-
-            transform-style: preserve-3d;
         }
 
 
@@ -649,8 +562,7 @@
 
 
         /* =========================================================
-           BUTTON
-           NUR RIPPLE
+           DISCORD BUTTON
         ========================================================= */
 
         .discord-button {
@@ -687,28 +599,34 @@
 
             -webkit-tap-highlight-color: transparent;
 
-            /*
-             * Absichtlich KEIN transition,
-             * KEIN scale und KEIN hover effect.
-             */
+            /* WICHTIG:
+               keinerlei Hover-Animation
+               keinerlei Transform
+            */
         }
 
 
         .discord-button span {
             position: relative;
 
-            z-index: 5;
+            z-index: 3;
 
             pointer-events: none;
         }
 
 
+        /* =========================================================
+           RIPPLE
+        ========================================================= */
+
         .ripple {
             position: absolute;
 
+            display: block;
+
             border-radius: 50%;
 
-            background: rgba(255,255,255,.34);
+            background: rgba(255,255,255,.38);
 
             pointer-events: none;
 
@@ -718,21 +636,38 @@
 
             opacity: 1;
 
-            will-change: transform, opacity;
-
-            transition:
-                transform .65s cubic-bezier(.4,0,.2,1),
-                opacity .35s ease;
+            /*
+             * Der Ripple liegt absolut IM Button.
+             * Er beeinflusst dadurch niemals dessen Größe.
+             */
         }
 
 
-        .ripple.expand {
-            transform: scale(1);
+        .ripple.animate {
+            animation:
+                rippleExpand
+                .65s
+                cubic-bezier(.2,.8,.2,1)
+                forwards;
         }
 
 
-        .ripple.fade {
-            opacity: 0;
+        @keyframes rippleExpand {
+
+            0% {
+                transform: scale(0);
+                opacity: .4;
+            }
+
+            65% {
+                opacity: .18;
+            }
+
+            100% {
+                transform: scale(1);
+                opacity: 0;
+            }
+
         }
 
 
@@ -772,6 +707,54 @@
             font-variant-numeric: tabular-nums;
 
             text-align: center;
+        }
+
+
+        /* =========================================================
+           DISABLE REDIRECT BUTTON
+        ========================================================= */
+
+        .disable-redirect {
+            display: inline-flex;
+
+            align-items: center;
+            justify-content: center;
+
+            margin-top: 9px;
+
+            height: 28px;
+
+            padding: 0 10px;
+
+            border-radius: 7px;
+
+            border: 1px solid rgba(255,255,255,.07);
+
+            background: rgba(255,255,255,.025);
+
+            color: #696473;
+
+            font-family: Inter, sans-serif;
+
+            font-size: 10px;
+            font-weight: 500;
+
+            cursor: pointer;
+
+            /*
+             * Keine Hover-Effekte.
+             */
+        }
+
+
+        .disable-redirect.disabled {
+            color: #a8a2b5;
+
+            border-color:
+                rgba(167,139,250,.15);
+
+            background:
+                rgba(167,139,250,.05);
         }
 
 
@@ -867,16 +850,12 @@
 
             from {
                 opacity: 0;
-
-                transform:
-                    translateY(-20px);
+                transform: translateY(-20px);
             }
 
             to {
                 opacity: 1;
-
-                transform:
-                    translateY(0);
+                transform: translateY(0);
             }
 
         }
@@ -886,16 +865,12 @@
 
             from {
                 opacity: 0;
-
-                transform:
-                    translateY(22px);
+                transform: translateY(22px);
             }
 
             to {
                 opacity: 1;
-
-                transform:
-                    translateY(0);
+                transform: translateY(0);
             }
 
         }
@@ -950,13 +925,11 @@
         @keyframes lineGrow {
 
             from {
-                transform:
-                    scaleX(0);
+                transform: scaleX(0);
             }
 
             to {
-                transform:
-                    scaleX(1);
+                transform: scaleX(1);
             }
 
         }
@@ -1006,7 +979,12 @@
 
 
             h1 {
-                font-size: clamp(55px, 12vw, 85px);
+                font-size:
+                    clamp(
+                        55px,
+                        12vw,
+                        85px
+                    );
             }
 
         }
@@ -1017,7 +995,11 @@
             .nav,
             .wrapper,
             footer {
-                width: min(100% - 30px, 1280px);
+                width:
+                    min(
+                        100% - 30px,
+                        1280px
+                    );
             }
 
 
@@ -1076,19 +1058,15 @@
             }
 
 
+            .disable-redirect {
+                width: 100%;
+            }
+
+
             footer {
                 flex-direction: column;
 
                 gap: 7px;
-            }
-
-
-            /*
-             * Parallax auf kleinen Geräten deaktivieren.
-             */
-
-            .mouse-glow {
-                display: none;
             }
 
         }
@@ -1099,15 +1077,13 @@
 
 <body>
 
-    <!-- Hintergrund -->
-
-    <div class="mouse-glow"></div>
-
     <div class="ambient one"></div>
     <div class="ambient two"></div>
 
 
-    <!-- NAV -->
+    <!-- =========================================================
+         NAV
+    ========================================================= -->
 
     <nav class="nav">
 
@@ -1132,21 +1108,25 @@
     </nav>
 
 
-    <!-- MAIN -->
+    <!-- =========================================================
+         MAIN
+    ========================================================= -->
 
     <main class="wrapper">
 
 
-        <!-- VISUAL -->
+        <!-- =====================================================
+             LOGO
+        ====================================================== -->
 
-        <section class="visual" id="visual">
+        <section class="visual">
 
-            <div class="ring-outer" id="ringOuter"></div>
+            <div class="ring-outer"></div>
 
-            <div class="ring-inner" id="ringInner"></div>
+            <div class="ring-inner"></div>
 
 
-            <div class="logo-wrap" id="logo">
+            <div class="logo-wrap">
 
                 <img
                     src="https://pixelhide.net/pixelhidenet.png"
@@ -1158,9 +1138,11 @@
         </section>
 
 
-        <!-- CONTENT -->
+        <!-- =====================================================
+             CONTENT
+        ====================================================== -->
 
-        <section class="content" id="content">
+        <section class="content">
 
 
             <div class="eyebrow">
@@ -1180,8 +1162,6 @@
                 direkt auf unserem Discord Server.
             </p>
 
-
-            <!-- DESTINATION -->
 
             <div class="destination">
 
@@ -1213,11 +1193,9 @@
                 </div>
 
 
-                <!-- BUTTON -->
-
                 <a
                     href="https://discord.pixelhide.net"
-                    class="discord-button ripple-target"
+                    class="discord-button"
                     id="discordButton"
                 >
 
@@ -1231,20 +1209,35 @@
             </div>
 
 
-            <!-- COUNTDOWN -->
+            <!-- =================================================
+                 COUNTDOWN
+            ================================================== -->
 
             <div class="redirect-info">
 
                 Du wirst automatisch weitergeleitet in
 
-                <strong id="countdown">30</strong>
+                <strong id="countdown">
+                    30
+                </strong>
 
                 Sekunden.
 
             </div>
 
 
-            <!-- OLD PATH -->
+            <!-- =================================================
+                 DISABLE BUTTON
+            ================================================== -->
+
+            <button
+                class="disable-redirect"
+                id="disableRedirect"
+                type="button"
+            >
+                Automatische Weiterleitung deaktivieren
+            </button>
+
 
             <div class="old-path">
                 pixelhide.net/team
@@ -1256,7 +1249,9 @@
     </main>
 
 
-    <!-- FOOTER -->
+    <!-- =========================================================
+         FOOTER
+    ========================================================= -->
 
     <footer>
 
@@ -1274,7 +1269,7 @@
     <script>
 
         /* =========================================================
-           ELEMENTE
+           ELEMENTS
         ========================================================= */
 
         const button =
@@ -1283,287 +1278,117 @@
         const countdown =
             document.getElementById("countdown");
 
-        const logo =
-            document.getElementById("logo");
-
-        const visual =
-            document.getElementById("visual");
-
-        const content =
-            document.getElementById("content");
-
-        const ringOuter =
-            document.getElementById("ringOuter");
-
-        const ringInner =
-            document.getElementById("ringInner");
-
-        const mouseGlow =
-            document.querySelector(".mouse-glow");
-
-        const ambientOne =
-            document.querySelector(".ambient.one");
-
-        const ambientTwo =
-            document.querySelector(".ambient.two");
+        const disableButton =
+            document.getElementById("disableRedirect");
 
 
         /* =========================================================
            RIPPLE
-           ========================================================= */
+        ========================================================= */
 
         let navigating = false;
 
 
-        button.addEventListener("pointerdown", function(event) {
+        button.addEventListener(
+            "pointerdown",
+            function(event) {
 
-            if (navigating) {
-                return;
-            }
+                if (navigating) {
+                    return;
+                }
 
 
-            /*
-             * Alte Ripples löschen
-             */
+                const rect =
+                    button.getBoundingClientRect();
 
-            button
-                .querySelectorAll(".ripple")
-                .forEach(element => {
-                    element.remove();
-                });
 
+                const x =
+                    event.clientX - rect.left;
 
-            const rect =
-                button.getBoundingClientRect();
 
+                const y =
+                    event.clientY - rect.top;
 
-            const x =
-                event.clientX - rect.left;
 
+                /*
+                 * Größter Abstand zu einer Ecke.
+                 * Dadurch reicht der Ripple immer bis
+                 * zum kompletten Rand des Buttons.
+                 */
 
-            const y =
-                event.clientY - rect.top;
+                const radius =
+                    Math.max(
+                        Math.hypot(
+                            x,
+                            y
+                        ),
 
+                        Math.hypot(
+                            rect.width - x,
+                            y
+                        ),
 
-            /*
-             * Entfernung zu den vier Ecken
-             */
+                        Math.hypot(
+                            x,
+                            rect.height - y
+                        ),
 
-            const distances = [
-
-                Math.hypot(
-                    x,
-                    y
-                ),
-
-                Math.hypot(
-                    rect.width - x,
-                    y
-                ),
-
-                Math.hypot(
-                    x,
-                    rect.height - y
-                ),
-
-                Math.hypot(
-                    rect.width - x,
-                    rect.height - y
-                )
-
-            ];
-
-
-            const radius =
-                Math.max(...distances);
-
-
-            const diameter =
-                radius * 2;
-
-
-            const ripple =
-                document.createElement("span");
-
-
-            ripple.className =
-                "ripple";
-
-
-            ripple.style.width =
-                diameter + "px";
-
-
-            ripple.style.height =
-                diameter + "px";
-
-
-            ripple.style.left =
-                (x - radius) + "px";
-
-
-            ripple.style.top =
-                (y - radius) + "px";
-
-
-            button.appendChild(ripple);
-
-
-            /*
-             * Zwei Frames warten.
-             * Dadurch ist garantiert,
-             * dass der Browser den Startzustand
-             * tatsächlich rendert.
-             */
-
-            requestAnimationFrame(() => {
-
-                requestAnimationFrame(() => {
-
-                    ripple.classList.add("expand");
-
-                });
-
-            });
-
-
-            /*
-             * Ausblenden
-             */
-
-            setTimeout(() => {
-
-                ripple.classList.add("fade");
-
-            }, 400);
-
-
-            setTimeout(() => {
-
-                ripple.remove();
-
-            }, 800);
-
-        });
-
-
-        /*
-         * Navigation erst nach dem Ripple starten.
-         */
-
-        button.addEventListener("click", function(event) {
-
-            event.preventDefault();
-
-
-            if (navigating) {
-                return;
-            }
-
-
-            navigating = true;
-
-
-            setTimeout(() => {
-
-                window.location.href =
-                    "https://discord.pixelhide.net";
-
-            }, 650);
-
-        });
-
-
-        /* =========================================================
-           COUNTDOWN
-           ========================================================= */
-
-        let secondsLeft = 30;
-
-        countdown.textContent = secondsLeft;
-
-
-        const countdownInterval =
-            setInterval(() => {
-
-                secondsLeft--;
-
-                countdown.textContent =
-                    secondsLeft;
-
-
-                if (secondsLeft <= 0) {
-
-                    clearInterval(
-                        countdownInterval
+                        Math.hypot(
+                            rect.width - x,
+                            rect.height - y
+                        )
                     );
 
 
-                    window.location.href =
-                        "https://discord.pixelhide.net";
-
-                }
-
-            }, 1000);
+                const ripple =
+                    document.createElement("span");
 
 
-        /* =========================================================
-           MOUSE PARALLAX
-           ========================================================= */
-
-        let targetX = 0;
-        let targetY = 0;
-
-        let currentX = 0;
-        let currentY = 0;
+                ripple.className =
+                    "ripple";
 
 
-        let mouseX = 0;
-        let mouseY = 0;
+                const diameter =
+                    radius * 2;
 
 
-        window.addEventListener(
-            "mousemove",
-            event => {
+                ripple.style.width =
+                    diameter + "px";
 
-                const x =
-                    event.clientX / window.innerWidth;
 
-                const y =
-                    event.clientY / window.innerHeight;
+                ripple.style.height =
+                    diameter + "px";
+
+
+                ripple.style.left =
+                    (x - radius) + "px";
+
+
+                ripple.style.top =
+                    (y - radius) + "px";
+
+
+                button.appendChild(ripple);
 
 
                 /*
-                 * Werte von -1 bis +1
+                 * Browser zwingend dazu bringen,
+                 * die Anfangsposition zu rendern.
                  */
 
-                targetX =
-                    (x - .5) * 2;
-
-                targetY =
-                    (y - .5) * 2;
+                void ripple.offsetWidth;
 
 
-                mouseX =
-                    event.clientX;
-
-                mouseY =
-                    event.clientY;
-
-
-                /*
-                 * CSS Glow Position
-                 */
-
-                document.documentElement.style.setProperty(
-                    "--mx",
-                    `${x * 100}%`
+                ripple.classList.add(
+                    "animate"
                 );
 
 
-                document.documentElement.style.setProperty(
-                    "--my",
-                    `${y * 100}%`
+                setTimeout(
+                    () => {
+                        ripple.remove();
+                    },
+                    700
                 );
 
             }
@@ -1571,132 +1396,120 @@
 
 
         /* =========================================================
-           PARALLAX LOOP
+           DISCORD BUTTON
         ========================================================= */
 
-        function animateParallax() {
+        button.addEventListener(
+            "click",
+            function(event) {
 
-            currentX +=
-                (targetX - currentX) * .075;
-
-
-            currentY +=
-                (targetY - currentY) * .075;
+                event.preventDefault();
 
 
-            /*
-             * Logo
-             */
-
-            logo.style.transform = `
-                translate3d(
-                    ${currentX * 14}px,
-                    ${currentY * 14}px,
-                    35px
-                )
-                rotateX(${currentY * -2.5}deg)
-                rotateY(${currentX * 2.5}deg)
-            `;
+                if (navigating) {
+                    return;
+                }
 
 
-            /*
-             * Äußerer Ring bewegt sich stärker
-             */
-
-            ringOuter.style.transform = `
-                translate3d(
-                    ${currentX * -18}px,
-                    ${currentY * -18}px,
-                    0
-                )
-                rotateX(${currentY * 5}deg)
-                rotateY(${currentX * -5}deg)
-            `;
+                navigating = true;
 
 
-            /*
-             * Innerer Ring bewegt sich andersherum
-             */
+                /*
+                 * Ripple kurz sichtbar lassen.
+                 */
 
-            ringInner.style.transform = `
-                translate3d(
-                    ${currentX * 9}px,
-                    ${currentY * 9}px,
-                    0
-                )
-                rotateX(${currentY * -3}deg)
-                rotateY(${currentX * 3}deg)
-            `;
+                setTimeout(
+                    () => {
 
+                        window.location.href =
+                            "https://discord.pixelhide.net";
 
-            /*
-             * Text bewegt sich minimal
-             */
+                    },
+                    650
+                );
 
-            content.style.transform = `
-                translate3d(
-                    ${currentX * -5}px,
-                    ${currentY * -5}px,
-                    0
-                )
-            `;
-
-
-            /*
-             * Mouse Glow
-             */
-
-            mouseGlow.style.transform = `
-                translate3d(
-                    ${mouseX}px,
-                    ${mouseY}px,
-                    0
-                )
-            `;
-
-
-            /*
-             * Ambient Light
-             */
-
-            ambientOne.style.transform = `
-                translate3d(
-                    ${currentX * 30}px,
-                    ${currentY * 20}px,
-                    0
-                )
-            `;
-
-
-            ambientTwo.style.transform = `
-                translate3d(
-                    ${currentX * -25}px,
-                    ${currentY * -20}px,
-                    0
-                )
-            `;
-
-
-            requestAnimationFrame(
-                animateParallax
-            );
-
-        }
-
-
-        animateParallax();
+            }
+        );
 
 
         /* =========================================================
-           MOUSE LEAVE
+           COUNTDOWN
         ========================================================= */
 
-        window.addEventListener(
-            "mouseleave",
-            () => {
+        let secondsLeft = 30;
 
-                targetX = 0;
-                targetY = 0;
+        let redirectEnabled = true;
+
+
+        countdown.textContent =
+            secondsLeft;
+
+
+        const countdownInterval =
+            window.setInterval(
+                () => {
+
+                    if (!redirectEnabled) {
+                        return;
+                    }
+
+
+                    secondsLeft--;
+
+
+                    countdown.textContent =
+                        secondsLeft;
+
+
+                    if (secondsLeft <= 0) {
+
+                        window.clearInterval(
+                            countdownInterval
+                        );
+
+
+                        window.location.href =
+                            "https://discord.pixelhide.net";
+
+                    }
+
+                },
+                1000
+            );
+
+
+        /* =========================================================
+           DISABLE AUTO REDIRECT
+        ========================================================= */
+
+        disableButton.addEventListener(
+            "click",
+            function() {
+
+                if (!redirectEnabled) {
+                    return;
+                }
+
+
+                redirectEnabled = false;
+
+
+                window.clearInterval(
+                    countdownInterval
+                );
+
+
+                countdown.textContent =
+                    "—";
+
+
+                disableButton.textContent =
+                    "Automatische Weiterleitung deaktiviert";
+
+
+                disableButton.classList.add(
+                    "disabled"
+                );
 
             }
         );
