@@ -1,0 +1,1456 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>PixelHide.net • Join</title>
+
+    <meta property="og:title" content="PixelHide.net">
+    <meta property="og:description" content="So trittst du PixelHide.net bei">
+    <meta property="og:image" content="https://pixelhide.net/favicon.png">
+
+    <link rel="icon" href="https://pixelhide.net/favicon.png">
+
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Inter:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+    <style>
+
+        :root{
+            --bg:#040406;
+
+            --card:#0d0d14;
+            --card2:#13131d;
+
+            --accent:#a78bfa;
+            --accent2:#c4b5fd;
+
+            --text:#f5f5f5;
+            --muted:#9ca3af;
+
+            --zoom:1;
+            --text-size:1;
+            --blur:16px;
+            --radius:24px;
+            --glow-opacity:.12;
+            --card-opacity:.04;
+            --transition:.25s;
+        }
+
+        /* GLOBAL */
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+        }
+
+        html{
+            scroll-behavior:smooth;
+        }
+
+        body{
+            font-family:Inter,sans-serif;
+            background:var(--bg);
+            color:var(--text);
+            overflow-x:hidden;
+
+            zoom:var(--zoom);
+            font-size:calc(16px * var(--text-size));
+            transition:background var(--transition), color var(--transition);
+        }
+
+        /* NO ANIMATIONS */
+
+        .no-animations *{
+            animation:none !important;
+            transition:none !important;
+            scroll-behavior:auto !important;
+        }
+
+        /* SCROLLBAR */
+
+        ::-webkit-scrollbar{
+            width:10px;
+        }
+
+        ::-webkit-scrollbar-track{
+            background:#08080d;
+        }
+
+        ::-webkit-scrollbar-thumb{
+            background:linear-gradient(var(--accent),var(--accent2));
+            border-radius:999px;
+        }
+
+        /* SETTINGS BUTTON */
+
+        .settings-btn{
+            position:fixed;
+
+            top:25px;
+            right:25px;
+
+            z-index:9999;
+
+            padding:14px 22px;
+
+            border-radius:18px;
+
+            background:rgba(255,255,255,.06);
+
+            border:1px solid rgba(255,255,255,.08);
+
+            backdrop-filter:blur(16px);
+
+            color:var(--text);
+
+            text-decoration:none;
+
+            display:flex;
+            align-items:center;
+            gap:10px;
+
+            font-weight:700;
+            font-family:Inter,sans-serif;
+
+            transition:var(--transition);
+        }
+
+        .settings-btn:hover{
+            transform:translateY(-4px);
+            border-color:rgba(167,139,250,.35);
+            box-shadow:0 0 20px rgba(167,139,250,.15);
+        }
+
+        .settings-btn svg{
+            transition:transform .5s ease;
+        }
+
+        .settings-btn:hover svg{
+            transform:rotate(90deg);
+        }
+
+        /* BACKGROUND GLOW */
+
+        .bg-glow{
+            position:fixed;
+            width:700px;
+            height:700px;
+            background:radial-gradient(circle,var(--accent) 0%,transparent 70%);
+            opacity:var(--glow-opacity);
+            filter:blur(100px);
+            z-index:-1;
+            animation:floatGlow 12s ease-in-out infinite;
+        }
+
+        .bg-glow2{
+            right:-250px;
+            top:350px;
+            animation-delay:4s;
+        }
+
+        @keyframes floatGlow{
+            0%{
+                transform:translateY(0px) translateX(0px);
+            }
+
+            50%{
+                transform:translateY(-50px) translateX(40px);
+            }
+
+            100%{
+                transform:translateY(0px) translateX(0px);
+            }
+        }
+
+        /* HERO */
+
+        .hero{
+            position:relative;
+            min-height:100vh;
+
+            background:
+                    linear-gradient(rgba(0,0,0,.45),rgba(4,4,6,.96)),
+                    url("https://pixelhide.net/Banner.png") center/cover no-repeat;
+
+            display:flex;
+            justify-content:center;
+            align-items:center;
+
+            overflow:hidden;
+        }
+
+        .hero::before{
+            content:"";
+            position:absolute;
+            inset:0;
+
+            background:
+                    radial-gradient(circle at center,
+                    rgba(167,139,250,.2),
+                    transparent 60%);
+
+            animation:pulse 6s infinite;
+        }
+
+        @keyframes pulse{
+            0%{
+                opacity:.4;
+                transform:scale(1);
+            }
+
+            50%{
+                opacity:.8;
+                transform:scale(1.08);
+            }
+
+            100%{
+                opacity:.4;
+                transform:scale(1);
+            }
+        }
+
+        .hero-content{
+            position:relative;
+            z-index:2;
+
+            width:100%;
+            max-width:1000px;
+
+            text-align:center;
+            padding:30px;
+
+            animation:heroEnter 1.1s ease;
+        }
+
+        @keyframes heroEnter{
+            from{
+                opacity:0;
+                transform:translateY(40px);
+            }
+
+            to{
+                opacity:1;
+                transform:translateY(0px);
+            }
+        }
+
+        .logo{
+            width:620px;
+            max-width:95%;
+
+            margin-bottom:30px;
+
+            filter:
+                    drop-shadow(0 0 20px rgba(167,139,250,.6))
+                    drop-shadow(0 0 80px rgba(167,139,250,.5));
+
+            animation:floatLogo 5s ease-in-out infinite;
+        }
+
+        @keyframes floatLogo{
+            0%{
+                transform:translateY(0px);
+            }
+
+            50%{
+                transform:translateY(-10px);
+            }
+
+            100%{
+                transform:translateY(0px);
+            }
+        }
+
+        .hero-title{
+            font-size:4rem;
+            font-family:Orbitron;
+            margin-bottom:18px;
+        }
+
+        .hero-text{
+            color:var(--muted);
+            max-width:760px;
+            margin:auto;
+
+            line-height:1.8;
+            font-size:1.15rem;
+        }
+
+        /* JOIN STEPS */
+
+        .join-steps{
+            margin-top:45px;
+
+            display:flex;
+            justify-content:center;
+            flex-wrap:wrap;
+            gap:18px;
+        }
+
+        .step{
+            background:
+                    linear-gradient(
+                            145deg,
+                            rgba(255,255,255,var(--card-opacity)),
+                            rgba(255,255,255,.02)
+                    );
+
+            border:1px solid rgba(255,255,255,.06);
+
+            padding:18px 24px;
+            border-radius:var(--radius);
+
+            min-width:210px;
+
+            backdrop-filter:blur(var(--blur));
+
+            transition:var(--transition);
+        }
+
+        .step:hover{
+            transform:translateY(-5px);
+            border-color:rgba(167,139,250,.4);
+        }
+
+        .step-number{
+            width:34px;
+            height:34px;
+
+            border-radius:999px;
+
+            background:linear-gradient(135deg,var(--accent),var(--accent2));
+
+            color:#050507;
+
+            display:flex;
+            align-items:center;
+            justify-content:center;
+
+            font-weight:800;
+
+            margin:auto auto 12px;
+        }
+
+        /* BUTTONS */
+
+        .btn-row{
+            display:flex;
+            justify-content:center;
+            gap:18px;
+            flex-wrap:wrap;
+
+            margin-top:45px;
+        }
+
+        .btn{
+            position:relative;
+
+            padding:17px 34px;
+            border-radius:10px;
+
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            gap:12px;
+
+            overflow:hidden;
+
+            text-decoration:none;
+            font-weight:700;
+
+            transition:var(--transition);
+
+            backdrop-filter:blur(var(--blur));
+        }
+
+        .btn::before{
+            content:"";
+
+            position:absolute;
+            top:0;
+            left:-120%;
+
+            width:100%;
+            height:100%;
+
+            background:
+                    linear-gradient(
+                            90deg,
+                            transparent,
+                            rgba(255,255,255,.22),
+                            transparent
+                    );
+
+            transition:.6s;
+        }
+
+        .btn:hover::before{
+            left:120%;
+        }
+
+        .btn:hover{
+            transform:translateY(-4px) scale(1.03);
+        }
+
+        .btn-primary{
+            background:
+                    linear-gradient(
+                            135deg,
+                            var(--accent),
+                            var(--accent2)
+                    );
+
+            color:#050507;
+
+            box-shadow:
+                    0 0 25px rgba(167,139,250,.25),
+                    0 0 70px rgba(167,139,250,.15);
+        }
+
+        .btn-outline{
+            border:1px solid rgba(167,139,250,.35);
+
+            color:white;
+
+            background:
+                    rgba(255,255,255,.04);
+        }
+
+        /* SECTION */
+
+        section{
+            max-width:1300px;
+            margin:auto;
+            padding:110px 25px;
+        }
+
+        .section-title{
+            text-align:center;
+            margin-bottom:60px;
+        }
+
+        .section-title h2{
+            font-size:3rem;
+            font-family:Orbitron;
+            margin-bottom:15px;
+        }
+
+        .section-title p{
+            color:var(--muted);
+        }
+
+        /* VIDEO */
+
+        .video-wrapper{
+            position:relative;
+
+            overflow:hidden;
+            border-radius:var(--radius);
+
+            background:#000;
+
+            box-shadow:
+                    0 0 40px rgba(167,139,250,.12),
+                    0 0 120px rgba(167,139,250,.08);
+        }
+
+        .video-wrapper::before{
+            content:"";
+
+            position:absolute;
+            inset:0;
+
+            border-radius:var(--radius);
+
+            border:1px solid rgba(255,255,255,.08);
+
+            pointer-events:none;
+        }
+
+        video{
+            width:100%;
+            display:block;
+        }
+
+        /* STATUS */
+
+        .status{
+            margin-top:45px;
+
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            gap:18px;
+
+            flex-wrap:wrap;
+        }
+
+        .ip-box{
+            background:
+                    linear-gradient(
+                            145deg,
+                            rgba(255,255,255,var(--card-opacity)),
+                            rgba(255,255,255,.02)
+                    );
+
+            border:1px solid rgba(255,255,255,.07);
+
+            border-radius:var(--radius);
+
+            padding:22px 30px;
+
+            min-width:320px;
+
+            text-align:center;
+
+            backdrop-filter:blur(var(--blur));
+        }
+
+        .ip{
+            font-size:2rem;
+            font-weight:800;
+            color:var(--accent2);
+
+            margin-bottom:8px;
+        }
+
+        .ip-small{
+            color:var(--muted);
+        }
+
+        /* TOAST */
+
+        #copy-toast{
+            position:fixed;
+
+            left:25px;
+            bottom:-120px;
+
+            background:
+                    linear-gradient(
+                            135deg,
+                            var(--accent),
+                            var(--accent2)
+                    );
+
+            color:#050507;
+
+            padding:18px 24px;
+
+            border-radius:18px;
+
+            display:flex;
+            align-items:center;
+            gap:15px;
+
+            font-weight:700;
+
+            opacity:0;
+
+            transition:.5s cubic-bezier(.68,-0.55,.27,1.55);
+
+            box-shadow:
+                    0 20px 40px rgba(0,0,0,.45);
+
+            z-index:9999;
+        }
+
+        #copy-toast.show{
+            bottom:25px;
+            opacity:1;
+        }
+
+        #close-toast{
+            border:none;
+            background:none;
+            font-size:1.2rem;
+            cursor:pointer;
+        }
+
+        /* FOOTER */
+
+        footer{
+            margin-top:100px;
+
+            border-top:1px solid rgba(255,255,255,.06);
+
+            text-align:center;
+
+            padding:50px 25px;
+
+            color:var(--muted);
+        }
+
+        /* MOBILE */
+
+        @media(max-width:768px){
+
+            .hero-title{
+                font-size:2.4rem;
+            }
+
+            .logo{
+                width:320px;
+            }
+
+            .join-steps{
+                flex-direction:column;
+                align-items:center;
+            }
+
+            .step{
+                width:100%;
+                max-width:340px;
+            }
+
+            .btn{
+                width:100%;
+            }
+
+            .btn-row{
+                flex-direction:column;
+            }
+
+            .section-title h2{
+                font-size:2rem;
+            }
+
+            .ip{
+                font-size:1.4rem;
+            }
+
+            .ip-box{
+                width:100%;
+            }
+
+        }
+
+        /* Refined, consistent styling */
+        :root{
+            --bg:#090a0f;
+            --card:#11131b;
+            --card2:#171a24;
+            --accent:#a494f4;
+            --accent2:#c8bfff;
+            --muted:#a2a7b4;
+            --radius:18px;
+        }
+
+        body{
+            background:
+                radial-gradient(ellipse at 50% 0,rgba(164,148,244,.07),transparent 42%),
+                var(--bg);
+            line-height:1.6;
+        }
+        h1,h2,h3{ font-family:Inter,sans-serif; letter-spacing:-.035em; }
+        .bg-glow{ opacity:.045; filter:blur(120px); }
+        .bg-glow2{ opacity:.035; }
+
+        .settings-btn{
+            top:24px;
+            right:clamp(18px,4vw,56px);
+            min-height:46px;
+            padding:11px 17px;
+            border-radius:12px;
+            background:rgba(17,19,27,.78);
+            border-color:rgba(255,255,255,.12);
+            backdrop-filter:blur(14px);
+            font-size:.9rem;
+        }
+        .settings-btn:hover{
+            transform:translateY(-2px);
+            border-color:rgba(200,191,255,.38);
+            box-shadow:0 10px 28px rgba(0,0,0,.22);
+        }
+
+        .hero{
+            min-height:min(900px,100svh);
+            padding:80px 20px 48px;
+            background:
+                linear-gradient(180deg,rgba(7,8,12,.36) 0%,rgba(7,8,12,.58) 48%,var(--bg) 100%),
+                linear-gradient(90deg,rgba(7,8,12,.38),rgba(7,8,12,.12),rgba(7,8,12,.38)),
+                url("https://pixelhide.net/Banner.png") center/cover no-repeat;
+        }
+        .hero::before{
+            background:linear-gradient(180deg,rgba(9,10,15,.08),rgba(9,10,15,.22));
+            animation:none;
+        }
+        .hero-content{
+            max-width:1050px;
+            padding:35px 24px;
+            animation:heroEnter .75s ease both;
+        }
+        .logo{
+            filter:drop-shadow(0 14px 32px rgba(0,0,0,.42));
+            animation:none;
+        }
+        .hero-title{ font-size:clamp(2.5rem,6vw,4rem); margin-bottom:12px; }
+        .hero-text{ color:#d0d1d8; font-size:clamp(1rem,2vw,1.12rem); line-height:1.8; }
+
+        .join-steps{ gap:12px; margin-top:34px; }
+        .step{
+            flex:1 1 205px;
+            min-width:0;
+            max-width:260px;
+            padding:21px 22px;
+            border-radius:15px;
+            background:rgba(17,19,27,.76);
+            border-color:rgba(255,255,255,.11);
+            backdrop-filter:blur(12px);
+            color:#e7e7ec;
+            font-weight:500;
+        }
+        .step:hover{
+            transform:translateY(-2px);
+            border-color:rgba(200,191,255,.28);
+        }
+        .step-number{
+            width:36px;
+            height:36px;
+            margin-bottom:12px;
+            background:var(--accent);
+            color:#17131f;
+        }
+        .btn-row{ gap:12px; margin-top:28px; }
+        .btn{
+            min-height:52px;
+            padding:14px 24px;
+            border-radius:12px;
+            backdrop-filter:blur(10px);
+            font-size:.95rem;
+        }
+        .btn:hover{ transform:translateY(-2px); }
+        .btn-primary{
+            background:var(--accent);
+            color:#17131f;
+            box-shadow:0 8px 24px rgba(164,148,244,.18);
+        }
+        .btn-outline{
+            border-color:rgba(200,191,255,.3);
+            background:rgba(17,19,27,.64);
+            color:#f5f5f7;
+        }
+
+        section{ max-width:1120px; padding:82px 28px; }
+        .section-title{ margin-bottom:34px; }
+        .section-title h2{ font-size:clamp(2rem,4vw,2.6rem); margin-bottom:8px; }
+        .section-title p{ color:var(--muted); }
+        .video-wrapper{
+            border-radius:18px;
+            box-shadow:0 18px 54px rgba(0,0,0,.3);
+        }
+        .video-wrapper::before{ border-radius:18px; }
+        .status{
+            margin-top:30px;
+            gap:12px;
+        }
+        .ip-box{
+            min-width:min(320px,100%);
+            padding:20px 28px;
+            border-radius:15px;
+            background:rgba(17,19,27,.82);
+            border-color:rgba(255,255,255,.1);
+        }
+        .ip{ color:var(--accent2); letter-spacing:-.035em; }
+        footer{
+            margin-top:40px;
+            padding:34px 24px;
+            background:#0d0f15;
+            border-top-color:rgba(255,255,255,.08);
+        }
+        #copy-toast{
+            background:#c8bfff;
+            border:1px solid rgba(255,255,255,.2);
+            border-radius:14px;
+            box-shadow:0 16px 40px rgba(0,0,0,.35);
+        }
+
+        .site-header{
+            position:absolute;
+            inset:0 0 auto;
+            z-index:20;
+            display:flex;
+            align-items:center;
+            justify-content:space-between;
+            gap:24px;
+            padding:18px clamp(20px,5vw,72px);
+            border-bottom:1px solid rgba(255,255,255,.1);
+            background:linear-gradient(180deg,rgba(8,9,14,.78),rgba(8,9,14,.22));
+        }
+        .site-brand{ display:flex; align-items:center; }
+        .site-brand img{ width:145px; max-height:52px; object-fit:contain; }
+        .join-nav{ display:flex; align-items:center; gap:24px; }
+        .join-nav>a:not(.settings-btn){ color:#e6e5ed; text-decoration:none; font-size:.88rem; font-weight:600; }
+        .join-nav>a:not(.settings-btn):hover{ color:var(--accent2); }
+        .settings-btn{
+            position:static;
+            min-height:44px;
+            padding:10px 15px;
+            border-radius:11px;
+            background:rgba(17,19,27,.78);
+            border-color:rgba(255,255,255,.12);
+            font-size:.86rem;
+        }
+
+        .hero{
+            min-height:min(790px,100svh);
+            padding:120px 28px 54px;
+            background:
+                linear-gradient(90deg,rgba(7,8,12,.83),rgba(7,8,12,.52) 55%,rgba(7,8,12,.68)),
+                linear-gradient(180deg,rgba(7,8,12,.28),var(--bg)),
+                url("https://pixelhide.net/Banner.png") center/cover no-repeat;
+        }
+        .hero::before{ animation:none; background:linear-gradient(180deg,rgba(9,10,15,.06),rgba(9,10,15,.18)); }
+        .hero-content{
+            display:flex;
+            flex-direction:column;
+            align-items:center;
+            gap:24px;
+            max-width:940px;
+            padding:24px 20px;
+            text-align:center;
+        }
+        .hero-copy{ max-width:760px; }
+        .hero-copy .logo{
+            display:block;
+            width:min(500px,78vw);
+            max-width:100%;
+            margin:0 auto 14px;
+            filter:drop-shadow(0 14px 28px rgba(0,0,0,.42));
+            animation:none;
+        }
+        .eyebrow,.guide-kicker{
+            display:block;
+            margin-bottom:12px;
+            color:var(--accent2);
+            font-size:.75rem;
+            font-weight:700;
+            letter-spacing:.12em;
+            text-transform:uppercase;
+        }
+        .hero-title{
+            margin-bottom:12px;
+            font-size:clamp(2.5rem,5.8vw,4.2rem);
+            line-height:1.05;
+        }
+        .hero-text{ color:#d0d1d8; max-width:620px; margin:0 auto; font-size:1.05rem; line-height:1.8; }
+        .join-guide{
+            width:100%;
+            padding:24px;
+            border:1px solid rgba(255,255,255,.13);
+            border-radius:18px;
+            background:rgba(15,17,24,.78);
+            box-shadow:0 22px 60px rgba(0,0,0,.24);
+            backdrop-filter:blur(16px);
+        }
+        .join-guide h2{ margin-bottom:18px; font-size:1.25rem; }
+        .join-steps{
+            display:flex;
+            flex-direction:row;
+            justify-content:center;
+            gap:12px;
+            margin:0;
+            padding:0;
+            list-style:none;
+        }
+        .step{
+            display:flex;
+            flex:1 1 0;
+            flex-direction:column;
+            align-items:center;
+            justify-content:center;
+            gap:11px;
+            min-width:0;
+            min-height:118px;
+            padding:16px;
+            border:1px solid rgba(255,255,255,.08);
+            border-radius:12px;
+            background:rgba(255,255,255,.035);
+            text-align:center;
+            font-size:.92rem;
+        }
+        .step:hover{ transform:none; border-color:rgba(200,191,255,.28); }
+        .step-number{ flex:0 0 34px; margin:0; }
+        .hero .btn-row{ justify-content:center; margin:0; gap:10px; }
+
+        .tutorial-section{
+            max-width:1180px;
+            padding:76px 28px;
+        }
+        .tutorial-section .section-title{ margin-bottom:28px; text-align:center; }
+        .tutorial-section .section-title h2{ margin-bottom:7px; font-size:clamp(2rem,4vw,2.7rem); }
+        .tutorial-layout{ display:grid; grid-template-columns:minmax(0,1fr); gap:16px; align-items:stretch; }
+        .tutorial-layout .video-wrapper{ width:100%; max-width:1000px; margin:0 auto; min-height:0; border-radius:16px; box-shadow:0 18px 48px rgba(0,0,0,.28); }
+        .tutorial-layout video{ width:100%; height:auto; min-height:0; aspect-ratio:16/9; object-fit:cover; }
+        .server-panel{
+            display:grid;
+            grid-template-columns:minmax(0,1fr) auto;
+            align-items:center;
+            gap:10px 24px;
+            margin:0;
+            padding:22px 26px;
+            border:1px solid rgba(255,255,255,.09);
+            border-radius:16px;
+            background:rgba(17,19,27,.82);
+        }
+        .server-panel .guide-kicker{ grid-column:1; margin:0; }
+        .server-panel h3{ grid-column:1; font-size:1.25rem; }
+        .server-panel>p{ grid-column:1; color:var(--muted); font-size:.9rem; line-height:1.7; }
+        .server-panel .ip-box{
+            grid-column:1;
+            min-width:0;
+            width:100%;
+            padding:12px 0 0;
+            border:0;
+            border-top:1px solid rgba(255,255,255,.09);
+            border-radius:0;
+            background:transparent;
+            text-align:left;
+            backdrop-filter:none;
+        }
+        .server-panel .ip{ margin:0 0 3px; font-size:1.65rem; }
+        .server-panel .btn{ grid-column:2; grid-row:1 / span 4; min-width:170px; }
+        .site-footer{
+            display:flex;
+            flex-direction:column;
+            align-items:center;
+            gap:14px;
+            margin-top:30px;
+            padding:28px 20px 36px;
+            background:#0d0f15;
+            border-top:1px solid rgba(255,255,255,.08);
+        }
+        .footer-logo{ width:112px; height:auto; opacity:.9; }
+        .site-footer span{ color:var(--accent2); }
+        :target{ scroll-margin-top:24px; }
+
+        @media(max-width:768px){
+            .site-header{ padding:13px 16px; gap:12px; }
+            .site-brand img{ width:112px; }
+            .join-nav{ gap:13px; }
+            .join-nav>a:not(.settings-btn){ font-size:.8rem; }
+            .settings-btn{ min-height:40px; padding:8px 10px; }
+            .hero{ min-height:auto; padding:105px 18px 44px; }
+            .hero-content{ gap:22px; padding:20px 0; }
+            .join-guide{ padding:20px; }
+            .tutorial-section{ padding:62px 20px; }
+            .tutorial-layout{ grid-template-columns:1fr; }
+            .tutorial-layout .video-wrapper,.tutorial-layout video{ min-height:0; }
+        }
+        @media(max-width:460px){
+            .site-brand img{ width:88px; }
+            .join-nav{ gap:8px; }
+            .join-nav>a:not(.settings-btn){ font-size:.73rem; }
+            .settings-btn{ gap:6px; padding:8px; }
+            .settings-btn svg{ width:16px; }
+            .hero-title{ font-size:2.7rem; }
+            .hero .btn-row{ flex-direction:column; }
+            .hero .btn{ width:100%; }
+            .join-steps{ flex-direction:column; }
+            .step{ flex-direction:row; justify-content:flex-start; min-height:0; text-align:left; }
+            .server-panel{ grid-template-columns:1fr; padding:20px; }
+            .server-panel .btn{ grid-column:1; grid-row:auto; width:100%; }
+        }
+        :focus-visible{ outline:2px solid var(--accent2); outline-offset:3px; }
+
+        /* Shared account header */
+        .site-header:not(.account-header){display:none!important}
+        .settings-topbar{display:none!important}
+        .site-header{position:fixed!important;inset:0 0 auto!important;z-index:10000!important;display:flex!important;align-items:center;justify-content:space-between;gap:24px;min-height:82px;padding:12px clamp(20px,5vw,72px);border-bottom:1px solid rgba(255,255,255,.1);background:rgba(8,9,14,.86);backdrop-filter:blur(16px)}
+        .site-brand{display:flex;align-items:center;flex:0 0 auto}
+        .site-brand img{display:block;width:190px;max-height:64px;object-fit:contain}
+        .top-buttons{position:relative!important;inset:auto!important;z-index:auto;display:flex;align-items:center;gap:10px}
+        .top-buttons button,.top-buttons a{font-family:Inter,sans-serif}
+        .login-btn,.more-btn{min-height:46px;border:1px solid rgba(255,255,255,.12);border-radius:12px;color:var(--text);background:rgba(17,19,27,.82);cursor:pointer;transition:background-color .2s ease,border-color .2s ease,filter .2s ease}
+        .login-btn{display:flex;align-items:center;justify-content:center;gap:9px;min-width:112px;padding:10px 16px;font-size:.9rem;font-weight:700}
+        .login-btn:hover,.more-btn:hover{background:rgba(255,255,255,.12);border-color:rgba(200,191,255,.34);filter:brightness(1.08)}
+        .login-btn:active,.more-btn:active{filter:brightness(1.16)}
+        .login-btn.is-loading{pointer-events:none}
+        #loginBtn[hidden],#userPill[hidden]{display:none!important}
+        .login-btn.is-loading .login-label,.login-btn.is-loading svg{display:none}
+        .nav-spinner{display:none;width:17px;height:17px;border:2px solid rgba(255,255,255,.28);border-top-color:var(--accent2);border-radius:50%;animation:header-spin .7s linear infinite}
+        .login-btn.is-loading .nav-spinner{display:block}
+        @keyframes header-spin{to{transform:rotate(360deg)}}
+        .user-pill{position:relative;display:flex;align-items:center;gap:10px;max-width:240px;padding:7px 14px 7px 8px;border:1px solid rgba(200,191,255,.25);border-radius:12px;color:var(--text);background:rgba(17,19,27,.9);cursor:pointer;user-select:none;transition:background-color .2s ease,border-color .2s ease,filter .2s ease}
+        .user-pill:hover{background:rgba(255,255,255,.1);border-color:rgba(200,191,255,.34)}
+        .user-pill:active{filter:brightness(1.12)}
+        .avatar,.dropdown-avatar{display:flex;flex:0 0 auto;align-items:center;justify-content:center;width:30px;height:30px;overflow:hidden;border-radius:50%;color:#17131f;background:linear-gradient(135deg,var(--accent),var(--accent2));font-size:.8rem;font-weight:800}
+        .avatar img,.dropdown-avatar img{width:100%;height:100%;object-fit:cover}
+        .email-text{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:.86rem;font-weight:650}
+        .chevron{flex:0 0 auto;transition:transform .2s ease}
+        .user-pill.open .chevron{transform:rotate(180deg)}
+        .user-dropdown,.more-dropdown{position:absolute;top:calc(100% + 10px);right:0;z-index:2;min-width:220px;padding:8px;border:1px solid rgba(255,255,255,.12);border-radius:14px;background:#11131b;box-shadow:0 18px 42px rgba(0,0,0,.42);opacity:0;visibility:hidden;transform:translateY(-5px);transition:opacity .18s ease,transform .18s ease,visibility .18s}
+        .user-dropdown{width:260px;cursor:default}
+        .user-dropdown.visible,.more-menu.open .more-dropdown{opacity:1;visibility:visible;transform:translateY(0)}
+        .dropdown-header{display:flex;flex-direction:column;align-items:center;padding:14px 10px 16px}
+        .dropdown-avatar{width:52px;height:52px;margin-bottom:9px;font-size:1.1rem}
+        .dropdown-username{max-width:100%;overflow:hidden;text-overflow:ellipsis;font-weight:750}
+        .dropdown-email{max-width:100%;margin-top:3px;color:#aeb0bc;font-size:.76rem;overflow-wrap:anywhere;cursor:pointer}
+        .dropdown-email.blurred{filter:blur(4px);user-select:none}
+        .dropdown-email-hint{margin-top:4px;color:#767987;font-size:.68rem}
+        .dropdown-item{display:flex;align-items:center;gap:10px;padding:10px 11px;border-radius:8px;color:#e6e5ed;font-size:.86rem;cursor:pointer;transition:background-color .18s ease,color .18s ease}
+        .dropdown-item:hover{background:rgba(255,255,255,.08)}
+        .dropdown-item.danger:hover{color:#fca5a5;background:rgba(239,68,68,.1)}
+        .dropdown-divider{height:1px;margin:5px 3px;background:rgba(255,255,255,.08)}
+        .more-menu{position:relative}
+        .more-btn{display:flex;align-items:center;justify-content:center;width:46px;height:46px;padding:0}
+        .more-btn svg{width:20px;height:20px}
+        .more-dropdown{min-width:190px}
+        .more-dropdown a{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:8px;color:var(--text);text-decoration:none;font-size:.88rem}
+        .more-dropdown a:hover{background:rgba(255,255,255,.08)}
+        .site-modal-overlay{position:fixed;inset:0;z-index:20000;display:flex;align-items:center;justify-content:center;padding:20px;background:rgba(0,0,0,.76);backdrop-filter:blur(8px);opacity:0;visibility:hidden;transition:opacity .2s ease,visibility .2s ease}
+        .site-modal-overlay.visible{opacity:1;visibility:visible}
+        .site-modal{position:relative;width:min(440px,100%);max-height:min(760px,calc(100dvh - 40px));overflow:auto;padding:34px;border:1px solid rgba(255,255,255,.13);border-radius:20px;color:var(--text);background:#11131b;box-shadow:0 28px 80px rgba(0,0,0,.55);transform:translateY(8px);transition:transform .2s ease}
+        .site-modal-overlay.visible .site-modal{transform:translateY(0)}
+        .site-modal-close{position:absolute;top:14px;right:15px;width:34px;height:34px;border:0;border-radius:9px;color:var(--text);background:transparent;font-size:1.2rem;cursor:pointer}
+        .site-modal-close:hover{background:rgba(255,255,255,.08)}
+        .site-modal h2{margin-bottom:5px;font-size:1.35rem}
+        .site-modal p{margin-bottom:20px;color:var(--muted);font-size:.88rem}
+        .site-auth-tabs{display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-bottom:18px;padding:4px;border-radius:10px;background:rgba(255,255,255,.05)}
+        .site-auth-tabs button{padding:9px;border:0;border-radius:7px;color:var(--muted);background:transparent;font-weight:700;cursor:pointer}
+        .site-auth-tabs button.active{color:var(--text);background:rgba(255,255,255,.1)}
+        .site-auth-field{display:block;margin:13px 0;color:var(--muted);font-size:.82rem;font-weight:650}
+        .site-auth-field input{display:block;width:100%;margin-top:7px;padding:12px;border:1px solid rgba(255,255,255,.12);border-radius:10px;outline:none;color:var(--text);background:#0c0d13;font:inherit}
+        .site-auth-field input:focus{border-color:var(--accent)}
+        .site-auth-error{display:none;margin:0 0 12px;padding:10px 12px;border:1px solid rgba(248,113,113,.2);border-radius:9px;color:#fca5a5;background:rgba(127,29,29,.16);font-size:.82rem}
+        .site-auth-error.visible{display:block}
+        .site-auth-submit{width:100%;margin-top:5px;padding:12px;border:0;border-radius:10px;color:#17131f;background:var(--accent2);font:inherit;font-weight:750;cursor:pointer}
+        .site-auth-submit:hover{filter:brightness(1.08)}
+        .site-auth-submit:disabled{opacity:.65;cursor:wait}
+        .site-remember{display:flex;align-items:center;gap:8px;margin:14px 0;color:var(--muted);font-size:.82rem}
+        .site-modal-lock{overflow:hidden!important}
+        @media(max-width:768px){.site-header{min-height:70px;padding:10px 16px;gap:12px}.site-brand img{width:150px}.top-buttons{gap:7px}.login-btn{min-height:42px;min-width:96px;padding:9px 12px;font-size:.82rem}}
+        @media(max-width:460px){.site-brand img{width:116px}.top-buttons{gap:5px}.user-pill{max-width:140px;padding:6px 9px}.email-text{max-width:66px;font-size:.78rem}.avatar{width:27px;height:27px}.more-btn{width:42px;height:42px}.site-modal{padding:28px 22px}}
+
+        @media(prefers-reduced-motion:reduce){
+            *,*::before,*::after{ animation-duration:.01ms !important; animation-iteration-count:1 !important; scroll-behavior:auto !important; }
+        }
+        /* Purple pixel-block theme with a compact, tactile button press */
+        :root{--accent:#a78bfa;--accent2:#c4b5fd}
+        body{background-color:#08070d;background-image:linear-gradient(rgba(167,139,250,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(167,139,250,.035) 1px,transparent 1px),linear-gradient(180deg,#100d19,#08070d 70%);background-size:32px 32px,32px 32px,auto;background-attachment:fixed}
+        .hero,.card,.stat,.status,.join-guide,.step,.server-panel,.tutorial-section,.site-modal,.auth-modal,.accsettings-modal,.settings-card,.user-dropdown,.more-dropdown{border-radius:10px}
+        .card,.stat,.status,.join-guide,.step,.server-panel,.site-modal,.auth-modal,.accsettings-modal,.settings-card{border-color:rgba(196,181,253,.16);box-shadow:0 8px 24px rgba(0,0,0,.24)}
+        button,.btn,.settings-btn,.back-btn,.login-btn,.more-btn,.user-pill,.auth-submit,.site-auth-submit,.site-modal-close,.site-auth-tabs button,.pw-toggle,.auth-close,.sizeerr-close-btn,.sizeerr-tinypng,.dropdown-item,.more-dropdown a,.theme-card,.toggle,#close-toast,#adModal button{border-radius:7px;box-shadow:inset 0 1px 0 rgba(255,255,255,.2),inset 0 -2px 0 rgba(0,0,0,.18),0 3px 0 #514477,0 5px 10px rgba(0,0,0,.25);transition:transform .1s ease,box-shadow .1s ease,filter .15s ease,background-color .15s ease}
+        button,.site-auth-tabs button{border:1px solid #796ba0;color:#f4f0ff;background:linear-gradient(180deg,#51466d,#39314e);cursor:pointer}
+        .btn,.settings-btn,.back-btn,.login-btn,.more-btn,.user-pill,.site-auth-submit,.auth-submit,.sizeerr-tinypng,.theme-card,.toggle,#close-toast,#adModal button{border:1px solid rgba(219,208,255,.38);background-image:linear-gradient(180deg,rgba(255,255,255,.12),rgba(255,255,255,.025) 55%,rgba(0,0,0,.12))}
+        .btn-primary,.site-auth-submit,.auth-submit,.sizeerr-tinypng,#adModal button:last-child{border-color:#d1c2ff;color:#171222;background-color:#a78bfa;background-image:linear-gradient(180deg,#c4b5fd 0%,#a78bfa 56%,#8c6de0 100%);box-shadow:inset 0 1px 0 rgba(255,255,255,.35),inset 0 -2px 0 rgba(70,45,127,.28),0 3px 0 #684eaa,0 5px 10px rgba(0,0,0,.25)}
+        .btn-discord{box-shadow:inset 0 1px 0 rgba(255,255,255,.2),inset 0 -2px 0 rgba(0,0,0,.2),0 3px 0 #353a86,0 5px 10px rgba(0,0,0,.25)}
+        button:hover,.btn:hover,.settings-btn:hover,.back-btn:hover,.login-btn:hover,.more-btn:hover,.user-pill:hover,.auth-submit:hover,.site-auth-submit:hover,.site-modal-close:hover,.site-auth-tabs button:hover,.pw-toggle:hover,.auth-close:hover,.sizeerr-close-btn:hover,.sizeerr-tinypng:hover,.dropdown-item:hover,.more-dropdown a:hover,.theme-card:hover,.toggle:hover,#close-toast:hover,#adModal button:hover{transform:none!important;filter:none!important}
+        .btn-primary:hover{box-shadow:inset 0 1px 0 rgba(255,255,255,.35),inset 0 -2px 0 rgba(70,45,127,.28),0 3px 0 #684eaa,0 5px 10px rgba(0,0,0,.25)!important}
+        button:active:not(:disabled),.btn:active,.settings-btn:active,.back-btn:active,.login-btn:active,.more-btn:active,.user-pill:active,.auth-submit:active:not(:disabled),.site-auth-submit:active:not(:disabled),.site-modal-close:active,.site-auth-tabs button:active,.pw-toggle:active,.auth-close:active,.sizeerr-close-btn:active,.sizeerr-tinypng:active,.dropdown-item:active,.more-dropdown a:active,.theme-card:active,.toggle:active,#close-toast:active,#adModal button:active{transform:translateY(2px)!important;box-shadow:inset 0 2px 4px rgba(0,0,0,.24),0 1px 0 #514477,0 2px 4px rgba(0,0,0,.2)!important;filter:none!important}
+        .site-auth-field input,.form-input,input:not([type=checkbox]):not([type=radio]):not([type=file]),textarea,select{border-radius:7px;border-color:rgba(196,181,253,.24);background-color:#100d19}
+        .site-auth-field input:focus,.form-input:focus,input:focus,textarea:focus,select:focus{border-color:var(--accent2);box-shadow:0 0 0 2px rgba(167,139,250,.16)}
+        .avatar,.dropdown-avatar{border-radius:6px}
+        .btn,.site-auth-submit{position:relative;isolation:isolate;overflow:hidden}
+        .btn::after,.site-auth-submit::after{content:"";position:absolute;inset:-9px;padding:9px;border-radius:inherit;pointer-events:none;z-index:2;opacity:.85;background-image:radial-gradient(circle at 5px 5px,#e8deff 0 1.5px,transparent 2px),radial-gradient(circle at 17px 12px,#a78bfa 0 1.5px,transparent 2px),radial-gradient(circle at 24px 5px,#c4b5fd 0 1px,transparent 1.5px);background-size:31px 23px,37px 29px,43px 31px;background-position:0 0,8px 7px,15px 2px;mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);mask-composite:exclude;-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;animation:ender-button-particles 7s ease-in-out infinite}
+        .btn:hover::before{left:-120%!important}
+        @keyframes ender-button-particles{50%{background-position:11px -6px,-7px 13px,6px -8px}}
+        @media(prefers-reduced-motion:reduce){.btn::after,.site-auth-submit::after{animation:none}}
+        @media(prefers-reduced-motion:reduce){button,.btn,.settings-btn,.back-btn,.login-btn,.more-btn,.user-pill,.auth-submit,.site-auth-submit{transition:none}}
+        .btn::before,.btn::after,.site-auth-submit::after{content:none!important;display:none!important;animation:none!important}
+        /* Same purple block theme and control treatment as index.html */
+        :root{--accent:#a78bfa;--accent2:#c4b5fd}
+        body{background-color:#08070d;background-image:linear-gradient(rgba(167,139,250,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(167,139,250,.035) 1px,transparent 1px),linear-gradient(180deg,#100d19,#08070d 70%);background-size:32px 32px,32px 32px,auto;background-attachment:fixed}
+        .hero,.card,.stat,.status,.join-guide,.step,.server-panel,.tutorial-section,.site-modal,.auth-modal,.accsettings-modal,.settings-card,.user-dropdown,.more-dropdown{border-radius:10px}
+        .card,.stat,.status,.join-guide,.step,.server-panel,.site-modal,.auth-modal,.accsettings-modal,.settings-card{border-color:rgba(196,181,253,.16);box-shadow:0 8px 24px rgba(0,0,0,.24)}
+        button,.btn,.settings-btn,.back-btn,.login-btn,.more-btn,.user-pill,.auth-submit,.site-auth-submit,.site-modal-close,.site-auth-tabs button,.pw-toggle,.auth-close,.sizeerr-close-btn,.sizeerr-tinypng,.dropdown-item,.more-dropdown a,.theme-card,.toggle,#close-toast,#adModal button{border-radius:7px;box-shadow:inset 0 1px 0 rgba(255,255,255,.2),inset 0 -2px 0 rgba(0,0,0,.18),0 3px 0 #514477,0 5px 10px rgba(0,0,0,.25);transition:transform .1s ease,box-shadow .1s ease,filter .15s ease,background-color .15s ease}
+        button,.site-auth-tabs button{border:1px solid #796ba0;color:#f4f0ff;background:linear-gradient(180deg,#51466d,#39314e);cursor:pointer}
+        .btn,.settings-btn,.back-btn,.login-btn,.more-btn,.user-pill,.site-auth-submit,.auth-submit,.sizeerr-tinypng,.theme-card,.toggle,#close-toast,#adModal button{border:1px solid rgba(219,208,255,.38);background-image:linear-gradient(180deg,rgba(255,255,255,.12),rgba(255,255,255,.025) 55%,rgba(0,0,0,.12))}
+        .btn-primary,.site-auth-submit,.auth-submit,.sizeerr-tinypng,#adModal button:last-child{border-color:#d1c2ff;color:#171222;background-color:#a78bfa;background-image:linear-gradient(180deg,#c4b5fd 0%,#a78bfa 56%,#8c6de0 100%);box-shadow:inset 0 1px 0 rgba(255,255,255,.35),inset 0 -2px 0 rgba(70,45,127,.28),0 3px 0 #684eaa,0 5px 10px rgba(0,0,0,.25)}
+        .btn-discord{box-shadow:inset 0 1px 0 rgba(255,255,255,.2),inset 0 -2px 0 rgba(0,0,0,.2),0 3px 0 #353a86,0 5px 10px rgba(0,0,0,.25)}
+        button:hover,.btn:hover,.settings-btn:hover,.back-btn:hover,.login-btn:hover,.more-btn:hover,.user-pill:hover,.auth-submit:hover,.site-auth-submit:hover,.site-modal-close:hover,.site-auth-tabs button:hover,.pw-toggle:hover,.auth-close:hover,.sizeerr-close-btn:hover,.sizeerr-tinypng:hover,.dropdown-item:hover,.more-dropdown a:hover,.theme-card:hover,.toggle:hover,#close-toast:hover,#adModal button:hover{transform:none!important;filter:none!important}
+        .btn-primary:hover{box-shadow:inset 0 1px 0 rgba(255,255,255,.35),inset 0 -2px 0 rgba(70,45,127,.28),0 3px 0 #684eaa,0 5px 10px rgba(0,0,0,.25)!important}
+        button:active:not(:disabled),.btn:active,.settings-btn:active,.back-btn:active,.login-btn:active,.more-btn:active,.user-pill:active,.auth-submit:active:not(:disabled),.site-auth-submit:active:not(:disabled),.site-modal-close:active,.site-auth-tabs button:active,.pw-toggle:active,.auth-close:active,.sizeerr-close-btn:active,.sizeerr-tinypng:active,.dropdown-item:active,.more-dropdown a:active,.theme-card:active,.toggle:active,#close-toast:active,#adModal button:active{transform:translateY(2px)!important;box-shadow:inset 0 2px 4px rgba(0,0,0,.24),0 1px 0 #514477,0 2px 4px rgba(0,0,0,.2)!important;filter:none!important}
+        .site-auth-field input,.form-input,input:not([type=checkbox]):not([type=radio]):not([type=file]),textarea,select{border-radius:7px;border-color:rgba(196,181,253,.24);background-color:#100d19}
+        .site-auth-field input:focus,.form-input:focus,input:focus,textarea:focus,select:focus{border-color:var(--accent2);box-shadow:0 0 0 2px rgba(167,139,250,.16)}
+        .avatar,.dropdown-avatar{border-radius:6px}
+        .btn,.site-auth-submit{position:relative;isolation:isolate;overflow:hidden}
+        .btn::after,.site-auth-submit::after{content:"";position:absolute;inset:-9px;padding:9px;border-radius:inherit;pointer-events:none;z-index:2;opacity:.85;background-image:radial-gradient(circle at 5px 5px,#e8deff 0 1.5px,transparent 2px),radial-gradient(circle at 17px 12px,#a78bfa 0 1.5px,transparent 2px),radial-gradient(circle at 24px 5px,#c4b5fd 0 1px,transparent 1.5px);background-size:31px 23px,37px 29px,43px 31px;background-position:0 0,8px 7px,15px 2px;mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);mask-composite:exclude;-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;animation:ender-button-particles 7s ease-in-out infinite}
+        .btn:hover::before{left:-120%!important}
+        @keyframes ender-button-particles{50%{background-position:11px -6px,-7px 13px,6px -8px}}
+        main{position:relative;isolation:isolate}
+        main>header,main>section{position:relative;z-index:1}
+        .enderman-particles{position:absolute;top:0;right:0;bottom:0;left:0;overflow:hidden;pointer-events:none;z-index:0}
+        .enderman-particles span{position:absolute;top:var(--particle-y);left:var(--particle-x);width:3px;height:3px;background:#c4b5fd;opacity:0;box-shadow:4px 0 rgba(167,139,250,.8),0 4px rgba(140,109,224,.65);animation:ender-particle var(--particle-time) ease-in-out var(--particle-delay) infinite;will-change:transform,opacity}
+        .enderman-particles span:nth-child(4n){width:4px;height:4px}
+        @keyframes ender-particle{0%{transform:translate3d(0,8px,0);opacity:0}20%{opacity:.42}75%{opacity:.28}100%{transform:translate3d(var(--particle-drift),-72px,0);opacity:0}}
+        @media(prefers-reduced-motion:reduce){.enderman-particles{display:none}.btn::after,.site-auth-submit::after{animation:none}}
+        @media(prefers-reduced-motion:reduce){button,.btn,.settings-btn,.back-btn,.login-btn,.more-btn,.user-pill,.auth-submit,.site-auth-submit{transition:none}}
+
+        .btn,.settings-btn,.back-btn,.login-btn,.more-btn,.user-pill,.site-auth-submit{transition:transform .1s ease,box-shadow .1s ease!important}
+        .settings-btn:hover{background-color:rgba(17,19,27,.78)!important;border-color:rgba(255,255,255,.12)!important}
+        .back-btn:hover{background-color:rgba(17,19,27,.82)!important;background-image:linear-gradient(180deg,rgba(255,255,255,.12),rgba(255,255,255,.025) 55%,rgba(0,0,0,.12))!important;border-color:rgba(255,255,255,.12)!important}
+        .login-btn:hover,.more-btn:hover{background-color:rgba(17,19,27,.82)!important;background-image:linear-gradient(180deg,rgba(255,255,255,.12),rgba(255,255,255,.025) 55%,rgba(0,0,0,.12))!important;border-color:rgba(255,255,255,.12)!important}
+        .user-pill:hover{background-color:rgba(17,19,27,.9)!important;background-image:linear-gradient(180deg,rgba(255,255,255,.12),rgba(255,255,255,.025) 55%,rgba(0,0,0,.12))!important;border-color:rgba(200,191,255,.25)!important}
+        .btn:not(.btn-primary):not(.btn-discord):hover,.settings-btn:hover,.back-btn:hover,.login-btn:hover,.more-btn:hover,.user-pill:hover{box-shadow:inset 0 1px 0 rgba(255,255,255,.2),inset 0 -2px 0 rgba(0,0,0,.18),0 3px 0 #514477,0 5px 10px rgba(0,0,0,.25)!important}
+        .btn-primary:hover,.site-auth-submit:hover{box-shadow:inset 0 1px 0 rgba(255,255,255,.35),inset 0 -2px 0 rgba(70,45,127,.28),0 3px 0 #684eaa,0 5px 10px rgba(0,0,0,.25)!important}
+        .btn-discord:hover{box-shadow:inset 0 1px 0 rgba(255,255,255,.2),inset 0 -2px 0 rgba(0,0,0,.2),0 3px 0 #353a86,0 5px 10px rgba(0,0,0,.25)!important}
+        @media(prefers-reduced-motion:reduce){.btn,.settings-btn,.back-btn,.login-btn,.more-btn,.user-pill,.site-auth-submit{transition:none!important}}
+    </style>
+
+    <script>
+
+        /* =========================
+           SETTINGS SYNC
+           ========================= */
+
+        const THEMES = {
+            dark:{bg:"#050507",bg2:"#0b0b10",card:"#101018",accent:"#a78bfa",accent2:"#c4b5fd",text:"#f5f5f5",muted:"#9ca3af"},
+            light:{bg:"#ffffff",bg2:"#f4f4f5",card:"#ffffff",accent:"#8b5cf6",accent2:"#c4b5fd",text:"#111111",muted:"#555555"},
+            oled:{bg:"#000000",bg2:"#020202",card:"#050505",accent:"#8b5cf6",accent2:"#c4b5fd",text:"#ffffff",muted:"#888888"},
+            nebula:{bg:"#12051f",bg2:"#1e1033",card:"#24123a",accent:"#c084fc",accent2:"#e9d5ff",text:"#ffffff",muted:"#c4b5fd"},
+            blue:{bg:"#07111f",bg2:"#0f172a",card:"#172554",accent:"#3b82f6",accent2:"#60a5fa",text:"#ffffff",muted:"#93c5fd"},
+            green:{bg:"#07130b",bg2:"#0f1f14",card:"#14532d",accent:"#22c55e",accent2:"#86efac",text:"#ffffff",muted:"#bbf7d0"},
+            red:{bg:"#160606",bg2:"#2a0b0b",card:"#7f1d1d",accent:"#ef4444",accent2:"#fca5a5",text:"#ffffff",muted:"#fecaca"},
+            orange:{bg:"#1a0d05",bg2:"#2e1607",card:"#7c2d12",accent:"#f97316",accent2:"#fdba74",text:"#ffffff",muted:"#fed7aa"},
+            pink:{bg:"#1f0717",bg2:"#3b102c",card:"#831843",accent:"#ec4899",accent2:"#f9a8d4",text:"#ffffff",muted:"#fbcfe8"},
+            cyan:{bg:"#05161b",bg2:"#082f49",card:"#164e63",accent:"#06b6d4",accent2:"#67e8f9",text:"#ffffff",muted:"#a5f3fc"},
+            gold:{bg:"#1b1405",bg2:"#2d2209",card:"#78350f",accent:"#facc15",accent2:"#fde68a",text:"#ffffff",muted:"#fef3c7"},
+            forest:{bg:"#03120a",bg2:"#052e16",card:"#14532d",accent:"#4ade80",accent2:"#86efac",text:"#ffffff",muted:"#bbf7d0"},
+            blood:{bg:"#0f0000",bg2:"#220000",card:"#3f0000",accent:"#ff2d55",accent2:"#ff6b81",text:"#ffffff",muted:"#ffb3c1"},
+            midnight:{bg:"#020617",bg2:"#0f172a",card:"#1e1b4b",accent:"#6366f1",accent2:"#a5b4fc",text:"#ffffff",muted:"#c7d2fe"},
+            candy:{bg:"#2a1023",bg2:"#4a1d3f",card:"#831843",accent:"#f472b6",accent2:"#c084fc",text:"#ffffff",muted:"#fbcfe8"}
+        };
+
+        function applySettings(){
+            const r = document.documentElement;
+            const ls = localStorage;
+
+            const themeName = ls.getItem("theme") || "dark";
+            const t = THEMES[themeName] || THEMES.dark;
+            r.style.setProperty("--bg",      t.bg);
+            r.style.setProperty("--accent",  t.accent);
+            r.style.setProperty("--accent2", t.accent2);
+            r.style.setProperty("--text",    t.text);
+            r.style.setProperty("--muted",   t.muted);
+
+            const zoom = ls.getItem("zoom") || "1";
+            r.style.setProperty("--zoom", zoom);
+
+            const textSize = ls.getItem("textSize") || "1";
+            r.style.setProperty("--text-size", textSize);
+
+            const blur = ls.getItem("blur") || "16";
+            r.style.setProperty("--blur", blur + "px");
+
+            const rounded = ls.getItem("rounded");
+            r.style.setProperty("--radius", rounded === "false" ? "0px" : "24px");
+
+            const glow = ls.getItem("glow");
+            r.style.setProperty("--glow-opacity", glow === "false" ? "0" : ".12");
+
+            const transparent = ls.getItem("transparent");
+            r.style.setProperty("--card-opacity", transparent === "false" ? ".18" : ".04");
+
+            const transitions = ls.getItem("transitions");
+            r.style.setProperty("--transition", transitions === "false" ? "0s" : ".25s");
+
+            const animations = ls.getItem("animations");
+            if(animations === "false"){
+                document.body.classList.add("no-animations");
+            }else{
+                document.body.classList.remove("no-animations");
+            }
+        }
+
+        applySettings();
+        window.addEventListener("storage", applySettings);
+
+    </script>
+
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+</head>
+
+<body>
+
+<header class="site-header">
+    <a class="site-brand" href="/" aria-label="PixelHide.net Startseite">
+        <img src="pixelhidenet.png" alt="PixelHide.net">
+    </a>
+    <nav class="join-nav" aria-label="Seitennavigation">
+    <a href="#join-tutorial">Join Tutorial</a>
+    <a href="/">Startseite</a>
+<a href="/settings.html" class="settings-btn">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="3"/>
+        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+    </svg>
+    Settings
+</a>
+</nav>
+</header>
+
+<header class="site-header account-header">
+    <a class="site-brand" href="/" aria-label="PixelHide.net Startseite"><img src="https://pixelhide.net/pixelhidenet.png" alt="PixelHide.net"></a>
+    <nav class="top-buttons" aria-label="Kontomenü">
+        <button class="login-btn is-loading" id="loginBtn" type="button" onclick="openSiteAuth()" aria-label="Anmeldestatus wird geprüft" aria-busy="true"><span class="nav-spinner" aria-hidden="true"></span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg><span class="login-label">Anmelden</span></button>
+        <div class="user-pill" id="userPill" hidden onclick="toggleSiteDropdown()"><div class="avatar" id="userAvatar">?</div><span class="email-text" id="userUsername">–</span><svg class="chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            <div class="user-dropdown" id="userDropdown"><div class="dropdown-header"><div class="dropdown-avatar" id="dropdownAvatar">?</div><div class="dropdown-username" id="dropdownUsername">–</div><span class="dropdown-email blurred" id="dropdownEmail" onclick="toggleSiteEmail(event)"></span><div class="dropdown-email-hint">Klicken zum Anzeigen</div></div><div class="dropdown-item" onclick="openSiteAccount(event)">⚙ Einstellungen</div><div class="dropdown-divider"></div><div class="dropdown-item danger" onclick="siteSignOut()">↪ Abmelden</div></div>
+        </div>
+        <div class="more-menu" id="moreMenu"><button class="more-btn" type="button" aria-label="Weitere Optionen" aria-expanded="false" onclick="toggleSiteMore(event)"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="5" cy="12" r="1.8"></circle><circle cx="12" cy="12" r="1.8"></circle><circle cx="19" cy="12" r="1.8"></circle></svg></button><div class="more-dropdown" id="moreDropdown"><a href="/settings.html">⚙ Einstellungen</a></div></div>
+    </nav>
+</header>
+<div class="site-modal-overlay" id="siteAuthOverlay" onclick="if(event.target===this)closeSiteAuth()"><section class="site-modal" role="dialog" aria-modal="true" aria-labelledby="siteAuthTitle"><button class="site-modal-close" type="button" onclick="closeSiteAuth()" aria-label="Schließen">×</button><h2 id="siteAuthTitle">PixelHide.net</h2><p>Melde dich an oder erstelle ein Konto.</p><div class="site-auth-tabs"><button id="siteLoginTab" class="active" type="button" onclick="setSiteAuthMode('login')">Anmelden</button><button id="siteRegisterTab" type="button" onclick="setSiteAuthMode('register')">Registrieren</button></div><div class="site-auth-error" id="siteAuthError" role="alert"></div><form id="siteAuthForm" onsubmit="submitSiteAuth(event)"><label class="site-auth-field site-register-only" hidden>Username<input id="siteAuthName" type="text" maxlength="32" autocomplete="username"></label><label class="site-auth-field">E-Mail<input id="siteAuthEmail" type="email" required autocomplete="email"></label><label class="site-auth-field">Passwort<input id="siteAuthPassword" type="password" required minlength="6" autocomplete="current-password"></label><label class="site-auth-field site-register-only" hidden>Passwort bestätigen<input id="siteAuthConfirm" type="password" minlength="6" autocomplete="new-password"></label><label class="site-remember"><input id="siteRememberMe" type="checkbox" checked> Angemeldet bleiben</label><button class="site-auth-submit" id="siteAuthSubmit" type="submit">Anmelden</button></form></section></div>
+<div class="site-modal-overlay" id="siteAccountOverlay" onclick="if(event.target===this)closeSiteAccount()"><section class="site-modal" role="dialog" aria-modal="true" aria-labelledby="siteAccountTitle"><button class="site-modal-close" type="button" onclick="closeSiteAccount()" aria-label="Schließen">×</button><h2 id="siteAccountTitle">Account-Einstellungen</h2><p>Profilbild und Username anpassen.</p><div class="dropdown-header"><div class="dropdown-avatar" id="siteAccountAvatar">?</div></div><div class="site-auth-error" id="siteAccountError" role="alert"></div><label class="site-auth-field">Profilbild hochladen<input id="siteAvatarFile" type="file" accept="image/*" onchange="saveSiteAvatar(this)"></label><label class="site-auth-field">Username<input id="siteAccountName" type="text" maxlength="32" autocomplete="off"></label><button class="site-auth-submit" id="siteAccountSubmit" type="button" onclick="saveSiteAccount()">Speichern</button></section></div>
+<div class="bg-glow"></div>
+<div class="bg-glow bg-glow2"></div>
+
+<main>
+<div class="enderman-particles" aria-hidden="true"></div>
+<!-- HERO -->
+
+<header class="hero" id="join">
+
+    <div class="hero-content">
+
+        <div class="hero-copy">
+        <img class="logo" src="pixelhidenet.png" alt="PixelHide.net">
+        <span class="eyebrow">PixelHide.net beitreten</span>
+
+        <h1 class="hero-title">
+            Wie joine ich?
+        </h1>
+
+        <p class="hero-text">
+            In wenigen Sekunden auf PixelHide.net spielen.
+            Folge einfach diesen Schritten und tritt direkt dem Netzwerk bei.
+        </p>
+        </div>
+
+        <div class="btn-row">
+            <a href="minecraft://?addExternalServer=PixelHide|pixelhide.net:19132"
+               class="btn btn-primary">
+                ➕ Server hinzufügen
+            </a>
+            <a href="minecraft://?server=pixelhide.net&port=19132"
+               class="btn btn-outline">
+                ▶️ Direkt verbinden
+            </a>
+        </div>
+
+        <aside class="join-guide" aria-labelledby="join-guide-title">
+            <span class="guide-kicker">Schnell eingerichtet</span>
+            <h2 id="join-guide-title">In drei Schritten online</h2>
+            <ol class="join-steps">
+                <li class="step">
+                    <span class="step-number">1</span>
+                    <span>Mehrspieler öffnen</span>
+                </li>
+                <li class="step">
+                    <span class="step-number">2</span>
+                    <span>Server hinzufügen</span>
+                </li>
+                <li class="step">
+                    <span class="step-number">3</span>
+                    <span>PixelHide.net eingeben</span>
+                </li>
+            </ol>
+        </aside>
+
+    </div>
+
+</header>
+
+<!-- VIDEO -->
+
+<section class="tutorial-section" id="join-tutorial">
+
+    <div class="section-title">
+
+        <h2>Join Tutorial</h2>
+
+        <p>
+            So einfach kannst du PixelHide.net beitreten.
+        </p>
+
+    </div>
+
+    <div class="tutorial-layout">
+    <div class="video-wrapper">
+
+        <video autoplay muted loop playsinline>
+
+            <source src="pixelhide_join.mp4" type="video/mp4">
+
+        </video>
+
+    </div>
+
+    <!-- STATUS -->
+
+    <aside class="status server-panel" id="server-address">
+        <span class="guide-kicker">Server-Adresse</span>
+        <h3>Bereit zum Spielen?</h3>
+        <p>Nutze die Adresse direkt in Minecraft oder kopiere sie mit einem Klick.</p>
+        <div class="ip-box">
+            <div class="ip">pixelhide.net</div>
+            <div class="ip-small">Minecraft Server Adresse</div>
+        </div>
+        <button class="btn btn-primary" onclick="copyIP(this)">IP kopieren</button>
+    </aside>
+    </div>
+
+</section>
+
+</main>
+<script>
+    const joinParticleLayer=document.querySelector(".enderman-particles");
+    for(let i=0;i<48;i++){
+        const particle=document.createElement("span");
+        particle.style.setProperty("--particle-x",`${Math.random()*98}%`);
+        particle.style.setProperty("--particle-y",`${Math.random()*100}%`);
+        particle.style.setProperty("--particle-time",`${14+Math.random()*10}s`);
+        particle.style.setProperty("--particle-delay",`${-Math.random()*24}s`);
+        particle.style.setProperty("--particle-drift",`${Math.round(Math.random()*48-24)}px`);
+        joinParticleLayer.appendChild(particle);
+    }
+</script>
+
+<footer class="site-footer">
+
+    <img src="pixelhidenet.png" alt="PixelHide.net" class="footer-logo">
+    <div>© 2026 <span>PixelHide.net</span></div>
+
+</footer>
+
+<!-- TOAST -->
+
+<div id="copy-toast">
+
+  <span>
+    Server-Adresse wurde kopiert!
+  </span>
+
+    <button id="close-toast">×</button>
+
+</div>
+
+<script>
+
+    function copyIP(button){
+
+        navigator.clipboard.writeText("pixelhide.net");
+
+        let original = button.innerHTML;
+
+        button.innerHTML = "Kopiert!";
+
+        setTimeout(()=>{
+            button.innerHTML = original;
+        },2000);
+
+        const toast = document.getElementById("copy-toast");
+
+        toast.classList.add("show");
+
+        const timeout = setTimeout(closeToast,5000);
+
+        document.getElementById("close-toast").onclick = ()=>{
+
+            clearTimeout(timeout);
+
+            closeToast();
+
+        };
+
+        function closeToast(){
+
+            toast.classList.remove("show");
+
+        }
+
+    }
+
+</script>
+<script>
+    const siteFirebaseConfig={apiKey:"AIzaSyBtxHyCkI1TPdV6uWrhJ6bW4FjIdHVHuGw",authDomain:"pixelhide-app.firebaseapp.com",projectId:"pixelhide-app",storageBucket:"pixelhide-app.firebasestorage.app",messagingSenderId:"469716803908",appId:"1:469716803908:web:4adff338ab4db6b576b711"};
+    if(!firebase.apps.length)firebase.initializeApp(siteFirebaseConfig);
+    const siteAuth=firebase.auth();
+    let siteAuthMode="login";
+    const siteAvatarKey=uid=>`pixelhide_avatar_${uid}`;
+    const siteName=user=>user.displayName||(user.email||"").split("@")[0]||"Spieler";
+    function applySiteAvatar(user){
+        const name=siteName(user),letter=name.charAt(0).toUpperCase();
+        document.getElementById("userUsername").textContent=name;
+        document.getElementById("dropdownUsername").textContent=name;
+        document.getElementById("dropdownEmail").textContent=user.email||"";
+        const nodes=[document.getElementById("userAvatar"),document.getElementById("dropdownAvatar"),document.getElementById("siteAccountAvatar")];
+        let src=user.photoURL||"";
+        try{src=localStorage.getItem(siteAvatarKey(user.uid))||src}catch(error){console.error("Profilbild konnte nicht gelesen werden.",error)}
+        nodes.forEach(node=>{node.replaceChildren();if(src){const image=document.createElement("img");image.src=src;image.alt="Profilbild";node.appendChild(image)}else node.textContent=letter});
+    }
+    siteAuth.onAuthStateChanged(user=>{
+        const button=document.getElementById("loginBtn");
+        button.classList.remove("is-loading");button.removeAttribute("aria-busy");button.removeAttribute("aria-label");
+        if(user){button.hidden=true;document.getElementById("userPill").hidden=false;applySiteAvatar(user)}
+        else{button.hidden=false;document.getElementById("userPill").hidden=true}
+    });
+    function openSiteAuth(){document.getElementById("siteAuthOverlay").classList.add("visible");document.documentElement.classList.add("site-modal-lock");document.body.classList.add("site-modal-lock");setTimeout(()=>document.getElementById("siteAuthEmail").focus(),100)}
+    function closeSiteAuth(){document.getElementById("siteAuthOverlay").classList.remove("visible");unlockSiteModal()}
+    function unlockSiteModal(){const open=document.querySelector(".site-modal-overlay.visible");if(!open){document.documentElement.classList.remove("site-modal-lock");document.body.classList.remove("site-modal-lock")}}
+    function setSiteAuthMode(mode){
+        siteAuthMode=mode;const registering=mode==="register";
+        document.getElementById("siteLoginTab").classList.toggle("active",!registering);document.getElementById("siteRegisterTab").classList.toggle("active",registering);
+        document.querySelectorAll(".site-register-only").forEach(field=>{field.hidden=!registering;field.querySelector("input").required=registering});
+        document.getElementById("siteAuthSubmit").textContent=registering?"Konto erstellen":"Anmelden";document.getElementById("siteAuthPassword").autocomplete=registering?"new-password":"current-password";document.getElementById("siteAuthError").classList.remove("visible");
+    }
+    function showSiteError(id,message){const element=document.getElementById(id);element.textContent=message;element.classList.add("visible")}
+    function siteFirebaseMessage(error){
+        const messages={"auth/invalid-email":"Bitte gib eine gültige E-Mail-Adresse ein.","auth/user-not-found":"Für diese E-Mail wurde kein Konto gefunden.","auth/wrong-password":"Das Passwort ist nicht korrekt.","auth/invalid-credential":"E-Mail oder Passwort sind nicht korrekt.","auth/email-already-in-use":"Für diese E-Mail gibt es bereits ein Konto.","auth/weak-password":"Das Passwort ist zu schwach.","auth/too-many-requests":"Zu viele Versuche. Bitte probiere es später erneut."};
+        return messages[error.code]||"Die Anmeldung konnte nicht abgeschlossen werden. Bitte versuche es erneut.";
+    }
+    async function submitSiteAuth(event){
+        event.preventDefault();const button=document.getElementById("siteAuthSubmit"),error=document.getElementById("siteAuthError");
+        error.classList.remove("visible");button.disabled=true;button.textContent=siteAuthMode==="register"?"Wird erstellt…":"Wird angemeldet…";
+        const email=document.getElementById("siteAuthEmail").value.trim(),password=document.getElementById("siteAuthPassword").value;
+        try{
+            await siteAuth.setPersistence(document.getElementById("siteRememberMe").checked?firebase.auth.Auth.Persistence.LOCAL:firebase.auth.Auth.Persistence.SESSION);
+            if(siteAuthMode==="register"){
+                const name=document.getElementById("siteAuthName").value.trim(),confirm=document.getElementById("siteAuthConfirm").value;
+                if(!name)throw {code:"app/username-required"};
+                if(password!==confirm)throw {code:"app/password-mismatch"};
+                const result=await siteAuth.createUserWithEmailAndPassword(email,password);
+                await result.user.updateProfile({displayName:name});
+                applySiteAvatar(result.user);closeSiteAuth();
+            }else{await siteAuth.signInWithEmailAndPassword(email,password);closeSiteAuth()}
+        }catch(error){
+            const message=error.code==="app/username-required"?"Bitte gib einen Username ein.":error.code==="app/password-mismatch"?"Die Passwörter stimmen nicht überein.":siteFirebaseMessage(error);
+            showSiteError("siteAuthError",message);
+        }finally{button.disabled=false;button.textContent=siteAuthMode==="register"?"Konto erstellen":"Anmelden"}
+    }
+    function toggleSiteDropdown(){const pill=document.getElementById("userPill"),dropdown=document.getElementById("userDropdown"),open=dropdown.classList.toggle("visible");pill.classList.toggle("open",open)}
+    function toggleSiteEmail(event){event.stopPropagation();document.getElementById("dropdownEmail").classList.toggle("blurred")}
+    function toggleSiteMore(event){event.stopPropagation();const menu=document.getElementById("moreMenu"),open=menu.classList.toggle("open");menu.querySelector(".more-btn").setAttribute("aria-expanded",String(open))}
+    function openSiteAccount(event){event.stopPropagation();document.getElementById("userDropdown").classList.remove("visible");document.getElementById("userPill").classList.remove("open");const user=siteAuth.currentUser;if(!user)return;document.getElementById("siteAccountName").value=siteName(user);document.getElementById("siteAccountError").classList.remove("visible");applySiteAvatar(user);document.getElementById("siteAccountOverlay").classList.add("visible");document.documentElement.classList.add("site-modal-lock");document.body.classList.add("site-modal-lock")}
+    function closeSiteAccount(){document.getElementById("siteAccountOverlay").classList.remove("visible");unlockSiteModal()}
+    async function saveSiteAccount(){
+        const user=siteAuth.currentUser,name=document.getElementById("siteAccountName").value.trim(),button=document.getElementById("siteAccountSubmit");
+        if(!user)return;if(!name){showSiteError("siteAccountError","Bitte gib einen Username ein.");return}
+        button.disabled=true;button.textContent="Wird gespeichert…";
+        try{await user.updateProfile({displayName:name});applySiteAvatar(user);closeSiteAccount()}
+        catch(error){showSiteError("siteAccountError",siteFirebaseMessage(error))}
+        finally{button.disabled=false;button.textContent="Speichern"}
+    }
+    function saveSiteAvatar(input){
+        const file=input.files&&input.files[0],user=siteAuth.currentUser;if(!file||!user)return;
+        if(!file.type.startsWith("image/")){showSiteError("siteAccountError","Bitte wähle eine Bilddatei aus.");input.value="";return}
+        if(file.size>10*1024*1024){showSiteError("siteAccountError","Das Bild darf maximal 10 MB groß sein.");input.value="";return}
+        const reader=new FileReader();reader.onload=()=>{
+            try{localStorage.setItem(siteAvatarKey(user.uid),reader.result);applySiteAvatar(user);document.getElementById("siteAccountError").classList.remove("visible")}
+            catch(error){showSiteError("siteAccountError","Profilbild konnte nicht lokal gespeichert werden. Bitte ein kleineres Bild wählen.")}
+        };reader.onerror=()=>showSiteError("siteAccountError","Die Bilddatei konnte nicht gelesen werden.");reader.readAsDataURL(file);
+    }
+    async function siteSignOut(){await siteAuth.signOut()}
+    document.addEventListener("click",event=>{
+        const pill=document.getElementById("userPill"),menu=document.getElementById("moreMenu");
+        if(pill&&!pill.contains(event.target)){document.getElementById("userDropdown").classList.remove("visible");pill.classList.remove("open")}
+        if(menu&&!menu.contains(event.target)){menu.classList.remove("open");menu.querySelector(".more-btn").setAttribute("aria-expanded","false")}
+    });
+    document.addEventListener("keydown",event=>{if(event.key==="Escape"){closeSiteAuth();closeSiteAccount()}});
+</script>
+
+</body>
+</html>

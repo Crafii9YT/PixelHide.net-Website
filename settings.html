@@ -1,0 +1,1569 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>PixelHide Settings</title>
+
+    <link rel="icon" href="favicon.png">
+
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Inter:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+    <style>
+
+        :root{
+
+            --bg:#050507;
+            --bg2:#0b0b10;
+
+            --card:#101018;
+            --card2:#161621;
+
+            --accent:#a78bfa;
+            --accent2:#c4b5fd;
+
+            --text:#f5f5f5;
+            --muted:#9ca3af;
+
+            --radius:24px;
+
+            --zoom:1;
+            --text-size:1;
+            --blur:16px;
+
+            --card-opacity:.06;
+            --glow-opacity:.12;
+
+            --transition:.25s;
+
+        }
+
+        /* GLOBAL */
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+        }
+
+        html{
+            scroll-behavior:smooth;
+        }
+
+        body{
+
+            font-family:Inter,sans-serif;
+
+            background:
+                    linear-gradient(
+                            180deg,
+                            var(--bg),
+                            var(--bg2)
+                    );
+
+            color:var(--text);
+
+            overflow-x:hidden;
+
+            zoom:var(--zoom);
+
+            font-size:calc(16px * var(--text-size));
+
+            transition:
+                    background var(--transition),
+                    color var(--transition);
+
+        }
+
+        /* NO ANIMATIONS */
+
+        .no-animations *{
+            animation:none !important;
+            transition:none !important;
+            scroll-behavior:auto !important;
+        }
+
+        /* SCROLLBAR */
+
+        ::-webkit-scrollbar{
+            width:10px;
+        }
+
+        ::-webkit-scrollbar-track{
+            background:#09090f;
+        }
+
+        ::-webkit-scrollbar-thumb{
+            background:linear-gradient(var(--accent),var(--accent2));
+            border-radius:999px;
+        }
+
+        /* GLOW */
+
+        .bg-glow{
+
+            position:fixed;
+
+            width:700px;
+            height:700px;
+
+            background:
+                    radial-gradient(circle,var(--accent) 0%,transparent 70%);
+
+            opacity:var(--glow-opacity);
+
+            filter:blur(100px);
+
+            z-index:-1;
+
+            animation:floatGlow 12s ease-in-out infinite;
+
+        }
+
+        .bg-glow2{
+            right:-200px;
+            top:300px;
+        }
+
+        @keyframes floatGlow{
+
+            0%{
+                transform:translateY(0px);
+            }
+
+            50%{
+                transform:translateY(-50px);
+            }
+
+            100%{
+                transform:translateY(0px);
+            }
+
+        }
+
+        /* BACK BUTTON */
+
+        .back-btn{
+
+            position:fixed;
+
+            top:25px;
+            left:25px;
+
+            z-index:9999;
+
+            padding:14px 22px;
+
+            border-radius:18px;
+
+            background:
+                    rgba(255,255,255,.06);
+
+            border:1px solid rgba(255,255,255,.08);
+
+            backdrop-filter:blur(16px);
+
+            color:var(--text);
+
+            text-decoration:none;
+
+            display:flex;
+            align-items:center;
+            gap:12px;
+
+            font-weight:700;
+
+            overflow:hidden;
+
+            transition:var(--transition);
+
+        }
+
+        .back-btn:hover{
+
+            transform:translateY(-4px);
+
+            border-color:
+                    rgba(167,139,250,.35);
+
+        }
+
+        /* HERO */
+
+        .hero{
+
+            min-height:45vh;
+
+            display:flex;
+            justify-content:center;
+            align-items:center;
+
+            text-align:center;
+
+            padding:80px 20px;
+
+            position:relative;
+
+            overflow:hidden;
+
+            background:
+                    linear-gradient(rgba(0,0,0,.45),rgba(5,5,7,.95)),
+                    url("https://pixelhide.net/Banner.png") center/cover no-repeat;
+
+        }
+
+        .hero::before{
+
+            content:"";
+
+            position:absolute;
+            inset:0;
+
+            background:
+                    radial-gradient(circle at center,
+                    rgba(167,139,250,.25),
+                    transparent 60%);
+
+            animation:pulse 6s infinite;
+
+        }
+
+        @keyframes pulse{
+
+            0%{
+                opacity:.4;
+                transform:scale(1);
+            }
+
+            50%{
+                opacity:.8;
+                transform:scale(1.06);
+            }
+
+            100%{
+                opacity:.4;
+                transform:scale(1);
+            }
+
+        }
+
+        .hero-content{
+            position:relative;
+            z-index:2;
+        }
+
+        .logo{
+
+            width:500px;
+            max-width:90%;
+
+            margin-bottom:25px;
+
+            filter:
+                    drop-shadow(0 0 25px rgba(167,139,250,.5))
+                    drop-shadow(0 0 80px rgba(167,139,250,.4));
+
+            animation:floatLogo 5s ease-in-out infinite;
+
+        }
+
+        @keyframes floatLogo{
+
+            0%{
+                transform:translateY(0px);
+            }
+
+            50%{
+                transform:translateY(-10px);
+            }
+
+            100%{
+                transform:translateY(0px);
+            }
+
+        }
+
+        .hero-title{
+
+            font-family:Orbitron;
+            font-size:4rem;
+
+            margin-bottom:15px;
+
+        }
+
+        .hero-text{
+
+            color:var(--muted);
+
+            max-width:700px;
+            margin:auto;
+
+            line-height:1.8;
+
+        }
+
+        /* SETTINGS */
+
+        .settings-wrapper{
+
+            max-width:1450px;
+            margin:auto;
+
+            padding:80px 25px;
+
+            display:grid;
+            grid-template-columns:repeat(auto-fit,minmax(330px,1fr));
+
+            gap:28px;
+
+        }
+
+        .settings-card{
+
+            position:relative;
+
+            overflow:hidden;
+
+            background:
+                    linear-gradient(
+                            145deg,
+                            rgba(255,255,255,var(--card-opacity)),
+                            rgba(255,255,255,.02)
+                    );
+
+            border:1px solid rgba(255,255,255,.06);
+
+            border-radius:var(--radius);
+
+            padding:28px;
+
+            backdrop-filter:blur(var(--blur));
+
+            transition:var(--transition);
+
+        }
+
+        .settings-card:hover{
+
+            transform:translateY(-6px);
+
+            border-color:
+                    rgba(167,139,250,.35);
+
+        }
+
+        .settings-card h2{
+
+            font-family:Orbitron;
+
+            margin-bottom:24px;
+
+            font-size:1.5rem;
+
+        }
+
+        .setting{
+
+            margin-bottom:28px;
+
+        }
+
+        .setting label{
+
+            display:flex;
+            justify-content:space-between;
+
+            margin-bottom:12px;
+
+            color:var(--muted);
+
+        }
+
+        /* SLIDER */
+
+        .slider{
+
+            width:100%;
+
+            appearance:none;
+
+            height:10px;
+
+            border-radius:999px;
+
+            background:
+                    linear-gradient(
+                            90deg,
+                            var(--accent),
+                            var(--accent2)
+                    );
+
+            outline:none;
+
+        }
+
+        .slider::-webkit-slider-thumb{
+
+            appearance:none;
+
+            width:24px;
+            height:24px;
+
+            border-radius:50%;
+
+            background:white;
+
+            cursor:pointer;
+
+            box-shadow:
+                    0 0 20px rgba(167,139,250,.5);
+
+        }
+
+        /* THEMES */
+
+        .theme-grid{
+
+            display:grid;
+            grid-template-columns:repeat(3,1fr);
+
+            gap:16px;
+
+        }
+
+        .theme{
+
+            position:relative;
+
+            height:90px;
+
+            border-radius:18px;
+
+            cursor:pointer;
+
+            overflow:hidden;
+
+            border:2px solid transparent;
+
+            transition:var(--transition);
+
+        }
+
+        .theme:hover{
+            transform:scale(1.04);
+        }
+
+        .theme.active{
+            border-color:white;
+        }
+
+        .theme-name{
+
+            position:absolute;
+
+            bottom:10px;
+            left:12px;
+
+            font-size:.9rem;
+            font-weight:700;
+
+            color:white;
+
+            text-shadow:0 0 10px rgba(0,0,0,.5);
+
+        }
+
+        /* THEMES */
+
+        .theme-dark{background:linear-gradient(135deg,#0b0b11,#8b5cf6);}
+        .theme-light{background:linear-gradient(135deg,#ffffff,#c4b5fd);}
+        .theme-oled{background:linear-gradient(135deg,#000000,#4c1d95);}
+        .theme-nebula{background:linear-gradient(135deg,#2e1065,#c084fc);}
+        .theme-blue{background:linear-gradient(135deg,#1e3a8a,#60a5fa);}
+        .theme-green{background:linear-gradient(135deg,#14532d,#86efac);}
+        .theme-red{background:linear-gradient(135deg,#7f1d1d,#f87171);}
+        .theme-orange{background:linear-gradient(135deg,#7c2d12,#fdba74);}
+        .theme-pink{background:linear-gradient(135deg,#831843,#f9a8d4);}
+        .theme-cyan{background:linear-gradient(135deg,#164e63,#67e8f9);}
+        .theme-gold{background:linear-gradient(135deg,#78350f,#fde68a);}
+        .theme-forest{background:linear-gradient(135deg,#052e16,#4ade80);}
+        .theme-blood{background:linear-gradient(135deg,#1f0000,#ff2d55);}
+        .theme-midnight{background:linear-gradient(135deg,#020617,#312e81);}
+        .theme-candy{background:linear-gradient(135deg,#f472b6,#c084fc);}
+
+        /* TOGGLES */
+
+        .toggle{
+
+            width:65px;
+            height:36px;
+
+            border-radius:999px;
+
+            background:#23232f;
+
+            position:relative;
+
+            cursor:pointer;
+
+            transition:var(--transition);
+
+        }
+
+        .toggle::before{
+
+            content:"";
+
+            position:absolute;
+
+            width:28px;
+            height:28px;
+
+            border-radius:50%;
+
+            background:white;
+
+            top:4px;
+            left:4px;
+
+            transition:var(--transition);
+
+        }
+
+        .toggle.active{
+
+            background:
+                    linear-gradient(
+                            135deg,
+                            var(--accent),
+                            var(--accent2)
+                    );
+
+        }
+
+        .toggle.active::before{
+            left:33px;
+        }
+
+        /* BUTTONS */
+
+        .btn-row{
+
+            display:flex;
+            gap:16px;
+
+            flex-wrap:wrap;
+
+        }
+
+        .btn{
+
+            position:relative;
+
+            overflow:hidden;
+
+            border:none;
+
+            padding:16px 24px;
+
+            border-radius:18px;
+
+            font-weight:700;
+
+            cursor:pointer;
+
+            background:
+                    linear-gradient(
+                            135deg,
+                            var(--accent),
+                            var(--accent2)
+                    );
+
+            color:#050507;
+
+            transition:var(--transition);
+
+        }
+
+        .btn:hover{
+
+            transform:translateY(-4px) scale(1.03);
+
+            box-shadow:
+                    0 0 25px rgba(167,139,250,.25);
+
+        }
+
+        /* FOOTER */
+
+        footer{
+
+            margin-top:80px;
+
+            padding:40px 20px;
+
+            text-align:center;
+
+            border-top:1px solid rgba(255,255,255,.06);
+
+            color:var(--muted);
+
+        }
+
+        /* MOBILE */
+
+        .settings-topbar{
+            position:fixed;
+            inset:18px 24px auto;
+            z-index:10000;
+            display:flex;
+            align-items:center;
+            justify-content:space-between;
+            pointer-events:none;
+        }
+        .settings-topbar a{ pointer-events:auto; }
+        .settings-brand{
+            display:flex;
+            align-items:center;
+            padding:6px;
+            border:1px solid rgba(255,255,255,.1);
+            border-radius:14px;
+            background:rgba(12,13,20,.62);
+            backdrop-filter:blur(14px);
+        }
+        .settings-brand img{ display:block; width:58px; height:auto; }
+        .settings-topbar .back-btn{
+            position:static;
+            padding:12px 18px;
+            border-radius:13px;
+            background:rgba(17,19,27,.82);
+            border-color:rgba(255,255,255,.12);
+            transition:background-color .2s ease,border-color .2s ease,filter .2s ease;
+        }
+        .settings-topbar .back-btn:hover{
+            transform:none;
+            background:rgba(255,255,255,.12);
+            border-color:rgba(200,191,255,.34);
+            filter:brightness(1.08);
+        }
+        .settings-topbar .back-btn:active{
+            transform:none;
+            filter:brightness(1.16);
+        }
+        .btn,.back-btn,.theme-card,.toggle,.copy-btn{
+            transition:background-color .2s ease,border-color .2s ease,color .2s ease,filter .2s ease;
+        }
+        .settings-topbar .back-btn:hover,.btn:hover{
+            transform:none;
+            box-shadow:none;
+            filter:brightness(1.08);
+        }
+        .btn:active,.theme-card:active,.toggle:active,.copy-btn:active{
+            transform:none !important;
+            filter:brightness(1.12);
+        }
+        @media(max-width:768px){
+            .hero-title{ font-size:2.4rem; }
+            .settings-topbar{ inset:12px 14px auto; }
+            .settings-brand img{ width:48px; }
+            .settings-topbar .back-btn{ padding:10px 14px; }
+            .theme-grid{ grid-template-columns:repeat(2,1fr); }
+        }
+
+        /* Shared account header */
+        .site-header:not(.account-header){display:none!important}
+        .settings-topbar{display:none!important}
+        .site-header{position:fixed!important;inset:0 0 auto!important;z-index:10000!important;display:flex!important;align-items:center;justify-content:space-between;gap:24px;min-height:82px;padding:12px clamp(20px,5vw,72px);border-bottom:1px solid rgba(255,255,255,.1);background:rgba(8,9,14,.86);backdrop-filter:blur(16px)}
+        .site-brand{display:flex;align-items:center;flex:0 0 auto}
+        .site-brand img{display:block;width:190px;max-height:64px;object-fit:contain}
+        .top-buttons{position:relative!important;inset:auto!important;z-index:auto;display:flex;align-items:center;gap:10px}
+        .top-buttons button,.top-buttons a{font-family:Inter,sans-serif}
+        .login-btn,.more-btn{min-height:46px;border:1px solid rgba(255,255,255,.12);border-radius:12px;color:var(--text);background:rgba(17,19,27,.82);cursor:pointer;transition:background-color .2s ease,border-color .2s ease,filter .2s ease}
+        .login-btn{display:flex;align-items:center;justify-content:center;gap:9px;min-width:112px;padding:10px 16px;font-size:.9rem;font-weight:700}
+        .login-btn:hover,.more-btn:hover{background:rgba(255,255,255,.12);border-color:rgba(200,191,255,.34);filter:brightness(1.08)}
+        .login-btn:active,.more-btn:active{filter:brightness(1.16)}
+        .login-btn.is-loading{pointer-events:none}
+        #loginBtn[hidden],#userPill[hidden]{display:none!important}
+        .login-btn.is-loading .login-label,.login-btn.is-loading svg{display:none}
+        .nav-spinner{display:none;width:17px;height:17px;border:2px solid rgba(255,255,255,.28);border-top-color:var(--accent2);border-radius:50%;animation:header-spin .7s linear infinite}
+        .login-btn.is-loading .nav-spinner{display:block}
+        @keyframes header-spin{to{transform:rotate(360deg)}}
+        .user-pill{position:relative;display:flex;align-items:center;gap:10px;max-width:240px;padding:7px 14px 7px 8px;border:1px solid rgba(200,191,255,.25);border-radius:12px;color:var(--text);background:rgba(17,19,27,.9);cursor:pointer;user-select:none;transition:background-color .2s ease,border-color .2s ease,filter .2s ease}
+        .user-pill:hover{background:rgba(255,255,255,.1);border-color:rgba(200,191,255,.34)}
+        .user-pill:active{filter:brightness(1.12)}
+        .avatar,.dropdown-avatar{display:flex;flex:0 0 auto;align-items:center;justify-content:center;width:30px;height:30px;overflow:hidden;border-radius:50%;color:#17131f;background:linear-gradient(135deg,var(--accent),var(--accent2));font-size:.8rem;font-weight:800}
+        .avatar img,.dropdown-avatar img{width:100%;height:100%;object-fit:cover}
+        .email-text{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:.86rem;font-weight:650}
+        .chevron{flex:0 0 auto;transition:transform .2s ease}
+        .user-pill.open .chevron{transform:rotate(180deg)}
+        .user-dropdown,.more-dropdown{position:absolute;top:calc(100% + 10px);right:0;z-index:2;min-width:220px;padding:8px;border:1px solid rgba(255,255,255,.12);border-radius:14px;background:#11131b;box-shadow:0 18px 42px rgba(0,0,0,.42);opacity:0;visibility:hidden;transform:translateY(-5px);transition:opacity .18s ease,transform .18s ease,visibility .18s}
+        .user-dropdown{width:260px;cursor:default}
+        .user-dropdown.visible,.more-menu.open .more-dropdown{opacity:1;visibility:visible;transform:translateY(0)}
+        .dropdown-header{display:flex;flex-direction:column;align-items:center;padding:14px 10px 16px}
+        .dropdown-avatar{width:52px;height:52px;margin-bottom:9px;font-size:1.1rem}
+        .dropdown-username{max-width:100%;overflow:hidden;text-overflow:ellipsis;font-weight:750}
+        .dropdown-email{max-width:100%;margin-top:3px;color:#aeb0bc;font-size:.76rem;overflow-wrap:anywhere;cursor:pointer}
+        .dropdown-email.blurred{filter:blur(4px);user-select:none}
+        .dropdown-email-hint{margin-top:4px;color:#767987;font-size:.68rem}
+        .dropdown-item{display:flex;align-items:center;gap:10px;padding:10px 11px;border-radius:8px;color:#e6e5ed;font-size:.86rem;cursor:pointer;transition:background-color .18s ease,color .18s ease}
+        .dropdown-item:hover{background:rgba(255,255,255,.08)}
+        .dropdown-item.danger:hover{color:#fca5a5;background:rgba(239,68,68,.1)}
+        .dropdown-divider{height:1px;margin:5px 3px;background:rgba(255,255,255,.08)}
+        .more-menu{position:relative}
+        .more-btn{display:flex;align-items:center;justify-content:center;width:46px;height:46px;padding:0}
+        .more-btn svg{width:20px;height:20px}
+        .more-dropdown{min-width:190px}
+        .more-dropdown a{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:8px;color:var(--text);text-decoration:none;font-size:.88rem}
+        .more-dropdown a:hover{background:rgba(255,255,255,.08)}
+        .site-modal-overlay{position:fixed;inset:0;z-index:20000;display:flex;align-items:center;justify-content:center;padding:20px;background:rgba(0,0,0,.76);backdrop-filter:blur(8px);opacity:0;visibility:hidden;transition:opacity .2s ease,visibility .2s ease}
+        .site-modal-overlay.visible{opacity:1;visibility:visible}
+        .site-modal{position:relative;width:min(440px,100%);max-height:min(760px,calc(100dvh - 40px));overflow:auto;padding:34px;border:1px solid rgba(255,255,255,.13);border-radius:20px;color:var(--text);background:#11131b;box-shadow:0 28px 80px rgba(0,0,0,.55);transform:translateY(8px);transition:transform .2s ease}
+        .site-modal-overlay.visible .site-modal{transform:translateY(0)}
+        .site-modal-close{position:absolute;top:14px;right:15px;width:34px;height:34px;border:0;border-radius:9px;color:var(--text);background:transparent;font-size:1.2rem;cursor:pointer}
+        .site-modal-close:hover{background:rgba(255,255,255,.08)}
+        .site-modal h2{margin-bottom:5px;font-size:1.35rem}
+        .site-modal p{margin-bottom:20px;color:var(--muted);font-size:.88rem}
+        .site-auth-tabs{display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-bottom:18px;padding:4px;border-radius:10px;background:rgba(255,255,255,.05)}
+        .site-auth-tabs button{padding:9px;border:0;border-radius:7px;color:var(--muted);background:transparent;font-weight:700;cursor:pointer}
+        .site-auth-tabs button.active{color:var(--text);background:rgba(255,255,255,.1)}
+        .site-auth-field{display:block;margin:13px 0;color:var(--muted);font-size:.82rem;font-weight:650}
+        .site-auth-field input{display:block;width:100%;margin-top:7px;padding:12px;border:1px solid rgba(255,255,255,.12);border-radius:10px;outline:none;color:var(--text);background:#0c0d13;font:inherit}
+        .site-auth-field input:focus{border-color:var(--accent)}
+        .site-auth-error{display:none;margin:0 0 12px;padding:10px 12px;border:1px solid rgba(248,113,113,.2);border-radius:9px;color:#fca5a5;background:rgba(127,29,29,.16);font-size:.82rem}
+        .site-auth-error.visible{display:block}
+        .site-auth-submit{width:100%;margin-top:5px;padding:12px;border:0;border-radius:10px;color:#17131f;background:var(--accent2);font:inherit;font-weight:750;cursor:pointer}
+        .site-auth-submit:hover{filter:brightness(1.08)}
+        .site-auth-submit:disabled{opacity:.65;cursor:wait}
+        .site-remember{display:flex;align-items:center;gap:8px;margin:14px 0;color:var(--muted);font-size:.82rem}
+        .site-modal-lock{overflow:hidden!important}
+        @media(max-width:768px){.site-header{min-height:70px;padding:10px 16px;gap:12px}.site-brand img{width:150px}.top-buttons{gap:7px}.login-btn{min-height:42px;min-width:96px;padding:9px 12px;font-size:.82rem}}
+        @media(max-width:460px){.site-brand img{width:116px}.top-buttons{gap:5px}.user-pill{max-width:140px;padding:6px 9px}.email-text{max-width:66px;font-size:.78rem}.avatar{width:27px;height:27px}.more-btn{width:42px;height:42px}.site-modal{padding:28px 22px}}
+
+        /* Purple pixel-block theme with a compact, tactile button press */
+        :root{--accent:#a78bfa;--accent2:#c4b5fd}
+        body{background-color:#08070d;background-image:linear-gradient(rgba(167,139,250,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(167,139,250,.035) 1px,transparent 1px),linear-gradient(180deg,#100d19,#08070d 70%);background-size:32px 32px,32px 32px,auto;background-attachment:fixed}
+        .hero,.card,.stat,.status,.join-guide,.step,.server-panel,.tutorial-section,.site-modal,.auth-modal,.accsettings-modal,.settings-card,.user-dropdown,.more-dropdown{border-radius:10px}
+        .card,.stat,.status,.join-guide,.step,.server-panel,.site-modal,.auth-modal,.accsettings-modal,.settings-card{border-color:rgba(196,181,253,.16);box-shadow:0 8px 24px rgba(0,0,0,.24)}
+        button,.btn,.settings-btn,.back-btn,.login-btn,.more-btn,.user-pill,.auth-submit,.site-auth-submit,.site-modal-close,.site-auth-tabs button,.pw-toggle,.auth-close,.sizeerr-close-btn,.sizeerr-tinypng,.dropdown-item,.more-dropdown a,.theme-card,.toggle,#close-toast,#adModal button{border-radius:7px;box-shadow:inset 0 1px 0 rgba(255,255,255,.2),inset 0 -2px 0 rgba(0,0,0,.18),0 3px 0 #514477,0 5px 10px rgba(0,0,0,.25);transition:transform .1s ease,box-shadow .1s ease,filter .15s ease,background-color .15s ease}
+        button,.site-auth-tabs button{border:1px solid #796ba0;color:#f4f0ff;background:linear-gradient(180deg,#51466d,#39314e);cursor:pointer}
+        .btn,.settings-btn,.back-btn,.login-btn,.more-btn,.user-pill,.site-auth-submit,.auth-submit,.sizeerr-tinypng,.theme-card,.toggle,#close-toast,#adModal button{border:1px solid rgba(219,208,255,.38);background-image:linear-gradient(180deg,rgba(255,255,255,.12),rgba(255,255,255,.025) 55%,rgba(0,0,0,.12))}
+        .btn-primary,.site-auth-submit,.auth-submit,.sizeerr-tinypng,#adModal button:last-child{border-color:#d1c2ff;color:#171222;background-color:#a78bfa;background-image:linear-gradient(180deg,#c4b5fd 0%,#a78bfa 56%,#8c6de0 100%);box-shadow:inset 0 1px 0 rgba(255,255,255,.35),inset 0 -2px 0 rgba(70,45,127,.28),0 3px 0 #684eaa,0 5px 10px rgba(0,0,0,.25)}
+        .btn-discord{box-shadow:inset 0 1px 0 rgba(255,255,255,.2),inset 0 -2px 0 rgba(0,0,0,.2),0 3px 0 #353a86,0 5px 10px rgba(0,0,0,.25)}
+        button:hover,.btn:hover,.settings-btn:hover,.back-btn:hover,.login-btn:hover,.more-btn:hover,.user-pill:hover,.auth-submit:hover,.site-auth-submit:hover,.site-modal-close:hover,.site-auth-tabs button:hover,.pw-toggle:hover,.auth-close:hover,.sizeerr-close-btn:hover,.sizeerr-tinypng:hover,.dropdown-item:hover,.more-dropdown a:hover,.theme-card:hover,.toggle:hover,#close-toast:hover,#adModal button:hover{transform:none!important;filter:none!important}
+        .btn-primary:hover{box-shadow:inset 0 1px 0 rgba(255,255,255,.35),inset 0 -2px 0 rgba(70,45,127,.28),0 3px 0 #684eaa,0 5px 10px rgba(0,0,0,.25)!important}
+        button:active:not(:disabled),.btn:active,.settings-btn:active,.back-btn:active,.login-btn:active,.more-btn:active,.user-pill:active,.auth-submit:active:not(:disabled),.site-auth-submit:active:not(:disabled),.site-modal-close:active,.site-auth-tabs button:active,.pw-toggle:active,.auth-close:active,.sizeerr-close-btn:active,.sizeerr-tinypng:active,.dropdown-item:active,.more-dropdown a:active,.theme-card:active,.toggle:active,#close-toast:active,#adModal button:active{transform:translateY(2px)!important;box-shadow:inset 0 2px 4px rgba(0,0,0,.24),0 1px 0 #514477,0 2px 4px rgba(0,0,0,.2)!important;filter:none!important}
+        .site-auth-field input,.form-input,input:not([type=checkbox]):not([type=radio]):not([type=file]),textarea,select{border-radius:7px;border-color:rgba(196,181,253,.24);background-color:#100d19}
+        .site-auth-field input:focus,.form-input:focus,input:focus,textarea:focus,select:focus{border-color:var(--accent2);box-shadow:0 0 0 2px rgba(167,139,250,.16)}
+        .avatar,.dropdown-avatar{border-radius:6px}
+        .btn,.site-auth-submit{position:relative;isolation:isolate;overflow:hidden}
+        .btn::after,.site-auth-submit::after{content:"";position:absolute;inset:-9px;padding:9px;border-radius:inherit;pointer-events:none;z-index:2;opacity:.85;background-image:radial-gradient(circle at 5px 5px,#e8deff 0 1.5px,transparent 2px),radial-gradient(circle at 17px 12px,#a78bfa 0 1.5px,transparent 2px),radial-gradient(circle at 24px 5px,#c4b5fd 0 1px,transparent 1.5px);background-size:31px 23px,37px 29px,43px 31px;background-position:0 0,8px 7px,15px 2px;mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);mask-composite:exclude;-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;animation:ender-button-particles 7s ease-in-out infinite}
+        .btn:hover::before{left:-120%!important}
+        @keyframes ender-button-particles{50%{background-position:11px -6px,-7px 13px,6px -8px}}
+        @media(prefers-reduced-motion:reduce){.btn::after,.site-auth-submit::after{animation:none}}
+        @media(prefers-reduced-motion:reduce){button,.btn,.settings-btn,.back-btn,.login-btn,.more-btn,.user-pill,.auth-submit,.site-auth-submit{transition:none}}
+        .btn::before,.btn::after,.site-auth-submit::after{content:none!important;display:none!important;animation:none!important}
+        /* Same purple block theme and control treatment as index.html */
+        :root{--accent:#a78bfa;--accent2:#c4b5fd}
+        body{background-color:#08070d;background-image:linear-gradient(rgba(167,139,250,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(167,139,250,.035) 1px,transparent 1px),linear-gradient(180deg,#100d19,#08070d 70%);background-size:32px 32px,32px 32px,auto;background-attachment:fixed}
+        .hero,.card,.stat,.status,.join-guide,.step,.server-panel,.tutorial-section,.site-modal,.auth-modal,.accsettings-modal,.settings-card,.user-dropdown,.more-dropdown{border-radius:10px}
+        .card,.stat,.status,.join-guide,.step,.server-panel,.site-modal,.auth-modal,.accsettings-modal,.settings-card{border-color:rgba(196,181,253,.16);box-shadow:0 8px 24px rgba(0,0,0,.24)}
+        button,.btn,.settings-btn,.back-btn,.login-btn,.more-btn,.user-pill,.auth-submit,.site-auth-submit,.site-modal-close,.site-auth-tabs button,.pw-toggle,.auth-close,.sizeerr-close-btn,.sizeerr-tinypng,.dropdown-item,.more-dropdown a,.theme-card,.toggle,#close-toast,#adModal button{border-radius:7px;box-shadow:inset 0 1px 0 rgba(255,255,255,.2),inset 0 -2px 0 rgba(0,0,0,.18),0 3px 0 #514477,0 5px 10px rgba(0,0,0,.25);transition:transform .1s ease,box-shadow .1s ease,filter .15s ease,background-color .15s ease}
+        button,.site-auth-tabs button{border:1px solid #796ba0;color:#f4f0ff;background:linear-gradient(180deg,#51466d,#39314e);cursor:pointer}
+        .btn,.settings-btn,.back-btn,.login-btn,.more-btn,.user-pill,.site-auth-submit,.auth-submit,.sizeerr-tinypng,.theme-card,.toggle,#close-toast,#adModal button{border:1px solid rgba(219,208,255,.38);background-image:linear-gradient(180deg,rgba(255,255,255,.12),rgba(255,255,255,.025) 55%,rgba(0,0,0,.12))}
+        .btn-primary,.site-auth-submit,.auth-submit,.sizeerr-tinypng,#adModal button:last-child{border-color:#d1c2ff;color:#171222;background-color:#a78bfa;background-image:linear-gradient(180deg,#c4b5fd 0%,#a78bfa 56%,#8c6de0 100%);box-shadow:inset 0 1px 0 rgba(255,255,255,.35),inset 0 -2px 0 rgba(70,45,127,.28),0 3px 0 #684eaa,0 5px 10px rgba(0,0,0,.25)}
+        .btn-discord{box-shadow:inset 0 1px 0 rgba(255,255,255,.2),inset 0 -2px 0 rgba(0,0,0,.2),0 3px 0 #353a86,0 5px 10px rgba(0,0,0,.25)}
+        button:hover,.btn:hover,.settings-btn:hover,.back-btn:hover,.login-btn:hover,.more-btn:hover,.user-pill:hover,.auth-submit:hover,.site-auth-submit:hover,.site-modal-close:hover,.site-auth-tabs button:hover,.pw-toggle:hover,.auth-close:hover,.sizeerr-close-btn:hover,.sizeerr-tinypng:hover,.dropdown-item:hover,.more-dropdown a:hover,.theme-card:hover,.toggle:hover,#close-toast:hover,#adModal button:hover{transform:none!important;filter:none!important}
+        .btn-primary:hover{box-shadow:inset 0 1px 0 rgba(255,255,255,.35),inset 0 -2px 0 rgba(70,45,127,.28),0 3px 0 #684eaa,0 5px 10px rgba(0,0,0,.25)!important}
+        button:active:not(:disabled),.btn:active,.settings-btn:active,.back-btn:active,.login-btn:active,.more-btn:active,.user-pill:active,.auth-submit:active:not(:disabled),.site-auth-submit:active:not(:disabled),.site-modal-close:active,.site-auth-tabs button:active,.pw-toggle:active,.auth-close:active,.sizeerr-close-btn:active,.sizeerr-tinypng:active,.dropdown-item:active,.more-dropdown a:active,.theme-card:active,.toggle:active,#close-toast:active,#adModal button:active{transform:translateY(2px)!important;box-shadow:inset 0 2px 4px rgba(0,0,0,.24),0 1px 0 #514477,0 2px 4px rgba(0,0,0,.2)!important;filter:none!important}
+        .site-auth-field input,.form-input,input:not([type=checkbox]):not([type=radio]):not([type=file]),textarea,select{border-radius:7px;border-color:rgba(196,181,253,.24);background-color:#100d19}
+        .site-auth-field input:focus,.form-input:focus,input:focus,textarea:focus,select:focus{border-color:var(--accent2);box-shadow:0 0 0 2px rgba(167,139,250,.16)}
+        .avatar,.dropdown-avatar{border-radius:6px}
+        .settings-wrapper{position:relative;isolation:isolate}
+        .settings-card{position:relative;z-index:1;background:rgba(17,19,27,.82);border-color:rgba(255,255,255,.09);border-radius:10px}
+        .enderman-particles{position:absolute;top:0;right:0;bottom:0;left:0;overflow:hidden;pointer-events:none;z-index:0}
+        .enderman-particles span{position:absolute;top:var(--particle-y);left:var(--particle-x);width:3px;height:3px;background:#c4b5fd;opacity:0;box-shadow:4px 0 rgba(167,139,250,.8),0 4px rgba(140,109,224,.65);animation:ender-particle var(--particle-time) ease-in-out var(--particle-delay) infinite;will-change:transform,opacity}
+        .enderman-particles span:nth-child(4n){width:4px;height:4px}
+        @keyframes ender-particle{0%{transform:translate3d(0,8px,0);opacity:0}20%{opacity:.42}75%{opacity:.28}100%{transform:translate3d(var(--particle-drift),-72px,0);opacity:0}}
+        @media(prefers-reduced-motion:reduce){.enderman-particles{display:none}.btn::after,.site-auth-submit::after{animation:none}}
+        @media(prefers-reduced-motion:reduce){button,.btn,.settings-btn,.back-btn,.login-btn,.more-btn,.user-pill,.auth-submit,.site-auth-submit{transition:none}}
+
+        .btn,.settings-btn,.back-btn,.login-btn,.more-btn,.user-pill,.site-auth-submit{transition:transform .1s ease,box-shadow .1s ease!important}
+        .settings-topbar .back-btn:hover{background-color:rgba(17,19,27,.82)!important;background-image:linear-gradient(180deg,rgba(255,255,255,.12),rgba(255,255,255,.025) 55%,rgba(0,0,0,.12))!important;border-color:rgba(255,255,255,.12)!important}
+        .login-btn:hover,.more-btn:hover{background-color:rgba(17,19,27,.82)!important;background-image:linear-gradient(180deg,rgba(255,255,255,.12),rgba(255,255,255,.025) 55%,rgba(0,0,0,.12))!important;border-color:rgba(255,255,255,.12)!important}
+        .user-pill:hover{background-color:rgba(17,19,27,.9)!important;background-image:linear-gradient(180deg,rgba(255,255,255,.12),rgba(255,255,255,.025) 55%,rgba(0,0,0,.12))!important;border-color:rgba(200,191,255,.25)!important}
+        .btn:not(.btn-primary):not(.btn-discord):hover,.settings-btn:hover,.back-btn:hover,.login-btn:hover,.more-btn:hover,.user-pill:hover{box-shadow:inset 0 1px 0 rgba(255,255,255,.2),inset 0 -2px 0 rgba(0,0,0,.18),0 3px 0 #514477,0 5px 10px rgba(0,0,0,.25)!important}
+        .btn-primary:hover,.site-auth-submit:hover{box-shadow:inset 0 1px 0 rgba(255,255,255,.35),inset 0 -2px 0 rgba(70,45,127,.28),0 3px 0 #684eaa,0 5px 10px rgba(0,0,0,.25)!important}
+        .btn-discord:hover{box-shadow:inset 0 1px 0 rgba(255,255,255,.2),inset 0 -2px 0 rgba(0,0,0,.2),0 3px 0 #353a86,0 5px 10px rgba(0,0,0,.25)!important}
+        @media(prefers-reduced-motion:reduce){.btn,.settings-btn,.back-btn,.login-btn,.more-btn,.user-pill,.site-auth-submit{transition:none!important}}
+    </style>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+</head>
+<body>
+
+<div class="bg-glow"></div>
+<div class="bg-glow bg-glow2"></div>
+
+<header class="settings-topbar">
+    <a href="/" class="settings-brand" aria-label="PixelHide.net Startseite">
+        <img src="https://pixelhide.net/pixelhidenet.png" alt="PixelHide.net">
+    </a>
+    <a href="/" class="back-btn">← Zurück</a>
+</header>
+
+<header class="site-header account-header">
+    <a class="site-brand" href="/" aria-label="PixelHide.net Startseite"><img src="https://pixelhide.net/pixelhidenet.png" alt="PixelHide.net"></a>
+    <nav class="top-buttons" aria-label="Kontomenü">
+        <button class="login-btn is-loading" id="loginBtn" type="button" onclick="openSiteAuth()" aria-label="Anmeldestatus wird geprüft" aria-busy="true"><span class="nav-spinner" aria-hidden="true"></span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg><span class="login-label">Anmelden</span></button>
+        <div class="user-pill" id="userPill" hidden onclick="toggleSiteDropdown()"><div class="avatar" id="userAvatar">?</div><span class="email-text" id="userUsername">–</span><svg class="chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            <div class="user-dropdown" id="userDropdown"><div class="dropdown-header"><div class="dropdown-avatar" id="dropdownAvatar">?</div><div class="dropdown-username" id="dropdownUsername">–</div><span class="dropdown-email blurred" id="dropdownEmail" onclick="toggleSiteEmail(event)"></span><div class="dropdown-email-hint">Klicken zum Anzeigen</div></div><div class="dropdown-item" onclick="openSiteAccount(event)">⚙ Einstellungen</div><div class="dropdown-divider"></div><div class="dropdown-item danger" onclick="siteSignOut()">↪ Abmelden</div></div>
+        </div>
+        <div class="more-menu" id="moreMenu"><button class="more-btn" type="button" aria-label="Weitere Optionen" aria-expanded="false" onclick="toggleSiteMore(event)"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="5" cy="12" r="1.8"></circle><circle cx="12" cy="12" r="1.8"></circle><circle cx="19" cy="12" r="1.8"></circle></svg></button><div class="more-dropdown" id="moreDropdown"><a href="/settings.html">⚙ Einstellungen</a></div></div>
+    </nav>
+</header>
+<div class="site-modal-overlay" id="siteAuthOverlay" onclick="if(event.target===this)closeSiteAuth()"><section class="site-modal" role="dialog" aria-modal="true" aria-labelledby="siteAuthTitle"><button class="site-modal-close" type="button" onclick="closeSiteAuth()" aria-label="Schließen">×</button><h2 id="siteAuthTitle">PixelHide.net</h2><p>Melde dich an oder erstelle ein Konto.</p><div class="site-auth-tabs"><button id="siteLoginTab" class="active" type="button" onclick="setSiteAuthMode('login')">Anmelden</button><button id="siteRegisterTab" type="button" onclick="setSiteAuthMode('register')">Registrieren</button></div><div class="site-auth-error" id="siteAuthError" role="alert"></div><form id="siteAuthForm" onsubmit="submitSiteAuth(event)"><label class="site-auth-field site-register-only" hidden>Username<input id="siteAuthName" type="text" maxlength="32" autocomplete="username"></label><label class="site-auth-field">E-Mail<input id="siteAuthEmail" type="email" required autocomplete="email"></label><label class="site-auth-field">Passwort<input id="siteAuthPassword" type="password" required minlength="6" autocomplete="current-password"></label><label class="site-auth-field site-register-only" hidden>Passwort bestätigen<input id="siteAuthConfirm" type="password" minlength="6" autocomplete="new-password"></label><label class="site-remember"><input id="siteRememberMe" type="checkbox" checked> Angemeldet bleiben</label><button class="site-auth-submit" id="siteAuthSubmit" type="submit">Anmelden</button></form></section></div>
+<div class="site-modal-overlay" id="siteAccountOverlay" onclick="if(event.target===this)closeSiteAccount()"><section class="site-modal" role="dialog" aria-modal="true" aria-labelledby="siteAccountTitle"><button class="site-modal-close" type="button" onclick="closeSiteAccount()" aria-label="Schließen">×</button><h2 id="siteAccountTitle">Account-Einstellungen</h2><p>Profilbild und Username anpassen.</p><div class="dropdown-header"><div class="dropdown-avatar" id="siteAccountAvatar">?</div></div><div class="site-auth-error" id="siteAccountError" role="alert"></div><label class="site-auth-field">Profilbild hochladen<input id="siteAvatarFile" type="file" accept="image/*" onchange="saveSiteAvatar(this)"></label><label class="site-auth-field">Username<input id="siteAccountName" type="text" maxlength="32" autocomplete="off"></label><button class="site-auth-submit" id="siteAccountSubmit" type="button" onclick="saveSiteAccount()">Speichern</button></section></div>
+
+<section class="hero">
+
+    <div class="hero-content">
+
+        <img src="https://pixelhide.net/pixelhidenet.png" class="logo">
+
+        <h1 class="hero-title">
+            Settings
+        </h1>
+
+        <p class="hero-text">
+            Passe PixelHide komplett an deinen Stil an.
+        </p>
+
+    </div>
+
+</section>
+
+<div class="settings-wrapper">
+    <div class="enderman-particles" aria-hidden="true"></div>
+
+    <!-- APPEARANCE -->
+
+    <div class="settings-card">
+
+        <h2>Appearance</h2>
+
+        <div class="setting">
+
+            <label>
+                <span>Zoom</span>
+                <span id="zoom-value">100%</span>
+            </label>
+
+            <input
+                    type="range"
+                    min="0.7"
+                    max="1.4"
+                    step="0.01"
+                    value="1"
+                    class="slider"
+                    id="zoom-slider">
+
+        </div>
+
+        <div class="setting">
+
+            <label>
+                <span>Text Size</span>
+                <span id="text-value">100%</span>
+            </label>
+
+            <input
+                    type="range"
+                    min="0.8"
+                    max="1.6"
+                    step="0.01"
+                    value="1"
+                    class="slider"
+                    id="text-slider">
+
+        </div>
+
+        <div class="setting">
+
+            <label>
+                <span>Blur Strength</span>
+                <span id="blur-value">16px</span>
+            </label>
+
+            <input
+                    type="range"
+                    min="0"
+                    max="40"
+                    value="16"
+                    class="slider"
+                    id="blur-slider">
+
+        </div>
+
+    </div>
+
+    <!-- THEMES -->
+
+    <div class="settings-card">
+
+        <h2>Themes</h2>
+
+        <div class="theme-grid">
+
+            <div class="theme theme-dark active" data-theme="dark">
+                <div class="theme-name">Dark</div>
+            </div>
+
+            <div class="theme theme-light" data-theme="light">
+                <div class="theme-name">Light</div>
+            </div>
+
+            <div class="theme theme-oled" data-theme="oled">
+                <div class="theme-name">OLED</div>
+            </div>
+
+            <div class="theme theme-nebula" data-theme="nebula">
+                <div class="theme-name">Nebula</div>
+            </div>
+
+            <div class="theme theme-blue" data-theme="blue">
+                <div class="theme-name">Blue</div>
+            </div>
+
+            <div class="theme theme-green" data-theme="green">
+                <div class="theme-name">Green</div>
+            </div>
+
+            <div class="theme theme-red" data-theme="red">
+                <div class="theme-name">Red</div>
+            </div>
+
+            <div class="theme theme-orange" data-theme="orange">
+                <div class="theme-name">Orange</div>
+            </div>
+
+            <div class="theme theme-pink" data-theme="pink">
+                <div class="theme-name">Pink</div>
+            </div>
+
+            <div class="theme theme-cyan" data-theme="cyan">
+                <div class="theme-name">Cyan</div>
+            </div>
+
+            <div class="theme theme-gold" data-theme="gold">
+                <div class="theme-name">Gold</div>
+            </div>
+
+            <div class="theme theme-forest" data-theme="forest">
+                <div class="theme-name">Forest</div>
+            </div>
+
+            <div class="theme theme-blood" data-theme="blood">
+                <div class="theme-name">Blood</div>
+            </div>
+
+            <div class="theme theme-midnight" data-theme="midnight">
+                <div class="theme-name">Midnight</div>
+            </div>
+
+            <div class="theme theme-candy" data-theme="candy">
+                <div class="theme-name">Candy</div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- EXTRA -->
+
+    <div class="settings-card">
+
+        <h2>Extra Settings</h2>
+
+        <div class="setting">
+            <label><span>Animations</span></label>
+            <div class="toggle active" id="toggle-animations"></div>
+        </div>
+
+        <div class="setting">
+            <label><span>Glow Effects</span></label>
+            <div class="toggle active" id="toggle-glow"></div>
+        </div>
+
+        <div class="setting">
+            <label><span>Rounded UI</span></label>
+            <div class="toggle active" id="toggle-rounded"></div>
+        </div>
+
+        <div class="setting">
+            <label><span>Transparent Cards</span></label>
+            <div class="toggle active" id="toggle-transparent"></div>
+        </div>
+
+        <div class="setting">
+            <label><span>Smooth Transitions</span></label>
+            <div class="toggle active" id="toggle-transitions"></div>
+        </div>
+
+        <div class="btn-row">
+
+            <button class="btn" onclick="resetSettings()">
+                Reset
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+<script>
+    const settingsParticleLayer=document.querySelector(".enderman-particles");
+    for(let i=0;i<48;i++){
+        const particle=document.createElement("span");
+        particle.style.setProperty("--particle-x",`${Math.random()*98}%`);
+        particle.style.setProperty("--particle-y",`${Math.random()*100}%`);
+        particle.style.setProperty("--particle-time",`${14+Math.random()*10}s`);
+        particle.style.setProperty("--particle-delay",`${-Math.random()*24}s`);
+        particle.style.setProperty("--particle-drift",`${Math.round(Math.random()*48-24)}px`);
+        settingsParticleLayer.appendChild(particle);
+    }
+</script>
+
+<footer>
+
+    © 2026
+    <span style="color:var(--accent)">
+    PixelHide Settings
+  </span>
+
+</footer>
+
+<script>
+
+    /* THEMES */
+
+    const themes = {
+
+        dark:{
+            bg:"#050507",
+            bg2:"#0b0b10",
+            card:"#101018",
+            accent:"#a78bfa",
+            accent2:"#c4b5fd",
+            text:"#f5f5f5",
+            muted:"#9ca3af"
+        },
+
+        light:{
+            bg:"#ffffff",
+            bg2:"#f4f4f5",
+            card:"#ffffff",
+            accent:"#8b5cf6",
+            accent2:"#c4b5fd",
+            text:"#111111",
+            muted:"#555555"
+        },
+
+        oled:{
+            bg:"#000000",
+            bg2:"#020202",
+            card:"#050505",
+            accent:"#8b5cf6",
+            accent2:"#c4b5fd",
+            text:"#ffffff",
+            muted:"#888888"
+        },
+
+        nebula:{
+            bg:"#12051f",
+            bg2:"#1e1033",
+            card:"#24123a",
+            accent:"#c084fc",
+            accent2:"#e9d5ff",
+            text:"#ffffff",
+            muted:"#c4b5fd"
+        },
+
+        blue:{
+            bg:"#07111f",
+            bg2:"#0f172a",
+            card:"#172554",
+            accent:"#3b82f6",
+            accent2:"#60a5fa",
+            text:"#ffffff",
+            muted:"#93c5fd"
+        },
+
+        green:{
+            bg:"#07130b",
+            bg2:"#0f1f14",
+            card:"#14532d",
+            accent:"#22c55e",
+            accent2:"#86efac",
+            text:"#ffffff",
+            muted:"#bbf7d0"
+        },
+
+        red:{
+            bg:"#160606",
+            bg2:"#2a0b0b",
+            card:"#7f1d1d",
+            accent:"#ef4444",
+            accent2:"#fca5a5",
+            text:"#ffffff",
+            muted:"#fecaca"
+        },
+
+        orange:{
+            bg:"#1a0d05",
+            bg2:"#2e1607",
+            card:"#7c2d12",
+            accent:"#f97316",
+            accent2:"#fdba74",
+            text:"#ffffff",
+            muted:"#fed7aa"
+        },
+
+        pink:{
+            bg:"#1f0717",
+            bg2:"#3b102c",
+            card:"#831843",
+            accent:"#ec4899",
+            accent2:"#f9a8d4",
+            text:"#ffffff",
+            muted:"#fbcfe8"
+        },
+
+        cyan:{
+            bg:"#05161b",
+            bg2:"#082f49",
+            card:"#164e63",
+            accent:"#06b6d4",
+            accent2:"#67e8f9",
+            text:"#ffffff",
+            muted:"#a5f3fc"
+        },
+
+        gold:{
+            bg:"#1b1405",
+            bg2:"#2d2209",
+            card:"#78350f",
+            accent:"#facc15",
+            accent2:"#fde68a",
+            text:"#ffffff",
+            muted:"#fef3c7"
+        },
+
+        forest:{
+            bg:"#03120a",
+            bg2:"#052e16",
+            card:"#14532d",
+            accent:"#4ade80",
+            accent2:"#86efac",
+            text:"#ffffff",
+            muted:"#bbf7d0"
+        },
+
+        blood:{
+            bg:"#0f0000",
+            bg2:"#220000",
+            card:"#3f0000",
+            accent:"#ff2d55",
+            accent2:"#ff6b81",
+            text:"#ffffff",
+            muted:"#ffb3c1"
+        },
+
+        midnight:{
+            bg:"#020617",
+            bg2:"#0f172a",
+            card:"#1e1b4b",
+            accent:"#6366f1",
+            accent2:"#a5b4fc",
+            text:"#ffffff",
+            muted:"#c7d2fe"
+        },
+
+        candy:{
+            bg:"#2a1023",
+            bg2:"#4a1d3f",
+            card:"#831843",
+            accent:"#f472b6",
+            accent2:"#c084fc",
+            text:"#ffffff",
+            muted:"#fbcfe8"
+        }
+
+    };
+
+    /* APPLY THEME */
+
+    function applyTheme(name){
+
+        const t = themes[name];
+
+        document.documentElement.style.setProperty("--bg",t.bg);
+        document.documentElement.style.setProperty("--bg2",t.bg2);
+        document.documentElement.style.setProperty("--card",t.card);
+        document.documentElement.style.setProperty("--accent",t.accent);
+        document.documentElement.style.setProperty("--accent2",t.accent2);
+        document.documentElement.style.setProperty("--text",t.text);
+        document.documentElement.style.setProperty("--muted",t.muted);
+
+        document.querySelectorAll(".theme")
+            .forEach(theme=>theme.classList.remove("active"));
+
+        document.querySelector(`.theme-${name}`)
+            .classList.add("active");
+
+        save("theme",name);
+
+    }
+
+    /* SAVE */
+
+    function save(key,value){
+
+        localStorage.setItem(key,value);
+
+    }
+
+    /* LOAD */
+
+    function load(key,defaultValue){
+
+        return localStorage.getItem(key) || defaultValue;
+
+    }
+
+    /* ZOOM */
+
+    const zoomSlider =
+        document.getElementById("zoom-slider");
+
+    const zoomValue =
+        document.getElementById("zoom-value");
+
+    zoomSlider.addEventListener("input",()=>{
+
+        document.documentElement.style
+            .setProperty("--zoom",zoomSlider.value);
+
+        zoomValue.innerHTML =
+            Math.floor(zoomSlider.value * 100) + "%";
+
+        save("zoom",zoomSlider.value);
+
+    });
+
+    /* TEXT */
+
+    const textSlider =
+        document.getElementById("text-slider");
+
+    const textValue =
+        document.getElementById("text-value");
+
+    textSlider.addEventListener("input",()=>{
+
+        document.documentElement.style
+            .setProperty("--text-size",textSlider.value);
+
+        textValue.innerHTML =
+            Math.floor(textSlider.value * 100) + "%";
+
+        save("textSize",textSlider.value);
+
+    });
+
+    /* BLUR */
+
+    const blurSlider =
+        document.getElementById("blur-slider");
+
+    const blurValue =
+        document.getElementById("blur-value");
+
+    blurSlider.addEventListener("input",()=>{
+
+        document.documentElement.style
+            .setProperty("--blur",
+                blurSlider.value + "px");
+
+        blurValue.innerHTML =
+            blurSlider.value + "px";
+
+        save("blur",blurSlider.value);
+
+    });
+
+    /* TOGGLES */
+
+    const toggles = [
+
+        {
+            id:"toggle-animations",
+            key:"animations",
+            apply:(enabled)=>{
+
+                if(enabled){
+                    document.body.classList.remove("no-animations");
+                }else{
+                    document.body.classList.add("no-animations");
+                }
+
+            }
+        },
+
+        {
+            id:"toggle-glow",
+            key:"glow",
+            apply:(enabled)=>{
+
+                document.documentElement.style
+                    .setProperty(
+                        "--glow-opacity",
+                        enabled ? ".12" : "0"
+                    );
+
+            }
+        },
+
+        {
+            id:"toggle-rounded",
+            key:"rounded",
+            apply:(enabled)=>{
+
+                document.documentElement.style
+                    .setProperty(
+                        "--radius",
+                        enabled ? "24px" : "0px"
+                    );
+
+            }
+        },
+
+        {
+            id:"toggle-transparent",
+            key:"transparent",
+            apply:(enabled)=>{
+
+                document.documentElement.style
+                    .setProperty(
+                        "--card-opacity",
+                        enabled ? ".06" : ".18"
+                    );
+
+            }
+        },
+
+        {
+            id:"toggle-transitions",
+            key:"transitions",
+            apply:(enabled)=>{
+
+                document.documentElement.style
+                    .setProperty(
+                        "--transition",
+                        enabled ? ".25s" : "0s"
+                    );
+
+            }
+        }
+
+    ];
+
+    toggles.forEach(toggle=>{
+
+        const element =
+            document.getElementById(toggle.id);
+
+        element.addEventListener("click",()=>{
+
+            element.classList.toggle("active");
+
+            const enabled =
+                element.classList.contains("active");
+
+            toggle.apply(enabled);
+
+            save(toggle.key,enabled);
+
+        });
+
+    });
+
+    /* RESET */
+
+    function resetSettings(){
+
+        localStorage.clear();
+
+        location.reload();
+
+    }
+
+    /* LOAD SETTINGS */
+
+    window.onload = ()=>{
+
+        /* THEME */
+
+        const savedTheme =
+            load("theme","dark");
+
+        applyTheme(savedTheme);
+
+        /* ZOOM */
+
+        const savedZoom =
+            load("zoom","1");
+
+        zoomSlider.value = savedZoom;
+
+        document.documentElement.style
+            .setProperty("--zoom",savedZoom);
+
+        zoomValue.innerHTML =
+            Math.floor(savedZoom * 100) + "%";
+
+        /* TEXT */
+
+        const savedText =
+            load("textSize","1");
+
+        textSlider.value = savedText;
+
+        document.documentElement.style
+            .setProperty("--text-size",savedText);
+
+        textValue.innerHTML =
+            Math.floor(savedText * 100) + "%";
+
+        /* BLUR */
+
+        const savedBlur =
+            load("blur","16");
+
+        blurSlider.value = savedBlur;
+
+        document.documentElement.style
+            .setProperty("--blur",
+                savedBlur + "px");
+
+        blurValue.innerHTML =
+            savedBlur + "px";
+
+        /* TOGGLES */
+
+        toggles.forEach(toggle=>{
+
+            const enabled =
+                load(toggle.key,"true") === "true";
+
+            const element =
+                document.getElementById(toggle.id);
+
+            if(enabled){
+                element.classList.add("active");
+            }else{
+                element.classList.remove("active");
+            }
+
+            toggle.apply(enabled);
+
+        });
+
+    };
+
+    /* THEME CLICK */
+
+    document.querySelectorAll(".theme")
+        .forEach(theme=>{
+
+            theme.addEventListener("click",()=>{
+
+                applyTheme(
+                    theme.dataset.theme
+                );
+
+            });
+
+        });
+
+</script>
+<script>
+    const siteFirebaseConfig={apiKey:"AIzaSyBtxHyCkI1TPdV6uWrhJ6bW4FjIdHVHuGw",authDomain:"pixelhide-app.firebaseapp.com",projectId:"pixelhide-app",storageBucket:"pixelhide-app.firebasestorage.app",messagingSenderId:"469716803908",appId:"1:469716803908:web:4adff338ab4db6b576b711"};
+    if(!firebase.apps.length)firebase.initializeApp(siteFirebaseConfig);
+    const siteAuth=firebase.auth();
+    let siteAuthMode="login";
+    const siteAvatarKey=uid=>`pixelhide_avatar_${uid}`;
+    const siteName=user=>user.displayName||(user.email||"").split("@")[0]||"Spieler";
+    function applySiteAvatar(user){
+        const name=siteName(user),letter=name.charAt(0).toUpperCase();
+        document.getElementById("userUsername").textContent=name;document.getElementById("dropdownUsername").textContent=name;document.getElementById("dropdownEmail").textContent=user.email||"";
+        const nodes=[document.getElementById("userAvatar"),document.getElementById("dropdownAvatar"),document.getElementById("siteAccountAvatar")];
+        let src=user.photoURL||"";
+        try{src=localStorage.getItem(siteAvatarKey(user.uid))||src}catch(error){console.error("Profilbild konnte nicht gelesen werden.",error)}
+        nodes.forEach(node=>{node.replaceChildren();if(src){const image=document.createElement("img");image.src=src;image.alt="Profilbild";node.appendChild(image)}else node.textContent=letter});
+    }
+    siteAuth.onAuthStateChanged(user=>{
+        const button=document.getElementById("loginBtn");button.classList.remove("is-loading");button.removeAttribute("aria-busy");button.removeAttribute("aria-label");
+        if(user){button.hidden=true;document.getElementById("userPill").hidden=false;applySiteAvatar(user)}else{button.hidden=false;document.getElementById("userPill").hidden=true}
+    });
+    function openSiteAuth(){document.getElementById("siteAuthOverlay").classList.add("visible");document.documentElement.classList.add("site-modal-lock");document.body.classList.add("site-modal-lock");setTimeout(()=>document.getElementById("siteAuthEmail").focus(),100)}
+    function closeSiteAuth(){document.getElementById("siteAuthOverlay").classList.remove("visible");unlockSiteModal()}
+    function unlockSiteModal(){if(!document.querySelector(".site-modal-overlay.visible")){document.documentElement.classList.remove("site-modal-lock");document.body.classList.remove("site-modal-lock")}}
+    function setSiteAuthMode(mode){
+        siteAuthMode=mode;const registering=mode==="register";document.getElementById("siteLoginTab").classList.toggle("active",!registering);document.getElementById("siteRegisterTab").classList.toggle("active",registering);
+        document.querySelectorAll(".site-register-only").forEach(field=>{field.hidden=!registering;field.querySelector("input").required=registering});
+        document.getElementById("siteAuthSubmit").textContent=registering?"Konto erstellen":"Anmelden";document.getElementById("siteAuthPassword").autocomplete=registering?"new-password":"current-password";document.getElementById("siteAuthError").classList.remove("visible");
+    }
+    function showSiteError(id,message){const element=document.getElementById(id);element.textContent=message;element.classList.add("visible")}
+    function siteFirebaseMessage(error){
+        const messages={"auth/invalid-email":"Bitte gib eine gültige E-Mail-Adresse ein.","auth/user-not-found":"Für diese E-Mail wurde kein Konto gefunden.","auth/wrong-password":"Das Passwort ist nicht korrekt.","auth/invalid-credential":"E-Mail oder Passwort sind nicht korrekt.","auth/email-already-in-use":"Für diese E-Mail gibt es bereits ein Konto.","auth/weak-password":"Das Passwort ist zu schwach.","auth/too-many-requests":"Zu viele Versuche. Bitte probiere es später erneut."};
+        return messages[error.code]||"Die Anmeldung konnte nicht abgeschlossen werden. Bitte versuche es erneut.";
+    }
+    async function submitSiteAuth(event){
+        event.preventDefault();const button=document.getElementById("siteAuthSubmit"),error=document.getElementById("siteAuthError");error.classList.remove("visible");button.disabled=true;button.textContent=siteAuthMode==="register"?"Wird erstellt…":"Wird angemeldet…";
+        const email=document.getElementById("siteAuthEmail").value.trim(),password=document.getElementById("siteAuthPassword").value;
+        try{
+            await siteAuth.setPersistence(document.getElementById("siteRememberMe").checked?firebase.auth.Auth.Persistence.LOCAL:firebase.auth.Auth.Persistence.SESSION);
+            if(siteAuthMode==="register"){
+                const name=document.getElementById("siteAuthName").value.trim(),confirm=document.getElementById("siteAuthConfirm").value;
+                if(!name)throw {code:"app/username-required"};if(password!==confirm)throw {code:"app/password-mismatch"};
+                const result=await siteAuth.createUserWithEmailAndPassword(email,password);await result.user.updateProfile({displayName:name});applySiteAvatar(result.user);closeSiteAuth();
+            }else{await siteAuth.signInWithEmailAndPassword(email,password);closeSiteAuth()}
+        }catch(error){showSiteError("siteAuthError",error.code==="app/username-required"?"Bitte gib einen Username ein.":error.code==="app/password-mismatch"?"Die Passwörter stimmen nicht überein.":siteFirebaseMessage(error))}
+        finally{button.disabled=false;button.textContent=siteAuthMode==="register"?"Konto erstellen":"Anmelden"}
+    }
+    function toggleSiteDropdown(){const pill=document.getElementById("userPill"),dropdown=document.getElementById("userDropdown"),open=dropdown.classList.toggle("visible");pill.classList.toggle("open",open)}
+    function toggleSiteEmail(event){event.stopPropagation();document.getElementById("dropdownEmail").classList.toggle("blurred")}
+    function toggleSiteMore(event){event.stopPropagation();const menu=document.getElementById("moreMenu"),open=menu.classList.toggle("open");menu.querySelector(".more-btn").setAttribute("aria-expanded",String(open))}
+    function openSiteAccount(event){event.stopPropagation();document.getElementById("userDropdown").classList.remove("visible");document.getElementById("userPill").classList.remove("open");const user=siteAuth.currentUser;if(!user)return;document.getElementById("siteAccountName").value=siteName(user);document.getElementById("siteAccountError").classList.remove("visible");applySiteAvatar(user);document.getElementById("siteAccountOverlay").classList.add("visible");document.documentElement.classList.add("site-modal-lock");document.body.classList.add("site-modal-lock")}
+    function closeSiteAccount(){document.getElementById("siteAccountOverlay").classList.remove("visible");unlockSiteModal()}
+    async function saveSiteAccount(){
+        const user=siteAuth.currentUser,name=document.getElementById("siteAccountName").value.trim(),button=document.getElementById("siteAccountSubmit");if(!user)return;if(!name){showSiteError("siteAccountError","Bitte gib einen Username ein.");return}
+        button.disabled=true;button.textContent="Wird gespeichert…";
+        try{await user.updateProfile({displayName:name});applySiteAvatar(user);closeSiteAccount()}catch(error){showSiteError("siteAccountError",siteFirebaseMessage(error))}finally{button.disabled=false;button.textContent="Speichern"}
+    }
+    function saveSiteAvatar(input){
+        const file=input.files&&input.files[0],user=siteAuth.currentUser;if(!file||!user)return;
+        if(!file.type.startsWith("image/")){showSiteError("siteAccountError","Bitte wähle eine Bilddatei aus.");input.value="";return}
+        if(file.size>10*1024*1024){showSiteError("siteAccountError","Das Bild darf maximal 10 MB groß sein.");input.value="";return}
+        const reader=new FileReader();reader.onload=()=>{try{localStorage.setItem(siteAvatarKey(user.uid),reader.result);applySiteAvatar(user);document.getElementById("siteAccountError").classList.remove("visible")}catch(error){showSiteError("siteAccountError","Profilbild konnte nicht lokal gespeichert werden. Bitte ein kleineres Bild wählen.")}};
+        reader.onerror=()=>showSiteError("siteAccountError","Die Bilddatei konnte nicht gelesen werden.");reader.readAsDataURL(file);
+    }
+    async function siteSignOut(){await siteAuth.signOut()}
+    document.addEventListener("click",event=>{const pill=document.getElementById("userPill"),menu=document.getElementById("moreMenu");if(pill&&!pill.contains(event.target)){document.getElementById("userDropdown").classList.remove("visible");pill.classList.remove("open")}if(menu&&!menu.contains(event.target)){menu.classList.remove("open");menu.querySelector(".more-btn").setAttribute("aria-expanded","false")}});
+    document.addEventListener("keydown",event=>{if(event.key==="Escape"){closeSiteAuth();closeSiteAccount()}});
+</script>
+
+</body>
+</html>
