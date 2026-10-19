@@ -1,22 +1,9 @@
-# 🫵 Wir suchen dich! 🫵 
+# Wartungsarbeiten beendet!
 
-## Du wolltest schon immer mitwirken?
+## Hey <@&1432699764742557726>,
 
-➡️ Dann ist jetzt der **richtige Moment**!
+Die Wartungsarbeiten sind beendet und die Preshow startet JETZT!!
 
-Wir suchen aktiv Teammitglieder im Bereich Entwicklung!
-
-↪ **Wie bewerbe ich mich?**
-
-Öffne den Bewerbungs-Kanal (https://discord.com/channels/1432310028647534594/1499078746194448634) auf unseren Discord Server (https://discord.pixelhide.net/).
-
-Klicke auf "Bewerben" in der gewünschten Kategorie.
-
-Fülle das Formular ab und sende es.
-
-✅ Fertig!
-
-**Nun wartest du bis du eine Antwort erhälst.**
-
-Viel spaß weiterhin auf PixelHide.net!
+Komm jetzt auf **PixelHide.net**!
 - Crafii9
+<@&1432700468576129097>
